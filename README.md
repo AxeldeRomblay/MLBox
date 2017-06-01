@@ -16,6 +16,15 @@ Experiments : https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquirie
 
 --------------------------
 
+INSTALLATION
+============
+
+__MLBox is compatible with: Python 2.7-3.5__. 
+
+To install MLBox, please refer to https://github.com/AxeldeRomblay/MLBox/blob/master/python-package/README.md
+
+-------------------------
+
 Getting started: 30 seconds to MLBox
 ====================================
 
