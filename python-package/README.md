@@ -70,7 +70,7 @@ Dev version
 ===========
 
 
-A 2.3 dev-version for MLBox is also available on the __branch "dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst).__It depends on sklearn-0.19.dev0 which is not a stable version at the moment__: https://github.com/scikit-learn/scikit-learn
+A 2.3 dev-version for MLBox is also available on the __branch "dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment__: https://github.com/scikit-learn/scikit-learn
 
 If you want, you can have a try: 
 
