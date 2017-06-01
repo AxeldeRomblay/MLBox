@@ -1,0 +1,75 @@
+Metadata-Version: 1.1
+Name: mlbox
+Version: 0.2.2
+Summary: A powerful Automated Machine Learning python library  
+Home-page: https://github.com/AxeldeRomblay/mlbox
+Author: Axel ARONIO DE ROMBLAY
+Author-email: axelderomblay@gmail.com
+License: UNKNOWN
+Description: MLBox, Machine Learning Box
+        ===========================
+        
+        MLBox is a powerful Automated Machine Learning python library. 
+        
+        
+        ============
+        Installation
+        ============
+        
+        
+        Extended version
+        ----------------
+        
+        
+        
+        From sources
+        ------------
+        
+        The sources for MLBox can be downloaded from the `Github repo`_.
+        
+        You can either clone the public repository:
+        
+        .. code-block:: console
+        
+            $ git clone git://github.com/AxeldeRomblay/mlbox
+        
+        Or download the `tarball`_:
+        
+        .. code-block:: console
+        
+            $ curl  -OL https://github.com/AxeldeRomblay/mlbox/tarball/master
+        
+        Once you have a copy of the source, you can install it with:
+        
+        .. code-block:: console
+        
+            $ python setup.py install
+        
+        
+        .. _Github repo: https://github.com/AxeldeRomblay/mlbox
+        .. _tarball: https://github.com/AxeldeRomblay/mlbox/tarball/master
+        
+        
+        From the wheel
+        --------------
+        
+        Dev version
+        -----------
+        
+        
+        
+        .. include:: ../HISTORY.rst
+        
+Keywords: mlbox
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Pre-Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 2
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.3
+Classifier: Programming Language :: Python :: 3.4
+Classifier: Programming Language :: Python :: 3.5
+Classifier: Programming Language :: Python :: 3.6
