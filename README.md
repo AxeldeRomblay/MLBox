@@ -10,7 +10,8 @@ MLBox is a powerful Automated Machine Learning python library.
 - Prediction with models interpretation 
 
 
-__MLBox is compatible with: Python 2.7-3.5__. To get it installed, please refer to https://github.com/AxeldeRomblay/MLBox/blob/master/python-package/README.md
+__MLBox is compatible with: Python 2.7-3.5__. \n
+To get it installed, please refer to https://github.com/AxeldeRomblay/MLBox/blob/master/python-package/README.md.\n
 For more details, please refer to [docs](https://github.com/AxeldeRomblay/MLBox/tree/master/docs).
 
 Experiments : https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard | Rank : 85/2488
