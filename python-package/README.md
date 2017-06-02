@@ -21,11 +21,11 @@ __Here is the procedure to get the extention only (MLBox will not be installed y
 
 .. code-block:: console
 
-    $ git clone --recursive https://github.com/Microsoft/LightGBM ; cd LightGBM
+    $ git clone --recursive https://github.com/Microsoft/LightGBM ; cd LightGBM
     $ mkdir build ; cd build
     $ cmake .. 
     $ make -j 
-    $ cd python-package; python setup.py install
+    $ cd python-package; python setup.py install
 
 
 If you get some trouble, please refer to : (https://github.com/Microsoft/LightGBM)
