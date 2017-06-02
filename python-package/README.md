@@ -25,7 +25,7 @@ __Here is the procedure to get the extention only (MLBox will not be installed y
     $ mkdir build ; cd build
     $ cmake .. 
     $ make -j 
-    $ cd python-package; python setup.py install
+    $ cd python-package; python setup.py install
 
 
 If you get some trouble, please refer to : (https://github.com/Microsoft/LightGBM)
