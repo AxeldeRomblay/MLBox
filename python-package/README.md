@@ -18,9 +18,9 @@ MLBox relies on several models. Some can occasionally be difficult to install, s
 __Keep in mind that mlbox will run fine without them installed !__
 __Here is the procedure to get the extention only (MLBox will not be installed yet !):__
 
-.. code-block:: console
-
 To build LightGBM model in UNIX: 
+
+.. code-block:: console
 
     $ git clone --recursive https://github.com/Microsoft/LightGBM ; cd LightGBM
     $ mkdir build ; cd build
