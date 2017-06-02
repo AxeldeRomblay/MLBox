@@ -58,7 +58,7 @@ Once you have a copy of the source, you can install it with:
     $ cd python-package/
     $ python setup.py install
 
-Or directly, with the wheel:
+Or directly, from the wheel:
 
 .. code-block:: console
 
@@ -88,8 +88,8 @@ If you want, you can have a try:
     $ cd scikit-learn-master/
     $ python setup.py install 
 
-* Clone or download MLBox-2.3 from the 'dev' branch. 
-* Install MLBox-2.3-dev: 
+* Clone or download MLBox-2.3.dev0 from the 'dev' branch. 
+* Install MLBox-2.3.dev0: 
 
 .. code-block:: console
 
