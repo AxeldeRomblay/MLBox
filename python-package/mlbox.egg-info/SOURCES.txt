@@ -1,4 +1,3 @@
-README.rst
 setup.py
 mlbox/__init__.py
 mlbox.egg-info/PKG-INFO
