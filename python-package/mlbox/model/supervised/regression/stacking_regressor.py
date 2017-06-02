@@ -6,7 +6,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LinearRegression
-from sklearn.cross_validation import KFold, cross_val_predict
+from sklearn.model_selection import KFold, cross_val_predict
 from copy import copy as make_copy
 from regressor import *
 import time
@@ -127,17 +127,17 @@ class StackingRegressor():
         preds = pd.DataFrame([], index=y.index)
 
         if(self.verbose):
-            print()
+            print("")
             print("[=============================================================================] LAYER [===================================================================================]")
 
         for c, clf in enumerate(self.base_estimators):
 
             if(self.verbose):
-                print()
+                print("")
                 print("> fitting estimator n°"+ str(c+1) + " : "+ str(clf.get_params())+" ...")
 
             start_time = time.time()
-            y_pred = cross_val_predict(clf, X, y, cv)     #for each base estimator, we create the meta feature on train set
+            y_pred = cross_val_predict(estimator = clf, X = X, y = y, cv = cv)     #for each base estimator, we create the meta feature on train set
             end_time = time.time()
 
             preds["est"+str(c+1)+"_("+str(end_time-start_time)+"sec)"] = y_pred
@@ -218,9 +218,9 @@ class StackingRegressor():
         X = self.fit_transform(X, y)    #we fit the base estimators
 
         if(self.verbose):
-            print()
+            print("")
             print("[=========================================================================] PREDICTION LAYER [============================================================================]")
-            print()
+            print("")
             print("> fitting estimator : "+str(self.level_estimator.get_params())+" ...")
 
         self.level_estimator.fit(X.values, y.values)     #we fit the second level estimator
