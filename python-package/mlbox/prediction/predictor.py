@@ -239,7 +239,7 @@ class Predictor():
 
             ### no params : defaut config ###
             if(params is None):
-                print()
+                print("")
                 print('No parameters set. Default configuration is tested')
                 set_params = True
 
@@ -252,9 +252,9 @@ class Predictor():
 
             if(set_params):
 
-                if(True):
+                try:
                     if(self.verbose):
-                        print()
+                        print("")
                         print("fitting the pipeline...")
 
                     pp.fit(df['train'], df['target'])
@@ -275,9 +275,6 @@ class Predictor():
                     except:
                         pass
 
-
-                try:
-                    pass
                 except:
                     raise ValueError("Pipeline cannot be fitted")
             else:
@@ -310,7 +307,7 @@ class Predictor():
 
                     try:
                         if(self.verbose):
-                            print()
+                            print("")
                             print("predicting...")
 
                         pred = pd.DataFrame(pp.predict_proba(df['test']),columns = enc.inverse_transform(range(len(enc.classes_))), index = df['test'].index)
@@ -332,7 +329,7 @@ class Predictor():
 
                     try:
                         if(self.verbose):
-                            print()
+                            print("")
                             print("predicting...")
 
                         pred[df['target'].name+"_predicted"] = pp.predict(df['test'])
@@ -351,9 +348,9 @@ class Predictor():
                 ############################################################
 
                 if(self.verbose):
-                    print()
+                    print("")
                     print("top 10 predictions :")
-                    print()
+                    print("")
                     print(pred.head(10))
 
                 ############################################################
@@ -361,7 +358,7 @@ class Predictor():
                 ############################################################
 
                 if(self.verbose):
-                    print()
+                    print("")
                     print("dumping predictions into directory : "+self.to_path)
 
                 pred.to_csv(self.to_path+"/"+df['target'].name+"_predictions.csv",index=True)
