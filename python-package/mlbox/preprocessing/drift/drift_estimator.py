@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import *
-from sklearn.cross_validation import *
+from sklearn.model_selection import *
 
 def cross_val_predict_proba(estimator, X, y, cv):
     

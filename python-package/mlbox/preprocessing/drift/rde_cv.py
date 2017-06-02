@@ -8,7 +8,7 @@ import os
 
 import numpy as np
 import pandas as pd
-from sklearn.cross_validation import *
+from sklearn.model_selection import *
 from drift_threshold import *
 
 
