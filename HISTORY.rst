@@ -31,10 +31,6 @@ History
 * update of dependencies (Keras 2.0,...).
 * add of LightGBM model.
 
-dev 0.2.3 (non stable version, available on branch "dev-2.3")
-------------------------------------------------------------
+dev 0.2.3 (non stable version, available on branch "dev")
+---------------------------------------------------------
 * add of pipeline memory.
-
-dev 0.3.0 (not available yet)
------------------------------
-* update for Python 3 version.
