@@ -195,21 +195,21 @@ class Reader():
                     raise ValueError("You must specify the separator for a csv file")
                 else:
                     if(self.verbose):
-                        print()
+                        print("")
                         print("reading csv : "+path.split("/")[-1]+" ...")
                     df = pd.read_csv(path, sep = self.sep, header = self.header, engine ='c', error_bad_lines = False)
 
             elif(type_doc=='xls'):
 
                 if(self.verbose):
-                    print()
+                    print("")
                     print("reading xls : "+path.split("/")[-1]+" ...")
                 df = pd.read_excel(path, header = self.header)
 
             elif(type_doc=='h5'):
 
                 if(self.verbose):
-                    print()
+                    print("")
                     print("reading hdf5 : "+path.split("/")[-1]+" ...")
 
                 df = pd.read_hdf(path)
@@ -217,7 +217,7 @@ class Reader():
             elif(type_doc=='json'):
 
                 if(self.verbose):
-                    print()
+                    print("")
                     print("reading json : "+path.split("/")[-1]+" ...")
 
                 df = pd.read_json(path)
@@ -338,7 +338,7 @@ class Reader():
                 raise ValueError("You have no train dataset. Please check that the target name is correct")
 
             if((sum([df_test[path].shape[0] for path in df_test.keys()])==0)&(self.verbose)):
-                print()
+                print("")
                 print("You have no test dataset !")
 
 
@@ -361,14 +361,14 @@ class Reader():
             col = sorted(list(set(col_train)&set(col_test)))  #subset of common features
 
             if(self.verbose):
-                print()
-                print("number of common features : ", len(col))
+                print("")
+                print("number of common features : "+str(len(col)))
 
                 ######################################################
                 ### creating train, test and target dataframes ###
                 #####################################################
 
-                print()
+                print("")
                 print("gathering and crunching for train and test datasets")
 
             df_train = pd.concat([df[col] for df in df_train.values()])   #optimiser !!
@@ -417,11 +417,11 @@ class Reader():
 
             ### print information ###
             if(self.verbose):
-                print()
-                print("number of categorical features : ", len(df_train.dtypes[df_train.dtypes == 'object'].index))
-                print("number of numerical features : ", len(df_train.dtypes[df_train.dtypes != 'object'].index))   #bool is considerated as a numerical variable
-                print("number of training samples : ", df_train.shape[0])
-                print("number of test samples : ", df_test.shape[0])
+                print("")
+                print("number of categorical features : "+str(len(df_train.dtypes[df_train.dtypes == 'object'].index)))
+                print("number of numerical features : "+str(len(df_train.dtypes[df_train.dtypes != 'object'].index)))   #bool is considerated as a numerical variable
+                print("number of training samples : "+str(df_train.shape[0]))
+                print("number of test samples : "+str(df_test.shape[0]))
 
             ######################################################
             ################## encoding target ##################
@@ -440,8 +440,8 @@ class Reader():
                     pass
 
             if(self.verbose):
-                print()
-                print("task : ",task)
+                print("")
+                print("task : "+task)
 
             if(task=="classification"):
                 if(self.verbose):
@@ -469,7 +469,7 @@ class Reader():
                 start_time = time.time()
 
                 if(self.verbose):
-                    print()
+                    print("")
                     print("dumping files into directory : "+self.to_path)
 
                 df_train.to_hdf(self.to_path+'/df_train.h5','train')

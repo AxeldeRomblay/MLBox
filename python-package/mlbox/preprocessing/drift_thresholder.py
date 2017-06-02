@@ -79,7 +79,7 @@ class Drift_thresholder():
         ### exception ###
         if(df["test"].shape[0]==0):
             if(self.verbose):
-                print()
+                print("")
                 print("You have no test dataset...")
 
             return df
@@ -97,14 +97,14 @@ class Drift_thresholder():
 
             ### deleting ids with drift threshold method ###
             if(self.verbose):
-                print()
+                print("")
                 print("computing drifts...")
 
             ds.fit(pp.transform(df['train']),pp.transform(df['test']))
 
             if(self.verbose):
                 print("CPU time: %s seconds" % (time.time() - start_time))
-                print()
+                print("")
 
             self.__fitOK = True
             self.__Ddrifts = ds.drifts()
@@ -112,13 +112,13 @@ class Drift_thresholder():
 
             if(self.verbose):
                 print("Top 10 drifts")
-                print()
+                print("")
                 for d in range(len(drifts_top)):
                     print(drifts_top[d])
 
             if(self.verbose):
-                print()
-                print("deleted variables : ", ds.get_support(complement=True))
+                print("")
+                print("deleted variables : "+str(ds.get_support(complement=True)))
 
             ######################################################
             ########### dumping encoders into directory #########
@@ -133,7 +133,7 @@ class Drift_thresholder():
 
 
                 if(self.verbose):
-                    print()
+                    print("")
                     print("dumping drift coefficients into directory : "+self.to_path)
 
 
