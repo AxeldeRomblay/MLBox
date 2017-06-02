@@ -6,7 +6,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.linear_model import LogisticRegression
-from sklearn.cross_validation import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold
 from copy import copy as make_copy
 from classifier import *
 import time
@@ -194,13 +194,13 @@ class StackingClassifier():
         indexes_to_drop = y[y.apply(lambda x: x in classes_to_drop)].index
 
         if(self.verbose):
-            print()
+            print("")
             print("[=============================================================================] LAYER [===================================================================================]")
 
         for c, clf in enumerate(self.base_estimators):
 
             if(self.verbose):
-                print()
+                print("")
                 print("> fitting estimator n°"+ str(c+1) + " : "+ str(clf.get_params())+" ...")
 
             start_time = time.time()
@@ -287,9 +287,9 @@ class StackingClassifier():
         X = self.fit_transform(X, y)    #we fit the base estimators
 
         if(self.verbose):
-            print()
+            print("")
             print("[=========================================================================] PREDICTION LAYER [============================================================================]")
-            print()
+            print("")
             print("> fitting estimator : "+str(self.level_estimator.get_params())+" ...")
 
         self.level_estimator.fit(X.values, y.values)    #we fit the second level estimator
