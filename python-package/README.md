@@ -76,18 +76,19 @@ Dev version
 ===========
 
 
-A 2.3 dev-version for MLBox is also available on the __branch "dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment__: https://github.com/scikit-learn/scikit-learn
+A 2.3 dev-version for MLBox is also available on the __branch "dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment.__
 
 If you want, you can have a try: 
 
-* Clone or download the dev branch
+* Clone or download sklearn-0.19.dev0 from the github: https://github.com/scikit-learn/scikit-learn
 * Install sklearn-0.19.dev0: 
 
 .. code-block:: console
 
-    $ cd python-package/extra-dist/
-    $ pip install *.whl
+    $ cd scikit-learn-master/
+    $ python setup.py install 
 
+* Clone or download MLBox-2.3 from the 'dev' branch. 
 * Install MLBox-2.3-dev: 
 
 .. code-block:: console
