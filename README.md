@@ -1,7 +1,7 @@
 MLBox, Machine Learning Box
 ===========================
 
-__MLBox is a powerful Automated Machine Learning python library.__
+__MLBox is a powerful Automated Machine Learning python library (compatible with Python 2.7-3.5).__
 
 - Fast reading and distributed data preprocessing/cleaning/formatting
 - Highly robust feature selection and leak detection
