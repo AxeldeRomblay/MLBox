@@ -290,31 +290,31 @@ class Optimiser():
 
 
             if(self.verbose):
-                print()
+                print("")
                 print("########################################################## testing hyper-parameters... #################################################################")
-                print()
-                print(">>> NA ENCODER :", ne.get_params())
-                print()
-                print(">>> CA ENCODER :", {'strategy': ce.strategy})
+                print("")
+                print(">>> NA ENCODER :"+str(ne.get_params()))
+                print("")
+                print(">>> CA ENCODER :"+str({'strategy': ce.strategy}))
 
                 if(fs is not None):
-                    print()
-                    print(">>> FEATURE SELECTOR :", fs.get_params())
+                    print("")
+                    print(">>> FEATURE SELECTOR :"+str(fs.get_params()))
 
                 for i, stck in enumerate(np.sort(STCK.keys())):
 
                     stck_params = STCK[stck].get_params().copy()
                     stck_params_display = {k:stck_params[k] for k in stck_params.keys() if k not in ["level_estimator", "verbose", "base_estimators"]}
 
-                    print()
-                    print(">>> STACKING LAYER n°"+str(i+1)+" :", stck_params_display)
+                    print("")
+                    print(">>> STACKING LAYER n°"+str(i+1)+" :"+str(stck_params_display))
                     for j, model in enumerate(stck_params["base_estimators"]):
-                        print()
-                        print("    > base_estimator n°"+str(j+1)+" :", dict(model.get_params().items()+model.get_estimator().get_params().items()))
+                        print("")
+                        print("    > base_estimator n°"+str(j+1)+" :"+str(dict(model.get_params().items()+model.get_estimator().get_params().items())))
 
-                print()
-                print(">>> ESTIMATOR :", dict(est.get_params().items()+est.get_estimator().get_params().items()))
-                print()
+                print("")
+                print(">>> ESTIMATOR :"+str(dict(est.get_params().items()+est.get_estimator().get_params().items())))
+                print("")
 
             try:
 
@@ -345,11 +345,11 @@ class Optimiser():
             self.scoring = "roc_auc"
 
         if(self.verbose):
-            print()
-            print("MEAN SCORE : ", self.scoring," = ",score)
-            print("VARIANCE : ", np.std(scores), out+"fold "+str(i+2)+" = "+str(scores[-1])+")")
+            print("")
+            print("MEAN SCORE : "+str(self.scoring)+" = "+str(score))
+            print("VARIANCE : "+str(np.std(scores))+out+"fold "+str(i+2)+" = "+str(scores[-1])+")")
             print("CPU time: %s seconds" % (time.time() - start_time))
-            print()
+            print("")
 
 
         return score
@@ -466,12 +466,12 @@ class Optimiser():
                         best_params[p] = space[p]["space"][v]
 
                 if(self.verbose):
-                    print()
-                    print()
+                    print("")
+                    print("")
                     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BEST HYPER-PARAMETERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                     print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                    print()
+                    print("")
                     print(best_params)
 
 
