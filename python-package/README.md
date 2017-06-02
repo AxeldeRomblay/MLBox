@@ -20,11 +20,21 @@ __Here is the procedure to get the extention only (MLBox will not be installed y
 
 .. code-block:: console
 
-    $ cd extra-dist/
-    $ pip install *.whl
+To build LightGBM model in UNIX: 
+
+    $ git clone --recursive https://github.com/Microsoft/LightGBM ; cd LightGBM
+    $ mkdir build ; cd build
+    $ cmake .. 
+    $ make -j 
+
+To install it:
+
+.. code-block:: console
+
+    $ cd python-package; python setup.py install
 
 
-Here, we provide a wheel for lightgbm-0.1 version that can be outdated. If you want an updated version, please refer to : (https://github.com/Microsoft/LightGBM)
+If you get some trouble, please refer to : (https://github.com/Microsoft/LightGBM)
  
 __Now you need to follow the procedure bellow to install the stable version of MLBox:__
 
