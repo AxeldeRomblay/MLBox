@@ -191,10 +191,10 @@ class RDECV():
             
     
         # calcul du score initial 
-        print()
+        print("")
         print('Computing initial score :')
         print('-------------------------')
-        print ()
+        print ("")
         self.__scores = [] 
         self.__scores.append(np.mean(cross_val_score(estimator=self.estimator, X=df_train, y=y_train, scoring=self.scoring, cv=self.cv)))
         
@@ -218,7 +218,7 @@ class RDECV():
         #verbose
         
         if self.verboseMode:                                                    
-            print('initial score (with all variables) : ', self.__scores[0])
+            print('initial score (with all variables) : '+str(self.__scores[0]))
             
             limitScore = None
             
@@ -227,12 +227,12 @@ class RDECV():
             else: 
                 limitScore = self.__scores[0]*(1. + self.delta_score)
                 
-            print('limit score : ', limitScore)
+            print('limit score : '+str(limitScore))
             
-            print()
-            print('RDECV algorithm is starting : (',idEndLoop,' variables processed )')
+            print("")
+            print('RDECV algorithm is starting : ('+str(idEndLoop)+' variables processed )')
             print('----------------------------')
-            print()
+            print("")
         
         # RUN ALGO
         
@@ -255,7 +255,7 @@ class RDECV():
                 del self.__dropList[-1]                                                # on remet la variable dans le dataset
                     
                 if self.verboseMode:                                                                                             
-                    print('    CAN\'T BE REMOVED  - Removing variable \'', col,'\' deteriorates the model with the too bad score : ', currentScore)
+                    print('    CAN\'T BE REMOVED  - Removing variable \''+str(col)+'\' deteriorates the model with the too bad score : '+str(currentScore))
                                                      
             else:                                                                        # cas ou on ne depasse pas le budget
                 self.__scores.append(currentScore)                                       # on ne garde pas la variable
@@ -263,7 +263,7 @@ class RDECV():
                 countRemoveVar += 1
                     
                 if self.verboseMode:                                                                                            
-                    print(countRemoveVar,' removed variables - Removing variable \'', col,'\' is OK with the score : ', currentScore)
+                    print(str(countRemoveVar)+' removed variables - Removing variable \''+str(col)+'\' is OK with the score : '+str(currentScore))
                                              
         
         self.__keepList = self.__keepList + col_drifts[idEndLoop:]           
