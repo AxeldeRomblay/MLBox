@@ -18,7 +18,6 @@ MLBox relies on several models. Some can occasionally be difficult to install, s
 __Keep in mind that mlbox will run fine without them installed !__
 __Here is the procedure to get the extention only (MLBox will not be installed yet !):__
 
-To build LightGBM model in UNIX: 
 
 .. code-block:: console
 
@@ -26,11 +25,6 @@ To build LightGBM model in UNIX:
     $ mkdir build ; cd build
     $ cmake .. 
     $ make -j 
-
-To install it:
-
-.. code-block:: console
-
     $ cd python-package; python setup.py install
 
 
