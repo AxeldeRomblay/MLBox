@@ -138,7 +138,7 @@ class StackingClassifier():
 
         y_pred = np.zeros((len(y), len(classes)-len(classes_to_drop)))
 
-        for train_index, test_index in cv:
+        for train_index, test_index in cv.split(X,y):
 
             X_train, X_test = X.iloc[train_index], X.iloc[test_index]   #defining train et validation sets for each fold
             y_train = y.iloc[train_index]
@@ -185,7 +185,7 @@ class StackingClassifier():
             raise ValueError("y must be a Series")
 
 
-        cv = StratifiedKFold(y,self.n_folds,shuffle=True,random_state=self.random_state)     #stratified k fold
+        cv = StratifiedKFold(n_splits = self.n_folds,shuffle=True,random_state=self.random_state)     #stratified k fold
 
         preds = pd.DataFrame([], index=y.index)
 

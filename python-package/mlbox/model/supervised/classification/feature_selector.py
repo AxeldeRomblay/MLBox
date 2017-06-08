@@ -4,10 +4,8 @@
 # License: BSD 3 clause
 
 import numpy as np
-from sklearn.feature_selection import SelectFromModel
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.feature_selection import VarianceThreshold
 import warnings
 
 
