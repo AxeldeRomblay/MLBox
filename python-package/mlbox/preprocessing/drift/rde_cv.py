@@ -177,7 +177,7 @@ class RDECV():
             raise ValueError('You must specify the scoring function !')
         
         if(self.cv == None):
-            self.cv = KFold(df_train.shape[0], 2, shuffle=True, random_state=1)
+            self.cv = KFold(n_splits = 2, shuffle=True, random_state=1)
             print('Warning : cv is not defined. 2 folds are used by defaut.')
         
         # si les niveaux de drift ne sont pas passes en parametre 

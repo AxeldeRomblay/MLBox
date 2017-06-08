@@ -40,7 +40,7 @@ def cross_val_predict_proba(estimator, X, y, cv):
 
     y_pred = np.zeros(len(y))
     
-    for train_index, test_index in cv:
+    for train_index, test_index in cv.split(X,y):
         
         estimator.fit(X.iloc[train_index], y.iloc[train_index])
         
@@ -130,9 +130,9 @@ class DriftEstimator():
         self.__cible = pd.concat((df_train.target, df_test.target),ignore_index=True)
                 
         if(self.stratify == True):
-            self.__cv = StratifiedKFold(self.__cible, n_folds = self.n_folds, shuffle = True, random_state = self.random_state)
+            self.__cv = StratifiedKFold(n_splits = self.n_folds, shuffle = True, random_state = self.random_state)
         else:
-            self.__cv = KFold(len(self.__cible), n_folds = self.n_folds, shuffle = True, random_state = self.random_state)
+            self.__cv = KFold(n_splits = self.n_folds, shuffle = True, random_state = self.random_state)
 
             
         self.__pred = cross_val_predict_proba(estimator = self.estimator, X = pd.concat((df_train, df_test),ignore_index=True).drop(['target'], axis = 1), y = self.__cible, cv = self.__cv)
@@ -163,7 +163,7 @@ class DriftEstimator():
         
         if self.__fitOK:
 
-            for train_index, test_index in self.__cv:
+            for train_index, test_index in self.__cv.split(X=np.zeros(len(self.__cible)), y=self.__cible):
                 
                 S.append(roc_auc_score(self.__cible.iloc[test_index], self.__pred[test_index]))
                 
