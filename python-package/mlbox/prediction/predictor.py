@@ -273,7 +273,7 @@ class Predictor():
                         importance = est.feature_importances()
                         self.__plot_feature_importances(importance, self.to_path+"/"+est.get_params()["strategy"]+"_feature_importance.png")
                     except:
-                        pass
+                        warnings.warn("Unable to get feature importances...")
 
                 except:
                     raise ValueError("Pipeline cannot be fitted")
