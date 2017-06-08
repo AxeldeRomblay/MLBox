@@ -152,7 +152,7 @@ class Optimiser():
             classes_to_drop = counts[counts<self.n_folds].index
             indexes_to_drop = df['target'][df['target'].apply(lambda x: x in classes_to_drop)].index
 
-            cv = StratifiedKFold(df['target'].drop(indexes_to_drop),self.n_folds, shuffle=True,random_state=self.random_state)
+            cv = StratifiedKFold(n_splits = self.n_folds, shuffle=True,random_state=self.random_state)
 
             ### estimator ###
             est = Classifier()
@@ -207,7 +207,7 @@ class Optimiser():
             ### cross validation ###
 
             indexes_to_drop = []
-            cv = KFold(len(df['target']),self.n_folds, shuffle=True,random_state=self.random_state)
+            cv = KFold(n_splits = self.n_folds, shuffle=True,random_state=self.random_state)
 
             ### estimator ###
             est = Regressor()
