@@ -122,7 +122,7 @@ class StackingRegressor():
             raise ValueError("y must be a Series")
 
 
-        cv = KFold(len(y),self.n_folds,shuffle=True,random_state=self.random_state)
+        cv = KFold(n_splits = self.n_folds,shuffle=True,random_state=self.random_state)
 
         preds = pd.DataFrame([], index=y.index)
 

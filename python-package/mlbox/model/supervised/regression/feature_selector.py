@@ -3,10 +3,8 @@
 # License: BSD 3 clause
 
 import numpy as np
-from sklearn.feature_selection import SelectFromModel
 from sklearn.linear_model import Lasso
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.feature_selection import VarianceThreshold
 import warnings
 
 
