@@ -17,7 +17,7 @@ requirements = [
     "pandas>=0.18.0",
     "scikit-learn>=0.18.1",
     "scipy>=0.17.0",
-    "tensorflow==1.1.0",
+    "Theano==0.8.2",
     "xgboost==0.6a2"
 ]
 
@@ -29,7 +29,7 @@ test_requirements = [
     "pandas>=0.18.0",
     "scikit-learn>=0.18.1",
     "scipy>=0.17.0",
-    "tensorflow==1.1.0",
+    "Theano==0.8.2",
     "xgboost==0.6a2"
 ]
 
