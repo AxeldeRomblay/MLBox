@@ -8,14 +8,14 @@ import warnings
 
 import os
 
-with open(os.path.expanduser('~')+'/.keras/keras.json','w') as f:
-    new_settings = """{\r\n
-    "epsilon": 1e-07,\r\n
-    "image_data_format": "channels_last",\n
-    "backend": "theano",\r\n
-    "floatx": "float32"\r\n
-    }"""
-    f.write(new_settings)
+#with open(os.path.expanduser('~')+'/.keras/keras.json','w') as f:
+#    new_settings = """{\r\n
+#    "epsilon": 1e-07,\r\n
+#    "image_data_format": "channels_last",\n
+#    "backend": "theano",\r\n
+#    "floatx": "float32"\r\n
+#    }"""
+#    f.write(new_settings)
 
 from keras.layers.core import Dense, Reshape, Dropout
 from keras.layers.embeddings import Embedding
