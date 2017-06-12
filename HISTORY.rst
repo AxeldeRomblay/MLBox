@@ -34,3 +34,7 @@ History
 dev 0.2.3 (non stable version, available on branch "dev")
 ---------------------------------------------------------
 * add of pipeline memory.
+
+dev 0.3.0 (very soon)
+---------------------
+* Python 3.3-3.6 compatibility
