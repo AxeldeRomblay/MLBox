@@ -16,6 +16,8 @@ Contents:
 Indices and tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+* :ref:`encoding`
+* :ref:`model`
+* :ref:`optimisation`
+* :ref: `prediction`
+* :ref: `preprocessing`
