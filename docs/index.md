@@ -35,17 +35,17 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ## prediction
 <br/>
-class Predictor <br/>
-|  Predicts the target on the test dataset. <br/>
+class Predictor <br/> 
+|  Predicts the target on the test dataset. <br/> 
 | <br/>
-|  Parameters <br/>
-|  ----------- <br/>
-| <br/>
+|  Parameters <br/> 
+|  ----------- <br/> 
+| <br/> 
 |  to_path : str, defaut = "save" <br/>
-|      Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target <br/>
-|      encoder object (for classification task only). <br/>
-| <br/>
-|  verbose : bool, defaut = True <br/>
+|      Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target <br/> 
+|      encoder object (for classification task only). <br/> 
+| <br/> 
+|  verbose : bool, defaut = True <br/> 
 |      Verbose mode <br/>
 | <br/>
 |  Methods defined here: <br/>
