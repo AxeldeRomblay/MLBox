@@ -19,7 +19,7 @@ This page is the official documentation for MLBox package. You will learn how to
 * **[preprocessing](#preprocessing)**<br>
 
 
-# Documentation
+# Documentation [IN PROGRESS]
 
 ## encoding
 
