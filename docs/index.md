@@ -107,7 +107,8 @@ class Predictor <br/>
  | <br/>
  | set_params(self, params) <br/>
 <br/>
-<br/>
+<br/> 
+
 ## preprocessing
 <br/>
 class Drift_thresholder <br/>
