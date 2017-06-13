@@ -8,8 +8,8 @@ This page is the official documentation for MLBox package. You will learn how to
 
 
 **[encoding](#encoding)**<br>
-*[encoding missing values](#encoding-missing-values)*<br>
-*encoding categorical variables
+* [encoding missing values](#encoding-missing-values)*<br>
+* [encoding categorical variables](#encoding-categorical-variables)*<br>
 
 
 **[model](#model)**<br>
@@ -31,6 +31,9 @@ This page is the official documentation for MLBox package. You will learn how to
 ## encoding
 
 ### encoding missing values
+
+### encoding categorical variables
+
 
 ## model
 ## optimisation
