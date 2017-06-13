@@ -116,10 +116,10 @@ class Reader <br/>
 |          'target' : pandas serie for the target <br/>
 
 
+
 class Drift_thresholder <br/>
 |  Automatically deletes ids and drifting variables between train and test datasets. <br/>
 |  Deletes only on train dataset. To delete on test, the list of variables to drop is available and saved as "vartodrop.obj" <br/>
-| <br/>
 | <br/>
 |  Parameters <br/>
 |  ---------- <br/>
