@@ -18,3 +18,34 @@ Indices and tables
 * :ref:`optimisation`
 * :ref:`prediction`
 * :ref:`preprocessing`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+* :ref:`encoding`
