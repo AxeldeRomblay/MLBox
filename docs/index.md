@@ -50,7 +50,8 @@ class Optimiser <br/>
  | ----------<br/>
  | <br/>
  | scoring : string, callable or None, optional, default: None <br/>
- |      A string (see model evaluation documentation) or a scorer callable object / function with signature``scorer(estimator, X, y)``. <br/>
+ |      A string (see model evaluation documentation) or a scorer callable object / function with signature <br/>
+ |      ``scorer(estimator, X, y)``. <br/>
  | <br/>
  |      If None, "log_loss" is used for classification and "mean_squarred_error" for regression <br/>
  |      Available scorings for classification : "accuracy","roc_auc", "f1", "log_loss", "precision", "recall" <br/>
@@ -100,7 +101,7 @@ class Optimiser <br/>
  |     df : dict, defaut = None <br/>
  |         Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the <br/>
  |         associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp. <br/>     
- | <br/>
+ | <br/> 
  |      Returns<br/>
  |      -------<br/>
  |      <br/>
@@ -109,10 +110,10 @@ class Optimiser <br/>
  | <br/>
  | get_params(self, deep=True)<br/>
  | <br/>
- | optimise(self, space, df, max_evals=40)<br/>
- |      Optimises hyper-parameters of the whole Pipeline with a given scoring function. By defaut, estimator used is 'xgboost' <br/>
- |      and no feature selection is applied. Algorithm used to optimize : Tree Parzen Estimator. <br/>
- |      IMPORTANT : Try to avoid dependent parameters and to set one feature selection strategy and one estimator strategy <br/>
+ | optimise(self, space, df, max_evals=40)<br/> 
+ |      Optimises hyper-parameters of the whole Pipeline with a given scoring function. By defaut, estimator used is 'xgboost' <br/> 
+ |      and no feature selection is applied. Algorithm used to optimize : Tree Parzen Estimator. <br/> 
+ |      IMPORTANT : Try to avoid dependent parameters and to set one feature selection strategy and one estimator strategy <br/>
  |      at a time.<br/>
  |      <br/>
  |      Parameters<br/>
