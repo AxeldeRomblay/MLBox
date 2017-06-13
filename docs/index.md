@@ -37,74 +37,75 @@ This page is the official documentation for MLBox package. You will learn how to
 <br/>
 class Predictor <br/> 
 |  Predicts the target on the test dataset. <br/> 
-| <br/>
+|  <br/>
 |  Parameters <br/> 
 |  ----------- <br/> 
-| <br/> 
+|  <br/> 
 |  to_path : str, defaut = "save" <br/>
 |      Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target <br/> 
 |      encoder object (for classification task only). <br/> 
-| <br/> 
+|  <br/> 
 |  verbose : bool, defaut = True <br/> 
 |      Verbose mode <br/>
-| <br/>
+|  <br/>
 |  Methods defined here: <br/>
-| <br/>
+|  <br/>
 |  __init__(self, to_path='save', verbose=True) <br/>
-| <br/>
+|  <br/>
 |  plot_feature_importances(self, importance, fig_name = "feature_importance.png") <br/>
 |      Saves feature importances plot <br/>
-| <br/>
+|  <br/>
 |      Parameters <br/>
 |      ---------- <br/>
 |  <br/>
 |      importance : dict <br/>
 |          dictionnary with features (key) and importances (values) <br/>
-| <br/>
+|  <br/>
 |      fig_name : str, defaut = "feature_importance.png" <br/>
 |          figure name <br/>
-| <br/>
+|  <br/>
 |      Returns <br/>
 |      ------- <br/>
-| <br/>
+|  <br/>
 |      None <br/>
-| <br/>
+|  <br/>
 |  fit_predict(self, params, df) <br/>
-|      Fits the model. Then predicts on test dataset and outputs feature importances and the submission file (.png and .csv format). <br/>
-| <br/>
+|      Fits the model. Then predicts on test dataset and outputs feature importances and the submission file (.png and .csv <br/>
+|      format).
+|  <br/>
 |      Parameters <br/>
 |      ---------- <br/>
-| <br/>
+|  <br/>
 |      params : dict, defaut = None. <br/>
 |          Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated. <br/>
-| <br/>
+|  <br/>
 |          - The keys must respect the following syntax : "enc__param". <br/>
-| <br/>
+|  <br/>
 |          With : <br/>
 |              1/ "enc" = "ne" for na encoder <br/>
 |              2/ "enc" = "ce" for categorical encoder <br/>
 |              3/ "enc" = "fs" for feature selector [OPTIONAL] <br/>
 |              4/ "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL] <br/>
 |              5/ "enc" = "est" for the final estimator <br/>
-| <br/>
+|  <br/>
 |          And: <br/>
 |              "param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", <br/>
 |              "entity_embedding" for "enc"="ce") <br/>
-| <br/>
+|  <br/>
 |          - The values are those of the parameters (for example : 4 for a key = "est__max_depth") <br/>
-| <br/>
+|  <br/>
 |      df : dict, defaut = None <br/>
 |          Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test <br/>
 |          dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' <br/>
 |          for a classification) resp. <br/>
-| <br/>
+|  <br/>
 |      Returns <br/>
 |      -------- <br/>
-| <br/>
+|  <br/>
 |      None <br/>
-| <br/>
+|  <br/>
 |  get_params(self, deep=True) <br/>
-| <br/>
+|  <br/>
 |  set_params(self, params) <br/>
 <br/>
 <br/> 
