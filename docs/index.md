@@ -92,7 +92,6 @@ class Reader <br/>
 | <br/>
 |      df : pandas dataframe <br/>
 | <br/>
-| <br/>
 |  train_test_split(self, Lpath, target_name) <br/>
 |      Given a list of several paths and a target name, automatically creates and cleans train and test datasets. <br/>
 |      Also determines the task and encodes the target (classification problem only). <br/>
