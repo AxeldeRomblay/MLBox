@@ -105,7 +105,7 @@ class Predictor <br/>
  | <br/>
  | get_params(self, deep=True) <br/>
  | <br/>
- | set_params(self, **params) <br/>
+ | set_params(self, params) <br/>
 <br/>
 <br/>
 ## preprocessing
