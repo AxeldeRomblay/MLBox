@@ -1,3 +1,4 @@
+Help on class NA_encoder in module mlbox.encoding.na_encoder:
 
 class NA_encoder
  |  Encodes missing values for both numerical and categorical features. Several strategies are possible in each case.
@@ -73,7 +74,6 @@ class NA_encoder
  |      
  |      df : pandas dataframe of shape = (n, n_features)
  |      The dataset with no missing values.
-
 
 class Categorical_encoder
  |  Encodes categorical features. Several strategies are possible (supervised or not). Works for both classification and regression tasks.
