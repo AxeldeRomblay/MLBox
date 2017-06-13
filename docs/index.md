@@ -33,6 +33,7 @@ This page is the official documentation for MLBox package. You will learn how to
 <br/>
 <br/>
 ## optimisation
+
 <br/>
 class Optimiser <br/>
  | Optimises hyper-parameters of the whole Pipeline :<br/>
