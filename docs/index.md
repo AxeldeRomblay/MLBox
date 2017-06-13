@@ -52,7 +52,7 @@ class Predictor <br/>
  | <br/>
  | __init__(self, to_path='save', verbose=True) <br/>
  | <br/>
- | \_\_plot\_feature\_importances(self, importance, fig_name = "feature_importance.png") <br/>
+ | \_\_plot\_feature\_importances(self, importance, fig_name = "feature\_importance.png") <br/>
  |     Saves feature importances plot <br/>
  | <br/>
  |     Parameters <br/>
@@ -61,7 +61,7 @@ class Predictor <br/>
  |     importance : dict <br/>
  |         dictionnary with features (key) and importances (values) <br/>
  | <br/>
- |     fig_name : str, defaut = "feature_importance.png" <br/>
+ |     fig_name : str, defaut = "feature\_importance.png" <br/>
  |         figure name <br/>
  | <br/>
  |     Returns <br/>
@@ -88,7 +88,7 @@ class Predictor <br/>
  |             5/ "enc" = "est" for the final estimator <br/>
  | <br/>
  |         And: <br/>
- |             "param" : a correct associated parameter for each step. (forexample : "max_depth" for "enc"="est","entity_embedding" for <br/>
+ |             "param" : a correct associated parameter for each step. (forexample : "max\_depth" for "enc"="est","entity\_embedding" for <br/>
  |             "enc"="ce") <br/>
  | <br/>
  |         - The values are those of the parameters (for example : 4 for a key = "est\_\_max_depth") <br/>
