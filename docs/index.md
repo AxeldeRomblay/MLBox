@@ -50,7 +50,7 @@ class Predictor <br/>
  | <br/>
  | Methods defined here: <br/>
  | <br/>
- | \__init\__(self, to_path='save', verbose=True) <br/>
+ | \_ \_init\_ \_(self, to_path='save', verbose=True) <br/>
  | <br/>
  | \__plot_feature_importances(self, importance, fig_name = "feature_importance.png") <br/>
  |     Saves feature importances plot <br/>
