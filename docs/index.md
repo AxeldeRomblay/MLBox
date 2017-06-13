@@ -52,7 +52,7 @@ class Predictor <br/>
  | <br/>
  | __init__(self, to_path='save', verbose=True) <br/>
  | <br/>
- | \_\_plot\_feature\_importances(self, importance, fig_name = "feature\_importance.png") <br/>
+ | __plot_feature_importances__(self, importance, fig_name = "feature_importance.png") <br/>
  |     Saves feature importances plot <br/>
  | <br/>
  |     Parameters <br/>
@@ -61,7 +61,7 @@ class Predictor <br/>
  |     importance : dict <br/>
  |         dictionnary with features (key) and importances (values) <br/>
  | <br/>
- |     fig_name : str, defaut = "feature\_importance.png" <br/>
+ |     fig_name : str, defaut = "feature_importance.png" <br/>
  |         figure name <br/>
  | <br/>
  |     Returns <br/>
@@ -78,7 +78,7 @@ class Predictor <br/>
  |     params : dict, defaut = None. <br/>
  |         Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated. <br/>
  | <br/>
- |         - The keys must respect the following syntax : "enc\_\_param". <br/>
+ |         - The keys must respect the following syntax : "enc__param". <br/>
  | <br/>
  |         With : <br/>
  |             1/ "enc" = "ne" for na encoder <br/>
@@ -88,10 +88,10 @@ class Predictor <br/>
  |             5/ "enc" = "est" for the final estimator <br/>
  | <br/>
  |         And: <br/>
- |             "param" : a correct associated parameter for each step. (forexample : "max\_depth" for "enc"="est","entity\_embedding" for <br/>
+ |             "param" : a correct associated parameter for each step. (forexample : "max_depth" for "enc"="est","entity_embedding" for <br/>
  |             "enc"="ce") <br/>
  | <br/>
- |         - The values are those of the parameters (for example : 4 for a key = "est\_\_max_depth") <br/>
+ |         - The values are those of the parameters (for example : 4 for a key = "est__max_depth") <br/>
  | <br/>
  |     df : dict, defaut = None <br/>
  |         Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test <br/>
@@ -105,7 +105,7 @@ class Predictor <br/>
  | <br/>
  | get_params(self, deep=True) <br/>
  | <br/>
- | set_params(self, \*\*params) <br/>
+ | set_params(self, \**params) <br/>
 <br/>
 <br/>
 ## preprocessing
