@@ -25,6 +25,347 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ```python
 
+
+class Optimiser
+
+ | 
+Optimises hyper-parameters of the whole Pipeline :
+
+ |  
+
+ |  1/ NA
+encoder (missing values encoder)
+
+ |  2/ CA encoder
+(categorical features encoder)
+
+ | 
+3/ Feature selector [OPTIONAL]
+
+ | 
+4/ Stacking estimator - feature engineer [OPTIONAL] 
+
+ | 
+5/ Estimator (classifier or regressor)
+
+ | 
+
+
+ | 
+Works for both regression and classification (multiclass or binary)
+tasks.
+
+ | 
+
+
+ | 
+
+
+ | 
+Parameters
+
+ | 
+----------
+
+ | 
+
+
+ | 
+scoring : string, callable or None, optional, default: None
+
+ |      A string (see model evaluation
+documentation) or a scorer callable object / function with
+signature``scorer(estimator, X, y)``.
+
+ | 
+
+
+ |      If None, "log_loss" is used for
+classification and "mean_squarred_error" for regression
+
+ |      Available scorings for classification :
+"accuracy","roc_auc", "f1", "log_loss",
+"precision", "recall"
+
+ |      Available scorings for regression :
+"mean_absolute_error", "mean_squared_error",
+"median_absolute_error", "r2"
+
+ | 
+
+
+ | 
+n_folds : int, defaut = 2
+
+ |      The number of folds for cross validation
+(stratified for classification)
+
+ | 
+
+
+ | 
+random_state : int, defaut = 1
+
+ |      pseudo-random number generator state used
+for shuffling
+
+ | 
+
+
+ | 
+to_path : str, defaut = "save"
+
+ |      Name of the folder where models are saved
+
+ |  
+
+ | 
+verbose : bool, defaut = True
+
+ |     
+Verbose mode
+
+ |  
+
+ | 
+Methods defined here:
+
+ | 
+
+
+ | 
+__init__(self, scoring=None, n_folds=2, random_state=1, to_path='save',
+verbose=True)
+
+ | 
+
+
+ | 
+evaluate(self, params, df)
+
+ |      Evaluates the scoring function with given
+hyper-parameters of the whole Pipeline. If no parameters are set, defaut
+configuration for each step is evaluated : no feature selection is applied and
+no meta features are created.
+
+ |      
+
+ |      
+
+ |      Parameters
+
+ |      ----------
+
+ |      
+
+ |      params : dict, defaut = None.
+
+ |          Hyper-parameters dictionnary for the
+whole pipeline. If params = None, defaut configuration is evaluated.
+
+ |      
+
+ |          - The keys must respect the following
+syntax : "enc__param".
+
+ |      
+
+ |          With :
+
+ |              1/ "enc" =
+"ne" for na encoder
+
+ |              2/ "enc" =
+"ce" for categorical encoder
+
+ |              3/ "enc" =
+"fs" for feature selector [OPTIONAL]
+
+ |              4/ "enc" =
+"stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1
+layers are created...) [OPTIONAL]
+
+ |              5/ "enc" =
+"est" for the final estimator
+
+ |      
+
+ |          And:
+
+ |              "param" : a correct
+associated parameter for each step. (for example : "max_depth" for
+"enc"="est", "entity_embedding" for
+"enc"="ce")
+
+ |      
+
+ |          - The values are those of the
+parameters (for example : 4 for a key = "est__max_depth")
+
+ |      
+
+ |      
+
+ |     
+df : dict, defaut = None
+
+ |         
+Train dictionnary. Must contain keys "train" and
+"target" with the train dataset (pandas DataFrame) and the associated
+target (pandas Serie with
+
+ |          dtype='float' for a regression or
+dtype='int' for a classification) resp.
+
+ |      
+
+ | 
+    
+
+ |      Returns
+
+ |      -------
+
+ |      
+
+ |      score : float.
+
+ |          The score. The higher the better
+(positive for a score and negative for a loss)
+
+ | 
+
+
+ | 
+get_params(self, deep=True)
+
+ | 
+
+
+ | 
+optimise(self, space, df, max_evals=40)
+
+ |      Optimises hyper-parameters of the whole
+Pipeline with a given scoring function. By defaut, estimator used is 'xgboost'
+and no feature selection is applied.
+
+ |      Algorithm used to optimize : Tree Parzen
+Estimator (http://neupy.com/2016/12/17/hyperparameter_optimization_for_neural_networks.html)
+
+ |      IMPORTANT : Try to avoid dependent
+parameters and to set one feature selection strategy and one estimator strategy
+at a time.
+
+ |      
+
+ |      Parameters
+
+ |      ----------
+
+ |      
+
+ |      space : dict, defaut = None.
+
+ |          Hyper-parameters space.
+
+ |      
+
+ |          - The keys must respect the following
+syntax : "enc__param".
+
+ |      
+
+ |          With :
+
+ |              1/ "enc" =
+"ne" for na encoder
+
+ |              2/ "enc" =
+"ce" for categorical encoder
+
+ |              3/ "enc" =
+"fs" for feature selector [OPTIONAL]
+
+ |              4/ "enc" =
+"stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1
+layers are created...) [OPTIONAL]
+
+ |              5/ "enc" =
+"est" for the final estimator
+
+ |      
+
+ |          And:
+
+ |              "param" : a correct
+associated parameter for each step. (for example : "max_depth" for
+"enc"="est", "entity_embedding" for
+"enc"="ce")
+
+ |      
+
+ |          - The values must respect the
+following syntax : {"search" : strategy, "space" : list}
+
+ |      
+
+ |          With:
+
+ |              "strategy" =
+"choice" or "uniform". Defaut = "choice"
+
+ |      
+
+ |          And:
+
+ |             list : a list of values to be
+tested if strategy="choice". If strategy = "uniform", list =
+[value_min, value_max].
+
+ |      
+
+ |      
+
+ |      df : dict, defaut = None
+
+ |          Train dictionnary. Must contain keys
+"train" and "target" with the train dataset (pandas
+DataFrame) and the associated target (pandas Serie with
+
+ |          dtype='float' for a regression or
+dtype='int' for a classification) resp.
+
+ |      
+
+ |      
+
+ |      max_evals : int, defaut = 40.
+
+ |          Number of iterations. For an accurate
+optimal hyper-parameter, max_evals = 40.
+
+ |      
+
+ |      
+
+ |      Returns
+
+ |      -------
+
+ |      
+
+ |      best_params : dict.
+
+ |          The optimal hyper-parameter
+dictionnary.
+
+ | 
+
+
+ | 
+set_params(self, **params)
+
+
 ```
 
 ## model
