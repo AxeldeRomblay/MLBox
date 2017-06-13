@@ -50,9 +50,9 @@ class Predictor <br/>
  | <br/>
  | Methods defined here: <br/>
  | <br/>
- | \_\_init\_\_(self, to_path='save', verbose=True) <br/>
+ | \__init\__(self, to_path='save', verbose=True) <br/>
  | <br/>
- | \_\_plot_feature_importances(self, importance, fig_name = "feature_importance.png") <br/>
+ | \__plot_feature_importances(self, importance, fig_name = "feature_importance.png") <br/>
  |     Saves feature importances plot <br/>
  | <br/>
  |     Parameters <br/>
@@ -105,7 +105,7 @@ class Predictor <br/>
  | <br/>
  | get_params(self, deep=True) <br/>
  | <br/>
- | set_params(self, **params) <br/>
+ | set_params(self, \**params) <br/>
 <br/>
 <br/>
 ## preprocessing
