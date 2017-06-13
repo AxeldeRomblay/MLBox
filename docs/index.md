@@ -19,23 +19,23 @@ This page is the official documentation for MLBox package. You will learn how to
 * **[preprocessing](#preprocessing)**<br>
 
 
-## Documentation
+# Documentation
 
-### encoding
+## encoding
 
 
 
-### model
+## model
 
-#### classification
+### classification
 
-#### regression
+### regression
 
-### optimisation
+## optimisation
 
-### prediction
+## prediction
 
-### preprocessing
+## preprocessing
 
 class Reader <br/>
 |  Reads and cleans data <br/>
