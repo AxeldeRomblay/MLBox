@@ -97,8 +97,8 @@ class Categorical_encoder <br/>
  |      <br/>
  |      df : pandas dataframe of shape = (n, n_features) <br/>
  |      The dataset with numerical and encoded categorical features. <br/>
-
-
+<br/>
+<br/>
 class NA_encoder <br/>
  |  Encodes missing values for both numerical and categorical features. Several strategies are possible in each case. <br/>
  |  <br/>
