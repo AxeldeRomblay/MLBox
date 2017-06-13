@@ -6,8 +6,7 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ### Table of Contents
 
-
-* ***[encoding](#encoding)***<br>
+* **[encoding](#encoding)**<br>
 
 * **[model](#model)**<br>
   * [classification](#classification) <br>
@@ -20,22 +19,21 @@ This page is the official documentation for MLBox package. You will learn how to
 * **[preprocessing](#preprocessing)**<br>
 
 
-## encoding
+## Documentation
 
+### encoding
 
-## model
+### model
 
-### classification
+#### classification
 
-### regression
+#### regression
 
-## optimisation
+### optimisation
 
+### prediction
 
-## prediction
-
-
-## preprocessing
+### preprocessing
 
 
 
