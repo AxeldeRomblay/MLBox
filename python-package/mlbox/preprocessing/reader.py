@@ -472,8 +472,9 @@ class Reader():
                     print("")
                     print("dumping files into directory : "+self.to_path)
 
+                df_train[target_name] = y_train.values #temp adding target to dump train file...
                 df_train.to_hdf(self.to_path+'/df_train.h5','train')
-                y_train.to_hdf(self.to_path + '/y_train.h5', 'target')
+                del df_train[target_name]
 
                 if(self.verbose):
                     print("train dumped")
