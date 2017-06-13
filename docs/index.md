@@ -71,7 +71,7 @@ class Predictor <br/>
 |  <br/>
 |  fit_predict(self, params, df) <br/>
 |      Fits the model. Then predicts on test dataset and outputs feature importances and the submission file (.png and .csv <br/>
-|      format).
+|      format). <br/>
 |  <br/>
 |      Parameters <br/>
 |      ---------- <br/>
