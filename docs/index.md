@@ -39,13 +39,13 @@ class Predictor <br/>
  | Predicts the target on the test dataset. <br/>
  | <br/>
  | Parameters <br/>
- | ---------- <br/>
+ | ---------- <br/>
  | <br/>
  | to_path : str, defaut = "save" <br/>
  |     Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target encoder <br/>
  |     object (for classification task only). <br/>
  | <br/>
- | verbose : bool, defaut = True <br/>
+ | verbose : bool, defaut = True <br/>
  |     Verbose mode <br/>
  | <br/>
  | Methods defined here: <br/>
