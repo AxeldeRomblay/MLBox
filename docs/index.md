@@ -39,10 +39,11 @@ class Predictor <br/>
 |  Predicts the target on the test dataset. <br/>
 | <br/>
 |  Parameters <br/>
-|  ---------- <br/>
+|  ----------- <br/>
 | <br/>
 |  to_path : str, defaut = "save" <br/>
-|      Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target encoder object (for classification task only). <br/>
+|      Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target <br/>
+|      encoder object (for classification task only). <br/>
 | <br/>
 |  verbose : bool, defaut = True <br/>
 |      Verbose mode <br/>
@@ -87,18 +88,18 @@ class Predictor <br/>
 |              5/ "enc" = "est" for the final estimator <br/>
 | <br/>
 |          And: <br/>
-|              "param" : a correct associated parameter for each step. (forexample : "max_depth" for "enc"="est","entity_embedding" for <br/>
-|              "enc"="ce") <br/>
+|              "param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", <br/>
+|              "entity_embedding" for "enc"="ce") <br/>
 | <br/>
 |          - The values are those of the parameters (for example : 4 for a key = "est__max_depth") <br/>
 | <br/>
 |      df : dict, defaut = None <br/>
 |          Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test <br/>
-|          dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int'for a <br/>
-|          classification) resp. <br/>
+|          dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' <br/>
+|          for a classification) resp. <br/>
 | <br/>
 |      Returns <br/>
-|      ------- <br/>
+|      -------- <br/>
 | <br/>
 |      None <br/>
 | <br/>
