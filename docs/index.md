@@ -40,28 +40,28 @@ This page is the official documentation for MLBox package. You will learn how to
 class Reader <br/>
 |  Reads and cleans data <br/>
 | <br/>
-|  Parameters <br/>   
-|  ---------- <br/>   
+|  Parameters <br/>
+|  ---------- <br/> 
 | <br/>
-|  sep : str, defaut = None <br/>    
-|       Delimiter to use when reading a csv file. <br/>  
-| <br/> 
-|  header : int or None, defaut = 0. <br/>  
-|      If header=0, the first line is considered as a header. <br/>  
-|      Otherwise, there is no header. <br/>  
-|      Useful for csv and xls files. <br/>  
-| <br/>    
-|  to_hdf5 : bool, defaut = True <br/>  
-|      If True, dumps each file to hdf5 format <br/>  
-| <br/> 
-|  to_path : str, defaut = "save" <br/>  
-|      Name of the folder where files and encoders are saved <br/>  
-| <br/> 
-|  verbose : bool, defaut = True <br/>  
-|      Verbose mode <br/>  
-| <br/>    
+|  sep : str, defaut = None <br/>
+|       Delimiter to use when reading a csv file. <br/>
+| <br/>
+|  header : int or None, defaut = 0. <br/>
+|      If header=0, the first line is considered as a header. <br/>
+|      Otherwise, there is no header. <br/>
+|      Useful for csv and xls files. <br/>
+| <br/>
+|  to_hdf5 : bool, defaut = True <br/>
+|      If True, dumps each file to hdf5 format <br/>
+| <br/>
+|  to_path : str, defaut = "save" <br/>
+|      Name of the folder where files and encoders are saved <br/>
+| <br/>
+|  verbose : bool, defaut = True <br/>
+|      Verbose mode <br/>
+| <br/>
 |  Methods defined here: <br/>
-| <br/>  
+| <br/>
 |  __init__(self, sep=None, header=0, to_hdf5=False, to_path='save', verbose=True) 
 |   
 |  clean(self, path, date_strategy, drop_duplicate) 
