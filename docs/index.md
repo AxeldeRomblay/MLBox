@@ -37,6 +37,217 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ### preprocessing
 
-Help on class Reader in module mlbox.preprocessing.reader:
-class Reader |  Reads and cleans data |   |   |  Parameters |  ---------- |   |  sep : str, defaut = None |       Delimiter to use when reading a csv file. |   |  header : int or None, defaut = 0. |      If header=0, the first line is considered as a header. |      Otherwise, there is no header. |      Useful for csv and xls files. |   |  to_hdf5 : bool, defaut = True |      If True, dumps each file to hdf5 format |   |  to_path : str, defaut = "save" |      Name of the folder where files and encoders are saved |   |  verbose : bool, defaut = True |      Verbose mode |   |  Methods defined here: |   |  __init__(self, sep=None, header=0, to_hdf5=False, to_path='save', verbose=True) |   |  clean(self, path, date_strategy, drop_duplicate) |      Reads and cleans data (accepted formats : csv, xls, json and h5) : |       |      - del Unnamed columns |      - casts lists into variables |      - try to cast variables into float |      - cleans dates |      - drop duplicates (if drop_duplicate=True) |       |       |      Parameters |      ---------- |       |      filepath_or_buffer : str, pathlib.Path, py._path.local.LocalPath or any object with a read() method (such as a file handle or StringIO) |          The string could be a URL. Valid URL schemes include http, ftp, s3, and |          file. For file URLs, a host is expected. For instance, a local file could |          be file ://localhost/path/to/table.csv |       |      date_strategy : str, defaut = "complete" |          The strategy to encode dates : |          - complete : creates timestamp from 01/01/2017, month, day and day_of_week |          - to_timestamp : creates timestamp from 01/01/2017 |       |      drop_duplicate : bool, defaut = False |          If True, drop duplicates when reading each file. |       |       |      Returns |      ------- |       |      df : pandas dataframe |   |  train_test_split(self, Lpath, target_name) |      Given a list of several paths and a target name, automatically creates and cleans train and test datasets. |      Also determines the task and encodes the target (classification problem only). |      Finally dumps the datasets to hdf5, and eventually the target encoder. |       |       |      Parameters |      ---------- |       |      Lpath : list, defaut = None |          List of str paths to load the data |       |      target_name : str, defaut = None |          The name of the target. Works for both classification (multiclass or not) and regression. |       |       |      Returns |      ------- |       |      df : dict |          Dictionnary containing : |          'train' : pandas dataframe for train dataset |          'test' : pandas dataframe for test dataset |          'target' : pandas serie for the target
+
+
+Help on
+class Reader in module mlbox.preprocessing.reader:
+
+ 
+
+class
+Reader
+
+ |  Reads
+and cleans data
+
+ |  
+
+ |  
+
+ | 
+Parameters
+
+ | 
+----------
+
+ |  
+
+ |  sep :
+str, defaut = None
+
+ |      
+Delimiter to use when reading a csv file.
+
+ |  
+
+ | 
+header : int or None, defaut = 0.
+
+ |     
+If header=0, the first line is considered as a header.
+
+ |     
+Otherwise, there is no header.
+
+ |     
+Useful for csv and xls files.
+
+ |  
+
+ | 
+to_hdf5 : bool, defaut = True
+
+ |     
+If True, dumps each file to hdf5 format
+
+ |  
+
+ | 
+to_path : str, defaut = "save"
+
+ |     
+Name of the folder where files and encoders are saved
+
+ | 
+
+
+ |  verbose : bool, defaut = True
+
+ |      Verbose mode
+
+ |  
+
+ |  Methods defined here:
+
+ |  
+
+ |  __init__(self, sep=None, header=0, to_hdf5=False,
+to_path='save', verbose=True)
+
+ |  
+
+ |  clean(self, path, date_strategy,
+drop_duplicate)
+
+ |      Reads and cleans data (accepted formats :
+csv, xls, json and h5) :
+
+ |      
+
+ |      - del Unnamed columns
+
+ |      - casts lists into variables
+
+ |      - try to cast variables into float
+
+ |      - cleans dates
+
+ |      - drop duplicates (if
+drop_duplicate=True)
+
+ |      
+
+ |      
+
+ |      Parameters
+
+ |      ----------
+
+ |      
+
+ |      filepath_or_buffer : str, pathlib.Path,
+py._path.local.LocalPath or any object with a read() method (such as a file
+handle or StringIO)
+
+ |          The string could be a URL. Valid URL
+schemes include http, ftp, s3, and
+
+ |          file. For file URLs, a host is
+expected. For instance, a local file could
+
+ |          be file
+://localhost/path/to/table.csv
+
+ |      
+
+ |      date_strategy : str, defaut =
+"complete"
+
+ |          The strategy to encode dates :
+
+ |          - complete : creates timestamp from
+01/01/2017, month, day and day_of_week
+
+ |          - to_timestamp : creates timestamp
+from 01/01/2017
+
+ |      
+
+ |      drop_duplicate : bool, defaut = False
+
+ |          If True, drop duplicates when reading
+each file.
+
+ |      
+
+ |      
+
+ |      Returns
+
+ |      -------
+
+ |      
+
+ |      df : pandas dataframe
+
+ |  
+
+ |  train_test_split(self, Lpath, target_name)
+
+ |      Given a list of several paths and a
+target name, automatically creates and cleans train and test datasets.
+
+ |      Also determines the task and encodes the
+target (classification problem only).
+
+ |      Finally dumps the datasets to hdf5, and
+eventually the target encoder.
+
+ |      
+
+ |      
+
+ |      Parameters
+
+ |      ----------
+
+ |      
+
+ |      Lpath : list, defaut = None
+
+ |          List of str paths to load the data
+
+ |      
+
+ |      target_name : str, defaut = None
+
+ |          The name of the target. Works for
+both classification (multiclass or not) and regression.
+
+ |      
+
+ |      
+
+ |      Returns
+
+ |      -------
+
+ |      
+
+ |      df : dict
+
+ |          Dictionnary containing :
+
+ |          'train' : pandas dataframe for train
+dataset
+
+ |          'test' : pandas dataframe for test
+dataset
+
+ |          'target' : pandas serie for the
+target
+
+ 
+
+
 
