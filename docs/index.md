@@ -38,28 +38,28 @@ This page is the official documentation for MLBox package. You will learn how to
 ### preprocessing
 
 class Reader  
-|  Reads and cleans data 
-|   
-|  Parameters 
-|  ---------- 
-|   
-|  sep : str, defaut = None 
-|       Delimiter to use when reading a csv file. 
-|   
-|  header : int or None, defaut = 0. 
-|      If header=0, the first line is considered as a header. 
-|      Otherwise, there is no header. 
-|      Useful for csv and xls files. 
-|   
-|  to_hdf5 : bool, defaut = True 
-|      If True, dumps each file to hdf5 format 
-|   
-|  to_path : str, defaut = "save" 
-|      Name of the folder where files and encoders are saved 
-|   
-|  verbose : bool, defaut = True 
-|      Verbose mode 
-|   
+|  Reads and cleans data  
+|     
+|  Parameters   
+|  ----------   
+|  
+|  sep : str, defaut = None     
+|       Delimiter to use when reading a csv file.   
+|  
+|  header : int or None, defaut = 0.   
+|      If header=0, the first line is considered as a header.   
+|      Otherwise, there is no header.   
+|      Useful for csv and xls files.   
+|     
+|  to_hdf5 : bool, defaut = True   
+|      If True, dumps each file to hdf5 format   
+|  
+|  to_path : str, defaut = "save"   
+|      Name of the folder where files and encoders are saved   
+|  
+|  verbose : bool, defaut = True   
+|      Verbose mode   
+|     
 |  Methods defined here: 
 |   
 |  __init__(self, sep=None, header=0, to_hdf5=False, to_path='save', verbose=True) 
