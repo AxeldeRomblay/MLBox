@@ -41,7 +41,7 @@ class Reader <br/>
 |  Reads and cleans data <br/>
 | <br/>
 |  Parameters <br/>
-|  ---------- <br/> 
+|  ---------- <br/>
 | <br/>
 |  sep : str, defaut = None <br/>
 |       Delimiter to use when reading a csv file. <br/>
