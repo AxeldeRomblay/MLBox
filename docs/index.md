@@ -36,7 +36,8 @@ This page is the official documentation for MLBox package. You will learn how to
 ## prediction
 
 ## preprocessing
-
+<br/>
+<br/>
 class Reader <br/>
 |  Reads and cleans data <br/>
 | <br/>
@@ -114,9 +115,8 @@ class Reader <br/>
 |          'train' : pandas dataframe for train dataset <br/>
 |          'test' : pandas dataframe for test dataset <br/>
 |          'target' : pandas serie for the target <br/>
-
-
-
+<br/>
+<br/>
 class Drift_thresholder <br/>
 |  Automatically deletes ids and drifting variables between train and test datasets. <br/>
 |  Deletes only on train dataset. To delete on test, the list of variables to drop is available and saved as "vartodrop.obj" <br/>
