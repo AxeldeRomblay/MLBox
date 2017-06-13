@@ -37,7 +37,6 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ## preprocessing
 <br/>
-<br/>
 class Reader <br/>
 |  Reads and cleans data <br/>
 | <br/>
