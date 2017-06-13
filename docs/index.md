@@ -39,7 +39,7 @@ This page is the official documentation for MLBox package. You will learn how to
 <br/>
 class Drift_thresholder <br/>
 |  Automatically deletes ids and drifting variables between train and test datasets. <br/>
-|  Deletes only on train dataset. To delete on test, the list of variables to drop is available and saved as "vartodrop.obj" <br/>
+|  Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt" <br/>
 | <br/>
 |  Parameters <br/>
 |  ---------- <br/>
@@ -55,7 +55,7 @@ class Drift_thresholder <br/>
 |      Verbose mode <br/>
 | <br/>
 |  to_path : str, defaut = "save" <br/>
-|      Name of the folder where the list of variables to drop and encoders are saved (python obj format) <br/>
+|      Name of the folder where the list of drift coefficients is saved <br/>
 | <br/>
 |  Methods defined here: <br/>
 | <br/>
@@ -66,7 +66,7 @@ class Drift_thresholder <br/>
 | <br/>
 |  fit_transform(self, df) <br/>
 |      Automatically deletes ids and drifting variables between train and test datasets. <br/>
-|      Deletes only on train dataset. To delete on test, the list of variables to drop is available and saved as "vartodrop.obj" <br/>
+|      Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt" <br/>
 | <br/>
 |      Parameters <br/>
 |      ---------- <br/>
@@ -83,6 +83,7 @@ class Drift_thresholder <br/>
 |      df : dict <br/>
 |          Dictionnary containing : <br/>
 |          'train' : pandas dataframe for train dataset <br/>
+|          'test' : pandas dataframe for test dataset <br/> 
 |          'target' : pandas serie for the target <br/>
 <br/>
 <br/>
