@@ -67,7 +67,25 @@ class Predictor():
 
 
     def __plot_feature_importances(self, importance, fig_name = "feature_importance.png"):
-
+        
+        """
+        Saves feature importances plot
+        
+        Parameters
+        ----------
+        
+        importance : dict
+            dictionnary with features (key) and importances (values)
+            
+        fig_name : str, defaut = "feature_importance.png"
+            figure name
+        
+        
+        Returns
+        -------
+        
+        None
+        """
 
         if(len(importance)>0):
 
