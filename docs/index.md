@@ -42,7 +42,7 @@ class Predictor <br/>
 |  ---------- <br/> 
 | <br/> 
 |  to_path : str, defaut = "save" <br/>
-|      Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target <br/>
+|      Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target <br/> 
 |      encoder object (for classification task only). <br/> 
 | <br/> 
 |  verbose : bool, defaut = True <br/> 
