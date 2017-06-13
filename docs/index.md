@@ -30,8 +30,8 @@ This page is the official documentation for MLBox package. You will learn how to
 ### classification
 
 ### regression
-<br/>
-<br/>
+
+
 ## optimisation
 
 <br/>
@@ -159,6 +159,7 @@ class Optimiser <br/>
  | set_params(self, **params)<br/>
 <br/>
 <br/>
+
 ## prediction
 <br/>
 class Predictor <br/> 
