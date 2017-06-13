@@ -17,7 +17,7 @@ class Drift_thresholder():
 
     """
     Automatically deletes ids and drifting variables between train and test datasets.
-    Deletes only on train dataset. To delete on test, the list of variables to drop is available and saved as "vartodrop.obj"
+    Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt"
 
 
     Parameters
@@ -34,7 +34,7 @@ class Drift_thresholder():
         Verbose mode
 
     to_path : str, defaut = "save"
-        Name of the folder where the list of variables to drop and encoders are saved (python obj format)
+        Name of the folder where the list of drift coefficients is saved.
 
     """
 
@@ -51,7 +51,7 @@ class Drift_thresholder():
 
         """
         Automatically deletes ids and drifting variables between train and test datasets.
-        Deletes only on train dataset. To delete on test, the list of variables to drop is available and saved as "vartodrop.obj"
+        Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt"
 
 
         Parameters
@@ -69,6 +69,7 @@ class Drift_thresholder():
         df : dict
             Dictionnary containing :
             'train' : pandas dataframe for train dataset
+            'test' : pandas dataframe for test dataset
             'target' : pandas serie for the target
 
         """
