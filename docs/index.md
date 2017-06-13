@@ -37,7 +37,7 @@ This page is the official documentation for MLBox package. You will learn how to
 <br/>
 class Predictor <br/> 
 |  Predicts the target on the test dataset. <br/>
-| <br/>
+|<br/>
 |  Parameters <br/>
 |  ----------- <br/> 
 |  <br/> 
