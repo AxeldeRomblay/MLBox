@@ -36,7 +36,7 @@ class Predictor():
     ----------
 
     to_path : str, defaut = "save"
-        Name of the folder where the model and predictions are saved (python obj and csv format). Must contain target encoder object (for classification task only).
+        Name of the folder where feature importances and predictions are saved (.png and .csv formats). Must contain target encoder object (for classification task only).
 
     verbose : bool, defaut = True
         Verbose mode
@@ -103,7 +103,7 @@ class Predictor():
 
         '''
 
-        Fits the model and saves it. Then predicts on test dataset and outputs the submission file (csv format).
+        Fits the model. Then predicts on test dataset and outputs feature importances and the submission file (.png and .csv format).
 
 
         Parameters
