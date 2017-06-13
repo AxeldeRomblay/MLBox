@@ -23,6 +23,8 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ### encoding
 
+
+
 ### model
 
 #### classification
@@ -34,35 +36,5 @@ This page is the official documentation for MLBox package. You will learn how to
 ### prediction
 
 ### preprocessing
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
