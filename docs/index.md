@@ -114,3 +114,53 @@ class Reader <br/>
 |          'train' : pandas dataframe for train dataset <br/>
 |          'test' : pandas dataframe for test dataset <br/>
 |          'target' : pandas serie for the target <br/>
+
+
+class Drift_thresholder <br/>
+|  Automatically deletes ids and drifting variables between train and test datasets. <br/>
+|  Deletes only on train dataset. To delete on test, the list of variables to drop is available and saved as "vartodrop.obj" <br/>
+| <br/>
+| <br/>
+|  Parameters <br/>
+|  ---------- <br/>
+| <br/>
+|  threshold : float (between 0.5 and 1.), defaut = 0.9 <br/>
+|      Threshold used to deletes variables and ids. The lower the more you keep non-drifting/stable variables. <br/>
+| <br/>
+|  inplace : bool, defaut = False <br/>
+|      If True, train and test datasets are transformed. Returns self. <br/>
+|      Otherwise, train and test datasets are not transformed. Returns a new dictionnary with cleaned datasets. <br/>
+| <br/>
+|  verbose : bool, defaut = True <br/>
+|      Verbose mode <br/>
+| <br/>
+|  to_path : str, defaut = "save" <br/>
+|      Name of the folder where the list of variables to drop and encoders are saved (python obj format) <br/>
+| <br/>
+|  Methods defined here: <br/>
+| <br/>
+|  __init__(self, threshold=0.8, inplace=False, verbose=True, to_path='save') <br/>
+| <br/>
+|  drifts(self) <br/>
+|      Returns the univariate drifts for all variables. <br/>
+| <br/>
+|  fit_transform(self, df) <br/>
+|      Automatically deletes ids and drifting variables between train and test datasets. <br/>
+|      Deletes only on train dataset. To delete on test, the list of variables to drop is available and saved as "vartodrop.obj" <br/>
+| <br/>
+|      Parameters <br/>
+|      ---------- <br/>
+| <br/>
+|      df : dict, defaut = None <br/>
+|          Dictionnary containing : <br/>
+|          'train' : pandas dataframe for train dataset <br/>
+|          'test' : pandas dataframe for test dataset <br/>
+|          'target' : pandas serie for the target <br/>
+| <br/>
+|      Returns <br/>
+|      ------- <br/>
+| <br/>
+|      df : dict <br/>
+|          Dictionnary containing : <br/>
+|          'train' : pandas dataframe for train dataset <br/>
+|          'target' : pandas serie for the target <br/>
