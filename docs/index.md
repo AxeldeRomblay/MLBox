@@ -218,15 +218,15 @@ class Predictor <br/>
 |          And: <br/>
 |              "param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", <br/>
 |              "entity_embedding" for "enc"="ce") <br/>
-|  <br/>
-|          - The values are those of the parameters (for example : 4 for a key = "est__max_depth") <br/>
+|  <br/> 
+|          - The values are those of the parameters (for example : 4 for a key = "est__max_depth") <br/>
 |  <br/>
 |      df : dict, defaut = None <br/>
 |          Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test <br/>
 |          dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' <br/>
 |          for a classification) resp. <br/>
-|  <br/>
-|      Returns <br/>
+|  <br/> 
+|      Returns <br/>
 |      -------- <br/>
 |  <br/>
 |      None <br/>
