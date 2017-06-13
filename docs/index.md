@@ -82,7 +82,7 @@ class Drift_thresholder <br/>
 | <br/>
 |      df : dict <br/>
 |          Dictionnary containing : <br/>
-|          'train' : pandas dataframe for train dataset <br/>
+|          'train' : pandas dataframe for train dataset <br/> 
 |          'test' : pandas dataframe for test dataset <br/> 
 |          'target' : pandas serie for the target <br/>
 <br/>
