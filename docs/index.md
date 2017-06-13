@@ -39,9 +39,9 @@ This page is the official documentation for MLBox package. You will learn how to
 
 class Reader <br/> 
 |  Reads and cleans data <br/>
-|<br/>     
-|  Parameters<br/>   
-|  ----------<br/>   
+| <br/>     
+|  Parameters <br/>   
+|  ---------- <br/>   
 |  
 |  sep : str, defaut = None     
 |       Delimiter to use when reading a csv file.   
