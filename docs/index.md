@@ -23,16 +23,140 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ## encoding
 
-
+ 
 
 ## model
 
 ### classification
 
 ### regression
-
+<br/>
+<br/>
 ## optimisation
-
+<br/>
+class Optimiser <br/>
+ | Optimises hyper-parameters of the whole Pipeline :<br/>
+ | <br/> 
+ | 1/ NA encoder (missing values encoder) <br/>
+ | 2/ CA encoder (categorical features encoder) <br/>
+ | 3/ Feature selector [OPTIONAL] <br/>
+ | 4/ Stacking estimator - feature engineer [OPTIONAL] <br/>
+ | 5/ Estimator (classifier or regressor) <br/>
+ | <br/>
+ | Works for both regression and classification (multiclass or binary) tasks. <br/>
+ | <br/>
+ | Parameters<br/>
+ | ----------<br/>
+ | <br/>
+ | scoring : string, callable or None, optional, default: None <br/>
+ |      A string (see model evaluation documentation) or a scorer callable object / function with signature``scorer(estimator, X, y)``. <br/>
+ | <br/>
+ |      If None, "log_loss" is used for classification and "mean_squarred_error" for regression <br/>
+ |      Available scorings for classification : "accuracy","roc_auc", "f1", "log_loss", "precision", "recall" <br/>
+ |      Available scorings for regression : "mean_absolute_error", "mean_squared_error", "median_absolute_error", "r2" <br/>
+ | <br/>
+ | n_folds : int, defaut = 2 <br/>
+ |      The number of folds for cross validation (stratified for classification) <br/>
+ | <br/>
+ | random_state : int, defaut = 1 <br/>
+ |      pseudo-random number generator state used for shuffling <br/>
+ | <br/>
+ | to_path : str, defaut = "save" <br/>
+ |      Name of the folder where models are saved <br/>
+ |  <br/>
+ | verbose : bool, defaut = True <br/>
+ |     Verbose mode <br/>
+ |  <br/>
+ | Methods defined here:<br/>
+ | <br/>
+ | __init__(self, scoring=None, n_folds=2, random_state=1, to_path='save', verbose=True)<br/>
+ | <br/>
+ | evaluate(self, params, df) <br/>
+ |      Evaluates the scoring function with given hyper-parameters of the whole Pipeline. If no parameters are set, <br/>
+ |      defaut configuration for each step is evaluated : no feature selection is applied and no meta features are created.<br/>
+ |      <br/>
+ |      Parameters <br/>
+ |      ---------- <br/>
+ |      <br/>
+ |      params : dict, defaut = None. <br/>
+ |          Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated. <br/>
+ |      <br/>
+ |          - The keys must respect the following syntax : "enc__param". <br/>
+ |      <br/>
+ |          With : <br/>
+ |              1/ "enc" = "ne" for na encoder <br/>
+ |              2/ "enc" = "ce" for categorical encoder <br/>
+ |              3/ "enc" = "fs" for feature selector [OPTIONAL] <br/>
+ |              4/ "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL] <br/>
+ |              5/ "enc" = "est" for the final estimator <br/>
+ |      <br/>
+ |          And:<br/>
+ |              "param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", <br/>
+ |              "entity_embedding" for "enc"="ce")<br/>
+ | <br/>
+ |          - The values are those of the parameters (for example : 4 for a key = "est__max_depth") <br/>
+ |      <br/>
+ |     df : dict, defaut = None <br/>
+ |         Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the <br/>
+ |         associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp. <br/>     
+ | <br/>
+ |      Returns<br/>
+ |      -------<br/>
+ |      <br/>
+ |      score : float.<br/>
+ |          The score. The higher the better (positive for a score and negative for a loss)<br/>
+ | <br/>
+ | get_params(self, deep=True)<br/>
+ | <br/>
+ | optimise(self, space, df, max_evals=40)<br/>
+ |      Optimises hyper-parameters of the whole Pipeline with a given scoring function. By defaut, estimator used is 'xgboost' <br/>
+ |      and no feature selection is applied. Algorithm used to optimize : Tree Parzen Estimator. <br/>
+ |      IMPORTANT : Try to avoid dependent parameters and to set one feature selection strategy and one estimator strategy <br/>
+ |      at a time.<br/>
+ |      <br/>
+ |      Parameters<br/>
+ |      ----------<br/>
+ |      <br/>
+ |      space : dict, defaut = None.<br/>
+ |          Hyper-parameters space.<br/>
+ |      <br/>
+ |          - The keys must respect the following syntax : "enc__param".<br/>
+ |      <br/>
+ |          With :<br/>
+ |              1/ "enc" = "ne" for na encoder<br/>
+ |              2/ "enc" = "ce" for categorical encoder<br/>
+ |              3/ "enc" = "fs" for feature selector [OPTIONAL]<br/>
+ |              4/ "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]<br/>
+ |              5/ "enc" = "est" for the final estimator<br/>
+ |      <br/>
+ |          And:<br/>
+ |              "param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", <br/>
+ |              "entity_embedding" for "enc"="ce")<br/>
+ |<br/>      
+ |          - The values must respect the following syntax : {"search" : strategy, "space" : list}<br/>
+ |      <br/>
+ |          With:<br/>
+ |              "strategy" = "choice" or "uniform". Defaut = "choice"<br/>
+ |      <br/>
+ |          And:<br/>
+ |             list : a list of values to be tested if strategy="choice". If strategy = "uniform", list = [value_min, value_max].<br/>
+ |      <br/>
+ |      df : dict, defaut = None<br/>
+ |          Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the <br/>
+ |          associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp. <br/>
+ |      <br/>
+ |      max_evals : int, defaut = 40.<br/>
+ |          Number of iterations. For an accurate optimal hyper-parameter, max_evals = 40.<br/>
+ |<br/>      
+ |      Returns<br/>
+ |      -------<br/>
+ |      <br/>
+ |      best_params : dict.<br/>
+ |          The optimal hyper-parameter dictionnary.<br/>
+ | <br/>
+ | set_params(self, **params)<br/>
+<br/>
+<br/>
 ## prediction
 <br/>
 class Predictor <br/> 
