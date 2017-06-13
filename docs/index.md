@@ -6,21 +6,36 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ### Table of Contents
 
+
 **[encoding](#encoding)**<br>
-* missing values
-* categorical variables
+* [encoding missing values](#encoding-missing-values)*<br>
+* encoding categorical variables
+
 
 **[model](#model)**<br>
-
+* classification
+* regression
 
 
 **[optimisation](#optimisation)**<br>
+
+
 **[prediction](#prediction)**<br>
+
+
 **[preprocessing](#preprocessing)**<br>
+* reading
+* drift thresholding
 
 
-#### encoding
+## encoding
 
+# encoding missing values
+
+## model
+## optimisation
+## prediction
+## preprocessing
 
 
 
