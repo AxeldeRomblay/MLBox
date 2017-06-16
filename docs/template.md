@@ -7,10 +7,10 @@
 > ___
 >  
 > ***numerical_strategy*** : **str or float or int**, defaut = "mean" <br/>
-> * The strategy to encode NA for numerical features. Available strategies = "mean", "median", "most_frequent" or a float/int value*
+> *The strategy to encode NA for numerical features. Available strategies = "mean", "median", "most_frequent" or a float/int value*
 >
 > ***categorical_strategy*** : **str**, defaut = "<NULL>" <br/>
-> * The strategy to encode NA for categorical features. Available strategies = np.NaN or a str*
+> *The strategy to encode NA for categorical features. Available strategies = np.NaN or a str*
 
 <br/>
 
@@ -19,7 +19,7 @@
 >
 > <br/>
 >
-> ***init***(self, numerical_strategy='mean', categorical_strategy='<NULL>') 
+> ***init***(self, numerical_strategy='mean', categorical_strategy='\<NULL\>') 
 > 
 > <br/>
 >
