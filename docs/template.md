@@ -25,9 +25,13 @@
 
 > **Methods defined here:**
 > ___
+>
 > <br/>
+>
 > ***init***(self, sep=None, header=0, to_hdf5=False, to_path='save', verbose=True) 
 > 
+> <br/>
+>
 > ***clean***(self, path, date_strategy, drop_duplicate) 
 >
 > *Reads and cleans data (accepted formats : csv, xls, json and h5) :* <br/>
@@ -51,6 +55,8 @@
 >> ***drop_duplicate*** : **bool**, defaut = False <br/>
 >> *If True, drop duplicates when reading each file.*
 >>
+>> <br/>
+>>
 >> **Returns** 
 >> ___ 
 >>
@@ -71,6 +77,8 @@
 >> ***target_name*** : **str**, defaut = None <br/> 
 >> *The name of the target. Works for both classification (multiclass or not) and regression.* 
 >>
+>> <br/>
+>> 
 >> **Returns** 
 >> ___ 
 >>
