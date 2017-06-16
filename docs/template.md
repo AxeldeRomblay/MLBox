@@ -1,21 +1,24 @@
-#### class Drift_thresholder ####
-*Automatically deletes ids and drifting variables between train and test datasets. Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt"*
+####  class Reader  ####
 
+*Reads and cleans data.*
 
 > **Parameters**
 > ___
 >  
->   ***threshold*** : **float** (between 0.5 and 1.), defaut = 0.8 <br/>
-> *Threshold used to deletes variables and ids. The lower the more you keep non-drifting/stable variables.*
+> ***sep*** : **str**, defaut = None
+> *Delimiter to use when reading a csv file. *
 >
-> ***inplace*** : **bool**, defaut = False <br/>
-> *If True, train and test datasets are transformed. Returns self. Otherwise, train and test datasets are not transformed. Returns a new dictionnary with cleaned datasets.*
+> ***header*** : **int or None**, defaut = 0
+> *If header=0, the first line is considered as a header. Otherwise, there is no header. Useful for csv and xls files.*
 > 
-> ***verbose*** : **bool**, defaut = True <br/>
-> *Verbose mode*
-> 
-> ***to_path*** : **str**, defaut = "save" <br/>
-> *Name of the folder where the list of drift coefficients is saved* 
+> ***to_hdf5*** : **bool**, defaut = True
+> *If True, dumps each file to hdf5 format*
+>
+> ***to_path*** : **str**, defaut = "save"
+> *Name of the folder where files and encoders are saved*
+>
+> ***verbose*** : **bool**, defaut = True
+> *Verbose mode* 
 
 <br/>
 
