@@ -21,6 +21,8 @@ This page is the official documentation for MLBox package. You will learn how to
 
 # Documentation [WORK IN PROGRESS]
 
+<br/>
+
 ## encoding
 
 <br/>
