@@ -61,7 +61,8 @@
 >>       *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
 >>       *5. "enc" = "est" for the final estimator* <br/>
 >>   *And:* <br/>
->>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")*
+>>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
+>> <br/>
 >> *- The values are those of the parameters (for ex: 4 for a key="est\_\_max_depth").* <br/>
 >>
 >> ***df*** : **dict**, defaut = None <br/>
