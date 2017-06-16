@@ -1,4 +1,4 @@
-####  *class Predictor*  ####
+####  **class Predictor**  ####
 *Predicts the target on the test dataset.*
 
 <br/>
