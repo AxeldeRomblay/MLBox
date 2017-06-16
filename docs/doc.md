@@ -15,7 +15,7 @@
 > 
 > ***to_path*** : **str**, defaut = "save" 
 > *Name of the folder where the list of drift coefficients is saved* 
-
+>
 > ** Methods defined here: **
 > ___
 >
