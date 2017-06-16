@@ -1,5 +1,5 @@
 ####  class NA_encoder  ####
-* Encodes missing values for both numerical and categorical features. Several strategies are possible in each case.*
+*Encodes missing values for both numerical and categorical features. Several strategies are possible in each case.*
 
 <br/>
 
