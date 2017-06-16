@@ -429,6 +429,7 @@ class Predictor <br/>
 > *Returns the univariate drifts for all variables.*
 >
 > <br/>
+>
 > ***fit_transform***(self, df)
 >
 > *Automatically deletes ids and drifting variables between train and test datasets. Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt"*
