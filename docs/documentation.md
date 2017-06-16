@@ -224,10 +224,18 @@ This page is the official documentation for MLBox package. You will learn how to
 
 ## model
 
+<br/>
+<br/>
+
 ### classification
+
+<br/>
+<br/>
 
 ### regression
 
+<br/>
+<br/>
 
 ## optimisation
 
