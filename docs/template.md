@@ -24,16 +24,19 @@
 > **Methods defined here:**
 > ___
 >
+>
 > ***init***(self, sep=None, header=0, to_hdf5=False, to_path='save', verbose=True) 
 >
+>
 > ***clean***(self, path, date_strategy, drop_duplicate) 
+>
 >
 > *Reads and cleans data (accepted formats : csv, xls, json and h5) :* <br/>
 > *- del Unnamed columns* <br/>
 > *- casts lists into variables* <br/>
 > *- try to cast variables into float* <br/>
 > *- cleans dates* <br/>
-> *- drop duplicates (if drop_duplicate=True) * <br/>
+> *- drop duplicates (if drop_duplicate=True)* <br/>
 >
 >> **Parameters** 
 >> ___ 
@@ -53,6 +56,7 @@
 >> ___ 
 >>
 >> ***df*** : **pandas dataframe** 
+>
 >
 > ***train_test_split***(self, Lpath, target_name) 
 >
