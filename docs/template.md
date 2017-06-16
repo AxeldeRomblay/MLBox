@@ -1,6 +1,8 @@
 ####  class Reader  ####
 *Reads and cleans data.*
 
+<br/>
+
 > **Parameters**
 > ___
 >  
@@ -23,7 +25,7 @@
 
 > **Methods defined here:**
 > ___
-> 
+> <br/>
 > ***init***(self, sep=None, header=0, to_hdf5=False, to_path='save', verbose=True) 
 > 
 > ***clean***(self, path, date_strategy, drop_duplicate) 
