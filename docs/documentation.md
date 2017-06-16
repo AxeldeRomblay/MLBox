@@ -37,7 +37,7 @@ This page is the official documentation for MLBox package. You will learn how to
 > ___
 >  
 > ***strategy*** : **str**, defaut = "label_encoding" <br/>
-> *The strategy to encode categorical features. Available strategies = "label_encoding", "dummification", "random_projection", entity_embedding"*
+> *The strategy to encode categorical features. Available strategies = "label_encoding", "dummification", "random_projection", "entity_embedding"*
 >
 > ***verbose*** : **bool**, defaut = False <br/>
 > *Verbose mode. Useful for entity embedding strategy.*
