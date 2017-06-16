@@ -7,7 +7,7 @@
 > ___
 >  
 > ***to_path*** : **str**, defaut = "save" <br/>
-> * Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target encoder object (for classification task only).*
+> *Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target encoder object (for classification task only).*
 >
 > ***verbose*** : **bool**, defaut = True <br/>
 > *Verbose mode.*
@@ -25,7 +25,7 @@
 >
 > ***plot_feature_importances***(self, importance, fig_name = "feature_importance.png") 
 >
-> * Saves feature importances plot*
+> *Saves feature importances plot*
 >
 >> **Parameters** 
 >> ___ 
@@ -33,7 +33,7 @@
 >> ***importance*** : **dict** <br/>
 >> *Dictionnary with features (key) and importances (values).* 
 >>
->> *** fig_name*** : **str**, defaut = "feature_importance.png" <br/>
+>> ***fig_name*** : **str**, defaut = "feature_importance.png" <br/>
 >> *Figure name.* 
 >>
 >> **Returns** 
@@ -52,7 +52,8 @@
 >> 
 >> ***params*** : **dict**, defaut = None <br/>
 >> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
->> *- The keys must respect the following syntax : "enc\_\_param".*
+>>
+>> *- The keys must respect the following syntax : "enc\_\_param".* <br/>
 >>   *With:* <br/>
 >>       *1. "enc" = "ne" for NA encoder* <br/>
 >>       *2. "enc" = "ce" for categorical encoder* <br/>
