@@ -18,6 +18,7 @@ This page is the official documentation for MLBox package. You will learn how to
 
 * **[preprocessing](#preprocessing)**<br>
 
+<br/>
 
 # Documentation [WORK IN PROGRESS]
 
