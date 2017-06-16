@@ -16,7 +16,7 @@
 > ***to_path*** : **str**, defaut = "save" 
 > *Name of the folder where the list of drift coefficients is saved* 
 >
-> ** Methods defined here: **
+> **Methods defined here:**
 > ___
 >
 > ***__init__***(self, threshold=0.8, inplace=False, verbose=True, to_path='save') 
