@@ -1,16 +1,16 @@
-####  class Categorical_encoder  ####
-*Encodes categorical features. Several strategies are possible (supervised or not). Works for both classification and regression tasks.*
+####  class NA_encoder  ####
+* Encodes missing values for both numerical and categorical features. Several strategies are possible in each case.*
 
 <br/>
 
 > **Parameters**
 > ___
 >  
-> ***strategy*** : **str**, defaut = "label_encoding" <br/>
-> *The strategy to encode categorical features. Available strategies = "label_encoding", "dummification", "random_projection", entity_embedding"*
+> ***numerical_strategy*** : **str or float or int**, defaut = "mean" <br/>
+> * The strategy to encode NA for numerical features. Available strategies = "mean", "median", "most_frequent" or a float/int value*
 >
-> ***verbose*** : **bool**, defaut = False <br/>
-> *Verbose mode. Useful for entity embedding strategy.*
+> ***categorical_strategy*** : **str**, defaut = "<NULL>" <br/>
+> * The strategy to encode NA for categorical features. Available strategies = np.NaN or a str*
 
 <br/>
 
@@ -19,21 +19,21 @@
 >
 > <br/>
 >
-> ***init***(self, strategy='label_encoding', verbose=False) 
+> ***init***(self, numerical_strategy='mean', categorical_strategy='<NULL>') 
 > 
 > <br/>
 >
-> ***fit***(self, df_train, y_train) 
+> ***fit***(self, df_train, y_train=None) 
 >
-> *Fits Categorical Encoder.*
+> *Fits NA Encoder.*
 >
 >> **Parameters** 
 >> ___ 
 >>
 >> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
->> *The train dataset with numerical and categorical features. NA values are allowed.* 
+>> *The train dataset with numerical and categorical features.* 
 >>
->> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
+>> ***y_train*** [OPTIONAL] : **pandas series**, shape = (n_train, ). Defaut = None <br/>
 >> *The target for classification or regression tasks.* 
 >>
 >> **Returns** 
@@ -43,17 +43,17 @@
 >
 > <br/>
 >
-> ***fit_transform***(self, df_train, y_train) 
+> ***fit_transform***(self, df_train, y_train=None) 
 >
-> *Fits Categorical Encoder and transforms the dataset*
+> *Fits NA Encoder and transforms the dataset*
 >
 >> **Parameters** 
 >> ___ 
 >> 
 >> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
->> *The train dataset with numerical and categorical features. NA values are allowed.* 
+>> *The train dataset with numerical and categorical features.* 
 >>
->> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
+>> ***y_train*** [OPTIONAL] : **pandas series**, shape = (n_train, ). Defaut = None <br/>
 >> *The target for classification or regression tasks.* 
 >>
 >> <br/>
@@ -62,7 +62,7 @@
 >> ___ 
 >>
 >> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
->> *The train dataset with numerical and encoded categorical features* 
+>> *The train dataset with no missing values* 
 >
 > <br/>
 >
@@ -82,7 +82,7 @@
 >> ___ 
 >> 
 >> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
->> *The dataset with numerical and categorical features. NA values are allowed.* 
+>> *The dataset with numerical and categorical features.* 
 >>
 >> <br/>
 >> 
@@ -90,4 +90,4 @@
 >> ___ 
 >>
 >> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
->> *The dataset with numerical and encoded categorical features* 
+>> *The dataset with no missing values* 
