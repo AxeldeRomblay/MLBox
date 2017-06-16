@@ -5,19 +5,19 @@
 > **Parameters**
 > ___
 >  
-> ***sep*** : **str**, defaut = None
+> ***sep*** : **str**, defaut = None <br/>
 > *Delimiter to use when reading a csv file. *
 >
-> ***header*** : **int or None**, defaut = 0
+> ***header*** : **int or None**, defaut = 0 <br/>
 > *If header=0, the first line is considered as a header. Otherwise, there is no header. Useful for csv and xls files.*
 > 
-> ***to_hdf5*** : **bool**, defaut = True
+> ***to_hdf5*** : **bool**, defaut = True <br/>
 > *If True, dumps each file to hdf5 format*
 >
-> ***to_path*** : **str**, defaut = "save"
+> ***to_path*** : **str**, defaut = "save" <br/>
 > *Name of the folder where files and encoders are saved*
 >
-> ***verbose*** : **bool**, defaut = True
+> ***verbose*** : **bool**, defaut = True <br/>
 > *Verbose mode* 
 
 <br/>
