@@ -53,7 +53,7 @@
 >> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
 >> *The train dataset with numerical and categorical features. NA values are allowed.* 
 >>
->> *** y_train*** : **pandas series**, shape = (n_train, ) <br/>
+>> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
 >> *The target for classification or regression tasks.* 
 >>
 >> <br/>
@@ -78,7 +78,7 @@
 >
 > *Transforms the dataset*
 >
->>> **Parameters** 
+>> **Parameters** 
 >> ___ 
 >> 
 >> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
