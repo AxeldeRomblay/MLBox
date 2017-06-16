@@ -1,25 +1,16 @@
-####  class Reader  ####
-*Reads and cleans data.*
+####  class Categorical_encoder  ####
+*Encodes categorical features. Several strategies are possible (supervised or not). Works for both classification and regression tasks.*
 
 <br/>
 
 > **Parameters**
 > ___
 >  
-> ***sep*** : **str**, defaut = None <br/>
-> *Delimiter to use when reading a csv file.*
+> *** strategy*** : **str**, defaut = "label_encoding" <br/>
+> *The strategy to encode categorical features. Available strategies = "label_encoding", "dummification", "random_projection", entity_embedding"*
 >
-> ***header*** : **int or None**, defaut = 0 <br/>
-> *If header=0, the first line is considered as a header. Otherwise, there is no header. Useful for csv and xls files.*
-> 
-> ***to_hdf5*** : **bool**, defaut = True <br/>
-> *If True, dumps each file to hdf5 format*
->
-> ***to_path*** : **str**, defaut = "save" <br/>
-> *Name of the folder where files and encoders are saved*
->
-> ***verbose*** : **bool**, defaut = True <br/>
-> *Verbose mode* 
+> ***verbose*** : **bool**, defaut = False <br/>
+> *Verbose mode. Useful for entity embedding strategy.*
 
 <br/>
 
@@ -28,62 +19,75 @@
 >
 > <br/>
 >
-> ***init***(self, sep=None, header=0, to_hdf5=False, to_path='save', verbose=True) 
+> ***init***(self, strategy='label_encoding', verbose=False) 
 > 
 > <br/>
 >
-> ***clean***(self, path, date_strategy, drop_duplicate) 
+> ***fit***(self, df_train, y_train) 
 >
-> *Reads and cleans data (accepted formats : csv, xls, json and h5) :* <br/>
-> *- del Unnamed columns* <br/>
-> *- casts lists into variables* <br/>
-> *- try to cast variables into float* <br/>
-> *- cleans dates* <br/>
-> *- drop duplicates (if drop_duplicate=True)* <br/>
+> *Fits Categorical Encoder.*
 >
 >> **Parameters** 
 >> ___ 
 >>
->> ***filepath*** : **str**, defaut = None <br/>
->> *filepath* <br/>
+>> *** df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> *The train dataset with numerical and categorical features. NA values are allowed.* 
 >>
->> ***date_strategy*** : **str**, defaut = "complete" <br/>
->> *The strategy to encode dates :* <br/> 
->> *- complete : creates timestamp from 01/01/2017, month, day and day_of_week* <br/>
->> *- to_timestamp : creates timestamp from 01/01/2017* <br/> 
->>
->> ***drop_duplicate*** : **bool**, defaut = False <br/>
->> *If True, drop duplicates when reading each file.*
->>
->> <br/>
+>> *** y_train*** : **pandas series**, shape = (n_train, ) <br/>
+>> *The target for classification or regression tasks.* 
 >>
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **pandas dataframe** 
+>> ***None*** 
 >
 > <br/>
 >
-> ***train_test_split***(self, Lpath, target_name) 
+> ***fit_transform***(self, df_train, y_train) 
 >
-> *Given a list of several paths and a target name, automatically creates and cleans train and test datasets. Also determines the task and encodes the target (classification problem only). Finally dumps the datasets to hdf5, and eventually the target encoder.*
+> *Fits Categorical Encoder and transforms the dataset*
 >
 >> **Parameters** 
 >> ___ 
 >> 
->> ***Lpath*** : **list**, defaut = None <br/>
->> *List of str paths to load the data*
->> 
->> ***target_name*** : **str**, defaut = None <br/> 
->> *The name of the target. Works for both classification (multiclass or not) and regression.* 
+>> *** df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> *The train dataset with numerical and categorical features. NA values are allowed.* 
+>>
+>> *** y_train*** : **pandas series**, shape = (n_train, ) <br/>
+>> *The target for classification or regression tasks.* 
 >>
 >> <br/>
 >> 
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **dict**, defaut = None <br/>
->> *Dictionnary containing :* <br/>
->> *'train' : pandas dataframe for train dataset* <br/>
->> *'test' : pandas dataframe for test dataset* <br/>
->> *'target' : pandas serie for the target* <br/>
+>> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> *The train dataset with numerical and encoded categorical features* 
+>
+> <br/>
+>
+> ***get_params***(self, deep=True)
+>
+> <br/>
+>
+> ***set_params***(self, params)
+>
+> <br/>
+>
+> ***transform***(self, df)
+>
+> *Transforms the dataset*
+>
+>>> **Parameters** 
+>> ___ 
+>> 
+>> *** df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> *The dataset with numerical and categorical features. NA values are allowed.* 
+>>
+>> <br/>
+>> 
+>> **Returns** 
+>> ___ 
+>>
+>> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> *The dataset with numerical and encoded categorical features* 
