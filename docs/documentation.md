@@ -1,7 +1,7 @@
 Welcome to MLBox's documentation!
 ======================================
 
-This page is the official documentation for MLBox package. You will learn how to use all the features provided by this tool. [Here](https://github.com/AxeldeRomblay/MLBox/blob/master/docs/MLBox.pdf) is an extra-explanation of the different subpackages. 
+This page is the official documentation for MLBox package. You will learn how to use all the features provided by this tool. **[Here]**(https://github.com/AxeldeRomblay/MLBox/blob/master/docs/MLBox.pdf) is an extra-explanation of the different subpackages. 
 
 
 ### Table of Contents
