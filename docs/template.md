@@ -53,7 +53,7 @@
 >> ***params*** : **dict**, defaut = None <br/>
 >> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
 >>
->> *- The keys must respect the following syntax : "enc\_\_param".* <br/>
+>> * * The keys must respect the following syntax : "enc\_\_param".* <br/>
 >>   * *With:* <br/>
 >>       *1. "enc" = "ne" for NA encoder* <br/>
 >>       *2. "enc" = "ce" for categorical encoder* <br/>
@@ -63,7 +63,7 @@
 >>   * *And:* <br/>
 >>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
 >> <br/>
->> *- The values are those of the parameters (for ex: 4 for a key="est\_\_max_depth").* <br/>
+>> * * The values are those of the parameters (for ex: 4 for a key="est\_\_max_depth").* <br/>
 >>
 >> ***df*** : **dict**, defaut = None <br/>
 >> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
