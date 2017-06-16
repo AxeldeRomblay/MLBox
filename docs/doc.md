@@ -25,6 +25,7 @@
 > ***init***(self, threshold=0.8, inplace=False, verbose=True, to_path='save') 
 >
 > ***drifts***(self) 
+>
 > *Returns the univariate drifts for all variables.*
 >
 > ***fit_transform***(self, df)
