@@ -36,17 +36,17 @@
 >> ___ 
 >>
 >> ***df*** : **dict**, defaut = None <br/>
->> *Dictionnary containing :*
->> *'train' : pandas dataframe for train dataset*
->> *'test' : pandas dataframe for test dataset* 
->> *'target' : pandas serie for the target* 
+>> *Dictionnary containing :* <br/>
+>> *'train' : pandas dataframe for train dataset* <br/>
+>> *'test' : pandas dataframe for test dataset* <br/>
+>> *'target' : pandas serie for the target* <br/>
 >>
 >> **Returns** 
 >> ___ 
 >>
 >> ***df*** : **dict** <br/>
->> *Dictionnary containing :* 
->> *'train' : pandas dataframe for train dataset* 
->> *'test' : pandas dataframe for test dataset*
->> *'target' : pandas serie for the target*
+>> *Dictionnary containing :* <br/>
+>> *'train' : pandas dataframe for train dataset* <br/>
+>> *'test' : pandas dataframe for test dataset*<br/>
+>> *'target' : pandas serie for the target* <br/>
 
