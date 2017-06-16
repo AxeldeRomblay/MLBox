@@ -5,16 +5,16 @@
 > **Parameters**
 > ___
 >  
->   ***threshold*** : **float** (between 0.5 and 1.), defaut = 0.8
+>   ***threshold*** : **float** (between 0.5 and 1.), defaut = 0.8 <br/>
 > *Threshold used to deletes variables and ids. The lower the more you keep non-drifting/stable variables.*
 >
-> ***inplace*** : **bool**, defaut = False 
+> ***inplace*** : **bool**, defaut = False <br/>
 > *If True, train and test datasets are transformed. Returns self. Otherwise, train and test datasets are not transformed. Returns a new dictionnary with cleaned datasets.*
 > 
-> ***verbose*** : **bool**, defaut = True 
+> ***verbose*** : **bool**, defaut = True <br/>
 > *Verbose mode*
 > 
-> ***to_path*** : **str**, defaut = "save" 
+> ***to_path*** : **str**, defaut = "save" <br/>
 > *Name of the folder where the list of drift coefficients is saved* 
 
 <br/>
