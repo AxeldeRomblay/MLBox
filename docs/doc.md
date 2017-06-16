@@ -5,7 +5,7 @@
 > **Parameters**
 > ___
 >  
->   ***threshold*** : **float** (between 0.5 and 1.), defaut = 0.9 
+>   ***threshold*** : **float** (between 0.5 and 1.), defaut = 0.8
 > *Threshold used to deletes variables and ids. The lower the more you keep non-drifting/stable variables.*
 >
 > ***inplace*** : **bool**, defaut = False 
