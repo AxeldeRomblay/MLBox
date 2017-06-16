@@ -35,7 +35,7 @@
 >> **Parameters** 
 >> ___ 
 >>
->> ***df*** : **dict**, defaut = None 
+>> ***df*** : **dict**, defaut = None <br/>
 >> *Dictionnary containing :*
 >> *'train' : pandas dataframe for train dataset*
 >> *'test' : pandas dataframe for test dataset* 
@@ -44,7 +44,7 @@
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **dict** 
+>> ***df*** : **dict** <br/>
 >> *Dictionnary containing :* 
 >> *'train' : pandas dataframe for train dataset* 
 >> *'test' : pandas dataframe for test dataset*
