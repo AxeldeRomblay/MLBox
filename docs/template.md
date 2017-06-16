@@ -1,5 +1,4 @@
 ####  class Reader  ####
-
 *Reads and cleans data.*
 
 > **Parameters**
