@@ -1,5 +1,11 @@
-####  **class Predictor**  ####
-*Predicts the target on the test dataset.*
+####  class Optimiser  ####
+*Optimises hyper-parameters of the whole Pipeline :* <br:>
+  *1. NA encoder (missing values encoder)* <br/>
+  *2. CA encoder (categorical features encoder)* <br/>
+  *3. Feature selector [OPTIONAL]* <br/>
+  *4. Stacking estimator - feature engineer [OPTIONAL]* <br/>
+  *5. Estimator (classifier or regressor)* <br/>
+*Works for both regression and classification (multiclass or binary) tasks.* <br/>
 
 <br/>
 
