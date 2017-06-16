@@ -6,7 +6,7 @@
 > **Parameters**
 > ___
 >  
-> *** strategy*** : **str**, defaut = "label_encoding" <br/>
+> ***strategy*** : **str**, defaut = "label_encoding" <br/>
 > *The strategy to encode categorical features. Available strategies = "label_encoding", "dummification", "random_projection", entity_embedding"*
 >
 > ***verbose*** : **bool**, defaut = False <br/>
@@ -30,10 +30,10 @@
 >> **Parameters** 
 >> ___ 
 >>
->> *** df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
 >> *The train dataset with numerical and categorical features. NA values are allowed.* 
 >>
->> *** y_train*** : **pandas series**, shape = (n_train, ) <br/>
+>> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
 >> *The target for classification or regression tasks.* 
 >>
 >> **Returns** 
@@ -50,7 +50,7 @@
 >> **Parameters** 
 >> ___ 
 >> 
->> *** df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
 >> *The train dataset with numerical and categorical features. NA values are allowed.* 
 >>
 >> *** y_train*** : **pandas series**, shape = (n_train, ) <br/>
@@ -81,7 +81,7 @@
 >>> **Parameters** 
 >> ___ 
 >> 
->> *** df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
 >> *The dataset with numerical and categorical features. NA values are allowed.* 
 >>
 >> <br/>
