@@ -1,16 +1,16 @@
-####  class NA_encoder  ####
-*Encodes missing values for both numerical and categorical features. Several strategies are possible in each case.*
+####  class Predictor  ####
+*Predicts the target on the test dataset.*
 
 <br/>
 
 > **Parameters**
 > ___
 >  
-> ***numerical_strategy*** : **str or float or int**, defaut = "mean" <br/>
-> *The strategy to encode NA for numerical features. Available strategies = "mean", "median", "most_frequent" or a float/int value*
+> ***to_path*** : **str**, defaut = "save" <br/>
+> * Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target encoder object (for classification task only).*
 >
-> ***categorical_strategy*** : **str**, defaut = "\<NULL\>" <br/>
-> *The strategy to encode NA for categorical features. Available strategies = np.NaN or a str*
+> ***verbose*** : **bool**, defaut = True <br/>
+> *Verbose mode.*
 
 <br/>
 
@@ -19,22 +19,22 @@
 >
 > <br/>
 >
-> ***init***(self, numerical_strategy='mean', categorical_strategy='\<NULL\>') 
+> ***init***(self, to_path='save', verbose=True) 
 > 
 > <br/>
 >
-> ***fit***(self, df_train, y_train=None) 
+> ***plot_feature_importances***(self, importance, fig_name = "feature_importance.png") 
 >
-> *Fits NA Encoder.*
+> * Saves feature importances plot*
 >
 >> **Parameters** 
 >> ___ 
 >>
->> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
->> *The train dataset with numerical and categorical features.* 
+>> ***importance*** : **dict** <br/>
+>> *Dictionnary with features (key) and importances (values).* 
 >>
->> ***y_train*** [OPTIONAL] : **pandas series**, shape = (n_train, ). Defaut = None <br/>
->> *The target for classification or regression tasks.* 
+>> *** fig_name*** : **str**, defaut = "feature_importance.png" <br/>
+>> *Figure name.* 
 >>
 >> **Returns** 
 >> ___ 
@@ -43,26 +43,35 @@
 >
 > <br/>
 >
-> ***fit_transform***(self, df_train, y_train=None) 
+> ***fit_predict***(self, params, df) 
 >
-> *Fits NA Encoder and transforms the dataset*
+> *Fits the model. Then predicts on test dataset and outputs feature importances and the submission file (.png and .csv formats).*
 >
 >> **Parameters** 
 >> ___ 
 >> 
->> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
->> *The train dataset with numerical and categorical features.* 
+>> ***params*** : **dict**, defaut = None <br/>
+>> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
+>> *- The keys must respect the following syntax : "enc\_\_param".*
+>>   *With:* <br/>
+>>       *1. "enc" = "ne" for NA encoder* <br/>
+>>       *2. "enc" = "ce" for categorical encoder* <br/>
+>>       *3. "enc" = "fs" for feature selector [OPTIONAL]* <br/>
+>>       *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
+>>       *5. "enc" = "est" for the final estimator* <br/>
+>>   *And:* <br/>
+>>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")*
+>> *- The values are those of the parameters (for ex: 4 for a key="est\_\_max_depth").* <br/>
 >>
->> ***y_train*** [OPTIONAL] : **pandas series**, shape = (n_train, ). Defaut = None <br/>
->> *The target for classification or regression tasks.* 
+>> ***df*** : **dict**, defaut = None <br/>
+>> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
 >>
 >> <br/>
 >> 
 >> **Returns** 
 >> ___ 
 >>
->> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
->> *The train dataset with no missing values* 
+>> ***None*** 
 >
 > <br/>
 >
@@ -74,20 +83,3 @@
 >
 > <br/>
 >
-> ***transform***(self, df)
->
-> *Transforms the dataset*
->
->> **Parameters** 
->> ___ 
->> 
->> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
->> *The dataset with numerical and categorical features.* 
->>
->> <br/>
->> 
->> **Returns** 
->> ___ 
->>
->> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
->> *The dataset with no missing values* 
