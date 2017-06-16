@@ -1,5 +1,5 @@
 ####  class Optimiser  ####
-*Optimises hyper-parameters of the whole Pipeline :* <br:>
+*Optimises hyper-parameters of the whole Pipeline :* <br/>
   *1. NA encoder (missing values encoder)* <br/>
   *2. CA encoder (categorical features encoder)* <br/>
   *3. Feature selector [OPTIONAL]* <br/>
