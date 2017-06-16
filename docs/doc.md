@@ -1,6 +1,7 @@
 **class Drift_thresholder** <br/>
 *Automatically deletes ids and drifting variables between train and test datasets.Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt"*
 
+
 > **Parameters**
 > ___
 >  
@@ -15,7 +16,8 @@
 > 
 > ***to_path*** : **str**, defaut = "save" 
 > *Name of the folder where the list of drift coefficients is saved* 
->
+
+
 > **Methods defined here:**
 > ___
 >
