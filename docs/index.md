@@ -24,7 +24,8 @@ This page is the official documentation for MLBox package. You will learn how to
 ## encoding
 
 <br/>
-class Categorical_encoder <br/>
+> class Categorical_encoder <br/>
+>
  |  Encodes categorical features. Several strategies are possible (supervised or not). Works for both classification and regression tasks. <br/>
  |  <br/>
  |  <br/>
