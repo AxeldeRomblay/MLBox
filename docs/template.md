@@ -53,10 +53,10 @@
 >>
 >>    * *With:* <br/>
 >>      *1. "enc" = "ne" for NA encoder* <br/>
->>      *2. "enc" = "ce" for categorical encoder* <br/>
->>      *3. "enc" = "fs" for feature selector [OPTIONAL]* <br/>
->>      *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
->>      *5. "enc" = "est" for the final estimator* <br/>
+>>      *2. "enc" = "ce" for categorical encoder* <br/>
+>>      *3. "enc" = "fs" for feature selector [OPTIONAL]* <br/>
+>>      *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
+>>      *5. "enc" = "est" for the final estimator* <br/>
 >>    * *And:* <br/>
 >>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
 >> 
