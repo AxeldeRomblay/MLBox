@@ -1,17 +1,31 @@
-#### class Reg_feature_selector ####
-*Selects useful features. Several strategies are possible (filter and wrapper methods). Works for regression problems only.* <br/>
+#### class StackingClassifier ####
+*A Stacking classifier is a classifier that uses the predictions of several first layer estimators (generated with a cross validation method) for a second layer estimator.* <br/>
 
 <br/>
 
 > **Parameters**
 > ___
 >  
-> ***strategy*** : **str**, defaut = `"l1"` <br/>
-> *The strategy to select features.* <br/>
-> *Available strategies = `"variance"`, `"l1"` or `"rf_feature_importance"`.* 
+> ***base_estimators*** : **list**, defaut = `[Classifier(strategy = "XGBoost"), Classifier(strategy = "RandomForest"), Classifier(strategy = "ExtraTrees")]` <br/>
+> *List of estimators to fit in the first level using a cross validation.* 
 >
-> ***threshold*** : **float**, defaut = `0.3` <br/>
-> *The percentage of variables to discard according to the strategy. Must be between 0. and 1.*
+> ***level_estimator*** : **object**, defaut = `LogisticRegression()` <br/>
+> *The estimator used in second and last level.*
+>
+> ***n_folds*** : **int**, defaut = `5` [OPTIONAL] <br/>
+> *Number of folds used to generate the meta features for the training set.*
+>
+> ***copy*** : **bool**, defaut = `False` [OPTIONAL] <br/>
+> *If true, meta features are added to the original dataset.*
+>
+> ***drop_first*** : **bool**, defaut = `True` [OPTIONAL] <br/>
+> *If True, each estimator output n_classes-1 probabilities.*
+>
+> ***random_state*** : **None, int or RandomState**, defaut = `1` [OPTIONAL] <br/>
+> *Pseudo-random number generator state used for shuffling. If None, use default numpy RNG for shuffling.*
+>
+> ***verbose*** : **bool**, defaut = `True` [OPTIONAL] <br/>
+> *Verbose mode.*
 
 <br/>
 
