@@ -1,17 +1,17 @@
-#### class Clf_feature_selector ####
-*Selects useful features. Several strategies are possible (filter and wrapper methods). Works for classification problems only (multiclass or binary).* <br/>
+#### class Classifier ####
+*Wraps scikitlearn classifiers.* <br/>
 
 <br/>
 
 > **Parameters**
 > ___
 >  
-> ***strategy*** : **str**, defaut = `"l1"` <br/>
-> *The strategy to select features.* <br/>
-> *Available strategies = `"variance"`, `"l1"` or `"rf_feature_importance"`. 
+> ***strategy*** : **str**, defaut = `"LightGBM"` (if installed else `"XGBoost"`) <br/>
+> *The choice for the classifier.* <br/>
+> *Available strategies = `"LightGBM"` (if installed), `"XGBoost"`, `"RandomForest"`, `"ExtraTrees"`, `"Tree"`, `"Bagging"`, `"AdaBoost"` or `"Linear"`.* 
 >
-> ***threshold*** : **float**, defaut = `0.3` <br/>
-> *The percentage of variables to discard according to the strategy. Must be between 0. and 1.*
+> ***\*\*params*** <br/>
+> *Parameters of the corresponding classifier. Ex: `n_estimators`, `max_depth`, ...*
 
 <br/>
 
