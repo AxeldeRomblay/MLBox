@@ -97,15 +97,13 @@
 >>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
 >> 
 >> * *The values must respect the following syntax : {"search" : strategy, "space" : list}* <br/>
->>   * *With:* <br/>
->>      *strategy = "choice" or "uniform". Defaut = "choice"* <br/>
->>   * *And:* <br/>
->>       *list : a list of values to be tested if strategy="choice". If strategy = "uniform", list = [value_min, value_max].* <br/>
+>>   * *With: strategy = "choice" or "uniform". Defaut = "choice"* <br/>
+>>   * *And: list = a list of values to be tested if strategy="choice". If strategy = "uniform", list = [value_min, value_max].* <br/>
 >> 
 >> ***df*** : **dict**, defaut = None <br/>
 >> *Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
 >>
->> ***max_evals*** : **int**, defaut = 40.
+>> ***max_evals*** : **int**, defaut = 40. <br/>
 >> *Number of iterations. For an accurate optimal hyper-parameter, max_evals = 40.*
 >>
 >> <br/>
@@ -113,7 +111,8 @@
 >> **Returns** 
 >> ___ 
 >>
->> ***None*** 
+>> ***best_params***, **dict** <br/>
+>> *The optimal hyper-parameter dictionnary.*
 >
 > <br/>
 >
