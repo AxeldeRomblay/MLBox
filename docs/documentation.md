@@ -136,7 +136,7 @@ This page is the official documentation for MLBox package. You will learn how to
 > ***numerical_strategy*** : **str or float or int**, defaut = `"mean"` <br/>
 > *The strategy to encode NA for numerical features. Available strategies = `"mean"`, `"median"`, `"most_frequent"` or a float/int value*
 >
-> ***categorical_strategy*** : **str**, defaut = `"\<NULL\>"` <br/>
+> ***categorical_strategy*** : **str**, defaut = `"<NULL>"` <br/>
 > *The strategy to encode NA for categorical features. Available strategies = `np.NaN` or a str*
 
 <br/>
@@ -146,7 +146,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >
 > <br/>
 >
-> ***init***(self, numerical_strategy=`"mean"`, categorical_strategy=`"\<NULL\>"`) 
+> ***init***(self, numerical_strategy=`"mean"`, categorical_strategy=`"<NULL>"`) 
 > 
 > <br/>
 >
@@ -160,7 +160,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
 >> *The train dataset with numerical and categorical features.* 
 >>
->> ***y_train*** [OPTIONAL] : **pandas series**, shape = (n_train, ). Defaut = None <br/>
+>> ***y_train*** [OPTIONAL] : **pandas series**, shape = (n_train, ). Defaut = `None` <br/>
 >> *The target for classification or regression tasks.* 
 >>
 >> **Returns** 
@@ -290,18 +290,18 @@ This page is the official documentation for MLBox package. You will learn how to
 >> ***params*** : **dict**, defaut = `None` <br/>
 >> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
 >>
->> * *The keys must respect the following syntax : `"enc\_\_param"`.* <br/>
+>> * *The keys must respect the following syntax : `"enc__param"`.* <br/>
 >>
 >>    * *With:* <br/>
 >>      *1. `"enc" = "ne"` for NA encoder* <br/>
 >>      *2. `"enc" = "ce"` for categorical encoder* <br/>
 >>      *3. `"enc" = "fs"` for feature selector [OPTIONAL]* <br/>
->>      *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
+>>      *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created) [OPTIONAL]* <br/>
 >>      *5. `"enc" = "est"` for the final estimator* <br/>
 >>    * *And:* <br/>
 >>      *`"param"` : a correct associated parameter for each step. (for example : `"max_depth"` for `"enc"="est"`, `"entity_embedding"` for `"enc"="ce"`)* <br/>
 >> 
->> * *The values are those of the parameters (for ex: 4 for a key=`"est\_\_max_depth"`).* <br/>
+>> * *The values are those of the parameters (for ex: 4 for a key=`"est__max_depth"`).* <br/>
 >> 
 >> ***df*** : **dict**, defaut = `None` <br/>
 >> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
@@ -327,7 +327,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> ***space*** : **dict**, defaut = `None` <br/>
 >> *Hyper-parameters space* <br/>
 >>
->> * *The keys must respect the following syntax : `"enc\_\_param"`.* <br/>
+>> * *The keys must respect the following syntax : `"enc__param"`.* <br/>
 >>   * *With:* <br/>
 >>      *1. `"enc" = "ne"` for NA encoder* <br/>
 >>      *2. `"enc" = "ce"` for categorical encoder* <br/>
@@ -425,17 +425,17 @@ This page is the official documentation for MLBox package. You will learn how to
 >> ***params*** : **dict**, defaut = `None` <br/>
 >> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
 >>
->> * *The keys must respect the following syntax : `"enc\_\_param"`.* <br/>
+>> * *The keys must respect the following syntax : `"enc__param"`.* <br/>
 >>   * *With:* <br/>
 >>       *1. `"enc" = "ne"` for NA encoder* <br/>
 >>       *2. `"enc" = "ce"` for categorical encoder* <br/>
 >>       *3. `"enc" = "fs"` for feature selector [OPTIONAL]* <br/>
->>       *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
+>>       *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created) [OPTIONAL]* <br/>
 >>       *5. `"enc" = "est"` for the final estimator* <br/>
 >>   * *And:* <br/>
 >>       *`"param"` : a correct associated parameter for each step. (for example : `"max_depth"` for `"enc"="est"`, `"entity_embedding"` for `"enc"="ce"`)* <br/>
 >> 
->> * *The values are those of the parameters (for ex: `4` for a key = `"est\_\_max_depth"`).* <br/>
+>> * *The values are those of the parameters (for ex: `4` for a key = `"est__max_depth"`).* <br/>
 >> 
 >> ***df*** : **dict**, defaut = `None` <br/>
 >> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
