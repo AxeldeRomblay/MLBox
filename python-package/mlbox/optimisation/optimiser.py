@@ -53,20 +53,16 @@ class Optimiser():
     random_state : int, defaut = 1
         pseudo-random number generator state used for shuffling
 
-    to_path : str, defaut = "save"
-        Name of the folder where models are saved
-
     verbose : bool, defaut = True
         Verbose mode
 
     """
 
-    def __init__(self, scoring = None, n_folds = 2, random_state = 1, to_path = "save", verbose = True):
+    def __init__(self, scoring = None, n_folds = 2, random_state = 1, verbose = True):
 
         self.scoring = scoring
         self.n_folds = n_folds
         self.random_state = random_state
-        self.to_path = to_path
         self.verbose = verbose
 
 
