@@ -49,7 +49,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >
 > <br/>
 >
-> ***init***(self, strategy=`"label_encoding"`, verbose=False) 
+> ***init***(self, strategy="label_encoding", verbose=False) 
 > 
 > <br/>
 >
@@ -296,7 +296,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >>      *1. `"enc" = "ne"` for NA encoder* <br/>
 >>      *2. `"enc" = "ce"` for categorical encoder* <br/>
 >>      *3. `"enc" = "fs"` for feature selector [OPTIONAL]* <br/>
->>      *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created) [OPTIONAL]* <br/>
+>>      *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming i-1 layers are created) [OPTIONAL]* <br/>
 >>      *5. `"enc" = "est"` for the final estimator* <br/>
 >>    * *And:* <br/>
 >>      *`"param"` : a correct associated parameter for each step. (for example : `"max_depth"` for `"enc"="est"`, `"entity_embedding"` for `"enc"="ce"`)* <br/>
@@ -332,7 +332,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >>      *1. `"enc" = "ne"` for NA encoder* <br/>
 >>      *2. `"enc" = "ce"` for categorical encoder* <br/>
 >>      *3. `"enc" = "fs"` for feature selector [OPTIONAL]* <br/>
->>      *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
+>>      *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming i-1 layers are created...) [OPTIONAL]* <br/>
 >>      *5. `"enc" = "est"` for the final estimator* <br/>
 >>   * *And:* <br/>
 >>       *`"param"` : a correct associated parameter for each step. (for example : `"max_depth"` for `"enc"="est"`, `"entity_embedding"` for `"enc"="ce"`)* <br/>
@@ -430,7 +430,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >>       *1. `"enc" = "ne"` for NA encoder* <br/>
 >>       *2. `"enc" = "ce"` for categorical encoder* <br/>
 >>       *3. `"enc" = "fs"` for feature selector [OPTIONAL]* <br/>
->>       *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created) [OPTIONAL]* <br/>
+>>       *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming i-1 layers are created) [OPTIONAL]* <br/>
 >>       *5. `"enc" = "est"` for the final estimator* <br/>
 >>   * *And:* <br/>
 >>       *`"param"` : a correct associated parameter for each step. (for example : `"max_depth"` for `"enc"="est"`, `"entity_embedding"` for `"enc"="ce"`)* <br/>
