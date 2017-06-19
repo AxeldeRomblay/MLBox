@@ -50,6 +50,7 @@
 >> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
 >>
 >> * *The keys must respect the following syntax : "enc\_\_param".* <br/>
+>>
 >>   * *With:* <br/>
 >>       *1. "enc" = "ne" for NA encoder* <br/>
 >>       *2. "enc" = "ce" for categorical encoder* <br/>
