@@ -85,6 +85,8 @@
 >> ***df*** : **pandas dataframe**, shape = (n, n_features*(1-threshold)) <br/>
 >> *The train dataset with relevant features.* 
 >
+> <br/>
+>
 > ***get_params***(self, deep=True)
 >
 > <br/>
