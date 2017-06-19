@@ -67,14 +67,6 @@
 >
 > <br/>
 >
-> ***get_params***(self, deep=True)
->
-> <br/>
->
-> ***set_params***(self, params)
->
-> <br/>
->
 > ***transform***(self, df)
 >
 > *Transforms the dataset*
@@ -92,6 +84,12 @@
 >>
 >> ***df*** : **pandas dataframe**, shape = (n, n_features*(1-threshold)) <br/>
 >> *The train dataset with relevant features.* 
+>
+> ***get_params***(self, deep=True)
+>
+> <br/>
+>
+> ***set_params***(self, params)
 
 <br/>
 <br/>
