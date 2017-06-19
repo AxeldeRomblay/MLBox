@@ -362,8 +362,6 @@ This page is the official documentation for MLBox package. You will learn how to
 > <br/>
 >
 > ***set_params***(self, params)
->
-> <br/>
 
 <br/>
 <br/>
@@ -456,8 +454,7 @@ This page is the official documentation for MLBox package. You will learn how to
 > <br/>
 >
 > ***set_params***(self, params)
->
-> <br/>
+
 
 <br/>
 <br/> 
