@@ -75,15 +75,16 @@
 >
 > <br/>
 >
-> ***fit_predict***(self, params, df) 
+> ***optimise***(self, space, df, max_evals=40) 
 >
-> *Fits the model. Then predicts on test dataset and outputs feature importances and the submission file (.png and .csv formats).*
+> *Optimises hyper-parameters of the whole Pipeline with a given scoring function. Algorithm used to optimise : Tree Parzen Estimator.* <br/>
+> *IMPORTANT : Try to avoid dependent parameters and to set one feature selection strategy and one estimator strategy at a time.*
 >
 >> **Parameters** 
 >> ___ 
 >> 
->> ***params*** : **dict**, defaut = None <br/>
->> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
+>> ***space*** : **dict**, defaut = None <br/>
+>> *Hyper-parameters space* <br/>
 >>
 >> * *The keys must respect the following syntax : "enc\_\_param".* <br/>
 >>   * *With:* <br/>
@@ -95,10 +96,17 @@
 >>   * *And:* <br/>
 >>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
 >> 
->> * *The values are those of the parameters (for ex: 4 for a key="est\_\_max_depth").* <br/>
+>> * *The values must respect the following syntax : {"search" : strategy, "space" : list}* <br/>
+>>   * *With:* <br/>
+>>      *strategy = "choice" or "uniform". Defaut = "choice"* <br/>
+>>   * *And:* <br/>
+>>       *list : a list of values to be tested if strategy="choice". If strategy = "uniform", list = [value_min, value_max].* <br/>
 >> 
 >> ***df*** : **dict**, defaut = None <br/>
->> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
+>> *Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
+>>
+>> ***max_evals*** : **int**, defaut = 40.
+>> *Number of iterations. For an accurate optimal hyper-parameter, max_evals = 40.*
 >>
 >> <br/>
 >> 
