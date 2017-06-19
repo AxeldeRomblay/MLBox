@@ -173,6 +173,21 @@
 >
 > ***get_estimator***(self)
 >
+> *Returns sklearn classifier.*
+>
+>> **Parameters** 
+>> ___ 
+>>
+>> ***None*** 
+>>
+>> <br/>
+>>
+>> **Returns** 
+>> ___ 
+>>
+>> ***estimator*** : **sklearn classifier** <br/>
+>> *Sklearn estimator.*
+>
 > <br/>
 >
 > ***get_params***(self, deep=True)
