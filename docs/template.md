@@ -33,11 +33,13 @@
 >>
 >> ***None*** 
 >>
+>> <br/>
+>>
 >> **Returns** 
 >> ___ 
 >>
 >> ***importance*** : **dict** <br/>
->> * Dictionnary containing a measure of feature importance (value) for each feature (key).
+>> *Dictionnary containing a measure of feature importance (value) for each feature (key).*
 >
 > <br/>
 >
@@ -155,6 +157,9 @@
 >>
 >> ***y*** : **pandas series**, shape = (n,) <br/>
 >> *The numerical encoded target for classification tasks.*
+>>
+>> ***sample_weight*** : **array**, shape = (n,) [OPTIONAL]<br/>
+>> *Sample weights*
 >>
 >> <br/>
 >>
