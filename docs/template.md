@@ -103,7 +103,7 @@
 >
 > ***predict***(self, df_test)
 >
-> *Predict class for test dataset using the meta-features.*
+> *Predict class on test dataset using the meta-features.*
 >
 >> **Parameters** 
 >> ___ 
