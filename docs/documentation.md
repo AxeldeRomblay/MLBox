@@ -146,7 +146,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >
 > <br/>
 >
-> ***init***(self, numerical_strategy=`"mean"`, categorical_strategy=`"<NULL>"`) 
+> ***init***(self, numerical_strategy="mean", categorical_strategy="\<NULL\>") 
 > 
 > <br/>
 >
@@ -288,7 +288,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> ___ 
 >>
 >> ***params*** : **dict**, defaut = `None` <br/>
->> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
+>> *Hyper-parameters dictionnary for the whole pipeline. If `params = None`, defaut configuration is evaluated.* <br/>
 >>
 >> * *The keys must respect the following syntax : `"enc__param"`.* <br/>
 >>
@@ -304,7 +304,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> * *The values are those of the parameters (for ex: 4 for a key=`"est__max_depth"`).* <br/>
 >> 
 >> ***df*** : **dict**, defaut = `None` <br/>
->> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
+>> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with `dtype='float'` for a regression or `dtype='int'` for a classification) resp.* 
 >>
 >> <br/>
 >>
@@ -342,7 +342,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >>   * *And `list` : a list of values to be tested if `strategy = "choice"`. If `strategy = "uniform"`, `list = [value_min, value_max]`.* <br/>
 >> 
 >> ***df*** : **dict**, defaut = `None` <br/>
->> *Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
+>> *Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the associated target (pandas Serie with `dtype='float'` for a regression or `dtype='int'` for a classification) resp.* 
 >>
 >> ***max_evals*** : **int**, defaut = `40`. <br/>
 >> *Number of iterations. For an accurate optimal hyper-parameter, `max_evals = 40`.*
@@ -423,7 +423,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> ___ 
 >> 
 >> ***params*** : **dict**, defaut = `None` <br/>
->> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
+>> *Hyper-parameters dictionnary for the whole pipeline. If `params = None`, defaut configuration is evaluated.* <br/>
 >>
 >> * *The keys must respect the following syntax : `"enc__param"`.* <br/>
 >>   * *With:* <br/>
