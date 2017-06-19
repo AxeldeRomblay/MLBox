@@ -71,7 +71,7 @@
 >> ___ 
 >>
 >> ***score*** : **float** <br/>
->> *The score. The higher the better (positive for a score and negative for a loss).
+>> *The score. The higher the better (positive for a score and negative for a loss).*
 >
 > <br/>
 >
