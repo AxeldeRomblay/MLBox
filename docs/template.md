@@ -121,6 +121,3 @@
 > <br/>
 >
 > ***set_params***(self, params)
->
-> <br/>
->
