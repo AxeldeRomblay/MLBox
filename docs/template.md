@@ -1,32 +1,17 @@
-####  class Optimiser  ####
-*Optimises hyper-parameters of the whole Pipeline:* <br/>
-
-*1. NA encoder (missing values encoder)*<br/> 
-*2. CA encoder (categorical features encoder)*<br/> 
-*3. Feature selector [OPTIONAL]*<br/> 
-*4. Stacking estimator - feature engineer [OPTIONAL]*<br/> 
-*5. Estimator (classifier or regressor)*<br/> 
-
-*Works for both regression and classification (multiclass or binary) tasks.* <br/>
+#### class Clf_feature_selector ####
+*Selects useful features. Several strategies are possible (filter and wrapper methods). Works for classification problems only (multiclass or binary).* <br/>
 
 <br/>
 
 > **Parameters**
 > ___
 >  
-> ***scoring*** : **str, callable or None**, defaut = None <br/>
-> *The scoring function used to optimise hyper-parameters. Compatible with sklearn metrics and scorer callable objects. If None, "log_loss" is used for classification and "mean_squarred_error" for regression.* <br/>
-> * *Available scorings for classification: "accuracy", "roc_auc", "f1", "log_loss", "precision", "recall".* <br/>
-> * *Available scorings for regression: "mean_absolute_error", "mean_squarred_error", "median_absolute_error", "r2".*
+> ***strategy*** : **str**, defaut = `"l1"` <br/>
+> *The strategy to select features.* <br/>
+> *Available strategies = `"variance"`, `"l1"` or `"rf_feature_importance"`. 
 >
-> ***n_folds*** : **int**, defaut = 2 <br/>
-> *The number of folds for cross validation (stratified for classification)*
->
-> ***random_state*** : **int**, defaut = 1 <br/>
-> *pseudo-random number generator state used for shuffling*
->
-> ***verbose*** : **bool**, defaut = True <br/>
-> *Verbose mode.*
+> ***threshold*** : **float**, defaut = `0.3` <br/>
+> *The percentage of variables to discard according to the strategy. Must be between 0. and 1.*
 
 <br/>
 
@@ -35,84 +20,50 @@
 >
 > <br/>
 >
-> ***init***(self, scoring=None, n_folds=2, random_state=1, verbose=True) 
+> ***init***(self, strategy='l1', threshold=0.3) 
 > 
 > <br/>
 >
-> ***evaluate***(self, params, df) 
+> ***fit***(self, df_train, y_train) 
 >
-> *Evaluates the scoring function with given hyper-parameters of the whole Pipeline. If no parameters are set, defaut configuration for each step is evaluated : no feature selection is applied and no meta features are created.*
+> *Fits Clf_feature_selector.*
 >
 >> **Parameters** 
 >> ___ 
 >>
->> ***params*** : **dict**, defaut = None <br/>
->> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
+>> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> *The train dataset with numerical features and no NA* 
 >>
->> * *The keys must respect the following syntax : "enc\_\_param".* <br/>
->>
->>    * *With:* <br/>
->>      *1. "enc" = "ne" for NA encoder* <br/>
->>      *2. "enc" = "ce" for categorical encoder* <br/>
->>      *3. "enc" = "fs" for feature selector [OPTIONAL]* <br/>
->>      *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
->>      *5. "enc" = "est" for the final estimator* <br/>
->>    * *And:* <br/>
->>      *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
->> 
->> * *The values are those of the parameters (for ex: 4 for a key="est\_\_max_depth").* <br/>
->> 
->> ***df*** : **dict**, defaut = None <br/>
->> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
->>
->> <br/>
+>> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
+>> *The target for classification task. Must be encoded.* 
 >>
 >> **Returns** 
 >> ___ 
 >>
->> ***score*** : **float** <br/>
->> *The score. The higher the better (positive for a score and negative for a loss).*
+>> ***None*** 
 >
 > <br/>
 >
-> ***optimise***(self, space, df, max_evals=40) 
+> ***fit_transform***(self, df_train, y_train) 
 >
-> *Optimises hyper-parameters of the whole Pipeline with a given scoring function. Algorithm used to optimise : Tree Parzen Estimator.* <br/>
-> *IMPORTANT : Try to avoid dependent parameters and to set one feature selection strategy and one estimator strategy at a time.*
+> *Fits Clf_feature_selector and transforms the dataset*
 >
 >> **Parameters** 
 >> ___ 
 >> 
->> ***space*** : **dict**, defaut = None <br/>
->> *Hyper-parameters space* <br/>
+>> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> *The train dataset with numerical features and no NA* 
 >>
->> * *The keys must respect the following syntax : "enc\_\_param".* <br/>
->>   * *With:* <br/>
->>      *1. "enc" = "ne" for NA encoder* <br/>
->>      *2. "enc" = "ce" for categorical encoder* <br/>
->>      *3. "enc" = "fs" for feature selector [OPTIONAL]* <br/>
->>      *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
->>      *5. "enc" = "est" for the final estimator* <br/>
->>   * *And:* <br/>
->>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
->> 
->> * *The values must respect the following syntax : {"search" : strategy, "space" : list}* <br/>
->>   * *With `strategy` = "choice" or "uniform". Defaut = "choice"* <br/>
->>   * *And `list` : a list of values to be tested if strategy="choice". If strategy = "uniform", list = [value_min, value_max].* <br/>
->> 
->> ***df*** : **dict**, defaut = None <br/>
->> *Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
->>
->> ***max_evals*** : **int**, defaut = 40. <br/>
->> *Number of iterations. For an accurate optimal hyper-parameter, max_evals = 40.*
+>> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
+>> *The target for classification task. Must be encoded.* 
 >>
 >> <br/>
 >> 
 >> **Returns** 
 >> ___ 
 >>
->> ***best_params*** : **dict** <br/>
->> *The optimal hyper-parameter dictionnary.*
+>> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features*(1-threshold)) <br/>
+>> *The train dataset with relevant features* 
 >
 > <br/>
 >
@@ -121,3 +72,26 @@
 > <br/>
 >
 > ***set_params***(self, params)
+>
+> <br/>
+>
+> ***transform***(self, df)
+>
+> *Transforms the dataset*
+>
+>> **Parameters** 
+>> ___ 
+>> 
+>> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> *The dataset with numerical features and no NA* 
+>>
+>> <br/>
+>> 
+>> **Returns** 
+>> ___ 
+>>
+>> ***df*** : **pandas dataframe**, shape = (n, n_features*(1-threshold)) <br/>
+>> *The train dataset with relevant features.* 
+
+<br/>
+<br/>
