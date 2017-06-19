@@ -36,10 +36,10 @@ This page is the official documentation for MLBox package. You will learn how to
 > **Parameters**
 > ___
 >  
-> ***strategy*** : **str**, defaut = "label_encoding" <br/>
-> *The strategy to encode categorical features. Available strategies = "label_encoding", "dummification", "random_projection", "entity_embedding"*
+> ***strategy*** : **str**, defaut = `"label_encoding"` <br/>
+> *The strategy to encode categorical features. Available strategies = `"label_encoding"`, `"dummification"`, `"random_projection"`, `"entity_embedding"`*
 >
-> ***verbose*** : **bool**, defaut = False <br/>
+> ***verbose*** : **bool**, defaut = `False` <br/>
 > *Verbose mode. Useful for entity embedding strategy.*
 
 <br/>
@@ -49,7 +49,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >
 > <br/>
 >
-> ***init***(self, strategy='label_encoding', verbose=False) 
+> ***init***(self, strategy=`"label_encoding"`, verbose=False) 
 > 
 > <br/>
 >
@@ -133,11 +133,11 @@ This page is the official documentation for MLBox package. You will learn how to
 > **Parameters**
 > ___
 >  
-> ***numerical_strategy*** : **str or float or int**, defaut = "mean" <br/>
-> *The strategy to encode NA for numerical features. Available strategies = "mean", "median", "most_frequent" or a float/int value*
+> ***numerical_strategy*** : **str or float or int**, defaut = `"mean"` <br/>
+> *The strategy to encode NA for numerical features. Available strategies = `"mean"`, `"median"`, `"most_frequent"` or a float/int value*
 >
-> ***categorical_strategy*** : **str**, defaut = "\<NULL\>" <br/>
-> *The strategy to encode NA for categorical features. Available strategies = np.NaN or a str*
+> ***categorical_strategy*** : **str**, defaut = `"\<NULL\>"` <br/>
+> *The strategy to encode NA for categorical features. Available strategies = `np.NaN` or a str*
 
 <br/>
 
@@ -146,7 +146,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >
 > <br/>
 >
-> ***init***(self, numerical_strategy='mean', categorical_strategy='\<NULL\>') 
+> ***init***(self, numerical_strategy=`"mean"`, categorical_strategy=`"\<NULL\>"`) 
 > 
 > <br/>
 >
@@ -180,7 +180,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
 >> *The train dataset with numerical and categorical features.* 
 >>
->> ***y_train*** [OPTIONAL] : **pandas series**, shape = (n_train, ). Defaut = None <br/>
+>> ***y_train*** [OPTIONAL] : **pandas series**, shape = (n_train, ). Defaut = `None` <br/>
 >> *The target for classification or regression tasks.* 
 >>
 >> <br/>
@@ -255,18 +255,18 @@ This page is the official documentation for MLBox package. You will learn how to
 > **Parameters**
 > ___
 >  
-> ***scoring*** : **str, callable or None**, defaut = None <br/>
-> *The scoring function used to optimise hyper-parameters. Compatible with sklearn metrics and scorer callable objects. If None, "log_loss" is used for classification and "mean_squarred_error" for regression.* <br/>
-> * *Available scorings for classification: "accuracy", "roc_auc", "f1", "log_loss", "precision", "recall".* <br/>
-> * *Available scorings for regression: "mean_absolute_error", "mean_squarred_error", "median_absolute_error", "r2".*
+> ***scoring*** : **str, callable or None**, defaut = `None` <br/>
+> *The scoring function used to optimise hyper-parameters. Compatible with sklearn metrics and scorer callable objects. If None, `"log_loss"` is used for classification and `"mean_squarred_error"` for regression.* <br/>
+> * *Available scorings for classification: `"accuracy"`, `"roc_auc"`, `"f1"`, `"log_loss"`, `"precision"`, `"recall"`.* <br/>
+> * *Available scorings for regression: `"mean_absolute_error"`, `"mean_squarred_error"`, `"median_absolute_error"`, `"r2"`.*
 >
-> ***n_folds*** : **int**, defaut = 2 <br/>
+> ***n_folds*** : **int**, defaut = `2` <br/>
 > *The number of folds for cross validation (stratified for classification)*
 >
-> ***random_state*** : **int**, defaut = 1 <br/>
+> ***random_state*** : **int**, defaut = `1` <br/>
 > *pseudo-random number generator state used for shuffling*
 >
-> ***verbose*** : **bool**, defaut = True <br/>
+> ***verbose*** : **bool**, defaut = `True` <br/>
 > *Verbose mode.*
 
 <br/>
@@ -287,23 +287,23 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Parameters** 
 >> ___ 
 >>
->> ***params*** : **dict**, defaut = None <br/>
+>> ***params*** : **dict**, defaut = `None` <br/>
 >> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
 >>
->> * *The keys must respect the following syntax : "enc\_\_param".* <br/>
+>> * *The keys must respect the following syntax : `"enc\_\_param"`.* <br/>
 >>
 >>    * *With:* <br/>
->>      *1. "enc" = "ne" for NA encoder* <br/>
->>      *2. "enc" = "ce" for categorical encoder* <br/>
->>      *3. "enc" = "fs" for feature selector [OPTIONAL]* <br/>
->>      *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
->>      *5. "enc" = "est" for the final estimator* <br/>
+>>      *1. `"enc" = "ne"` for NA encoder* <br/>
+>>      *2. `"enc" = "ce"` for categorical encoder* <br/>
+>>      *3. `"enc" = "fs"` for feature selector [OPTIONAL]* <br/>
+>>      *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
+>>      *5. `"enc" = "est"` for the final estimator* <br/>
 >>    * *And:* <br/>
->>      *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
+>>      *`"param"` : a correct associated parameter for each step. (for example : `"max_depth"` for `"enc"="est"`, `"entity_embedding"` for `"enc"="ce"`)* <br/>
 >> 
->> * *The values are those of the parameters (for ex: 4 for a key="est\_\_max_depth").* <br/>
+>> * *The values are those of the parameters (for ex: 4 for a key=`"est\_\_max_depth"`).* <br/>
 >> 
->> ***df*** : **dict**, defaut = None <br/>
+>> ***df*** : **dict**, defaut = `None` <br/>
 >> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
 >>
 >> <br/>
@@ -324,28 +324,28 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Parameters** 
 >> ___ 
 >> 
->> ***space*** : **dict**, defaut = None <br/>
+>> ***space*** : **dict**, defaut = `None` <br/>
 >> *Hyper-parameters space* <br/>
 >>
->> * *The keys must respect the following syntax : "enc\_\_param".* <br/>
+>> * *The keys must respect the following syntax : `"enc\_\_param"`.* <br/>
 >>   * *With:* <br/>
->>      *1. "enc" = "ne" for NA encoder* <br/>
->>      *2. "enc" = "ce" for categorical encoder* <br/>
->>      *3. "enc" = "fs" for feature selector [OPTIONAL]* <br/>
->>      *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
->>      *5. "enc" = "est" for the final estimator* <br/>
+>>      *1. `"enc" = "ne"` for NA encoder* <br/>
+>>      *2. `"enc" = "ce"` for categorical encoder* <br/>
+>>      *3. `"enc" = "fs"` for feature selector [OPTIONAL]* <br/>
+>>      *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
+>>      *5. `"enc" = "est"` for the final estimator* <br/>
 >>   * *And:* <br/>
->>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
+>>       *`"param"` : a correct associated parameter for each step. (for example : `"max_depth"` for `"enc"="est"`, `"entity_embedding"` for `"enc"="ce"`)* <br/>
 >> 
->> * *The values must respect the following syntax : {"search" : strategy, "space" : list}* <br/>
->>   * *With `strategy` = "choice" or "uniform". Defaut = "choice"* <br/>
->>   * *And `list` : a list of values to be tested if strategy="choice". If strategy = "uniform", list = [value_min, value_max].* <br/>
+>> * *The values must respect the following syntax : `{"search" : strategy, "space" : list}`* <br/>
+>>   * *With `strategy = "choice"` or `"uniform"`. Defaut = `"choice"`* <br/>
+>>   * *And `list` : a list of values to be tested if `strategy = "choice"`. If `strategy = "uniform"`, `list = [value_min, value_max]`.* <br/>
 >> 
->> ***df*** : **dict**, defaut = None <br/>
+>> ***df*** : **dict**, defaut = `None` <br/>
 >> *Train dictionnary. Must contain keys "train" and "target" with the train dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
 >>
->> ***max_evals*** : **int**, defaut = 40. <br/>
->> *Number of iterations. For an accurate optimal hyper-parameter, max_evals = 40.*
+>> ***max_evals*** : **int**, defaut = `40`. <br/>
+>> *Number of iterations. For an accurate optimal hyper-parameter, `max_evals = 40`.*
 >>
 >> <br/>
 >> 
@@ -378,10 +378,10 @@ This page is the official documentation for MLBox package. You will learn how to
 > **Parameters**
 > ___
 >  
-> ***to_path*** : **str**, defaut = "save" <br/>
+> ***to_path*** : **str**, defaut = `"save"` <br/>
 > *Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target encoder object (for classification task only).*
 >
-> ***verbose*** : **bool**, defaut = True <br/>
+> ***verbose*** : **bool**, defaut = `True` <br/>
 > *Verbose mode.*
 
 <br/>
@@ -405,7 +405,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> ***importance*** : **dict** <br/>
 >> *Dictionnary with features (key) and importances (values).* 
 >>
->> ***fig_name*** : **str**, defaut = "feature_importance.png" <br/>
+>> ***fig_name*** : **str**, defaut = `"feature_importance.png"` <br/>
 >> *Figure name.* 
 >>
 >> **Returns** 
@@ -422,22 +422,22 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Parameters** 
 >> ___ 
 >> 
->> ***params*** : **dict**, defaut = None <br/>
+>> ***params*** : **dict**, defaut = `None` <br/>
 >> *Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.* <br/>
 >>
->> * *The keys must respect the following syntax : "enc\_\_param".* <br/>
+>> * *The keys must respect the following syntax : `"enc\_\_param"`.* <br/>
 >>   * *With:* <br/>
->>       *1. "enc" = "ne" for NA encoder* <br/>
->>       *2. "enc" = "ce" for categorical encoder* <br/>
->>       *3. "enc" = "fs" for feature selector [OPTIONAL]* <br/>
->>       *4. "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
->>       *5. "enc" = "est" for the final estimator* <br/>
+>>       *1. `"enc" = "ne"` for NA encoder* <br/>
+>>       *2. `"enc" = "ce"` for categorical encoder* <br/>
+>>       *3. `"enc" = "fs"` for feature selector [OPTIONAL]* <br/>
+>>       *4. `"enc" = "stck"+str(i)` to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]* <br/>
+>>       *5. `"enc" = "est"` for the final estimator* <br/>
 >>   * *And:* <br/>
->>       *"param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")* <br/>
+>>       *`"param"` : a correct associated parameter for each step. (for example : `"max_depth"` for `"enc"="est"`, `"entity_embedding"` for `"enc"="ce"`)* <br/>
 >> 
->> * *The values are those of the parameters (for ex: 4 for a key="est\_\_max_depth").* <br/>
+>> * *The values are those of the parameters (for ex: `4` for a key = `"est\_\_max_depth"`).* <br/>
 >> 
->> ***df*** : **dict**, defaut = None <br/>
+>> ***df*** : **dict**, defaut = `None` <br/>
 >> *Dataset dictionnary. Must contain keys "train","test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.* 
 >>
 >> <br/>
@@ -471,16 +471,16 @@ This page is the official documentation for MLBox package. You will learn how to
 > **Parameters**
 > ___
 >  
->   ***threshold*** : **float** (between 0.5 and 1.), defaut = 0.8 <br/>
+>   ***threshold*** : **float** (between 0.5 and 1.), defaut = `0.8` <br/>
 > *Threshold used to deletes variables and ids. The lower the more you keep non-drifting/stable variables.*
 >
-> ***inplace*** : **bool**, defaut = False <br/>
+> ***inplace*** : **bool**, defaut = `False` <br/>
 > *If True, train and test datasets are transformed. Returns self. Otherwise, train and test datasets are not transformed. Returns a new dictionnary with cleaned datasets.*
 > 
-> ***verbose*** : **bool**, defaut = True <br/>
+> ***verbose*** : **bool**, defaut = `True` <br/>
 > *Verbose mode*
 > 
-> ***to_path*** : **str**, defaut = "save" <br/>
+> ***to_path*** : **str**, defaut = `"save"` <br/>
 > *Name of the folder where the list of drift coefficients is saved* 
 
 <br/>
@@ -507,7 +507,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Parameters** 
 >> ___ 
 >>
->> ***df*** : **dict**, defaut = None <br/>
+>> ***df*** : **dict**, defaut = `None` <br/>
 >> *Dictionnary containing :* <br/>
 >> *'train' : pandas dataframe for train dataset* <br/>
 >> *'test' : pandas dataframe for test dataset* <br/>
@@ -535,19 +535,19 @@ This page is the official documentation for MLBox package. You will learn how to
 > **Parameters**
 > ___
 >  
-> ***sep*** : **str**, defaut = None <br/>
+> ***sep*** : **str**, defaut = `None` <br/>
 > *Delimiter to use when reading a csv file.*
 >
-> ***header*** : **int or None**, defaut = 0 <br/>
+> ***header*** : **int or None**, defaut = `0` <br/>
 > *If header=0, the first line is considered as a header. Otherwise, there is no header. Useful for csv and xls files.*
 > 
-> ***to_hdf5*** : **bool**, defaut = True <br/>
+> ***to_hdf5*** : **bool**, defaut = `True` <br/>
 > *If True, dumps each file to hdf5 format*
 >
-> ***to_path*** : **str**, defaut = "save" <br/>
+> ***to_path*** : **str**, defaut = `"save"` <br/>
 > *Name of the folder where files and encoders are saved*
 >
-> ***verbose*** : **bool**, defaut = True <br/>
+> ***verbose*** : **bool**, defaut = `True` <br/>
 > *Verbose mode* 
 
 <br/>
@@ -573,15 +573,15 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Parameters** 
 >> ___ 
 >>
->> ***filepath*** : **str**, defaut = None <br/>
+>> ***filepath*** : **str**, defaut = `None` <br/>
 >> *filepath* <br/>
 >>
->> ***date_strategy*** : **str**, defaut = "complete" <br/>
+>> ***date_strategy*** : **str**, defaut = `"complete"` <br/>
 >> *The strategy to encode dates :* <br/> 
 >> *- complete : creates timestamp from 01/01/2017, month, day and day_of_week* <br/>
 >> *- to_timestamp : creates timestamp from 01/01/2017* <br/> 
 >>
->> ***drop_duplicate*** : **bool**, defaut = False <br/>
+>> ***drop_duplicate*** : **bool**, defaut = `False` <br/>
 >> *If True, drop duplicates when reading each file.*
 >>
 >> <br/>
@@ -600,10 +600,10 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Parameters** 
 >> ___ 
 >> 
->> ***Lpath*** : **list**, defaut = None <br/>
+>> ***Lpath*** : **list**, defaut = `None` <br/>
 >> *List of str paths to load the data*
 >> 
->> ***target_name*** : **str**, defaut = None <br/> 
+>> ***target_name*** : **str**, defaut = `None` <br/> 
 >> *The name of the target. Works for both classification (multiclass or not) and regression.* 
 >>
 >> <br/>
@@ -611,7 +611,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **dict**, defaut = None <br/>
+>> ***df*** : **dict** <br/>
 >> *Dictionnary containing :* <br/>
 >> *'train' : pandas dataframe for train dataset* <br/>
 >> *'test' : pandas dataframe for test dataset* <br/>
