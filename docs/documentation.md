@@ -252,7 +252,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >
 > <br/>
 >
-> ***init***(self, strategy='l1', threshold=0.3) 
+> ***init***(self, strategy='LightGBM', \*\*params) 
 > 
 > <br/>
 >
