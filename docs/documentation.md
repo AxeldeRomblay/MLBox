@@ -20,7 +20,7 @@ This page is the official documentation for MLBox package. You will learn how to
 
 <br/>
 
-# Documentation [WORK IN PROGRESS]
+# MLBox's documentation 
 
 <br/>
 
