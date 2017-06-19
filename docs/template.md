@@ -24,29 +24,26 @@
 > 
 > <br/>
 >
-> ***fit***(self, df_train, y_train) 
+> ***feature_importances***(self) 
 >
-> *Fits Clf_feature_selector.*
+> *Computes feature importances. Classifier must be fitted before.*
 >
 >> **Parameters** 
 >> ___ 
 >>
->> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
->> *The train dataset with numerical features and no NA* 
->>
->> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
->> *The target for classification task. Must be encoded.* 
+>> ***None*** 
 >>
 >> **Returns** 
 >> ___ 
 >>
->> ***None*** 
+>> ***importance*** : **dict** <br/>
+>> * Dictionnary containing a measure of feature importance (value) for each feature (key).
 >
 > <br/>
 >
-> ***fit_transform***(self, df_train, y_train) 
+> ***fit***(self, df_train, y_train) 
 >
-> *Fits Clf_feature_selector and transforms the dataset*
+> *Fits Classifier.*
 >
 >> **Parameters** 
 >> ___ 
@@ -62,8 +59,67 @@
 >> **Returns** 
 >> ___ 
 >>
->> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features*(1-threshold)) <br/>
->> *The train dataset with relevant features* 
+>> ***None*** 
+>
+> <br/>
+>
+> ***predict***(self, df) 
+>
+> *Predicts the target.*
+>
+>> **Parameters** 
+>> ___ 
+>> 
+>> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> *The dataset with numerical features.* 
+>>
+>> <br/>
+>> 
+>> **Returns** 
+>> ___ 
+>>
+>> ***y*** : **array**, shape = (n, ) <br/>
+>> *The encoded classes to be predicted.* 
+>
+> <br/>
+>
+> ***predict_log_proba***(self, df) 
+>
+> *Predicts class log-probabilities for df.*
+>
+>> **Parameters** 
+>> ___ 
+>> 
+>> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> *The dataset with numerical features.* 
+>>
+>> <br/>
+>> 
+>> **Returns** 
+>> ___ 
+>>
+>> ***y*** : **array**, shape = (n, n_classes) <br/>
+>> *The log-probabilities for each class* 
+>
+> <br/>
+>
+> ***predict_proba***(self, df) 
+>
+> *Predicts class probabilities for df.*
+>
+>> **Parameters** 
+>> ___ 
+>> 
+>> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> *The dataset with numerical features.* 
+>>
+>> <br/>
+>> 
+>> **Returns** 
+>> ___ 
+>>
+>> ***y*** : **array**, shape = (n, n_classes) <br/>
+>> *The probabilities for each class* 
 >
 > <br/>
 >
@@ -75,15 +131,42 @@
 >> ___ 
 >> 
 >> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
->> *The dataset with numerical features and no NA* 
+>> *The dataset with numerical features.* 
 >>
 >> <br/>
 >> 
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **pandas dataframe**, shape = (n, n_features*(1-threshold)) <br/>
->> *The train dataset with relevant features.* 
+>> ***df_transform*** : **pandas dataframe**, shape = (n, n_selected_features) <br/>
+>> *The transformed dataset with its most important features.* 
+>
+> <br/>
+>
+> ***score***(self, df, y , sample_weight=None)
+>
+> *Returns the mean accuracy.*
+>
+>> **Parameters** 
+>> ___ 
+>> 
+>> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> *The dataset with numerical features.* 
+>>
+>> ***y*** : **pandas series**, shape = (n,) <br/>
+>> *The numerical encoded target for classification tasks.*
+>>
+>> <br/>
+>>
+>> **Returns** 
+>> ___ 
+>>
+>> ***score*** : **float** <br/>
+>> *Mean accuracy of self.predict(df) wrt. y.*
+>
+> <br/>
+>
+> ***get_estimator***(self)
 >
 > <br/>
 >
