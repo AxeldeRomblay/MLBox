@@ -34,7 +34,7 @@
 >
 > <br/>
 >
-> ***init***(self, strategy='l1', threshold=0.3) 
+> ***init***(self, base_estimators=[Classifier(strategy = "XGBoost"), Classifier(strategy = "RandomForest"), Classifier(strategy = "ExtraTrees")], level_estimator=LogisticRegression(), n_folds=5, copy=False, drop_first=True, random_state=1, verbose=True) 
 > 
 > <br/>
 >
