@@ -607,7 +607,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df_train_transform*** : **pandas dataframe**, shape = (n_train, n_features*int(copy)+n_metafeatures) <br/>
+>> ***df_train_transform*** : **pandas dataframe**, shape = (n_train, n_features*int(copy)+len(base_estimators)*(n_classes-int(drop_first))) <br/>
 >> *The transformed train dataset with meta features.* 
 >
 > <br/>
@@ -627,7 +627,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df_test_transform*** : **pandas dataframe**, shape = (n_test, n_features*int(copy)+n_metafeatures) <br/>
+>> ***df_test_transform*** : **pandas dataframe**, shape = (n_test, n_features*int(copy)+len(base_estimators)*(n_classes-int(drop_first))) <br/>
 >> *The transformed test dataset with meta features.* 
 >
 > <br/>
