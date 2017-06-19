@@ -1,5 +1,5 @@
-#### class Classifier ####
-*Wraps scikitlearn classifiers.* <br/>
+#### class Regressor ####
+*Wraps scikitlearn regressors.* <br/>
 
 <br/>
 
@@ -7,11 +7,11 @@
 > ___
 >  
 > ***strategy*** : **str**, defaut = `"LightGBM"` (if installed else `"XGBoost"`) <br/>
-> *The choice for the classifier.* <br/>
+> *The choice for the regressor.* <br/>
 > *Available strategies = `"LightGBM"` (if installed), `"XGBoost"`, `"RandomForest"`, `"ExtraTrees"`, `"Tree"`, `"Bagging"`, `"AdaBoost"` or `"Linear"`.* 
 >
 > ***\*\*params*** <br/>
-> *Parameters of the corresponding classifier. Ex: `n_estimators`, `max_depth`, ...*
+> *Parameters of the corresponding regressor. Ex: `n_estimators`, `max_depth`, ...*
 
 <br/>
 
@@ -20,13 +20,13 @@
 >
 > <br/>
 >
-> ***init***(self, strategy='l1', threshold=0.3) 
+> ***init***(self, strategy='LightGBM', \*\*params) 
 > 
 > <br/>
 >
 > ***feature_importances***(self) 
 >
-> *Computes feature importances. Classifier must be fitted before.*
+> *Computes feature importances. Regressor must be fitted before.*
 >
 >> **Parameters** 
 >> ___ 
@@ -45,7 +45,7 @@
 >
 > ***fit***(self, df_train, y_train) 
 >
-> *Fits Classifier.*
+> *Fits Regressor.*
 >
 >> **Parameters** 
 >> ___ 
@@ -54,7 +54,7 @@
 >> *The train dataset with numerical features and no NA* 
 >>
 >> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
->> *The target for classification task. Must be encoded.* 
+>> *The target for regression task.* 
 >>
 >> <br/>
 >> 
@@ -81,47 +81,8 @@
 >> ___ 
 >>
 >> ***y*** : **array**, shape = (n, ) <br/>
->> *The encoded classes to be predicted.* 
+>> *The target to be predicted.* 
 >
-> <br/>
->
-> ***predict_log_proba***(self, df) 
->
-> *Predicts class log-probabilities for df.*
->
->> **Parameters** 
->> ___ 
->> 
->> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
->> *The dataset with numerical features.* 
->>
->> <br/>
->> 
->> **Returns** 
->> ___ 
->>
->> ***y*** : **array**, shape = (n, n_classes) <br/>
->> *The log-probabilities for each class* 
->
-> <br/>
->
-> ***predict_proba***(self, df) 
->
-> *Predicts class probabilities for df.*
->
->> **Parameters** 
->> ___ 
->> 
->> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
->> *The dataset with numerical features.* 
->>
->> <br/>
->> 
->> **Returns** 
->> ___ 
->>
->> ***y*** : **array**, shape = (n, n_classes) <br/>
->> *The probabilities for each class* 
 >
 > <br/>
 >
@@ -147,7 +108,7 @@
 >
 > ***score***(self, df, y , sample_weight=None)
 >
-> *Returns the mean accuracy.*
+> *Returns the coefficient of determination R^2 of the prediction.*
 >
 >> **Parameters** 
 >> ___ 
@@ -156,7 +117,7 @@
 >> *The dataset with numerical features.* 
 >>
 >> ***y*** : **pandas series**, shape = (n,) <br/>
->> *The numerical encoded target for classification tasks.*
+>> *The target for regression task.*
 >>
 >> ***sample_weight*** : **array**, shape = (n,) [OPTIONAL]<br/>
 >> *Sample weights*
@@ -167,13 +128,13 @@
 >> ___ 
 >>
 >> ***score*** : **float** <br/>
->> *Mean accuracy of self.predict(df) wrt. y.*
+>> *R^2 of self.predict(X) wrt. y.*
 >
 > <br/>
 >
 > ***get_estimator***(self)
 >
-> *Returns sklearn classifier.*
+> *Returns sklearn regressor.*
 >
 >> **Parameters** 
 >> ___ 
@@ -185,7 +146,7 @@
 >> **Returns** 
 >> ___ 
 >>
->> ***estimator*** : **sklearn classifier** <br/>
+>> ***estimator*** : **sklearn regressor** <br/>
 >> *Sklearn estimator.*
 >
 > <br/>
