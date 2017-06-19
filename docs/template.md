@@ -13,8 +13,16 @@
 > **Parameters**
 > ___
 >  
-> ***to_path*** : **str**, defaut = "save" <br/>
-> *Name of the folder where the feature importances and predictions are saved (.png and .csv format). Must contain target encoder object (for classification task only).*
+> ***scoring*** : **str, callable or None**, defaut = None <br/>
+> *The scoring function used to optimise hyper-parameters. Compatible with sklearn metrics and scorer callable objects. If None, "log_loss" is used for classification and "mean_squarred_error" for regression.* <br/>
+> *Available scorings for classification: "accuracy", "roc_auc", "f1", "log_loss", "precision", "recall". <br/>
+> *Available scorings for regression: "mean_absolute_error", "mean_squarred_error", "median_absolute_error", "r2".
+>
+> ***n_folds*** : **int**, defaut = 2 <br/>
+> *The number of folds for cross validation (stratified for classification)*
+>
+> ***random_state*** : **int**, defaut = 1 <br/>
+> *pseudo-random number generator state used for shuffling*
 >
 > ***verbose*** : **bool**, defaut = True <br/>
 > *Verbose mode.*
