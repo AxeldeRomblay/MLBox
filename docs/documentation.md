@@ -530,7 +530,7 @@ This page is the official documentation for MLBox package. You will learn how to
 <br/>
 
 #### class StackingClassifier ####
-*A Stacking classifier is a classifier that uses the predictions of several first layer estimators (generated with a cross validation method) for a second layer estimator.* <br/>
+*A Stacking classifier is a classifier that uses the predictions of several first layer estimators (generated with a stratified cross validation method) for a second layer estimator.* <br/>
 
 <br/>
 
@@ -544,7 +544,7 @@ This page is the official documentation for MLBox package. You will learn how to
 > *The estimator used in second and last level.*
 >
 > ***n_folds*** : **int**, defaut = `5` [OPTIONAL] <br/>
-> *Number of folds used to generate the meta features for the training set.*
+> *Number of folds used to generate the meta features for the training set. *
 >
 > ***copy*** : **bool**, defaut = `False` [OPTIONAL] <br/>
 > *If true, meta features are added to the original dataset.*
