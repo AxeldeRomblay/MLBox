@@ -91,7 +91,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> ***df_train_transform*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
 >> *The train dataset with numerical and encoded categorical features* 
 >
 > <br/>
@@ -119,7 +119,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> ***df_transform*** : **pandas dataframe**, shape = (n, n_features) <br/>
 >> *The dataset with numerical and encoded categorical features* 
 
 <br/>
@@ -188,7 +188,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
+>> ***df_train_transform*** : **pandas dataframe**, shape = (n_train, n_features) <br/>
 >> *The train dataset with no missing values* 
 >
 > <br/>
@@ -216,7 +216,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
+>> ***df_transform*** : **pandas dataframe**, shape = (n, n_features) <br/>
 >> *The dataset with no missing values* 
 
 <br/>
@@ -294,7 +294,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df_train*** : **pandas dataframe**, shape = (n_train, n_features*(1-threshold)) <br/>
+>> ***df_train_transform*** : **pandas dataframe**, shape = (n_train, n_features*(1-threshold)) <br/>
 >> *The train dataset with relevant features* 
 >
 > <br/>
@@ -314,7 +314,7 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **pandas dataframe**, shape = (n, n_features*(1-threshold)) <br/>
+>> ***df_transform*** : **pandas dataframe**, shape = (n, n_features*(1-threshold)) <br/>
 >> *The train dataset with relevant features.* 
 >
 > <br/>
@@ -617,10 +617,10 @@ This page is the official documentation for MLBox package. You will learn how to
 >> **Returns** 
 >> ___ 
 >>
->> ***df*** : **dict** <br/>
+>> ***df_transform*** : **dict** <br/>
 >> *Dictionnary containing :* <br/>
->> *'train' : pandas dataframe for train dataset* <br/>
->> *'test' : pandas dataframe for test dataset*<br/>
+>> *'train' : pandas dataframe for transformed train dataset* <br/>
+>> *'test' : pandas dataframe for transformed test dataset*<br/>
 >> *'target' : pandas serie for the target* <br/>
 
 <br/>
