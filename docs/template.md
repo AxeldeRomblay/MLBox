@@ -15,8 +15,8 @@
 >  
 > ***scoring*** : **str, callable or None**, defaut = None <br/>
 > *The scoring function used to optimise hyper-parameters. Compatible with sklearn metrics and scorer callable objects. If None, "log_loss" is used for classification and "mean_squarred_error" for regression.* <br/>
-> *Available scorings for classification: "accuracy", "roc_auc", "f1", "log_loss", "precision", "recall". <br/>
-> *Available scorings for regression: "mean_absolute_error", "mean_squarred_error", "median_absolute_error", "r2".
+> * *Available scorings for classification: "accuracy", "roc_auc", "f1", "log_loss", "precision", "recall".* <br/>
+> * *Available scorings for regression: "mean_absolute_error", "mean_squarred_error", "median_absolute_error", "r2".*
 >
 > ***n_folds*** : **int**, defaut = 2 <br/>
 > *The number of folds for cross validation (stratified for classification)*
