@@ -9,7 +9,7 @@
 > ***base_estimators*** : **list**, defaut = `[Classifier(strategy = "XGBoost"), Classifier(strategy = "RandomForest"), Classifier(strategy = "ExtraTrees")]` <br/>
 > *List of estimators to fit in the first level using a cross validation.* 
 >
-> ***level_estimator*** : **object**, defaut = `LogisticRegression()` <br/>
+> ***level_estimator*** : **object**, defaut = `LogisticRegression(n_jobs=-1)` <br/>
 > *The estimator used in second and last level.*
 >
 > ***n_folds*** : **int**, defaut = `5` [OPTIONAL] <br/>
@@ -34,13 +34,13 @@
 >
 > <br/>
 >
-> ***init***(self, base_estimators=[Classifier(strategy = "XGBoost"), Classifier(strategy = "RandomForest"), Classifier(strategy = "ExtraTrees")], level_estimator=LogisticRegression(), n_folds=5, copy=False, drop_first=True, random_state=1, verbose=True) 
+> ***init***(self, base_estimators=[Classifier(strategy = "XGBoost"), Classifier(strategy = "RandomForest"), Classifier(strategy = "ExtraTrees")], level_estimator=LogisticRegression(n_jobs=-1), n_folds=5, copy=False, drop_first=True, random_state=1, verbose=True) 
 > 
 > <br/>
 >
 > ***fit***(self, df_train, y_train) 
 >
-> *Fits Reg_feature_selector.*
+> *Fits the first level estimators and the second level estimator on train dataset.*
 >
 >> **Parameters** 
 >> ___ 
@@ -49,7 +49,7 @@
 >> *The train dataset with numerical features and no NA* 
 >>
 >> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
->> *The target for regression task.* 
+>> *The target for classification task. Must be encoded.* 
 >>
 >> **Returns** 
 >> ___ 
@@ -60,7 +60,7 @@
 >
 > ***fit_transform***(self, df_train, y_train) 
 >
-> *Fits Reg_feature_selector and transforms the dataset*
+> *Create meta-features for the training dataset.*
 >
 >> **Parameters** 
 >> ___ 
@@ -69,35 +69,75 @@
 >> *The train dataset with numerical features and no NA* 
 >>
 >> ***y_train*** : **pandas series**, shape = (n_train, ) <br/>
->> *The target for regression task.* 
+>> *The target for classification task. Must be encoded.* 
 >>
 >> <br/>
 >> 
 >> **Returns** 
 >> ___ 
 >>
->> ***df_train_transform*** : **pandas dataframe**, shape = (n_train, n_features*(1-threshold)) <br/>
->> *The train dataset with relevant features* 
+>> ***df_train_transform*** : **pandas dataframe**, shape = (n_train, n_features*int(copy)+n_metafeatures) <br/>
+>> *The transformed train dataset with meta features.* 
 >
 > <br/>
 >
-> ***transform***(self, df)
+> ***transform***(self, df_test)
 >
-> *Transforms the dataset*
+> *Transforms and creates meta features for the test dataset only. If you want to transform the train dataset, you have to use `fit_transform` function.*
 >
 >> **Parameters** 
 >> ___ 
 >> 
->> ***df*** : **pandas dataframe**, shape = (n, n_features) <br/>
->> *The dataset with numerical features and no NA* 
+>> ***df_test*** : **pandas dataframe**, shape = (n_test, n_features) <br/>
+>> *The test dataset with numerical features and no NA* 
 >>
 >> <br/>
 >> 
 >> **Returns** 
 >> ___ 
 >>
->> ***df_transform*** : **pandas dataframe**, shape = (n, n_features*(1-threshold)) <br/>
->> *The train dataset with relevant features.* 
+>> ***df_test_transform*** : **pandas dataframe**, shape = (n_test, n_features*int(copy)+n_metafeatures) <br/>
+>> *The transformed test dataset with meta features.* 
+>
+> <br/>
+>
+> ***predict***(self, df_test)
+>
+> *Predict class for test dataset using the meta-features.*
+>
+>> **Parameters** 
+>> ___ 
+>> 
+>> ***df_test*** : **pandas dataframe**, shape = (n_test, n_features) <br/>
+>> *The test dataset with numerical features and no NA* 
+>>
+>> <br/>
+>> 
+>> **Returns** 
+>> ___ 
+>>
+>> ***y*** : **array**, shape = (n_test, ) <br/>
+>> *The predicted classes.* 
+>
+> <br/>
+>
+> ***predict_proba***(self, df_test)
+>
+> *Predict class probabilities on test dataset using the meta-features.*
+>
+>> **Parameters** 
+>> ___ 
+>> 
+>> ***df_test*** : **pandas dataframe**, shape = (n_test, n_features) <br/>
+>> *The test dataset with numerical features and no NA* 
+>>
+>> <br/>
+>> 
+>> **Returns** 
+>> ___ 
+>>
+>> ***y*** : **array**, shape = (n_test, n_classes) <br/>
+>> *The class probabilities on test dataset.* 
 >
 > <br/>
 >
