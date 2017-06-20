@@ -196,23 +196,28 @@ class StackingClassifier():
         if(self.verbose):
             print("")
             print("[=============================================================================] LAYER [===================================================================================]")
+            print("")
 
         for c, clf in enumerate(self.base_estimators):
 
             if(self.verbose):
-                print("")
                 print("> fitting estimator n°"+ str(c+1) + " : "+ str(clf.get_params())+" ...")
+                print("")
 
             start_time = time.time()
             y_pred = self.__cross_val_predict_proba(clf, X, y, cv)        #for each base estimator, we create the meta feature on train set
             end_time = time.time()
 
             for i in range(0, y_pred.shape[1]-int(self.drop_first)):
-                preds["est"+str(c+1)+"_class"+str(i)+"_("+str(end_time-start_time)+"sec)"] = y_pred[:,i]
+                preds["est"+str(c+1)+"_class"+str(i)] = y_pred[:,i]
 
             clf.fit(X.drop(indexes_to_drop), y.drop(indexes_to_drop))      # and we refit the base estimator on entire train set
 
-
+        layer = 1
+        while(len(np.intersect1d(X.columns, ["layer"+str(layer)+"_"+s for s in preds.columns]))>0):
+            layer = layer + 1
+        preds.columns = ["layer"+str(layer)+"_"+s for s in preds.columns]
+            
         self.__fittransformOK = True
 
         if(self.copy==True):
@@ -253,6 +258,11 @@ class StackingClassifier():
                 for i in range(0, y_pred_test.shape[1]-int(self.drop_first)):
                     preds_test["est"+str(c+1)+"_class"+str(i)] = y_pred_test[:,i]
 
+            layer = 1
+            while(len(np.intersect1d(X_test.columns, ["layer"+str(layer)+"_"+s for s in preds_test.columns]))>0):
+                layer = layer + 1
+            preds_test.columns = ["layer"+str(layer)+"_"+s for s in preds_test.columns]
+            
             if(self.copy==True):
                 return pd.concat([X_test, preds_test], axis=1)    #we keep also the initial features
 
@@ -291,6 +301,7 @@ class StackingClassifier():
             print("[=========================================================================] PREDICTION LAYER [============================================================================]")
             print("")
             print("> fitting estimator : "+str(self.level_estimator.get_params())+" ...")
+            print("")
 
         self.level_estimator.fit(X.values, y.values)    #we fit the second level estimator
 
