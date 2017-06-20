@@ -129,21 +129,24 @@ class StackingRegressor():
         if(self.verbose):
             print("")
             print("[=============================================================================] LAYER [===================================================================================]")
+            print("")
 
-        for c, clf in enumerate(self.base_estimators):
+        for c, reg in enumerate(self.base_estimators):
 
             if(self.verbose):
+                print("> fitting estimator n°"+ str(c+1) + " : "+ str(reg.get_params())+" ...")
                 print("")
-                print("> fitting estimator n°"+ str(c+1) + " : "+ str(clf.get_params())+" ...")
 
-            start_time = time.time()
-            y_pred = cross_val_predict(estimator = clf, X = X, y = y, cv = cv)     #for each base estimator, we create the meta feature on train set
-            end_time = time.time()
+            y_pred = cross_val_predict(estimator = reg, X = X, y = y, cv = cv)     #for each base estimator, we create the meta feature on train set
+            preds["est"+str(c+1)] = y_pred
 
-            preds["est"+str(c+1)+"_("+str(end_time-start_time)+"sec)"] = y_pred
+            reg.fit(X, y)  # and we refit the base estimator on entire train set
 
-            clf.fit(X, y)  # and we refit the base estimator on entire train set
-
+        layer = 1
+        while(len(np.intersect1d(X.columns, ["layer"+str(layer)+"_"+s for s in preds.columns]))>0):
+            layer = layer + 1
+        preds.columns = ["layer"+str(layer)+"_"+s for s in preds.columns]            
+            
         self.__fittransformOK = True
 
         if(self.copy==True):
@@ -151,7 +154,6 @@ class StackingRegressor():
 
         else:
             return preds    #we keep only the meta features
-
 
 
     def transform(self, X_test):
@@ -179,14 +181,18 @@ class StackingRegressor():
 
             preds_test = pd.DataFrame([], index=X_test.index)
 
-            for c, clf in enumerate(self.base_estimators):
+            for c, reg in enumerate(self.base_estimators):
 
-                y_pred_test = clf.predict(X_test)   #for each base estimator, we predict the meta feature on test set
+                y_pred_test = reg.predict(X_test)   #for each base estimator, we predict the meta feature on test set
                 preds_test["est"+str(c+1)] = y_pred_test
 
+            layer = 1
+            while(len(np.intersect1d(X_test.columns, ["layer"+str(layer)+"_"+s for s in preds_test.columns]))>0):
+                layer = layer + 1
+            preds_test.columns = ["layer"+str(layer)+"_"+s for s in preds_test.columns]     
+                
             if(self.copy==True):
                 return pd.concat([X_test, preds_test], axis=1)   #we keep also the initial features
-
             else:
                 return preds_test     #we keep only the meta features
 
@@ -222,6 +228,7 @@ class StackingRegressor():
             print("[=========================================================================] PREDICTION LAYER [============================================================================]")
             print("")
             print("> fitting estimator : "+str(self.level_estimator.get_params())+" ...")
+            print("")
 
         self.level_estimator.fit(X.values, y.values)     #we fit the second level estimator
 
