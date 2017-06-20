@@ -204,10 +204,7 @@ class StackingClassifier():
                 print("> fitting estimator n°"+ str(c+1) + " : "+ str(clf.get_params())+" ...")
                 print("")
 
-            start_time = time.time()
             y_pred = self.__cross_val_predict_proba(clf, X, y, cv)        #for each base estimator, we create the meta feature on train set
-            end_time = time.time()
-
             for i in range(0, y_pred.shape[1]-int(self.drop_first)):
                 preds["est"+str(c+1)+"_class"+str(i)] = y_pred[:,i]
 
