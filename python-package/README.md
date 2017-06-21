@@ -12,32 +12,6 @@ Stable version
 ==============
 
 
-Extended version
-----------------
-
-MLBox relies on several models. Some can occasionally be difficult to install, so they are not included in MLBox's default installation. You are responsible for installing them yourself. 
-
-__Keep in mind that mlbox will run fine without them installed !__
-__Here is the procedure to get the extention only (MLBox will not be installed yet !):__
-
-
-.. code-block:: console
-
-    $ git clone --recursive https://github.com/Microsoft/LightGBM ; cd LightGBM
-    $ mkdir build ; cd build
-    $ cmake .. 
-    $ make -j 
-    $ cd python-package; python setup.py install
-
-
-If you get some trouble, please refer to : (https://github.com/Microsoft/LightGBM)
- 
-__Now you need to follow the procedure bellow to install the stable version of MLBox:__
-
-
-From sources
-------------
-
 The sources for MLBox can be downloaded from the `Github repo`_.
 
 You can either clone the public repository:
