@@ -7,6 +7,8 @@ _It is compatible with:_ __Python 2.7__. (Python 3.3-3.6 very soon...)
 
 _Operating system:_ __Linux__. (MacOS & Windows very soon...)
 
+Note: 32-bit python is not supported. Please install 64-bit version.
+
 ## Preparation 
 
 First, make sure you have [setuptools](https://pypi.python.org/pypi/setuptools) installed. <br/>
