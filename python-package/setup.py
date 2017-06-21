@@ -11,6 +11,7 @@ with open('HISTORY.rst') as history_file:
 
 requirements = [
     "numpy>=1.10.4",
+    "matplotlib>=1.5.1",
     "hyperopt==0.1",
     "ipyparallel==6.0.0",
     "Keras==2.0.4",
@@ -24,6 +25,7 @@ requirements = [
 
 test_requirements = [
     "numpy>=1.10.4",
+    "matplotlib>=1.5.1",
     "hyperopt==0.1",
     "ipyparallel==6.0.0",
     "Keras==2.0.4",
