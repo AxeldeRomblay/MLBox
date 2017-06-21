@@ -7,7 +7,7 @@ _It is compatible with:_ __Python 2.7__. (Python 3.3-3.6 very soon...)
 
 _Operating system:_ __Linux__. (MacOS & Windows very soon...)
 
-
+<br/>
 
 Stable version
 ==============
