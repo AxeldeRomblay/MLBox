@@ -18,7 +18,8 @@ requirements = [
     "scikit-learn>=0.18.1",
     "scipy>=0.17.0",
     "Theano==0.8.2",
-    "xgboost==0.6a2"
+    "xgboost==0.6a2",
+    "lightgbm==2.0.2"
 ]
 
 test_requirements = [
@@ -30,7 +31,8 @@ test_requirements = [
     "scikit-learn>=0.18.1",
     "scipy>=0.17.0",
     "Theano==0.8.2",
-    "xgboost==0.6a2"
+    "xgboost==0.6a2",
+    "lightgbm==2.0.2"
 ]
 
 setup(
