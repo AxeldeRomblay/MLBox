@@ -12,13 +12,13 @@ _Operating system:_ __Linux__. (MacOS & Windows very soon...)
 First, make sure you have [setuptools](https://pypi.python.org/pypi/setuptools) installed. <br/>
 Since MLBox package contains C++ source code, check that the following requirements are installed, otherwise please proceed below: 
 
-# **[gcc](https://gcc.gnu.org/)** 
+** 1/ [gcc](https://gcc.gnu.org/)** 
 
 .. code-block:: console
 
     $ sudo apt-get install build-essential
     
-# **[cmake](https://cmake.org/)** : 
+** 2/ [cmake](https://cmake.org/)** : 
 
 .. code-block:: console
 
