@@ -30,27 +30,27 @@ Since MLBox package contains C++ source code, check that the following requireme
 
 The sources for MLBox can be downloaded from the `Github repo`_.
 
-You can either clone the public repository:
+You can either **clone** the public repository:
 
 .. code-block:: console
 
     $ git clone git://github.com/AxeldeRomblay/mlbox
 
-Or download the `tarball`_:
+**Or download** the `tarball`_:
 
 .. code-block:: console
 
     $ curl  -OL https://github.com/AxeldeRomblay/mlbox/tarball/master
 
 
-Once you have a copy of the source, you can install it with:
+Once you have a copy of the source, you can **install it** with:
 
 .. code-block:: console
 
     $ cd python-package/
     $ python setup.py install
 
-Or directly, from the wheel:
+Or directly, **from the wheel**:
 
 .. code-block:: console
 
