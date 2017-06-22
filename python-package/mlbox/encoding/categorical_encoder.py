@@ -7,7 +7,6 @@ import pandas as pd
 import warnings
 
 import os
-
 os.environ["KERAS_BACKEND"] = "theano"
 
 from keras.layers.core import Dense, Reshape, Dropout
