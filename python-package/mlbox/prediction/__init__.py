@@ -1,2 +1,2 @@
-from predictor import *
+from .predictor import *
 

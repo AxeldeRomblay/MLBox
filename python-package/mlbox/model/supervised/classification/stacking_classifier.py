@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import StratifiedKFold
 from copy import copy as make_copy
-from classifier import *
+from .classifier import *
 import time
 
 

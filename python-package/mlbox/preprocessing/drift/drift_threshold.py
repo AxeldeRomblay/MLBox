@@ -8,7 +8,7 @@ import os
 
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
-from drift_estimator import * 
+from .drift_estimator import *
 
 
 def sync_fit(df_train, df_test, estimator, n_folds, stratify, random_state):
