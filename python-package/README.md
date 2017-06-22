@@ -53,7 +53,7 @@ Since MLBox package contains C++ source code, check that the following requireme
         $ cd python-package/
         $ python setup.py install
 
-    Or directly, from the wheel:
+    * Or directly, from the wheel:
 
     .. code-block:: console
 
