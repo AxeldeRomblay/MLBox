@@ -10,29 +10,29 @@ with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
 requirements = [
-    "numpy>=1.10.4",
-    "matplotlib>=1.5.1",
+    "numpy>=1.13.0",
+    "matplotlib>=2.0.2",
     "hyperopt==0.1",
     "ipyparallel==6.0.0",
     "Keras==2.0.4",
     "pandas>=0.18.0",
-    "scikit-learn>=0.18.1",
+    "scikit-learn==0.18.1",
     "scipy>=0.17.0",
-    "Theano==0.8.2",
+    "Theano==0.9.0",
     "xgboost==0.6a2",
     "lightgbm==2.0.2"
 ]
 
 test_requirements = [
-    "numpy>=1.10.4",
-    "matplotlib>=1.5.1",
+    "numpy>=1.13.0",
+    "matplotlib>=2.0.2",
     "hyperopt==0.1",
     "ipyparallel==6.0.0",
     "Keras==2.0.4",
     "pandas>=0.18.0",
-    "scikit-learn>=0.18.1",
+    "scikit-learn==0.18.1",
     "scipy>=0.17.0",
-    "Theano==0.8.2",
+    "Theano==0.9.0",
     "xgboost==0.6a2",
     "lightgbm==2.0.2"
 ]
