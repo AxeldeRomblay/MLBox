@@ -1,2 +1,2 @@
-from supervised import *
+from .supervised import *
 

@@ -1,2 +1,2 @@
-from optimiser import *
+from .optimiser import *
 

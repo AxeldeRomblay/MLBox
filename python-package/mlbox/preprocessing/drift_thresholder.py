@@ -2,7 +2,7 @@
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
 
-from drift import *
+from .drift import *
 import os
 from sklearn.pipeline import Pipeline
 import warnings

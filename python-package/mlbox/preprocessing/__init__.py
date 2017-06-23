@@ -1,3 +1,3 @@
-from drift_thresholder import *
-from reader import *
+from .drift_thresholder import *
+from .reader import *
 

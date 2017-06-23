@@ -9,7 +9,7 @@ import os
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import *
-from drift_threshold import *
+from .drift_threshold import *
 
 
 def log_progress(sequence, every=None, size=None):

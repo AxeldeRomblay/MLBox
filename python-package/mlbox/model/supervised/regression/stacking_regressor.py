@@ -8,7 +8,7 @@ import pandas as pd
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import KFold, cross_val_predict
 from copy import copy as make_copy
-from regressor import *
+from .regressor import *
 import time
 
 
