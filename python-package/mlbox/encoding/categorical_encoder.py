@@ -7,7 +7,10 @@ import pandas as pd
 import warnings
 
 import os
-os.environ["KERAS_BACKEND"] = "theano"
+
+# Set the keras backend if not set, default is theano
+if not "KERAS_BACKEND" in os.environ:
+    os.environ["KERAS_BACKEND"] = "theano"
 
 from keras.layers.core import Dense, Reshape, Dropout
 from keras.layers.embeddings import Embedding
