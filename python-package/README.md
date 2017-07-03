@@ -3,7 +3,7 @@ MLBox, Machine Learning Box
 
 __MLBox is a powerful Automated Machine Learning python library.__
 
-_It is compatible with:_ __Python 2.7__. (Python 3.3-3.6 is available on branch 3.0-dev) | __64-bit version only__ (32-bit python is not supported)
+_It is compatible with:_ __Python 2.7 - 3.6__. | __64-bit version only__ (32-bit python is not supported)
 
 _Operating system:_ __Linux__. (MacOS & Windows very soon...)
 
@@ -28,6 +28,7 @@ Since MLBox package contains C++ source code, check that the following requireme
     
 ## Stable version
 
+To get it installed for Python 3, please refer to branch "3.0-dev".
 
 * **The sources for MLBox can be downloaded** from the `Github repo`_.
 
@@ -70,7 +71,7 @@ Since MLBox package contains C++ source code, check that the following requireme
 ## Dev version
 
 
-A 2.3 dev-version for MLBox is also available on the __branch "3.0-dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment.__
+A 2.3 dev-version for MLBox is also available on the __branch "2.3-dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment.__
 
 If you want, you can have a try: 
 
@@ -82,7 +83,7 @@ If you want, you can have a try:
         $ cd scikit-learn-master/
         $ python setup.py install 
 
-* Clone or download MLBox-2.3.dev0 from the '3.0-dev' branch. 
+* Clone or download MLBox-2.3.dev0 from the '2.3-dev' branch. 
 * Install MLBox-2.3.dev0: 
 
     .. code-block:: console
