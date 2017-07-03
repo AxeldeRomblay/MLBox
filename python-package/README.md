@@ -28,8 +28,10 @@ Since MLBox package contains C++ source code, check that the following requireme
     
 ## Stable version
 
-To get it installed for Python 3, please refer to branch ["3.0-dev"](https://github.com/AxeldeRomblay/MLBox/tree/3.0-dev)
-Otherwise, proceed below: 
+To get it installed for Python 3, please refer to branch [**"3.0-dev"**](https://github.com/AxeldeRomblay/MLBox/tree/3.0-dev)
+Otherwise, please read the following instructions: 
+
+<br/>
 
 * **The sources for MLBox can be downloaded** from the `Github repo`_.
 
