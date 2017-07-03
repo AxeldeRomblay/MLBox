@@ -4,6 +4,7 @@
 # License: BSD 3 clause
 
 import numpy as np
+import pandas as pd
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 import warnings
@@ -74,8 +75,16 @@ class Clf_feature_selector():
         -------
         None       
         
-        ''' 
-        
+        '''
+
+        ### sanity checks
+        if ((type(df_train)==pd.SparseDataFrame)|(type(df_train)==pd.DataFrame)):
+            raise ValueError("df_train must be a DataFrame")
+
+        if (type(y_train) != pd.core.series.Series):
+            raise ValueError("y_train must be a Series")
+
+
         if(self.strategy=='variance'):
             coef = df_train.std()
             abstract_threshold = np.percentile(coef,100.*self.threshold)
@@ -129,6 +138,12 @@ class Clf_feature_selector():
         
         
         if(self.__fitOK):
+
+            ### sanity checks
+            if ((type(df)==pd.SparseDataFrame)|(type(df)==pd.DataFrame)):
+                raise ValueError("df must be a DataFrame")
+
+
             return df.drop(self.__to_discard,axis=1)
         else:
             raise ValueError("call fit or fit_transform function before")
