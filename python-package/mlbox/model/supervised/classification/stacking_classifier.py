@@ -144,8 +144,8 @@ class StackingClassifier():
             y_train = y.iloc[train_index]
 
             try:
-                X_train.drop(indexes_to_drop, inplace = True)
-                y_train.drop(indexes_to_drop, inplace = True)
+                X_train = X_train.drop(indexes_to_drop)
+                y_train = y_train.drop(indexes_to_drop)
 
             except:
                 pass
