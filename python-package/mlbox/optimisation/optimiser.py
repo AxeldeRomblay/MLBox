@@ -289,13 +289,13 @@ class Optimiser():
                 print("")
                 print("########################################################## testing hyper-parameters... #################################################################")
                 print("")
-                print(">>> NA ENCODER :"+str(ne.get_params()))
+                print(">>> NA ENCODER : "+str(ne.get_params()))
                 print("")
-                print(">>> CA ENCODER :"+str({'strategy': ce.strategy}))
+                print(">>> CA ENCODER : "+str({'strategy': ce.strategy}))
 
                 if(fs is not None):
                     print("")
-                    print(">>> FEATURE SELECTOR :"+str(fs.get_params()))
+                    print(">>> FEATURE SELECTOR : "+str(fs.get_params()))
 
                 for i, stck in enumerate(np.sort(STCK.keys())):
 
@@ -303,13 +303,13 @@ class Optimiser():
                     stck_params_display = {k:stck_params[k] for k in stck_params.keys() if k not in ["level_estimator", "verbose", "base_estimators"]}
 
                     print("")
-                    print(">>> STACKING LAYER n°"+str(i+1)+" :"+str(stck_params_display))
+                    print(">>> STACKING LAYER n°"+str(i+1)+" : "+str(stck_params_display))
                     for j, model in enumerate(stck_params["base_estimators"]):
                         print("")
-                        print("    > base_estimator n°"+str(j+1)+" :"+str(dict(model.get_params().items()+model.get_estimator().get_params().items())))
+                        print("    > base_estimator n°"+str(j+1)+" : "+str(dict(model.get_params().items()+model.get_estimator().get_params().items())))
 
                 print("")
-                print(">>> ESTIMATOR :"+str(dict(est.get_params().items()+est.get_estimator().get_params().items())))
+                print(">>> ESTIMATOR : "+str(dict(est.get_params().items()+est.get_estimator().get_params().items())))
                 print("")
 
             try:
