@@ -370,8 +370,8 @@ class Categorical_encoder():
                         ### handling unknown and missing levels ###
                         unique_levels = set(df[col].values)
                         sub_levels = unique_levels & set(self.__Enc[col])
-                        missing_levels = [col+"_"+ s for s in list(set(self.__Enc[col]) - sub_levels)]
-                        sub_levels = [col+"_"+ s for s in list(sub_levels)]
+                        missing_levels = [col+"_"+ str(s) for s in list(set(self.__Enc[col]) - sub_levels)]
+                        sub_levels = [col+"_"+ str(s) for s in list(sub_levels)]
 
                         sub_var = sub_var + sub_levels
                         missing_var = missing_var + missing_levels
