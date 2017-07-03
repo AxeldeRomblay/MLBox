@@ -71,7 +71,7 @@ To get it installed for Python 3, please refer to branch [**"3.0-dev"**](https:/
 ## Dev version
 
 
-A 2.3 dev-version for MLBox is also available on the __branch "2.3-dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment.__
+A 2.3 dev-version for MLBox is also available on the branch [**"2.3-dev"**](https://github.com/AxeldeRomblay/MLBox/tree/2.3-dev) ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment.__
 
 If you want, you can have a try: 
 
