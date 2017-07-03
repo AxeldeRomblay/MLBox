@@ -3,6 +3,7 @@
 # License: BSD 3 clause
 
 import numpy as np
+import pandas as pd
 from sklearn.linear_model import Lasso
 from sklearn.ensemble import RandomForestRegressor
 import warnings
@@ -70,6 +71,13 @@ class Reg_feature_selector():
 
         """
 
+        ### sanity checks
+        if ((type(df_train)==pd.SparseDataFrame)|(type(df_train)==pd.DataFrame)):
+            raise ValueError("df_train must be a DataFrame")
+
+        if (type(y_train) != pd.core.series.Series):
+            raise ValueError("y_train must be a Series")
+
         if(self.strategy == 'variance'):
             coef = df_train.std()
             abstract_threshold = np.percentile(coef, 100.*self.threshold)
@@ -119,6 +127,11 @@ class Reg_feature_selector():
 
         """
         if(self.__fitOK):
+
+            ### sanity checks
+            if ((type(df)==pd.SparseDataFrame)|(type(df)==pd.DataFrame)):
+                raise ValueError("df must be a DataFrame")
+
             return df.drop(self.__to_discard, axis=1)
         else:
             raise ValueError("call fit or fit_transform function before")

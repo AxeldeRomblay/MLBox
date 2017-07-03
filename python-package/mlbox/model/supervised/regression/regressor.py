@@ -6,6 +6,7 @@ import warnings
 from copy import copy
 
 import numpy as np
+import pandas as pd
 from sklearn.ensemble import *
 from xgboost import XGBRegressor
 from sklearn.linear_model import Ridge
@@ -152,12 +153,19 @@ class Regressor():
 
         '''
 
+        ### sanity checks
+        if ((type(df_train)==pd.SparseDataFrame)|(type(df_train)==pd.DataFrame)):
+            raise ValueError("df_train must be a DataFrame")
 
-        self.__regressor.fit(df_train, y_train)
+        if (type(y_train) != pd.core.series.Series):
+            raise ValueError("y_train must be a Series")
+
+        self.__regressor.fit(df_train.values, y_train)
         self.__col = df_train.columns
         self.__fitOK = True
 
         return self
+
 
     def feature_importances(self):
 
@@ -255,7 +263,13 @@ class Regressor():
             raise e
 
         if self.__fitOK:
-            return self.__regressor.predict(df)
+
+            ### sanity checks
+            if ((type(df)==pd.SparseDataFrame)|(type(df)==pd.DataFrame)):
+                raise ValueError("df must be a DataFrame")
+
+            return self.__regressor.predict(df.values)
+
         else:
             raise ValueError("You must call the fit function before !")
 
@@ -287,7 +301,12 @@ class Regressor():
             raise e
 
         if self.__fitOK:
-            return self.__regressor.transform(df)
+
+            ### sanity checks
+            if ((type(df)==pd.SparseDataFrame)|(type(df)==pd.DataFrame)):
+                raise ValueError("df must be a DataFrame")
+
+            return self.__regressor.transform(df.values)
         else:
             raise ValueError("You must call the fit function before !")
 
@@ -321,7 +340,15 @@ class Regressor():
             raise e
 
         if self.__fitOK:
-            return self.__regressor.score(df, y, sample_weight)
+
+            ### sanity checks
+            if ((type(df)==pd.SparseDataFrame)|(type(df)==pd.DataFrame)):
+                raise ValueError("df must be a DataFrame")
+
+            if (type(y) != pd.core.series.Series):
+                raise ValueError("y must be a Series")
+
+            return self.__regressor.score(df.values, y, sample_weight)
         else:
             raise ValueError("You must call the fit function before !")
 
