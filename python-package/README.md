@@ -70,7 +70,7 @@ Since MLBox package contains C++ source code, check that the following requireme
 ## Dev version
 
 
-A 2.3 dev-version for MLBox is also available on the __branch "dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment.__
+A 2.3 dev-version for MLBox is also available on the __branch "3.0-dev"__ ! It provides some interesting new features. Please refer to [HISTORY](https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst). __It depends on sklearn-0.19.dev0 which is not a stable version at the moment.__
 
 If you want, you can have a try: 
 
@@ -82,7 +82,7 @@ If you want, you can have a try:
         $ cd scikit-learn-master/
         $ python setup.py install 
 
-* Clone or download MLBox-2.3.dev0 from the 'dev' branch. 
+* Clone or download MLBox-2.3.dev0 from the '3.0-dev' branch. 
 * Install MLBox-2.3.dev0: 
 
     .. code-block:: console
