@@ -35,6 +35,6 @@ dev 0.2.3 (non stable version, available on branch "2.3-dev")
 -------------------------------------------------------------
 * add of pipeline memory.
 
-dev 0.3.0 (to be tested, available on branch "3.0-dev")
--------------------------------------------------------
-* Python 2.6-2.7 & Python 3.3-3.6 compatibility
+dev 0.3.0 (2017-07-03, available on branch "3.0-dev")
+-----------------------------------------------------
+* Python 2.6-2.7 & Python 3.3-3.6 compatibilities
