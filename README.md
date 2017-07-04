@@ -1,6 +1,8 @@
 MLBox, Machine Learning Box
 ===========================
 
+[![Documentation Status](https://ncherel.github.io/MLBox/readme.html#getting-started-30-seconds-to-mlbox)
+
 __MLBox is a powerful Automated Machine Learning python library.__ It provides the following features:
 
 - Fast reading and distributed data preprocessing/cleaning/formatting
