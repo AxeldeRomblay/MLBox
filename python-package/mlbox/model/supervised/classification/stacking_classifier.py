@@ -178,7 +178,7 @@ class StackingClassifier():
         """
 
         ### sanity checks
-        if((type(X)==pd.SparseDataFrame)|(type(X)==pd.DataFrame)):
+        if((type(X)!=pd.SparseDataFrame)|(type(X)!=pd.DataFrame)):
             raise ValueError("X must be a DataFrame")
 
         if(type(y)!=pd.core.series.Series):
@@ -241,7 +241,7 @@ class StackingClassifier():
         """
 
         ### sanity checks
-        if((type(X_test)==pd.SparseDataFrame)|(type(X_test)==pd.DataFrame)):
+        if((type(X_test)!=pd.SparseDataFrame)|(type(X_test)!=pd.DataFrame)):
             raise ValueError("X_test must be a DataFrame")
 
 
