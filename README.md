@@ -1,7 +1,7 @@
 MLBox, Machine Learning Box
 ===========================
 
-[![Build Status](https://travis-ci.org/Microsoft/LightGBM.svg?branch=master)](https://travis-ci.org/Microsoft/LightGBM)
+[![Documentation Status](https://readthedocs.org/projects/xgboost/badge/?version=latest)](https://xgboost.readthedocs.org)
 
 __MLBox is a powerful Automated Machine Learning python library.__ It provides the following features:
 
