@@ -78,7 +78,7 @@ class Clf_feature_selector():
         '''
 
         ### sanity checks
-        if ((type(df_train)!=pd.SparseDataFrame)|(type(df_train)!=pd.DataFrame)):
+        if ((type(df_train)!=pd.SparseDataFrame)&(type(df_train)!=pd.DataFrame)):
             raise ValueError("df_train must be a DataFrame")
 
         if (type(y_train) != pd.core.series.Series):
@@ -140,7 +140,7 @@ class Clf_feature_selector():
         if(self.__fitOK):
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
 
