@@ -154,7 +154,7 @@ class Classifier():
         '''
 
         ### sanity checks
-        if ((type(df_train)!=pd.SparseDataFrame)|(type(df_train)!=pd.DataFrame)):
+        if ((type(df_train)!=pd.SparseDataFrame)&(type(df_train)!=pd.DataFrame)):
             raise ValueError("df_train must be a DataFrame")
 
         if (type(y_train) != pd.core.series.Series):
@@ -266,7 +266,7 @@ class Classifier():
         if self.__fitOK:
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__classifier.predict(df.values)
@@ -304,7 +304,7 @@ class Classifier():
         if self.__fitOK:
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__classifier.predict_log_proba(df.values)
@@ -342,7 +342,7 @@ class Classifier():
         if self.__fitOK:
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__classifier.predict_proba(df.values)
@@ -380,7 +380,7 @@ class Classifier():
         if self.__fitOK:
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__classifier.transform(df.values)
@@ -419,7 +419,7 @@ class Classifier():
         if self.__fitOK:
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             if (type(y) != pd.core.series.Series):
