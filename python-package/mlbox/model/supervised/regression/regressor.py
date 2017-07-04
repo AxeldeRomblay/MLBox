@@ -154,7 +154,7 @@ class Regressor():
         '''
 
         ### sanity checks
-        if ((type(df_train)!=pd.SparseDataFrame)|(type(df_train)!=pd.DataFrame)):
+        if ((type(df_train)!=pd.SparseDataFrame)&(type(df_train)!=pd.DataFrame)):
             raise ValueError("df_train must be a DataFrame")
 
         if (type(y_train) != pd.core.series.Series):
@@ -265,7 +265,7 @@ class Regressor():
         if self.__fitOK:
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__regressor.predict(df.values)
@@ -303,7 +303,7 @@ class Regressor():
         if self.__fitOK:
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__regressor.transform(df.values)
@@ -342,7 +342,7 @@ class Regressor():
         if self.__fitOK:
 
             ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)|(type(df)!=pd.DataFrame)):
+            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             if (type(y) != pd.core.series.Series):
