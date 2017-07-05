@@ -10,6 +10,7 @@ python:
 # command to install dependencies
 install:
   - pip install cmake
+  - pip install skbuild 
   - pip install -r python-package/requirements.txt
 # command to run tests
 script: pytest
