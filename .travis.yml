@@ -9,7 +9,7 @@ python:
   - "3.6"
 # command to install dependencies
 install:
-  - pip install .
+  - pip install python-package/.
   - pip install -r python-package/requirements.txt
 # command to run tests
 script: pytest
