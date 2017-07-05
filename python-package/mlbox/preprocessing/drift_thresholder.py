@@ -109,7 +109,7 @@ class Drift_thresholder():
 
             self.__fitOK = True
             self.__Ddrifts = ds.drifts()
-            drifts_top = sorted(ds.drifts().items(), lambda a,b: cmp(a[1],b[1]), reverse=True)[:10]
+            drifts_top=sorted([(k,v) for (k,v) in ds.drifts().items()], key=lambda x: x[1], reverse=True)[:10]
 
             if(self.verbose):
                 print("Top 10 drifts")
