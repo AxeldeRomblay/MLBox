@@ -5,7 +5,9 @@ python:
   - "3.5"
   - "3.6"
 # command to install dependencies
-install: pip install --only-binary all -r python-package/requirements.txt
+install:
+  - pip install --upgrade pip setuptools wheel  
+  - pip install --only-binary all -r python-package/requirements.txt
 # command to run tests
 script:
   - cd python-package
