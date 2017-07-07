@@ -1,15 +1,12 @@
 language: python
 python:
-  - "2.6"
   - "2.7"
-  - "3.2"
-  - "3.3"
   - "3.4"
   - "3.5"
   - "3.6"
 # command to install dependencies
-install:
-  - pip install python-package/.
-  - pip install -r python-package/requirements.txt
+install: pip install --only-binary all -r python-package/requirements.txt
 # command to run tests
-script: pytest
+script:
+  - cd python-package
+  - python setup.py install
