@@ -1,4 +1,4 @@
-<img src=https://github.com/AxeldeRomblay/MLBox/blob/master/logo2.png width=55/> MLBox, Machine Learning Box 
+<img src=https://github.com/AxeldeRomblay/MLBox/blob/master/logo2.png width=85/> MLBox, Machine Learning Box 
 ===========================
 
 [![Build Status](https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master)](https://travis-ci.org/AxeldeRomblay/MLBox)
