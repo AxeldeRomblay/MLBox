@@ -1,7 +1,8 @@
 MLBox, Machine Learning Box
 ===========================
 [![Build Status](https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master)](https://travis-ci.org/AxeldeRomblay/MLBox)
-[![GitHub Issues](https://github.com/AxeldeRomblay/MLBox/issues.svg)](https://github.com/AxeldeRomblay/MLBox/issues)
+[![GitHub
+Issues](https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg)](https://github.com/AxeldeRomblay/MLBox/issues)
 
 __MLBox is a powerful Automated Machine Learning python library.__ It provides the following features:
 
