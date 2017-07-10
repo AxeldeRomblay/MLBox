@@ -24,7 +24,7 @@ class OverrideInstallCommand(install):
             print(str(failed))
             print("Please install them manually")
             print("")
-            return 1
+            raise OSError("Aborting")
 
         # install MlBox
         install.run(self)
