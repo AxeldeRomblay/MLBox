@@ -4,6 +4,7 @@
 [![Build Status](https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master)](https://travis-ci.org/AxeldeRomblay/MLBox)
 [![GitHub Issues](https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg)](https://github.com/AxeldeRomblay/MLBox/issues)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/AxeldeRomblay/MLBox/blob/master/LICENSE)
+[![PyPI version](https://badge.fury.io/py/mlbox.svg)](https://pypi.org/project/mlbox/)
 
 -----------------------------
 
