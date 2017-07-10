@@ -1,6 +1,6 @@
 # coding: utf-8
 # Authors: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
-#          Alexis BONDU <alexis.bondu@credit-agricole-sa.fr>
+#          Alexis BONDU <alexis.bondu@gmail.com >
 # License: BSD 3 clause
 
 import sys
