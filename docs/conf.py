@@ -15,34 +15,7 @@
 
 import sys
 import os
-from mock import Mock as MagicMock
 
-class Mock(MagicMock):
-    @classmethod
-    def __getattr__(cls, name):
-            return MagicMock()
-
-MOCK_MODULES = ['numpy',
-                'pandas',
-                'sklearn',
-                'keras',
-                'lightgbm',
-                'theano',
-                'xgboost',
-                'ipyparallel',
-                'keras.layers.core',
-                'keras.layers.embeddings',
-                'keras.layers',
-                'keras.models',
-                'sklearn.ensemble',
-                'sklearn.metrics',
-                'sklearn.linear_model',
-                'sklearn.model_selection',
-                'sklearn.tree',
-                'sklearn.pipeline',
-                'sklearn.preprocessing']
-
-sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 # If extensions (or modules to document with autodoc) are in another
 # directory, add these directories to sys.path here. If the directory is
