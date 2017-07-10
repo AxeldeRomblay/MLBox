@@ -5,6 +5,7 @@
 [![GitHub Issues](https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg)](https://github.com/AxeldeRomblay/MLBox/issues)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/AxeldeRomblay/MLBox/blob/master/LICENSE)
 [![PyPI version](https://badge.fury.io/py/mlbox.svg)](https://pypi.org/project/mlbox/)
+[![codecov](https://codecov.io/gh/AxeldeRomblay/MLBox/branch/master/graph/badge.svg)](https://codecov.io/gh/AxeldeRomblay/MLBox)
 
 -----------------------------
 
