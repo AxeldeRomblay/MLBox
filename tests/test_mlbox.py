@@ -13,9 +13,6 @@ import pytest
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from ..python-package.mlbox import *
-from ..python-package.mlbox import cli
-
 
 @pytest.fixture
 def response():
