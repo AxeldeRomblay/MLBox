@@ -13,8 +13,8 @@ import pytest
 from contextlib import contextmanager
 from click.testing import CliRunner
 
-from mlbox import mlbox
-from mlbox import cli
+from ..python-package.mlbox import *
+from ..python-package.mlbox import cli
 
 
 @pytest.fixture
