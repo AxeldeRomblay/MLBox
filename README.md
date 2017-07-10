@@ -1,4 +1,4 @@
-<img src=https://github.com/AxeldeRomblay/MLBox/blob/master/logo.png width=395/> 
+<img src=https://github.com/AxeldeRomblay/MLBox/blob/master/logo.png width=895/> 
 
 [![Build Status](https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master)](https://travis-ci.org/AxeldeRomblay/MLBox)
 [![GitHub Issues](https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg)](https://github.com/AxeldeRomblay/MLBox/issues)
