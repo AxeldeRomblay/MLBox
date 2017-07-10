@@ -7,7 +7,6 @@ python:
 # command to install dependencies
 install:
   - pip install codecov
-  - pip install click
   - pip install --upgrade pip setuptools wheel  
   - pip install --only-binary all -r python-package/requirements.txt
 # command to run tests
