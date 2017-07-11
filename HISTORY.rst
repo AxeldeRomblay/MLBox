@@ -26,8 +26,8 @@ History
 ------------------
 * add of feature importances for bagging and boosting meta-models.
 
-0.2.2 (official release : 2017-06-13, available on branch "master")
--------------------------------------------------------------------
+0.2.2 (first official release : 2017-06-13)
+-------------------------------------------
 * update of dependencies (Keras 2.0,...).
 * add of LightGBM model.
 
