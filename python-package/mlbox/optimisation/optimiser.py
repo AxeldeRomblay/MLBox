@@ -44,8 +44,8 @@ class Optimiser():
         A string (see model evaluation documentation) or a scorer callable object / function with signature``scorer(estimator, X, y)``.
 
         If None, "log_loss" is used for classification and "mean_squarred_error" for regression
-	Available scorings for classification : "accuracy","roc_auc", "f1", "log_loss", "precision", "recall"
-	Available scorings for regression : "mean_absolute_error", "mean_squared_error", "median_absolute_error", "r2"
+	    Available scorings for classification : "accuracy","roc_auc", "f1", "log_loss", "precision", "recall"
+	    Available scorings for regression : "mean_absolute_error", "mean_squared_error", "median_absolute_error", "r2"
 
     n_folds : int, defaut = 2
         The number of folds for cross validation (stratified for classification)
@@ -131,7 +131,6 @@ class Optimiser():
         ne = NA_encoder()
         ce = Categorical_encoder()
 
-
         ##########################################################################
         #################### automatically checking the task ####################
         ##########################################################################
@@ -140,52 +139,52 @@ class Optimiser():
         ######################
         ### classification ###
 
-        if(df['target'].dtype=='int'):
+        if (df['target'].dtype == 'int'):
 
             ### cross validation ###
 
             counts = df['target'].value_counts()
-            classes_to_drop = counts[counts<self.n_folds].index
+            classes_to_drop = counts[counts < self.n_folds].index
             indexes_to_drop = df['target'][df['target'].apply(lambda x: x in classes_to_drop)].index
 
-            cv = StratifiedKFold(n_splits = self.n_folds, shuffle=True,random_state=self.random_state)
+            cv = StratifiedKFold(n_splits=self.n_folds, shuffle=True, random_state=self.random_state)
 
             ### estimator ###
             est = Classifier()
 
             ### feature selection if specified ###
             fs = None
-            if(params is not None):
+            if (params is not None):
                 for p in params.keys():
-                    if(p.startswith("fs__")):
+                    if (p.startswith("fs__")):
                         fs = Clf_feature_selector()
                     else:
                         pass
 
             ### stacking if specified ###
             STCK = {}
-            if(params is not None):
+            if (params is not None):
                 for p in params.keys():
-                    if(p.startswith("stck")):
+                    if (p.startswith("stck")):
                         STCK[p.split("__")[0]] = StackingClassifier(verbose=False)
                     else:
                         pass
-
 
             ### defaut scoring for classification ###
 
             auc = False
 
-            if(self.scoring is None):
+            if (self.scoring is None):
                 self.scoring = 'log_loss'
 
-            elif(self.scoring=='roc_auc'):
+            elif (self.scoring == 'roc_auc'):
                 auc = True
-                self.scoring = make_scorer(lambda y_true, y_pred: roc_auc_score(pd.get_dummies(y_true), y_pred), greater_is_better=True, needs_proba=True)
+                self.scoring = make_scorer(lambda y_true, y_pred: roc_auc_score(pd.get_dummies(y_true), y_pred),
+                                           greater_is_better=True, needs_proba=True)
 
             else:
-                if(type(self.scoring)==str):
-                    if(self.scoring in ["accuracy","roc_auc", "f1", "log_loss", "precision", "recall"]):
+                if (type(self.scoring) == str):
+                    if (self.scoring in ["accuracy", "roc_auc", "f1", "log_loss", "precision", "recall"]):
                         pass
                     else:
                         warnings.warn("Invalid scoring metric. log_loss is used instead.")
@@ -198,30 +197,30 @@ class Optimiser():
         ##################
         ### regression ###
 
-        elif(df['target'].dtype=='float'):
+        elif (df['target'].dtype == 'float'):
 
             ### cross validation ###
 
             indexes_to_drop = []
-            cv = KFold(n_splits = self.n_folds, shuffle=True,random_state=self.random_state)
+            cv = KFold(n_splits=self.n_folds, shuffle=True, random_state=self.random_state)
 
             ### estimator ###
             est = Regressor()
 
-             ### feature selection if specified ###
+            ### feature selection if specified ###
             fs = None
-            if(params is not None):
+            if (params is not None):
                 for p in params.keys():
-                    if(p.startswith("fs__")):
+                    if (p.startswith("fs__")):
                         fs = Reg_feature_selector()
                     else:
                         pass
 
             ### stacking if specified ###
             STCK = {}
-            if(params is not None):
+            if (params is not None):
                 for p in params.keys():
-                    if(p.startswith("stck")):
+                    if (p.startswith("stck")):
                         STCK[p.split("__")[0]] = StackingRegressor(verbose=False)
                     else:
                         pass
@@ -230,11 +229,11 @@ class Optimiser():
 
             auc = False
 
-            if(self.scoring is None):
+            if (self.scoring is None):
                 self.scoring = "mean_squared_error"
             else:
-                if(type(self.scoring)==str):
-                    if(self.scoring in ["mean_absolute_error", "mean_squared_error", "median_absolute_error", "r2"]):
+                if (type(self.scoring) == str):
+                    if (self.scoring in ["mean_absolute_error", "mean_squared_error", "median_absolute_error", "r2"]):
                         pass
                     else:
                         warnings.warn("Invalid scoring metric. mean_squarred_error is used instead.")
@@ -245,24 +244,22 @@ class Optimiser():
         else:
             raise ValueError("Impossible to determine the task. Please check that your target is encoded.")
 
-
         ############################################################
         ##################### creating the pipeline ##################
         ############################################################
 
-        pipe = [("ne",ne),("ce",ce)]
+        pipe = [("ne", ne), ("ce", ce)]
 
-        if(fs is not None):
-            pipe.append(("fs",fs))
+        if (fs is not None):
+            pipe.append(("fs", fs))
         else:
             pass
 
-        for stck in np.sort(STCK.keys()):
-            pipe.append((stck,STCK[stck]))
+        for stck in np.sort(list(STCK)):
+            pipe.append((stck, STCK[stck]))
 
-        pipe.append(("est",est))
+        pipe.append(("est", est))
         pp = Pipeline(pipe)
-
 
         ############################################################
         #################### fitting the pipeline ###################
@@ -271,7 +268,7 @@ class Optimiser():
         start_time = time.time()
 
         ### no params : defaut config ###
-        if(params is None):
+        if (params is None):
             set_params = True
             print('No parameters set. Default configuration is tested')
 
@@ -282,49 +279,53 @@ class Optimiser():
             except:
                 set_params = False
 
-        if(set_params):
+        if (set_params):
 
+            if (self.verbose):
+                print("")
+                print("##################################################### testing hyper-parameters... ############################################################")
+                print("")
+                print(">>> NA ENCODER :" + str(ne.get_params()))
+                print("")
+                print(">>> CA ENCODER :" + str({'strategy': ce.strategy}))
 
-            if(self.verbose):
-                print("")
-                print("########################################################## testing hyper-parameters... #################################################################")
-                print("")
-                print(">>> NA ENCODER : "+str(ne.get_params()))
-                print("")
-                print(">>> CA ENCODER : "+str({'strategy': ce.strategy}))
-
-                if(fs is not None):
+                if (fs is not None):
                     print("")
-                    print(">>> FEATURE SELECTOR : "+str(fs.get_params()))
+                    print(">>> FEATURE SELECTOR :" + str(fs.get_params()))
 
-                for i, stck in enumerate(np.sort(STCK.keys())):
+                for i, stck in enumerate(np.sort(list(STCK))):
 
                     stck_params = STCK[stck].get_params().copy()
-                    stck_params_display = {k:stck_params[k] for k in stck_params.keys() if k not in ["level_estimator", "verbose", "base_estimators"]}
+                    stck_params_display = {k: stck_params[k] for k in stck_params.keys() if
+                                           k not in ["level_estimator", "verbose", "base_estimators"]}
 
                     print("")
-                    print(">>> STACKING LAYER n°"+str(i+1)+" : "+str(stck_params_display))
+                    print(">>> STACKING LAYER n°" + str(i + 1) + " :" + str(stck_params_display))
                     for j, model in enumerate(stck_params["base_estimators"]):
                         print("")
-                        print("    > base_estimator n°"+str(j+1)+" : "+str(dict(model.get_params().items()+model.get_estimator().get_params().items())))
+                        print("    > base_estimator n°" + str(j + 1) + " :" + str(
+                            dict(list(model.get_params().items()) + list(model.get_estimator().get_params().items()))))
 
                 print("")
-                print(">>> ESTIMATOR : "+str(dict(est.get_params().items()+est.get_estimator().get_params().items())))
+                print(">>> ESTIMATOR :" + str(
+                    dict(list(est.get_params().items()) + list(est.get_estimator().get_params().items()))))
                 print("")
 
             try:
 
                 ### computing the mean cross validation score across the folds ###
-                scores = cross_val_score(estimator = pp, X = df['train'].drop(indexes_to_drop), y = df['target'].drop(indexes_to_drop), scoring = self.scoring, cv = cv)
+                scores = cross_val_score(estimator=pp, X=df['train'].drop(indexes_to_drop), y=df['target'].drop(indexes_to_drop), scoring=self.scoring, cv=cv)
                 score = np.mean(scores)
 
             except:
+
                 scores = [-np.inf for fold in range(self.n_folds)]
                 score = -np.inf
+
         else:
             raise ValueError("Pipeline cannot be set with these parameters. Check the name of your stages.")
 
-        if(score==-np.inf):
+        if (score == -np.inf):
             warnings.warn("An error occurred while computing the cross validation mean score. Check the parameter values and your scoring function.")
 
 
@@ -332,28 +333,27 @@ class Optimiser():
         ##################### reporting score ####################
         ############################################################
 
+
         out = " ("
 
         for i, s in enumerate(scores[:-1]):
-            out = out+"fold "+str(i+1)+" = "+str(s)+", "
+            out = out + "fold " + str(i + 1) + " = " + str(s) + ", "
 
-        if(auc):
+        if (auc):
             self.scoring = "roc_auc"
 
-        if(self.verbose):
+        if (self.verbose):
             print("")
-            print("MEAN SCORE : "+str(self.scoring)+" = "+str(score))
-            print("VARIANCE : "+str(np.std(scores))+out+"fold "+str(i+2)+" = "+str(scores[-1])+")")
+            print("MEAN SCORE : " + str(self.scoring) + " = " + str(score))
+            print("VARIANCE : " + str(np.std(scores)) + out + "fold " + str(i + 2) + " = " + str(scores[-1]) + ")")
             print("CPU time: %s seconds" % (time.time() - start_time))
             print("")
-
 
         return score
 
 
 
-
-    def optimise(self, space, df, max_evals = 40):
+    def optimise(self, space, df, max_evals=40):
 
         '''
 
@@ -406,20 +406,20 @@ class Optimiser():
 
         '''
 
-
         hyperopt_objective = lambda params: -self.evaluate(params, df)
-
 
         ### creating a correct space for hyperopt ###
 
-        if(space is None):
-            warnings.warn("Space is empty. Please define a search space. Otherwise, call the method 'evaluate' for custom settings")
+        if (space is None):
+            warnings.warn(
+                "Space is empty. Please define a search space. Otherwise, call the method 'evaluate' for custom settings")
             return dict()
 
         else:
 
-            if(len(space)==0):
-                warnings.warn("Space is empty. Please define a search space. Otherwise, call the method 'evaluate' for custom settings")
+            if (len(space) == 0):
+                warnings.warn(
+                    "Space is empty. Please define a search space. Otherwise, call the method 'evaluate' for custom settings")
                 return dict()
 
             else:
@@ -428,48 +428,46 @@ class Optimiser():
 
                 for p in space.keys():
 
-                    if("space" not in space[p]):
-                        raise ValueError("You must give a space list ie values for hyper parameter "+p+".")
+                    if ("space" not in space[p]):
+                        raise ValueError("You must give a space list ie values for hyper parameter " + p + ".")
 
                     else:
 
-                        if("search" in space[p]):
+                        if ("search" in space[p]):
 
-                            if(space[p]["search"]=="uniform"):
-                                hyper_space[p] = hp.uniform(p,np.sort(space[p]["space"])[0],np.sort(space[p]["space"])[-1])
+                            if (space[p]["search"] == "uniform"):
+                                hyper_space[p] = hp.uniform(p, np.sort(space[p]["space"])[0],
+                                                            np.sort(space[p]["space"])[-1])
 
-                            elif(space[p]["search"]=="choice"):
-                                hyper_space[p] = hp.choice(p,space[p]["space"])
+                            elif (space[p]["search"] == "choice"):
+                                hyper_space[p] = hp.choice(p, space[p]["space"])
                             else:
-                                raise ValueError("Invalid search strategy for hyper parameter "+p+". Please choose between 'choice' and 'uniform'.")
+                                raise ValueError(
+                                    "Invalid search strategy for hyper parameter " + p + ". Please choose between 'choice' and 'uniform'.")
 
                         else:
-                            hyper_space[p] = hp.choice(p,space[p]["space"])
-
+                            hyper_space[p] = hp.choice(p, space[p]["space"])
 
                 best_params = fmin(hyperopt_objective, space=hyper_space, algo=tpe.suggest, max_evals=max_evals)
 
-
                 ### displaying best_params ###
 
-                for p,v in best_params.iteritems():
-                    if("search" in space[p]):
-                        if(space[p]["search"]=="choice"):
+                for p, v in best_params.items():
+                    if ("search" in space[p]):
+                        if (space[p]["search"] == "choice"):
                             best_params[p] = space[p]["space"][v]
                         else:
                             pass
                     else:
                         best_params[p] = space[p]["space"][v]
 
-                if(self.verbose):
+                if (self.verbose):
                     print("")
                     print("")
-                    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BEST HYPER-PARAMETERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BEST HYPER-PARAMETERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
                     print("")
                     print(best_params)
 
-
                 return best_params
-
