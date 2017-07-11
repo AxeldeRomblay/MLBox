@@ -22,7 +22,7 @@ __To get it installed__, please refer to [README](https://github.com/AxeldeRombl
 
 __For more details__, please refer to [docs](https://github.com/AxeldeRomblay/MLBox/tree/master/docs/documentation.md)
 
-__Experiments__ : https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard | Rank : 85/2488
+__Experiments__ : https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard | **Rank : 85/2488**
 
 --------------------------
 
