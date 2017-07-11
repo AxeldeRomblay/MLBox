@@ -73,13 +73,15 @@ class Drift_thresholder():
             'target' : pandas serie for the target
 
         """
+
+
         ######################################################
         ################## deleting ids ##################
         ######################################################
 
         ### exception ###
-        if(df["test"].shape[0]==0):
-            if(self.verbose):
+        if (df["test"].shape[0] == 0):
+            if (self.verbose):
                 print("")
                 print("You have no test dataset...")
 
@@ -93,76 +95,72 @@ class Drift_thresholder():
             na = NA_encoder(numerical_strategy=0)
             ca = Categorical_encoder()
 
-            pp = Pipeline([("na",na),("ca",ca)])
-            pp.fit(df['train'],None)
+            pp = Pipeline([("na", na), ("ca", ca)])
+            pp.fit(df['train'], None)
 
             ### deleting ids with drift threshold method ###
-            if(self.verbose):
+            if (self.verbose):
                 print("")
                 print("computing drifts...")
 
-            ds.fit(pp.transform(df['train']),pp.transform(df['test']))
+            ds.fit(pp.transform(df['train']), pp.transform(df['test']))
 
-            if(self.verbose):
+            if (self.verbose):
                 print("CPU time: %s seconds" % (time.time() - start_time))
                 print("")
 
             self.__fitOK = True
             self.__Ddrifts = ds.drifts()
-            drifts_top = sorted(ds.drifts().items(), lambda a,b: cmp(a[1],b[1]), reverse=True)[:10]
+            drifts_top = sorted(ds.drifts().items(), key=lambda x: x[1], reverse=True)[:10]
 
-            if(self.verbose):
+            if (self.verbose):
                 print("Top 10 drifts")
                 print("")
                 for d in range(len(drifts_top)):
                     print(drifts_top[d])
 
-            if(self.verbose):
+            if (self.verbose):
                 print("")
-                print("deleted variables : "+str(ds.get_support(complement=True)))
+                print("deleted variables : " + str(ds.get_support(complement=True)))
 
             ######################################################
             ########### dumping encoders into directory #########
             ######################################################
 
-            if(self.to_path is not None):
+            if (self.to_path is not None):
 
                 try:
                     os.mkdir(self.to_path)
                 except OSError:
                     pass
 
-
-                if(self.verbose):
+                if (self.verbose):
                     print("")
-                    print("dumping drift coefficients into directory : "+self.to_path)
+                    print("dumping drift coefficients into directory : " + self.to_path)
 
-
-                fichier = open(self.to_path+'/drifts.txt', "w")
+                fichier = open(self.to_path + '/drifts.txt', "w")
                 fichier.write("\n")
-                fichier.write("*****************************************************  DRIFTS Coefficients *********************************************************\n")
+                fichier.write(
+                    "*****************************************************  DRIFTS Coefficients *********************************************************\n")
                 fichier.write("\n")
 
-                for var,d in sorted(ds.drifts().items(), lambda a,b: cmp(a[1],b[1]), reverse=True):
-                    fichier.write(var+" = "+str(d)+'\n')
+                for var, d in sorted(ds.drifts().items(), key=lambda x: x[1], reverse=True):
+                    fichier.write(var + " = " + str(d) + '\n')
 
-
-                if(self.verbose):
+                if (self.verbose):
                     print("drift coefficients dumped")
 
-
             ### returning datasets with no ids
-            if(self.inplace):
+            if (self.inplace):
 
                 df['train'] = ds.transform(df['train'])
                 df['test'] = ds.transform(df['test'])
 
             else:
 
-                return {'train' : ds.transform(df['train']),
-                        'test' : ds.transform(df['test']),
-                       'target' : df['target']}
-
+                return {'train': ds.transform(df['train']),
+                        'test': ds.transform(df['test']),
+                        'target': df['target']}
 
 
     def drifts(self):

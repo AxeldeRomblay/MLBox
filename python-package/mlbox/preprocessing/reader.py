@@ -47,8 +47,8 @@ def convert_float_and_dates(serie, date_strategy):
     A function to cast into float and to convert dates
 
     """
-    import pandas
 
+    import pandas
 
     ### dtype is already a date ###
     if (serie.dtype == 'datetime64[ns]'):
@@ -57,9 +57,12 @@ def convert_float_and_dates(serie, date_strategy):
         df[serie.name + "_TIMESTAMP"] = (pandas.DatetimeIndex(serie) - pandas.datetime(2017, 1, 1)).total_seconds()
 
         if (date_strategy == "complete"):
-            df[serie.name + "_MONTH"] = pandas.DatetimeIndex(serie).month.astype(float)  # be careful with nan ! object or float ??
-            df[serie.name + "_DAY"] = pandas.DatetimeIndex(serie).day.astype(float)  # be careful with nan ! object or float ??
-            df[serie.name + "_DAYOFWEEK"] = pandas.DatetimeIndex(serie).dayofweek.astype(float)  # be careful with nan ! object or float ??
+            df[serie.name + "_MONTH"] = pandas.DatetimeIndex(serie).month.astype(
+                float)  # be careful with nan ! object or float ??
+            df[serie.name + "_DAY"] = pandas.DatetimeIndex(serie).day.astype(
+                float)  # be careful with nan ! object or float ??
+            df[serie.name + "_DAYOFWEEK"] = pandas.DatetimeIndex(serie).dayofweek.astype(
+                float)  # be careful with nan ! object or float ??
 
         return df
 
@@ -74,21 +77,25 @@ def convert_float_and_dates(serie, date_strategy):
 
         ### cleaning/converting dates ###
 
-        if(serie.dtype!='object'):
+        if (serie.dtype != 'object'):
             return serie
 
         else:
-            #trying to cast into date
-            df = pandas.DataFrame([],index=serie.index)
+            # trying to cast into date
+            df = pandas.DataFrame([], index=serie.index)
 
             try:
 
-                df[serie.name+"_TIMESTAMP"] = (pandas.DatetimeIndex(pandas.to_datetime(serie)) - pandas.datetime(2017, 1, 1)).total_seconds()
+                df[serie.name + "_TIMESTAMP"] = (
+                pandas.DatetimeIndex(pandas.to_datetime(serie)) - pandas.datetime(2017, 1, 1)).total_seconds()
 
-                if(date_strategy=="complete"):
-                    df[serie.name+"_MONTH"] = pandas.DatetimeIndex(pandas.to_datetime(serie)).month.astype(float) # be careful with nan ! object or float ??
-                    df[serie.name+"_DAY"] = pandas.DatetimeIndex(pandas.to_datetime(serie)).day.astype(float) # be careful with nan ! object or float ??
-                    df[serie.name+"_DAYOFWEEK"] = pandas.DatetimeIndex(pandas.to_datetime(serie)).dayofweek.astype(float) # be careful with nan ! object or float ??
+                if (date_strategy == "complete"):
+                    df[serie.name + "_MONTH"] = pandas.DatetimeIndex(pandas.to_datetime(serie)).month.astype(
+                        float)  # be careful with nan ! object or float ??
+                    df[serie.name + "_DAY"] = pandas.DatetimeIndex(pandas.to_datetime(serie)).day.astype(
+                        float)  # be careful with nan ! object or float ??
+                    df[serie.name + "_DAYOFWEEK"] = pandas.DatetimeIndex(pandas.to_datetime(serie)).dayofweek.astype(
+                        float)  # be careful with nan ! object or float ??
 
                 return df
 
@@ -181,7 +188,7 @@ class Reader():
 
         start_time = time.time()
 
-        if(path==None):
+        if (path == None):
 
             raise ValueError("You must specify the path to load the data")
 
@@ -189,36 +196,36 @@ class Reader():
 
             type_doc = path.split(".")[-1]
 
-            if(type_doc=='csv'):
+            if (type_doc == 'csv'):
 
-                if(self.sep==None):
+                if (self.sep == None):
                     raise ValueError("You must specify the separator for a csv file")
                 else:
-                    if(self.verbose):
+                    if (self.verbose):
                         print("")
-                        print("reading csv : "+path.split("/")[-1]+" ...")
-                    df = pd.read_csv(path, sep = self.sep, header = self.header, engine ='c', error_bad_lines = False)
+                        print("reading csv : " + path.split("/")[-1] + " ...")
+                    df = pd.read_csv(path, sep=self.sep, header=self.header, engine='c', error_bad_lines=False)
 
-            elif(type_doc=='xls'):
+            elif (type_doc == 'xls'):
 
-                if(self.verbose):
+                if (self.verbose):
                     print("")
-                    print("reading xls : "+path.split("/")[-1]+" ...")
-                df = pd.read_excel(path, header = self.header)
+                    print("reading xls : " + path.split("/")[-1] + " ...")
+                df = pd.read_excel(path, header=self.header)
 
-            elif(type_doc=='h5'):
+            elif (type_doc == 'h5'):
 
-                if(self.verbose):
+                if (self.verbose):
                     print("")
-                    print("reading hdf5 : "+path.split("/")[-1]+" ...")
+                    print("reading hdf5 : " + path.split("/")[-1] + " ...")
 
                 df = pd.read_hdf(path)
 
-            elif(type_doc=='json'):
+            elif (type_doc == 'json'):
 
-                if(self.verbose):
+                if (self.verbose):
                     print("")
-                    print("reading json : "+path.split("/")[-1]+" ...")
+                    print("reading json : " + path.split("/")[-1] + " ...")
 
                 df = pd.read_json(path)
 
@@ -237,29 +244,28 @@ class Reader():
         ################## cleaning lists, floats and dates #######
         ###########################################################
 
-        if(self.verbose):
+
+        if (self.verbose):
             print("cleaning data...")
 
+        df = pd.concat(self.__dview.map_sync(convert_list, [df[col] for col in df.columns]), axis=1)
 
-        df = pd.concat(self.__dview.map_sync(convert_list, [df[col] for col in df.columns]),axis=1)
-
-        df = pd.concat(self.__dview.map_sync(convert_float_and_dates, [df[col] for col in df.columns], [date_strategy for col in df.columns]),axis=1)
-
+        df = pd.concat(self.__dview.map_sync(convert_float_and_dates, [df[col] for col in df.columns],
+                                             [date_strategy for col in df.columns]), axis=1)
 
         ### dropping duplicates ###
-        if(drop_duplicate):
-            if(self.verbose):
+        if (drop_duplicate):
+            if (self.verbose):
                 print("dropping duplicates")
             df = df.drop_duplicates()
         else:
             pass
 
-
-        if(self.verbose):
+        if (self.verbose):
             print("CPU time: %s seconds" % (time.time() - start_time))
 
-
         return df
+
 
 
     def train_test_split(self, Lpath, target_name):
@@ -291,8 +297,6 @@ class Reader():
 
         """
 
-
-
         col = []
         col_train = []
         col_test = []
@@ -300,12 +304,11 @@ class Reader():
         df_test = dict()
         y_train = dict()
 
-
-        if(type(Lpath)!=list):
+        if (type(Lpath) != list):
 
             raise ValueError("You must specify a list of paths to load all the data")
 
-        elif(self.to_path is None):
+        elif (self.to_path is None):
 
             raise ValueError("You must specify a path to save your data and make sure your files are not already saved")
 
@@ -318,14 +321,14 @@ class Reader():
             for path in Lpath:
 
                 ### reading each file ###
-                df = self.clean(path, date_strategy = "complete", drop_duplicate = False)
+                df = self.clean(path, date_strategy="complete", drop_duplicate=False)
 
                 ### checking if the target exists to split into test and train
-                if(target_name in df.columns):
+                if (target_name in df.columns):
 
-                    df_train[path] = df[df[target_name].isnull()==False].drop(target_name,axis=1)
-                    df_test[path] = df[df[target_name].isnull()==True].drop(target_name,axis=1)
-                    y_train[path] = df[target_name][df[target_name].isnull()==False]
+                    df_train[path] = df[df[target_name].isnull() == False].drop(target_name, axis=1)
+                    df_test[path] = df[df[target_name].isnull() == True].drop(target_name, axis=1)
+                    y_train[path] = df[target_name][df[target_name].isnull() == False]
 
                 else:
 
@@ -333,36 +336,34 @@ class Reader():
 
             del df
 
-            #exceptions
-            if(sum([df_train[path].shape[0] for path in df_train.keys()])==0):
+            # exceptions
+            if (sum([df_train[path].shape[0] for path in df_train.keys()]) == 0):
                 raise ValueError("You have no train dataset. Please check that the target name is correct")
 
-            if((sum([df_test[path].shape[0] for path in df_test.keys()])==0)&(self.verbose)):
+            if ((sum([df_test[path].shape[0] for path in df_test.keys()]) == 0) & (self.verbose)):
                 print("")
                 print("You have no test dataset !")
-
 
             ### finding the common subset of features
             for i, df in enumerate(df_train.values()):
 
-                if(i==0):
+                if (i == 0):
                     col_train = df.columns
                 else:
-                    col_train = list(set(col_train)&set(df.columns))
+                    col_train = list(set(col_train) & set(df.columns))
 
-            for i,df in enumerate(df_test.values()):
+            for i, df in enumerate(df_test.values()):
 
-                if(i==0):
+                if (i == 0):
                     col_test = df.columns
                 else:
-                    col_test = list(set(col_test)&set(df.columns))
+                    col_test = list(set(col_test) & set(df.columns))
 
+            col = sorted(list(set(col_train) & set(col_test)))  # subset of common features
 
-            col = sorted(list(set(col_train)&set(col_test)))  #subset of common features
-
-            if(self.verbose):
+            if (self.verbose):
                 print("")
-                print("number of common features : "+str(len(col)))
+                print("number of common features : " + str(len(col)))
 
                 ######################################################
                 ### creating train, test and target dataframes ###
@@ -371,57 +372,58 @@ class Reader():
                 print("")
                 print("gathering and crunching for train and test datasets")
 
-            df_train = pd.concat([df[col] for df in df_train.values()])   #optimiser !!
-            df_test = pd.concat([df[col] for df in df_test.values()])#optimiser !!
-            y_train = pd.concat([y for y in y_train.values()])#optimiser !!
+            df_train = pd.concat([df[col] for df in df_train.values()])  # optimiser !!
+            df_test = pd.concat([df[col] for df in df_test.values()])  # optimiser !!
+            y_train = pd.concat([y for y in y_train.values()])  # optimiser !!
 
             ### checking shape of the target ###
 
-            if(type(y_train) == pd.core.frame.DataFrame):
-                raise ValueError("Your target contains more than two columns ! Please check that only one column is named "+target_name)
+            if (type(y_train) == pd.core.frame.DataFrame):
+                raise ValueError(
+                    "Your target contains more than two columns ! Please check that only one column is named " + target_name)
 
             else:
                 pass
 
             ### handling indexes ###
-            if(self.verbose):
+            if (self.verbose):
                 print("reindexing for train and test datasets")
 
-            if(df_train.index.nunique()<df_train.shape[0]):
+            if (df_train.index.nunique() < df_train.shape[0]):
                 df_train.index = range(df_train.shape[0])
 
-            if(df_test.index.nunique()<df_test.shape[0]):
+            if (df_test.index.nunique() < df_test.shape[0]):
                 df_test.index = range(df_test.shape[0])
 
-            if(y_train.index.nunique()<y_train.shape[0]):
+            if (y_train.index.nunique() < y_train.shape[0]):
                 y_train.index = range(y_train.shape[0])
 
-
             ### dropping duplicates ###
-            if(self.verbose):
+            if (self.verbose):
                 print("dropping training duplicates")
 
-            df_train[target_name] = y_train.values   #temp adding target to check (x,y) duplicates...
+            df_train[target_name] = y_train.values  # temp adding target to check (x,y) duplicates...
             df_train = df_train.drop_duplicates()
             del df_train[target_name]
-            y_train = y_train.loc[df_train.index]  #need to reindex ?
-
+            y_train = y_train.loc[df_train.index]  # need to reindex ?
 
             ### deleting constant variables ###
-            if(self.verbose):
+            if (self.verbose):
                 print("dropping constant variables on training set")
             for var in col:
-                if(df_train[var].nunique(dropna=False)==1):
+                if (df_train[var].nunique(dropna=False) == 1):
                     del df_train[var]
                     del df_test[var]
 
             ### print information ###
-            if(self.verbose):
+            if (self.verbose):
                 print("")
-                print("number of categorical features : "+str(len(df_train.dtypes[df_train.dtypes == 'object'].index)))
-                print("number of numerical features : "+str(len(df_train.dtypes[df_train.dtypes != 'object'].index)))   #bool is considerated as a numerical variable
-                print("number of training samples : "+str(df_train.shape[0]))
-                print("number of test samples : "+str(df_test.shape[0]))
+                print(
+                "number of categorical features : " + str(len(df_train.dtypes[df_train.dtypes == 'object'].index)))
+                print("number of numerical features : " + str(len(df_train.dtypes[
+                                                                      df_train.dtypes != 'object'].index)))  # bool is considerated as a numerical variable
+                print("number of training samples : " + str(df_train.shape[0]))
+                print("number of test samples : " + str(df_test.shape[0]))
 
             ######################################################
             ################## encoding target ##################
@@ -429,26 +431,27 @@ class Reader():
 
             task = "regression"
 
-            if(y_train.nunique()<=2):
+            if (y_train.nunique() <= 2):
                 task = "classification"
 
             else:
-                if(y_train.dtype==object):
+                if (y_train.dtype == object):
                     task = "classification"
                 else:
-                    #no needs to convert into float
+                    # no needs to convert into float
                     pass
 
-            if(self.verbose):
+            if (self.verbose):
                 print("")
-                print("task : "+task)
+                print("task : " + task)
 
-            if(task=="classification"):
-                if(self.verbose):
+            if (task == "classification"):
+                if (self.verbose):
                     print(y_train.value_counts())
                     print("encoding target")
                 enc = LabelEncoder()
-                y_train = pd.Series(enc.fit_transform(y_train.values), index = y_train.index, name= target_name,dtype = 'int')
+                y_train = pd.Series(enc.fit_transform(y_train.values), index=y_train.index, name=target_name,
+                                    dtype='int')
 
             else:
                 pass
@@ -464,41 +467,38 @@ class Reader():
             except OSError:
                 pass
 
-            if(self.to_hdf5):
+            if (self.to_hdf5):
 
                 start_time = time.time()
 
-                if(self.verbose):
+                if (self.verbose):
                     print("")
-                    print("dumping files into directory : "+self.to_path)
+                    print("dumping files into directory : " + self.to_path)
 
-                df_train[target_name] = y_train.values #temp adding target to dump train file...
-                df_train.to_hdf(self.to_path+'/df_train.h5','train')
+                df_train[target_name] = y_train.values  # temp adding target to dump train file...
+                df_train.to_hdf(self.to_path + '/df_train.h5', 'train')
                 del df_train[target_name]
 
-                if(self.verbose):
+                if (self.verbose):
                     print("train dumped")
 
-                df_test.to_hdf(self.to_path+'/df_test.h5','test')
+                df_test.to_hdf(self.to_path + '/df_test.h5', 'test')
 
-                if(self.verbose):
+                if (self.verbose):
                     print("test dumped")
                     print("CPU time: %s seconds" % (time.time() - start_time))
 
             else:
                 pass
 
-
-            if(task=="classification"):
-                fhand = open(self.to_path+'/target_encoder.obj', 'w')
+            if (task == "classification"):
+                fhand = open(self.to_path + '/target_encoder.obj', 'wb')
                 pickle.dump(enc, fhand)
                 fhand.close()
             else:
                 pass
 
-
-            return {"train" : df_train,
-                    "test" : df_test,
-                    'target' : y_train}
-
+            return {"train": df_train,
+                    "test": df_test,
+                    'target': y_train}
 
