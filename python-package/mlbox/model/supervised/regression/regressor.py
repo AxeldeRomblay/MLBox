@@ -168,7 +168,23 @@ class Regressor():
 
 
     def feature_importances(self):
+        
+        '''
+        Computes feature importances. Regressor must be fitted before.
 
+        Parameters
+        ----------
+        
+        None
+        
+        Returns
+        -------
+        
+        importance : dict
+        Dictionnary containing a measure of feature importance (value) for each feature (key).
+        
+        '''
+        
         if self.__fitOK:
 
             if (self.get_params()["strategy"] in ["Linear"]):
