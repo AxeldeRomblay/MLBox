@@ -65,7 +65,7 @@ test_requirements = [
 
 setup(
     name='mlbox',
-    version='0.2.2',
+    version='0.3.0',
     description="A powerful Automated Machine Learning python library  ",
     long_description=readme + '\n\n' + history,
     author="Axel ARONIO DE ROMBLAY",
@@ -91,16 +91,29 @@ setup(
     cmdclass={'install': OverrideInstallCommand},
     install_requires=requirements,
     zip_safe=False,
-    keywords='mlbox',
+    license='BSD-3',
+    keywords=['machine learning', 'data science', 'automated machine learning','mlbox', 'auto-ml', 'deep learning', 'stacking', 'pipeline', 'optimisation'],
     classifiers=[
-        'Development Status :: 3 - Pre-Alpha',
+        
+        'Development Status :: 5 - Production/Stable',
+        
         'Intended Audience :: Developers',
+        'Intended Audience :: Data Scientists',
+        'Intended Audience :: Science/Research',
+        
+        'Topic :: Scientific/Engineering :: Artificial Intelligence',
+        'Topic :: Scientific/Engineering :: Information Analysis',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        
+        'License :: OSI Approved :: BSD-3 License',
+        
         'Natural Language :: English',
-        "Programming Language :: Python :: 2",
-        'Programming Language :: Python :: 2.6',
+        
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: Linux',
+        'Operating System :: MacOS',
+        
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
