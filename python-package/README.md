@@ -3,7 +3,7 @@ MLBox, Machine Learning Box
 
 __MLBox is a powerful Automated Machine Learning python library.__
 
-_It is compatible with:_ **Python 2.7, 3.3 - 3.6**. & **64-bit version only** (32-bit python is not supported) <br/>
+_It is compatible with:_ **Python 2.7, 3.4 - 3.6**. & **64-bit version only** (32-bit python is not supported) <br/>
 _Operating system:_ **Linux**. (MacOS & Windows very soon...)
 
 
@@ -26,6 +26,16 @@ Since MLBox package contains C++ source code, check that the following requireme
     
     
 ## Stable version
+
+### Install from pip 
+
+MLBox is now available on PyPI, so you only need to run the following command:
+
+.. code-block:: console
+
+    $ pip install mlbox
+
+### Install from the Github
 
 * **The sources for MLBox can be downloaded** from the `Github repo`_.
 
