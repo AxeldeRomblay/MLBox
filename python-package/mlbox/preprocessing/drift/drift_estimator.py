@@ -1,6 +1,6 @@
 # coding: utf-8
 # Authors: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
-#          Alexis BONDU <alexis.bondu@gmail.com >
+#          Alexis BONDU <alexis.bondu@credit-agricole-sa.fr>
 # License: BSD 3 clause
 
 import numpy as np
@@ -196,4 +196,3 @@ class DriftEstimator():
         
         else:
             raise ValueError('Call the fit function before !')
-    
