@@ -105,8 +105,16 @@ class Categorical_encoder():
                 for col in self.__Lcat:
 
                     d = dict()
-                    for enc,level in enumerate(list(np.sort(df_train[col].unique()))):
+                    levels = list(df_train[col].unique())
+                    nan = False
+
+                    if np.NaN in levels:
+                        nan = True
+                        levels.remove(np.NaN)
+
+                    for enc,level in enumerate([np.NaN for i in range(int(nan))] + sorted(levels)):
                         d[level] = enc  #boucle a optimiser ?
+
                     self.__Enc[col] = d
 
 
@@ -146,7 +154,7 @@ class Categorical_encoder():
 
                 # number of neurons for layer 1 et 2
                 n_layer1 = min(1000,int(A*(len(self.__K)**0.5)*sum([1.*np.log(k) for k in self.__K.values()])+1))    # tuning
-                n_layer2 = n_layer1/B + 2
+                n_layer2 = int(n_layer1/B) + 2
 
                 #dropouts
                 dropout1 = 0.1
@@ -167,9 +175,15 @@ class Categorical_encoder():
                     self.__K[col] = np.int(5*(1-np.exp(-df_train[col].nunique()*0.05)))+1
 
                     d = dict()
+                    levels = list(df_train[col].unique())
+                    nan = False
 
-                    for enc,level in enumerate(list(np.sort(df_train[col].unique()))):
-                        d[level] = enc
+                    if np.NaN in levels:
+                        nan = True
+                        levels.remove(np.NaN)
+
+                    for enc,level in enumerate([np.NaN for i in range(int(nan))] + sorted(levels)):
+                        d[level] = enc  #boucle a optimiser ?
 
                     self.__Enc[col] = d
 
@@ -213,7 +227,6 @@ class Categorical_encoder():
                         model.compile(loss='binary_crossentropy', optimizer='adam')
                         model.fit([df_train[col].apply(lambda x: self.__Enc[col][x]).values for col in self.__Lcat], pd.get_dummies(y_train,drop_first=False).astype(int).values, epochs=epochs, batch_size=batch_size, verbose=int(self.verbose))
 
-
                 else:
 
                     # regression
@@ -242,14 +255,23 @@ class Categorical_encoder():
                     self.__K[col] = np.int(5*(1-np.exp(-df_train[col].nunique()*0.05)))+1
 
                     d = dict()
-                    levels = list(np.sort(df_train[col].unique()))
+                    levels = list(df_train[col].unique())
+                    nan = False
+
+                    if np.NaN in levels:
+                        nan = True
+                        levels.remove(np.NaN)
 
                     for k in range(self.__K[col]):
 
-                        np.random.seed(k)
-                        np.random.shuffle(levels)
+                        if(k==0):
+                            levels = sorted(levels)
 
-                        for enc,level in enumerate(levels):
+                        else:
+                            np.random.seed(k)
+                            np.random.shuffle(levels)
+
+                        for enc,level in enumerate([np.NaN for i in range(int(nan))] + levels):
                             if(k==0):
                                 d[level] = [enc]
                             else:
