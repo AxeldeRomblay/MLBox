@@ -92,25 +92,24 @@ setup(
     install_requires=requirements,
     zip_safe=False,
     license='BSD-3',
-    keywords=['machine learning', 'data science', 'automated machine learning','mlbox', 'auto-ml', 'deep learning', 'stacking', 'pipeline', 'optimisation'],
+    keywords='mlbox auto-ml stacking pipeline optimisation',
     classifiers=[
         
         'Development Status :: 5 - Production/Stable',
         
         'Intended Audience :: Developers',
-        'Intended Audience :: Data Scientists',
         'Intended Audience :: Science/Research',
         
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Scientific/Engineering :: Information Analysis',
         'Topic :: Software Development :: Libraries :: Python Modules',
         
-        'License :: OSI Approved :: BSD-3 License',
+        'License :: OSI Approved :: BSD License',
         
         'Natural Language :: English',
         
         'Operating System :: Microsoft :: Windows',
-        'Operating System :: Linux',
+        'Operating System :: POSIX :: Linux',
         'Operating System :: MacOS',
         
         'Programming Language :: Python :: 2.7',
