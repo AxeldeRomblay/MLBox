@@ -1,4 +1,3 @@
-
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
@@ -67,7 +66,7 @@ class Predictor():
 
 
     def __plot_feature_importances(self, importance, fig_name = "feature_importance.png"):
-        
+
         """
         Saves feature importances plot
         
@@ -86,11 +85,11 @@ class Predictor():
         
         None
         """
-
+        
         if(len(importance)>0):
 
             ### plot feature importances
-            tuples = [(k, np.round(importance[k]*100./np.sum(importance.values()),2)) for k in importance]
+            tuples = [(k, np.round(importance[k]*100./np.sum(list(importance.values())),2)) for k in importance]
             tuples = sorted(tuples, key=lambda x: x[1])
             labels, values = zip(*tuples)
             plt.figure(figsize=(20,int(len(importance)*0.3)+1))
@@ -242,7 +241,7 @@ class Predictor():
             else:
                 pass
 
-            for stck in np.sort(STCK.keys()):
+            for stck in np.sort(list(STCK)):
                 pipe.append((stck,STCK[stck]))
 
             pipe.append(("est",est))
@@ -316,7 +315,7 @@ class Predictor():
 
                     try:
 
-                        fhand = open(self.to_path+"/target_encoder.obj", 'r')
+                        fhand = open(self.to_path+"/target_encoder.obj", 'rb')
                         enc = pickle.load(fhand)
                         fhand.close()
 
@@ -330,6 +329,7 @@ class Predictor():
 
                         pred = pd.DataFrame(pp.predict_proba(df['test']),columns = enc.inverse_transform(range(len(enc.classes_))), index = df['test'].index)
                         pred[df['target'].name+"_predicted"] = pred.idxmax(axis=1)
+                        
                         try:
                             pred[df['target'].name+"_predicted"] = pred[df['target'].name+"_predicted"].apply(int)
                         except:
