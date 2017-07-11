@@ -111,6 +111,6 @@ MLBox has been developed and used by many active community members. Your help is
 - Contribute to the [tests](https://github.com/AxeldeRomblay/MLBox/tree/master/tests) to make it more reliable. 
 - Contribute to the [documents](https://github.com/AxeldeRomblay/MLBox/tree/master/docs) to make it clearer for everyone.
 - Contribute to the [examples](https://github.com/AxeldeRomblay/MLBox/tree/master/examples) to share your experience with other users.
-- Open issue if you met problems during development.
+- Open [issue](https://github.com/AxeldeRomblay/MLBox/issues) if you met problems during development.
 
 For more details, please refer to [CONTRIBUTING](https://github.com/AxeldeRomblay/MLBox/blob/master/CONTRIBUTING.rst).
