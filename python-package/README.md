@@ -27,13 +27,15 @@ Since MLBox package contains C++ source code, check that the following requireme
     
 ## Stable version
 
+
 ### Install from pip 
 
-MLBox is now available on PyPI, so you only need to run the following command:
+MLBox is now available on **PyPI**, so you only need to run the following command:
 
 .. code-block:: console
 
     $ pip install mlbox
+
 
 ### Install from the Github
 
