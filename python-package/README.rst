@@ -1,5 +1,8 @@
 .. -*- mode: rst -*-
 
+MLBox, Machine Learning Box
+===========================
+
 |Documentation Status|_ |PyPI version|_ |Build Status|_ |GitHub Issues|_ |codecov|_ |License|_ 
 
 .. |Documentation Status| image:: https://readthedocs.org/projects/mlbox/badge/?version=latest
@@ -19,9 +22,6 @@
 
 .. |License| image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
 .. _License: https://github.com/AxeldeRomblay/MLBox/blob/master/LICENSE
-
-MLBox, Machine Learning Box
-===========================
 
 **MLBox is a powerful Automated Machine Learning python library.**
 
