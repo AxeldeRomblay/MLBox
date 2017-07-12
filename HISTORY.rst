@@ -35,8 +35,10 @@ History
 ------------------
 * Python 2.7 & Python 3.4-3.6 compatibilities
 
-dev 0.3.1 (non stable version, available on branch "3.1-dev")
+0.3.1 (2017-07-12)
+------------------
+* Availability on PyPI
+
+dev 0.4.0 (non stable version, available on branch "4.0-dev")
 -------------------------------------------------------------
 * add of pipeline memory.
-
-
