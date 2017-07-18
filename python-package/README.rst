@@ -1,33 +1,14 @@
-.. -*- mode: rst -*-
+MLBox Python Package
+====================
 
-MLBox, Machine Learning Box
-===========================
+|Documentation Status| |PyPI version| |Build Status| |GitHub Issues| |codecov| |License| 
 
-|Documentation Status|_ |PyPI version|_ |Build Status|_ |GitHub Issues|_ |codecov|_ |License|_ 
 
-.. |Documentation Status| image:: https://readthedocs.org/projects/mlbox/badge/?version=latest
-.. _Documentation Status: http://mlbox.readthedocs.io/en/latest/?badge=latest
-
-.. |PyPI version| image:: https://badge.fury.io/py/mlbox.svg
-.. _PyPI version: https://pypi.org/project/mlbox/
-
-.. |Build Status| image:: https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master
-.. _Build Status: https://travis-ci.org/AxeldeRomblay/MLBox
-
-.. |GitHub Issues| image:: https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg
-.. _GitHub Issues: https://github.com/AxeldeRomblay/MLBox/issues
-
-.. |codecov| image:: https://codecov.io/gh/AxeldeRomblay/MLBox/branch/master/graph/badge.svg
-.. _codecov: https://codecov.io/gh/AxeldeRomblay/MLBox
-
-.. |License| image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
-.. _License: https://github.com/AxeldeRomblay/MLBox/blob/master/LICENSE
-
-**MLBox is a powerful Automated Machine Learning python library.**
+Compatibilities 
+---------------
 
 * *It is compatible with:* **Python 2.7, 3.4 - 3.6**. & **64-bit version only** (32-bit python is not supported)
 * *Operating system:* **Linux**. (MacOS & Windows very soon...)
-
 
 
 Preparation 
