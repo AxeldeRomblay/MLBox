@@ -37,8 +37,8 @@ History
 
 0.3.1 (2017-07-12)
 ------------------
-* Availability on PyPI
+* Availability on PyPI.
 
-dev 0.4.0 (non stable version, available on branch "4.0-dev")
--------------------------------------------------------------
+0.4.0 (2017-07-18)
+------------------
 * add of pipeline memory.
