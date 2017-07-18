@@ -1105,6 +1105,9 @@ This page is the official documentation for MLBox package. You will learn how to
 > ***random_state*** : **int**, defaut = `1` <br/>
 > *pseudo-random number generator state used for shuffling*
 >
+> ***to_path*** : **str**, defaut = `"save"` <br/>
+> *Name of the folder where models are saved.*
+>
 > ***verbose*** : **bool**, defaut = `True` <br/>
 > *Verbose mode.*
 
