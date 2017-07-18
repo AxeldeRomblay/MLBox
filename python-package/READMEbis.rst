@@ -1,8 +1,8 @@
 MLBox, Machine Learning Box
 ===========================
 
-|Documentation Status|\ \_ |PyPI version|\ \_ |Build Status|\ \_ |GitHub
-Issues|\ \_ |codecov|\ \_ |License|\ \_
+\|Documentation Status\| \|PyPI version\| \|Build Status\| \|GitHub
+Issues\| \|codecov\| \|License\|
 
 **MLBox is a powerful Automated Machine Learning python library.**
 
@@ -43,7 +43,8 @@ following command:
 
     $ pip install mlbox
 
-Install from the Github ~~~~~~~~~~~~~~~~~~~~~
+Install from the Github
+~~~~~~~~~~~~~~~~~~~~~~~
 
 -  **The sources for MLBox can be downloaded** from the `Github
    repo <https://github.com/AxeldeRomblay/mlbox>`__.
@@ -87,10 +88,3 @@ provides some interesting new features. Please refer to
 
 **It depends on sklearn-0.19.dev0 which is not a stable version at the
 moment.**
-
-.. |Documentation Status| image:: https://readthedocs.org/projects/mlbox/badge/?version=latest
-.. |PyPI version| image:: https://badge.fury.io/py/mlbox.svg
-.. |Build Status| image:: https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master
-.. |GitHub Issues| image:: https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg
-.. |codecov| image:: https://codecov.io/gh/AxeldeRomblay/MLBox/branch/master/graph/badge.svg
-.. |License| image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
