@@ -1,8 +1,8 @@
 MLBox, Machine Learning Box
 ===========================
 
-\|Documentation Status\| \|PyPI version\| \|Build Status\| \|GitHub
-Issues\| \|codecov\| \|License\|
+|Documentation Status| |PyPI version| |Build Status| |GitHub
+Issues| |codecov| |License|
 
 **MLBox is a powerful Automated Machine Learning python library.**
 
