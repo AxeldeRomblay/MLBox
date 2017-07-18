@@ -1,7 +1,7 @@
 MLBox Python Package
 ====================
 
-|Documentation Status| |PyPI version| |Build Status| |GitHub Issues| |codecov| |License|
+|Documentation Status| |PyPI version| |Build Status| |Windows Build Status| |GitHub Issues| |codecov| |License|
 
 Compatibilities 
 ---------------
@@ -87,6 +87,8 @@ Install from the Github
    :target: https://pypi.org/project/mlbox/
 .. |Build Status| image:: https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master
    :target: https://travis-ci.org/AxeldeRomblay/MLBox
+.. |Windows Build Status| image:: https://ci.appveyor.com/api/projects/status/5ypa8vaed6kpmli8?svg=true
+   :target: https://ci.appveyor.com/project/AxeldeRomblay/mlbox
 .. |GitHub Issues| image:: https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg
    :target: https://github.com/AxeldeRomblay/MLBox/issues
 .. |codecov| image:: https://codecov.io/gh/AxeldeRomblay/MLBox/branch/master/graph/badge.svg
