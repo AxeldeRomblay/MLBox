@@ -1,5 +1,4 @@
-|Documentation Status| |PyPI version| |Build Status| |GitHub Issues|
-|codecov| |License|
+|Documentation Status| |PyPI version| |Build Status| |GitHub Issues| |codecov| |License|
 
 --------------
 
