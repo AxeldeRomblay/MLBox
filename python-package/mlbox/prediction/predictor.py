@@ -29,17 +29,17 @@ class Predictor():
 
     """
     Predicts the target on the test dataset.
-
-
+    
+    
     Parameters
     ----------
-
+    
     to_path : str, defaut = "save"
         Name of the folder where feature importances and predictions are saved (.png and .csv formats). Must contain target encoder object (for classification task only).
-
+    
     verbose : bool, defaut = True
         Verbose mode
-
+    
     """
 
     def __init__(self, to_path = "save", verbose = True):
@@ -119,44 +119,40 @@ class Predictor():
 
 
         '''
-
         Fits the model. Then predicts on test dataset and outputs feature importances and the submission file (.png and .csv format).
-
-
+        
+        
         Parameters
         ----------
-
+        
         params : dict, defaut = None.
             Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.
-
+            
             - The keys must respect the following syntax : "enc__param".
-
+            
             With :
                 1/ "enc" = "ne" for na encoder
                 2/ "enc" = "ce" for categorical encoder
                 3/ "enc" = "fs" for feature selector [OPTIONAL]
                 4/ "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]
                 5/ "enc" = "est" for the final estimator
-
+            
             And:
                 "param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")
-
+            
             - The values are those of the parameters (for example : 4 for a key = "est__max_depth")
-
-
+        
+        
         df : dict, defaut = None
             Dataset dictionnary. Must contain keys "train", "test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated
             target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.
-
-
+        
+        
         Returns
         -------
-
+        
         None
-
         '''
-
-
 
         if(self.to_path is None):
             raise ValueError("You must specify a path to save your model and your predictions")
@@ -230,11 +226,40 @@ class Predictor():
                 raise ValueError("Impossible to determine the task. Please check that your target is encoded.")
 
 
-            #############################################################
-            ##################### creating the pipeline #################
-            #############################################################
+            ############################################################
+            ##################### creating the pipeline ##################
+            ############################################################
 
             pipe = [("ne",ne),("ce",ce)]
+
+            ### do we need to cache transformers ###
+
+            cache = False
+
+            if (params is not None):
+                if("ce__strategy" in params):
+                    if(params["ce__strategy"] == "entity_embedding"):
+                        cache = True
+                    else:
+                        pass
+                else:
+                    pass
+
+            if(fs is not None):
+                if ("fs__strategy" in params):
+                    if(params["fs__strategy"] != "variance"):
+                        cache = True
+                    else:
+                        pass
+            else:
+                pass
+
+            if(len(STCK)!=0):
+                cache = True
+            else:
+                pass
+
+            ### pipeline creation ###
 
             if(fs is not None):
                 pipe.append(("fs",fs))
@@ -245,7 +270,11 @@ class Predictor():
                 pipe.append((stck,STCK[stck]))
 
             pipe.append(("est",est))
-            pp = Pipeline(pipe)
+
+            if(cache):
+                pp = Pipeline(pipe, memory = self.to_path)
+            else:
+                pp = Pipeline(pipe)
 
 
             #############################################################
@@ -381,4 +410,5 @@ class Predictor():
 
                 pred.to_csv(self.to_path+"/"+df['target'].name+"_predictions.csv",index=True)
 
+                
         return self
