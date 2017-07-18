@@ -1,0 +1,20 @@
+language: python
+
+python:
+  - "2.7"
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  
+# command to install dependencies
+install:
+  - pip install codecov
+  - pip install --upgrade pip setuptools wheel  
+  - pip install --only-binary all -r python-package/requirements.txt
+  
+# command to run tests
+script:
+  - cd python-package
+  - python setup.py install
+  - cd ../tests
+  - coverage run test_mlbox.py
