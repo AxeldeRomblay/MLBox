@@ -12,7 +12,7 @@ requirements = [
     "ipyparallel==6.0.0",
     "Keras==2.0.4",
     "pandas>=0.18.0",
-    "scikit-learn==0.18.1",
+    "scikit-learn==0.19b2",
     "scipy>=0.17.0",
     "Theano==0.9.0",
     "xgboost==0.6a2",
@@ -45,7 +45,7 @@ with open('README.rst') as readme_file:
 
 setup(
     name='mlbox',
-    version='0.3.1',
+    version='0.4.0',
     description="A powerful Automated Machine Learning python library.",
     long_description=readme,
     author="Axel ARONIO DE ROMBLAY",
