@@ -1,4 +1,5 @@
 <img src=https://github.com/AxeldeRomblay/MLBox/blob/master/logo.png width=750/> 
+---------------------------
 
 [![Documentation Status](https://readthedocs.org/projects/mlbox/badge/?version=latest)](http://mlbox.readthedocs.io/en/latest/?badge=latest)
 [![PyPI version](https://badge.fury.io/py/mlbox.svg)](https://pypi.org/project/mlbox/)
@@ -7,7 +8,6 @@
 [![codecov](https://codecov.io/gh/AxeldeRomblay/MLBox/branch/master/graph/badge.svg)](https://codecov.io/gh/AxeldeRomblay/MLBox)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/AxeldeRomblay/MLBox/blob/master/LICENSE)
 
----------------------------
 
 __MLBox is a powerful Automated Machine Learning python library.__ It provides the following features:
 
