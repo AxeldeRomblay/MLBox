@@ -2,9 +2,14 @@ version: 1.0.{build}
 
 environment:
   matrix:
+    - PYTHON: "C:/Python27-x64"
+      PYTHON_VERSION: 2.7
+    - PYTHON: "C:/Python34-x64"
+      PYTHON_VERSION: 3.4
+    - PYTHON: "C:/Python35-x64"
+      PYTHON_VERSION: 3.5
     - PYTHON: "C:/Python36-x64"
       PYTHON_VERSION: 3.6
-      MINICONDA: "C:/Miniconda36-x64"
   
 # command to install dependencies
 install:
