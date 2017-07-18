@@ -43,7 +43,7 @@ MLBox is now available on **PyPI**, so you only need to run the following comman
 
 
 Install from the Github
-~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
 
 * **The sources for MLBox can be downloaded** from the `Github repo`_.
 
