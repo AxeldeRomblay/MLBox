@@ -89,3 +89,17 @@ Dev version
 A **4.0 dev-version for MLBox is also available** on the branch `"4.0-dev" <https://github.com/AxeldeRomblay/MLBox/tree/4.0-dev>`__ ! It provides some interesting new features. Please refer to `HISTORY <https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst>`__. 
 
 **It depends on sklearn-0.19.dev0 which is not a stable version at the moment.**
+
+
+.. |Documentation Status| image:: https://readthedocs.org/projects/mlbox/badge/?version=latest
+   :target: http://mlbox.readthedocs.io/en/latest/?badge=latest
+.. |PyPI version| image:: https://badge.fury.io/py/mlbox.svg
+   :target: https://pypi.org/project/mlbox/
+.. |Build Status| image:: https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master
+   :target: https://travis-ci.org/AxeldeRomblay/MLBox
+.. |GitHub Issues| image:: https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg
+   :target: https://github.com/AxeldeRomblay/MLBox/issues
+.. |codecov| image:: https://codecov.io/gh/AxeldeRomblay/MLBox/branch/master/graph/badge.svg
+   :target: https://codecov.io/gh/AxeldeRomblay/MLBox
+.. |License| image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
+   :target: https://github.com/AxeldeRomblay/MLBox/blob/master/LICENSE
