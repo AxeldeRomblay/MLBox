@@ -29,8 +29,8 @@ First, make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`
     
     
     
-Stable version
---------------
+Installation
+------------
 
 Install from pip 
 ~~~~~~~~~~~~~~~~
@@ -80,16 +80,6 @@ Install from the Github
 .. _Github repo: https://github.com/AxeldeRomblay/mlbox
 
 .. _tarball: https://github.com/AxeldeRomblay/mlbox/tarball/master
-
-
-
-Dev version
------------
-
-A **4.0 dev-version for MLBox is also available** on the branch `"4.0-dev" <https://github.com/AxeldeRomblay/MLBox/tree/4.0-dev>`__ ! It provides some interesting new features. Please refer to `HISTORY <https://github.com/AxeldeRomblay/MLBox/blob/master/HISTORY.rst>`__. 
-
-**It depends on sklearn-0.19.dev0 which is not a stable version at the moment.**
-
 
 .. |Documentation Status| image:: https://readthedocs.org/projects/mlbox/badge/?version=latest
    :target: http://mlbox.readthedocs.io/en/latest/?badge=latest
