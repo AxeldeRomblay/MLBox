@@ -44,8 +44,8 @@ class Optimiser():
         A string (see model evaluation documentation) or a scorer callable object / function with signature``scorer(estimator, X, y)``.
 
         If None, "log_loss" is used for classification and "mean_squarred_error" for regression
-	    Available scorings for classification : "accuracy","roc_auc", "f1", "log_loss", "precision", "recall"
-	    Available scorings for regression : "mean_absolute_error", "mean_squared_error", "median_absolute_error", "r2"
+	Available scorings for classification : "accuracy","roc_auc", "f1", "log_loss", "precision", "recall"
+	Available scorings for regression : "mean_absolute_error", "mean_squared_error", "median_absolute_error", "r2"
 
     n_folds : int, defaut = 2
         The number of folds for cross validation (stratified for classification)
@@ -53,16 +53,20 @@ class Optimiser():
     random_state : int, defaut = 1
         pseudo-random number generator state used for shuffling
 
+    to_path : str, defaut = "save"
+        Name of the folder where models are saved
+
     verbose : bool, defaut = True
         Verbose mode
 
     """
 
-    def __init__(self, scoring = None, n_folds = 2, random_state = 1, verbose = True):
+    def __init__(self, scoring = None, n_folds = 2, random_state = 1, to_path = "save", verbose = True):
 
         self.scoring = scoring
         self.n_folds = n_folds
         self.random_state = random_state
+	self.to_path = to_path
         self.verbose = verbose
 
 
@@ -70,8 +74,9 @@ class Optimiser():
 
         return {'scoring' : self.scoring,
                 'n_folds' : self.n_folds,
-               'random_state' : self.random_state,
-               'verbose' : self.verbose}
+                'random_state' : self.random_state,
+		'to_path' : self.to_path,
+                'verbose' : self.verbose}
 
 
     def set_params(self,**params):
@@ -244,23 +249,60 @@ class Optimiser():
         else:
             raise ValueError("Impossible to determine the task. Please check that your target is encoded.")
 
+
+
         ############################################################
         ##################### creating the pipeline ##################
         ############################################################
 
-        pipe = [("ne", ne), ("ce", ce)]
+        pipe = [("ne",ne),("ce",ce)]
 
-        if (fs is not None):
-            pipe.append(("fs", fs))
+        ### do we need to cache transformers ###
+
+        cache = False
+
+        if (params is not None):
+            if("ce__strategy" in params):
+                if(params["ce__strategy"] == "entity_embedding"):
+                    cache = True
+                else:
+                    pass
+            else:
+                pass
+
+        if(fs is not None):
+            if ("fs__strategy" in params):
+                if(params["fs__strategy"] != "variance"):
+                    cache = True
+                else:
+                    pass
+        else:
+            pass
+
+        if(len(STCK)!=0):
+            cache = True
+        else:
+            pass
+
+
+        ### pipeline creation ###
+
+        if(fs is not None):
+            pipe.append(("fs",fs))
         else:
             pass
 
         for stck in np.sort(list(STCK)):
             pipe.append((stck, STCK[stck]))
 
-        pipe.append(("est", est))
-        pp = Pipeline(pipe)
+        pipe.append(("est",est))
 
+        if(cache):
+            pp = Pipeline(pipe, memory = self.to_path)
+        else:
+            pp = Pipeline(pipe)
+
+	
         ############################################################
         #################### fitting the pipeline ###################
         ############################################################
@@ -471,3 +513,4 @@ class Optimiser():
                     print(best_params)
 
                 return best_params
+
