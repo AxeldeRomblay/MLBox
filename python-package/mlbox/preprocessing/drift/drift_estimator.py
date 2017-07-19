@@ -6,8 +6,8 @@
 import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import *
-from sklearn.model_selection import *
+from sklearn.metrics import roc_auc_score
+from sklearn.model_selection import KFold, StratifiedKFold
 
 def cross_val_predict_proba(estimator, X, y, cv):
     

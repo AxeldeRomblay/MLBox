@@ -43,7 +43,6 @@ def sync_fit(df_train, df_test, estimator, n_folds, stratify, random_state):
     """
 
     from .drift_estimator import DriftEstimator
-
     de = DriftEstimator(estimator, n_folds, stratify, random_state)   #on va recalculer les index de cv sur chaque thread...
     de.fit(df_train,df_test)
 

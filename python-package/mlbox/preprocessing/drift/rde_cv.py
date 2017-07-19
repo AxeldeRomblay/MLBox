@@ -8,8 +8,8 @@ import os
 
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import *
-from  .drift_threshold import *
+from sklearn.model_selection import KFold
+from  .drift_threshold import DriftThreshold
 
 
 def log_progress(sequence, every=None, size=None):
