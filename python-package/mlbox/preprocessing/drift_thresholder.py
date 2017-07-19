@@ -2,14 +2,14 @@
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
 
-from .drift import *
+from .drift import DriftThreshold
 import os
 from sklearn.pipeline import Pipeline
 import warnings
 import time
 
-from ..encoding.na_encoder import *
-from ..encoding.categorical_encoder import *
+from ..encoding.na_encoder import NA_encoder
+from ..encoding.categorical_encoder import Categorical_encoder
 
 
 
