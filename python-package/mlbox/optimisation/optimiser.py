@@ -66,7 +66,7 @@ class Optimiser():
         self.scoring = scoring
         self.n_folds = n_folds
         self.random_state = random_state
-	self.to_path = to_path
+        self.to_path = to_path
         self.verbose = verbose
 
 
