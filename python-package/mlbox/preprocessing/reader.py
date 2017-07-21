@@ -379,8 +379,7 @@ class Reader():
             ### checking shape of the target ###
 
             if (type(y_train) == pd.core.frame.DataFrame):
-                raise ValueError(
-                    "Your target contains more than two columns ! Please check that only one column is named " + target_name)
+                raise ValueError("Your target contains more than two columns ! Please check that only one column is named " + target_name)
 
             else:
                 pass
@@ -418,13 +417,14 @@ class Reader():
             ### print information ###
             if (self.verbose):
                 print("")
-                print(
-                "number of categorical features : " + str(len(df_train.dtypes[df_train.dtypes == 'object'].index)))
-                print("number of numerical features : " + str(len(df_train.dtypes[
-                                                                      df_train.dtypes != 'object'].index)))  # bool is considerated as a numerical variable
+                print("number of categorical features : " + str(len(df_train.dtypes[df_train.dtypes == 'object'].index)))
+                print("number of numerical features : " + str(len(df_train.dtypes[df_train.dtypes != 'object'].index)))  # bool is considerated as a numerical variable
                 print("number of training samples : " + str(df_train.shape[0]))
                 print("number of test samples : " + str(df_test.shape[0]))
-
+                print("")
+                print("Top 5 sparse features (% missing values on train set):")
+                print(np.round((df_train.isnull().sum()*100./df_train.shape[0]).sort_values(ascending=False)[:5],1))
+                
             ######################################################
             ################## encoding target ##################
             ######################################################
