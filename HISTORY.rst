@@ -42,3 +42,7 @@ History
 0.4.0 (2017-07-18)
 ------------------
 * add of pipeline memory.
+
+0.4.1 (2017-07-21)
+------------------
+* improvement in verbose mode for reader (display missing values)
