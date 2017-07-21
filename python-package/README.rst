@@ -84,7 +84,7 @@ Install from the Github
 .. |Documentation Status| image:: https://readthedocs.org/projects/mlbox/badge/?version=latest
    :target: http://mlbox.readthedocs.io/en/latest/?badge=latest
 .. |PyPI version| image:: https://badge.fury.io/py/mlbox.svg
-   :target: https://pypi.org/project/mlbox/
+   :target: https://pypi.python.org/pypi/mlbox
 .. |Build Status| image:: https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master
    :target: https://travis-ci.org/AxeldeRomblay/MLBox
 .. |Windows Build Status| image:: https://ci.appveyor.com/api/projects/status/5ypa8vaed6kpmli8?svg=true
