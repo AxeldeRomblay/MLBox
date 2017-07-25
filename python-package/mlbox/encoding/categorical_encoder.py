@@ -94,30 +94,29 @@ class Categorical_encoder():
         self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index
         self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index
 
+        if (len(self.__Lcat) == 0):
+            pass
+
         #################################################
         #                Label Encoding
         #################################################
 
         if (self.strategy == 'label_encoding'):
 
-            if (len(self.__Lcat) == 0):
-                pass
+            for col in self.__Lcat:
 
-            else:
-                for col in self.__Lcat:
+                d = dict()
+                levels = list(df_train[col].unique())
+                nan = False
 
-                    d = dict()
-                    levels = list(df_train[col].unique())
-                    nan = False
+                if np.NaN in levels:
+                    nan = True
+                    levels.remove(np.NaN)
 
-                    if np.NaN in levels:
-                        nan = True
-                        levels.remove(np.NaN)
+                for enc, level in enumerate([np.NaN]*nan + sorted(levels)):
+                    d[level] = enc  # TODO: Optimize loop?
 
-                    for enc, level in enumerate([np.NaN]*nan + sorted(levels)):
-                        d[level] = enc  # TODO: Optimize loop?
-
-                    self.__Enc[col] = d
+                self.__Enc[col] = d
 
             self.__fitOK = True
 
@@ -127,13 +126,9 @@ class Categorical_encoder():
 
         elif (self.strategy == 'dummification'):
 
-            if (len(self.__Lcat) == 0):
-                pass
-
-            else:
-                for col in self.__Lcat:
-                    # TODO: Optimize?
-                    self.__Enc[col] = list(df_train[col].dropna().unique())
+            for col in self.__Lcat:
+                # TODO: Optimize?
+                self.__Enc[col] = list(df_train[col].dropna().unique())
 
             self.__fitOK = True
 
@@ -143,137 +138,132 @@ class Categorical_encoder():
 
         elif (self.strategy == 'entity_embedding'):
 
-            if (len(self.__Lcat) == 0):
-                pass
+            # Parameters
+            A = 10   # 15 : more complex
+            B = 5    # 2 or 3 : more complex
 
+            # Number of neurons for layer 1 and 2
+            sum_ = sum([1. * np.log(k) for k in self.__K.values()])
+            # TODO: Add reference for this formula?
+            n_layer1 = min(1000,
+                           int(A * (len(self.__K) ** 0.5) * sum_ + 1))
+            n_layer2 = int(n_layer1 / B) + 2
+
+            # Dropouts
+            dropout1 = 0.1
+            dropout2 = 0.1
+
+            # Learning parameters
+            epochs = 20  # 25 : more iterations
+            batch_size = 128  # 256 : gradient more stable
+
+            # Creating the neural network
+
+            embeddings = []
+            inputs = []
+
+            for col in self.__Lcat:
+
+                exp_ = np.exp(-df_train[col].nunique() * 0.05)
+                self.__K[col] = np.int(5 * (1 - exp_) + 1)
+
+                d = dict()
+                levels = list(df_train[col].unique())
+                nan = False
+
+                if np.NaN in levels:
+                    nan = True
+                    levels.remove(np.NaN)
+
+                for enc, level in enumerate([np.NaN]*nan + sorted(levels)):
+                    d[level] = enc  # TODO: Optimize loop?
+
+                self.__Enc[col] = d
+
+                var = Input(shape=(1,))
+                inputs.append(var)
+
+                emb = Embedding(input_dim=len(self.__Enc[col]),
+                                output_dim=self.__K[col],
+                                input_length=1)(var)
+                emb = Reshape(target_shape=(self.__K[col],))(emb)
+
+                embeddings.append(emb)
+
+            if (len(self.__Lcat) > 1):
+                emb_layer = concatenate(embeddings)
             else:
+                emb_layer = embeddings[0]
 
-                # Parameters
-                A = 10   # 15 : more complex
-                B = 5    # 2 or 3 : more complex
+            lay1 = Dense(n_layer1,
+                         kernel_initializer='uniform',
+                         activation='relu')(emb_layer)
+            lay1 = Dropout(dropout1)(lay1)
 
-                # Number of neurons for layer 1 and 2
-                sum_ = sum([1. * np.log(k) for k in self.__K.values()])
-                # TODO: Add reference for this formula?
-                n_layer1 = min(1000,
-                               int(A * (len(self.__K) ** 0.5) * sum_ + 1))
-                n_layer2 = int(n_layer1 / B) + 2
+            lay2 = Dense(n_layer2,
+                         kernel_initializer='uniform',
+                         activation='relu')(lay1)
+            lay2 = Dropout(dropout2)(lay2)
 
-                # Dropouts
-                dropout1 = 0.1
-                dropout2 = 0.1
+            # Learning the weights
 
-                # Learning parameters
-                epochs = 20  # 25 : more iterations
-                batch_size = 128  # 256 : gradient more stable
+            if ((y_train.dtype == object) | (y_train.dtype == 'int')):
 
-                # Creating the neural network
+                # Classification
+                if (y_train.nunique() == 2):
 
-                embeddings = []
-                inputs = []
+                    outputs = Dense(y_train.nunique() - 1,
+                                    kernel_initializer='normal',
+                                    activation='sigmoid')(lay2)
 
-                for col in self.__Lcat:
-
-                    exp_ = np.exp(-df_train[col].nunique() * 0.05)
-                    self.__K[col] = np.int(5 * (1 - exp_) + 1)
-
-                    d = dict()
-                    levels = list(df_train[col].unique())
-                    nan = False
-
-                    if np.NaN in levels:
-                        nan = True
-                        levels.remove(np.NaN)
-
-                    for enc, level in enumerate([np.NaN]*nan + sorted(levels)):
-                        d[level] = enc  # TODO: Optimize loop?
-
-                    self.__Enc[col] = d
-
-                    var = Input(shape=(1,))
-                    inputs.append(var)
-
-                    emb = Embedding(input_dim=len(self.__Enc[col]),
-                                    output_dim=self.__K[col],
-                                    input_length=1)(var)
-                    emb = Reshape(target_shape=(self.__K[col],))(emb)
-
-                    embeddings.append(emb)
-
-                if (len(self.__Lcat) > 1):
-                    emb_layer = concatenate(embeddings)
-                else:
-                    emb_layer = embeddings[0]
-
-                lay1 = Dense(n_layer1,
-                             kernel_initializer='uniform',
-                             activation='relu')(emb_layer)
-                lay1 = Dropout(dropout1)(lay1)
-
-                lay2 = Dense(n_layer2,
-                             kernel_initializer='uniform',
-                             activation='relu')(lay1)
-                lay2 = Dropout(dropout2)(lay2)
-
-                # Learning the weights
-
-                if ((y_train.dtype == object) | (y_train.dtype == 'int')):
-
-                    # Classification
-                    if (y_train.nunique() == 2):
-
-                        outputs = Dense(y_train.nunique() - 1,
-                                        kernel_initializer='normal',
-                                        activation='sigmoid')(lay2)
-
-                        model = Model(inputs=inputs, outputs=outputs)
-                        model.compile(loss='binary_crossentropy',
-                                      optimizer='adam')
-                        model.fit(
-                            [df_train[col].apply(lambda x: self.__Enc[col][x]).values
-                             for col in self.__Lcat],
-                            pd.get_dummies(y_train,
-                                           drop_first=True).astype(int).values,
-                            epochs=epochs,
-                            batch_size=batch_size,
-                            verbose=int(self.verbose)
-                        )
-
-                    else:
-
-                        outputs = Dense(y_train.nunique(),
-                                        kernel_initializer='normal',
-                                        activation='sigmoid')(lay2)
-
-                        model = Model(inputs=inputs, outputs=outputs)
-                        model.compile(loss='binary_crossentropy',
-                                      optimizer='adam')
-                        model.fit(
-                            [df_train[col].apply(lambda x: self.__Enc[col][x]).values
-                             for col in self.__Lcat],
-                            pd.get_dummies(y_train,
-                                           drop_first=False).astype(int).values,
-                            epochs=epochs,
-                            batch_size=batch_size,
-                            verbose=int(self.verbose)
-                        )
-
-                else:
-
-                    # Regression
-                    outputs = Dense(1, kernel_initializer='normal')(lay2)
                     model = Model(inputs=inputs, outputs=outputs)
-                    model.compile(loss='mean_squared_error', optimizer='adam')
+                    model.compile(loss='binary_crossentropy',
+                                  optimizer='adam')
                     model.fit(
                         [df_train[col].apply(lambda x: self.__Enc[col][x]).values
                          for col in self.__Lcat],
-                        y_train.values,
+                        pd.get_dummies(y_train,
+                                       drop_first=True).astype(int).values,
                         epochs=epochs,
                         batch_size=batch_size,
                         verbose=int(self.verbose)
                     )
 
-                self.__weights = model.get_weights()
+                else:
+
+                    outputs = Dense(y_train.nunique(),
+                                    kernel_initializer='normal',
+                                    activation='sigmoid')(lay2)
+
+                    model = Model(inputs=inputs, outputs=outputs)
+                    model.compile(loss='binary_crossentropy',
+                                  optimizer='adam')
+                    model.fit(
+                        [df_train[col].apply(lambda x: self.__Enc[col][x]).values
+                         for col in self.__Lcat],
+                        pd.get_dummies(y_train,
+                                       drop_first=False).astype(int).values,
+                        epochs=epochs,
+                        batch_size=batch_size,
+                        verbose=int(self.verbose)
+                    )
+
+            else:
+
+                # Regression
+                outputs = Dense(1, kernel_initializer='normal')(lay2)
+                model = Model(inputs=inputs, outputs=outputs)
+                model.compile(loss='mean_squared_error', optimizer='adam')
+                model.fit(
+                    [df_train[col].apply(lambda x: self.__Enc[col][x]).values
+                     for col in self.__Lcat],
+                    y_train.values,
+                    epochs=epochs,
+                    batch_size=batch_size,
+                    verbose=int(self.verbose)
+                )
+
+            self.__weights = model.get_weights()
 
             self.__fitOK = True
 
@@ -283,40 +273,36 @@ class Categorical_encoder():
 
         elif(self.strategy == 'random_projection'):
 
-            if (len(self.__Lcat) == 0):
-                pass
+            for col in self.__Lcat:
 
-            else:
-                for col in self.__Lcat:
+                exp_ = np.exp(-df_train[col].nunique() * 0.05)
+                # TODO: Add reference to formula used here below?
+                self.__K[col] = np.int(5 * (1 - exp_)) + 1
 
-                    exp_ = np.exp(-df_train[col].nunique()*0.05)
-                    # TODO: Add reference to formula used here below?
-                    self.__K[col] = np.int(5 * (1 - exp_)) + 1
+                d = dict()
+                levels = list(df_train[col].unique())
+                nan = False
 
-                    d = dict()
-                    levels = list(df_train[col].unique())
-                    nan = False
+                if np.NaN in levels:
+                    nan = True
+                    levels.remove(np.NaN)
 
-                    if np.NaN in levels:
-                        nan = True
-                        levels.remove(np.NaN)
+                for k in range(self.__K[col]):
 
-                    for k in range(self.__K[col]):
+                    if (k == 0):
+                        levels = sorted(levels)
 
-                        if (k == 0):
-                            levels = sorted(levels)
+                    else:
+                        np.random.seed(k)
+                        np.random.shuffle(levels)
 
+                    for enc, level in enumerate([np.NaN] * nan + levels):
+                        if(k == 0):
+                            d[level] = [enc]
                         else:
-                            np.random.seed(k)
-                            np.random.shuffle(levels)
+                            d[level] = d[level] + [enc]
 
-                        for enc, level in enumerate([np.NaN]*nan + levels):
-                            if(k == 0):
-                                d[level] = [enc]
-                            else:
-                                d[level] = d[level] + [enc]
-
-                    self.__Enc[col] = d
+                self.__Enc[col] = d
 
             self.__fitOK = True
 
