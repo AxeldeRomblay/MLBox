@@ -154,7 +154,7 @@ class StackingClassifier():
                 X_train = X_train.drop(indexes_to_drop)
                 y_train = y_train.drop(indexes_to_drop)
 
-            except:
+            except:  # noqa
                 pass
 
             # learning the model
