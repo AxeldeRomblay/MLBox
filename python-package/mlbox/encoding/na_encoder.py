@@ -24,8 +24,8 @@ class NA_encoder:
     """
 
     def __init__(self, numerical_strategy='mean', categorical_strategy='<NULL>'):
-        self.numerical_strategy = numerical_strategy    #mean, median, most_frequent and a value
-        self.categorical_strategy = categorical_strategy  #'<NULL>' or np.NaN for dummification
+        self.numerical_strategy = numerical_strategy    # mean, median, most_frequent and a value
+        self.categorical_strategy = categorical_strategy  # '<NULL>' or np.NaN for dummification
         self.__Lcat = []
         self.__Lnum = []
         self.__imp = None
@@ -33,8 +33,8 @@ class NA_encoder:
 
     def get_params(self, deep=True):
         return {
-            'numerical_strategy' : self.numerical_strategy,
-            'categorical_strategy' : self.categorical_strategy
+            'numerical_strategy': self.numerical_strategy,
+            'categorical_strategy': self.categorical_strategy
             }
 
     def set_params(self, **params):
@@ -45,7 +45,6 @@ class NA_encoder:
                 warnings.warn("Invalid parameter a for encoder NA_encoder. Parameter IGNORED. Check the list of available parameters with `encoder.get_params().keys()`")
             else:
                 setattr(self, k, v)
-
 
     def fit(self, df_train, y_train=None):
         '''
@@ -66,9 +65,8 @@ class NA_encoder:
         None
         '''
 
-        self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index   #list of categorical variables
-        self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index   #list of numerical variables
-
+        self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index   # list of categorical variables
+        self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index   # list of numerical variables
 
         if self.numerical_strategy in ['mean', 'median', 'most_frequent']:
 
@@ -111,7 +109,6 @@ class NA_encoder:
         self.fit(df_train, y_train)
 
         return self.transform(df_train)
-
 
     def transform(self, df):
         '''
