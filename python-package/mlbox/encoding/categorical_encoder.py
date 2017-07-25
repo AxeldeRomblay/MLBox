@@ -212,7 +212,7 @@ class Categorical_encoder():
                 # Classification
                 if (y_train.nunique() == 2):
 
-                    outputs = Dense(y_train.nunique() - 1,
+                    outputs = Dense(1,
                                     kernel_initializer='normal',
                                     activation='sigmoid')(lay2)
 
