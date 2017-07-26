@@ -18,7 +18,7 @@ global lgbm_installed
 try:
     from lightgbm import LGBMClassifier
     lgbm_installed = True
-except:  # noqa
+except Exception:
     warnings.warn(
         "Package lightgbm is not installed. Model LightGBM will be replaced by"
         "XGBoost")
