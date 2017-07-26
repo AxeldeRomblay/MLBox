@@ -455,7 +455,7 @@ class Categorical_encoder():
 
                 elif (self.strategy == 'entity_embedding'):
 
-                    def get_embeddings(x, col):
+                    def get_embeddings(x, col, i):
                         if int(self.__Enc[col][x]) < \
                                 np.shape(self.__weights[i])[0]:
                             return self.__weights[i][int(self.__Enc[col][x]), :]
@@ -481,7 +481,7 @@ class Categorical_encoder():
                     if (len(self.__Lnum) == 0):
                         return pd.concat(
                             [pd.DataFrame(
-                                df[col].apply(lambda x: get_embeddings(x, col)).tolist(),
+                                df[col].apply(lambda x: get_embeddings(x, col, i)).tolist(),
                                 columns=[col + "_emb" + str(k + 1)
                                          for k in range(self.__K[col])],
                                 index=df.index
@@ -491,7 +491,7 @@ class Categorical_encoder():
                         return pd.concat(
                             [df[self.__Lnum]] +
                             [pd.DataFrame(
-                                df[col].apply(lambda x: get_embeddings(x, col)).tolist(),
+                                df[col].apply(lambda x: get_embeddings(x, col, i)).tolist(),
                                 columns=[col + "_emb" + str(k + 1)
                                          for k in range(self.__K[col])],
                                 index=df.index
