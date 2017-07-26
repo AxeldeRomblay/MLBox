@@ -64,8 +64,8 @@ class Predictor():
             else:
                 setattr(self,k,v)
 
-
-    def __plot_feature_importances(self, importance, fig_name = "feature_importance.png"):
+                
+    def __save_feature_importances(self, importance, fig_name = "feature_importance.png"):
 
         """
         Saves feature importances plot
@@ -109,6 +109,49 @@ class Predictor():
             leak = sorted(dict(tuples).items(), key=operator.itemgetter(1))[-1]
             if((leak[-1]>70)&(len(importance)>1)):
                 warnings.warn("WARNING : "+str(leak[0])+" is probably a leak ! Please check and delete it...")
+
+        else:
+            pass
+                
+
+    def __plot_feature_importances(self, importance, top = 10):
+
+        """
+        Plots top 10 feature importances 
+        
+        Parameters
+        ----------
+        
+        importance : dict
+            dictionnary with features (key) and importances (values) 
+        
+        top : int
+            number of top features to display.
+        
+        Returns
+        -------
+    
+        None
+        """
+        
+        if(len(importance)>0):
+
+            ### plot feature importances
+            tuples = [(k, np.round(importance[k]*100./np.sum(list(importance.values())),2)) for k in importance]
+            tuples = sorted(tuples, key=lambda x: x[1])[-top:]
+            labels, values = zip(*tuples)
+            plt.figure(figsize=(20,int(len(importance)*0.3)+1))
+
+            ylocs = np.arange(len(values))
+            plt.barh(ylocs, values, align='center')
+
+            for x, y in zip(values, ylocs):
+                plt.text(x + 1, y,x, va='center')
+
+            plt.yticks(ylocs,labels)
+            plt.title("Top "+str(top)+" feature importance (%)")
+            plt.grid(True)
+            plt.show()
 
         else:
             pass
@@ -317,7 +360,8 @@ class Predictor():
                     ### feature importances ###
                     try:
                         importance = est.feature_importances()
-                        self.__plot_feature_importances(importance, self.to_path+"/"+est.get_params()["strategy"]+"_feature_importance.png")
+                        self.__save_feature_importances(importance, self.to_path+"/"+est.get_params()["strategy"]+"_feature_importance.png")
+                        self.__plot_feature_importances(importance, 10)
                     except:
                         warnings.warn("Unable to get feature importances...")
 
