@@ -8,19 +8,19 @@ import pandas as pd
 import warnings
 import time
 
-from hyperopt import fmin, hp, tpe, space_eval
+from hyperopt import fmin, hp, tpe
 from sklearn.model_selection import cross_val_score, KFold, StratifiedKFold
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import *
 
-from ..encoding.na_encoder import *
-from ..encoding.categorical_encoder import *
-from ..model.supervised.classification.feature_selector import *
-from ..model.supervised.regression.feature_selector import *
-from ..model.supervised.classification.stacking_classifier import *
-from ..model.supervised.regression.stacking_regressor import *
-from ..model.supervised.classification.classifier import *
-from ..model.supervised.regression.regressor import *
+from ..encoding.na_encoder import NA_encoder
+from ..encoding.categorical_encoder import Categorical_encoder
+from ..model.supervised.classification.feature_selector import Clf_feature_selector
+from ..model.supervised.regression.feature_selector import Reg_feature_selector
+from ..model.supervised.classification.stacking_classifier import StackingClassifier
+from ..model.supervised.regression.stacking_regressor import StackingRegressor
+from ..model.supervised.classification.classifier import Classifier
+from ..model.supervised.regression.regressor import Regressor
 
 
 class Optimiser():
