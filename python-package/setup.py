@@ -45,7 +45,7 @@ with open('README.rst') as readme_file:
 
 setup(
     name='mlbox',
-    version='0.4.2',
+    version='0.4.3',
     description="A powerful Automated Machine Learning python library.",
     long_description=readme,
     author="Axel ARONIO DE ROMBLAY",
