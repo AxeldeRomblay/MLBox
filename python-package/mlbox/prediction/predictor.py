@@ -11,18 +11,17 @@ import warnings
 import time
 import operator
 import matplotlib.pyplot as plt
-from copy import copy
 
 from sklearn.pipeline import Pipeline
 
-from ..encoding.na_encoder import *
-from ..encoding.categorical_encoder import *
-from ..model.supervised.classification.feature_selector import *
-from ..model.supervised.regression.feature_selector import *
-from ..model.supervised.classification.stacking_classifier import *
-from ..model.supervised.regression.stacking_regressor import *
-from ..model.supervised.classification.classifier import *
-from ..model.supervised.regression.regressor import *
+from ..encoding.na_encoder import NA_encoder
+from ..encoding.categorical_encoder import Categorical_encoder
+from ..model.supervised.classification.feature_selector import Clf_feature_selector
+from ..model.supervised.regression.feature_selector import Reg_feature_selector
+from ..model.supervised.classification.stacking_classifier import StackingClassifier
+from ..model.supervised.regression.stacking_regressor import StackingRegressor
+from ..model.supervised.classification.classifier import Classifier
+from ..model.supervised.regression.regressor import Regressor
 
 
 class Predictor():
