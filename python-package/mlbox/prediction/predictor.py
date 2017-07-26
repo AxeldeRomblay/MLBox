@@ -153,6 +153,7 @@ class Predictor():
             plt.title("Top "+str(top)+" feature importance (%)")
             plt.grid(True)
             plt.show()
+            plt.close()
 
         else:
             pass
