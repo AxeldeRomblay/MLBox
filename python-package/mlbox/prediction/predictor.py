@@ -29,104 +29,116 @@ class Predictor():
 
     """
     Predicts the target on the test dataset.
-    
-    
+
+
     Parameters
     ----------
-    
-    to_path : str, defaut = "save"
-        Name of the folder where feature importances and predictions are saved (.png and .csv formats). Must contain target encoder object (for classification task only).
-    
-    verbose : bool, defaut = True
+
+    to_path : str, default = "save"
+        Name of the folder where feature importances and
+        predictions are saved (.png and .csv formats).
+        Must contain target encoder object (for classification task only).
+
+    verbose : bool, default = True
         Verbose mode
-    
+
     """
 
-    def __init__(self, to_path = "save", verbose = True):
+    def __init__(self, to_path="save", verbose=True):
 
         self.to_path = to_path
         self.verbose = verbose
 
     def get_params(self, deep=True):
 
-        return {'to_path' : self.to_path,
-                'verbose' : self.verbose
+        return {'to_path': self.to_path,
+                'verbose': self.verbose
                 }
 
-
-    def set_params(self,**params):
+    def set_params(self, **params):
 
         self.__fitOK = False
 
-        for k,v in params.items():
+        for k, v in params.items():
             if k not in self.get_params():
-                warnings.warn("Invalid parameter a for predictor Predictor. Parameter IGNORED. Check the list of available parameters with `predictor.get_params().keys()`")
+                warnings.warn("Invalid parameter a for predictor Predictor. "
+                              "Parameter IGNORED. "
+                              "Check the list of available parameters with "
+                              "`predictor.get_params().keys()`")
             else:
-                setattr(self,k,v)
+                setattr(self, k, v)
 
-
-    def __plot_feature_importances(self, importance, fig_name = "feature_importance.png"):
+    def __plot_feature_importances(self,
+                                   importance,
+                                   fig_name="feature_importance.png"):
 
         """
         Saves feature importances plot
-        
+
         Parameters
         ----------
-        
+
         importance : dict
-            dictionnary with features (key) and importances (values)
-            
-        fig_name : str, defaut = "feature_importance.png"
+            Dictionary with features (key) and importances (values)
+
+        fig_name : str, default = "feature_importance.png"
             figure name
-        
-        
+
+
         Returns
         -------
-        
+
         None
         """
-        
-        if(len(importance)>0):
 
-            ### plot feature importances
-            tuples = [(k, np.round(importance[k]*100./np.sum(list(importance.values())),2)) for k in importance]
+        if (len(importance) > 0):
+
+            # Plot feature importances
+
+            importance_sum = np.sum(list(importance.values()))
+            tuples = [(k, np.round(importance[k] * 100. / importance_sum, 2))
+                      for k in importance]
             tuples = sorted(tuples, key=lambda x: x[1])
             labels, values = zip(*tuples)
-            plt.figure(figsize=(20,int(len(importance)*0.3)+1))
+            plt.figure(figsize=(20, int(len(importance) * 0.3) + 1))
 
             ylocs = np.arange(len(values))
             plt.barh(ylocs, values, align='center')
 
             for x, y in zip(values, ylocs):
-                plt.text(x + 1, y,x, va='center')
+                plt.text(x + 1, y, x, va='center')
 
-            plt.yticks(ylocs,labels)
+            plt.yticks(ylocs, labels)
             plt.title("Feature importance (%)")
             plt.grid(True)
             plt.savefig(fig_name)
 
-            ### leak detection
+            # Leak Detection
+
             leak = sorted(dict(tuples).items(), key=operator.itemgetter(1))[-1]
-            if((leak[-1]>70)&(len(importance)>1)):
-                warnings.warn("WARNING : "+str(leak[0])+" is probably a leak ! Please check and delete it...")
+            if((leak[-1] > 70) & (len(importance) > 1)):
+                warnings.warn("WARNING : "
+                              + str(leak[0])
+                              + " is probably a leak ! "
+                                "Please check and delete it...")
 
         else:
             pass
-
-
 
     def fit_predict(self, params, df):
 
 
         '''
-        Fits the model. Then predicts on test dataset and outputs feature importances and the submission file (.png and .csv format).
-        
+        Fits the model. Then predicts on test dataset and outputs feature
+        importances and the submission file (.png and .csv format).
+
         
         Parameters
         ----------
         
-        params : dict, defaut = None.
-            Hyper-parameters dictionnary for the whole pipeline. If params = None, defaut configuration is evaluated.
+        params : dict, default = None.
+            Hyper-parameters dictionary for the whole pipeline.
+            If params = None, default configuration is evaluated.
             
             - The keys must respect the following syntax : "enc__param".
             
@@ -134,18 +146,25 @@ class Predictor():
                 1/ "enc" = "ne" for na encoder
                 2/ "enc" = "ce" for categorical encoder
                 3/ "enc" = "fs" for feature selector [OPTIONAL]
-                4/ "enc" = "stck"+str(i) to add layer n°i of meta-features (assuming 1 ... i-1 layers are created...) [OPTIONAL]
+                4/ "enc" = "stck"+str(i) to add layer n°i of meta-features
+                (assuming 1 ... i-1 layers are created...) [OPTIONAL]
                 5/ "enc" = "est" for the final estimator
             
             And:
-                "param" : a correct associated parameter for each step. (for example : "max_depth" for "enc"="est", "entity_embedding" for "enc"="ce")
+                "param" : a correct associated parameter for each step.
+                (for example : "max_depth" for "enc"="est",
+                               "entity_embedding" for "enc"="ce")
             
-            - The values are those of the parameters (for example : 4 for a key = "est__max_depth")
+            - The values are those of the parameters
+                (for example : 4 for key = "est__max_depth")
         
         
-        df : dict, defaut = None
-            Dataset dictionnary. Must contain keys "train", "test" and "target" with the train dataset (pandas DataFrame), the test dataset (pandas DataFrame) and the associated
-            target (pandas Serie with dtype='float' for a regression or dtype='int' for a classification) resp.
+        df : dict, default = None
+            Dataset dictionary. Must contain keys "train", "test"
+            and "target" with the train dataset (pandas.DataFrame),
+            the test dataset (pandas.DataFrame) and the associated
+            target (pandas Serie with dtype='float' for a regression or
+            dtype='int' for a classification)
         
         
         Returns
@@ -155,28 +174,30 @@ class Predictor():
         '''
 
         if(self.to_path is None):
-            raise ValueError("You must specify a path to save your model and your predictions")
+            raise ValueError("You must specify a path to save your model "
+                             "and your predictions")
 
         else:
 
             ne = NA_encoder()
             ce = Categorical_encoder()
 
+            ##########################################
+            #    Automatically checking the task
+            ##########################################
 
-            ##########################################################################
-            #################### automatically checking the task ####################
-            ##########################################################################
+            ##########################################
+            #             Classification
+            ##########################################
 
+            if (df['target'].dtype == 'int'):
 
-            ######################
-            ### classification ###
+                # Estimator
 
-            if(df['target'].dtype=='int'):
-
-                ### estimator ###
                 est = Classifier()
 
-                ### feature selection if specified ###
+                # Feature selection if specified
+
                 fs = None
                 if(params is not None):
                     for p in params.keys():
@@ -185,7 +206,8 @@ class Predictor():
                         else:
                             pass
 
-                ### stacking if specified ###
+                # Stacking if specified
+
                 STCK = {}
                 if(params is not None):
                     for p in params.keys():
@@ -194,16 +216,18 @@ class Predictor():
                         else:
                             pass
 
+        ##########################################
+        #               Regression
+        ##########################################
 
-            ##################
-            ### regression ###
+            elif (df['target'].dtype == 'float'):
 
-            elif(df['target'].dtype=='float'):
+                # Estimator
 
-                ### estimator ###
                 est = Regressor()
 
-                 ### feature selection if specified ###
+                # Feature selection if specified
+
                 fs = None
                 if(params is not None):
                     for p in params.keys():
@@ -212,7 +236,8 @@ class Predictor():
                         else:
                             pass
 
-                ### stacking if specified ###
+                # Stacking if specified
+
                 STCK = {}
                 if(params is not None):
                     for p in params.keys():
@@ -221,18 +246,17 @@ class Predictor():
                         else:
                             pass
 
-
             else:
-                raise ValueError("Impossible to determine the task. Please check that your target is encoded.")
+                raise ValueError("Impossible to determine the task. "
+                                 "Please check that your target is encoded.")
 
+            ##########################################
+            #          Creating the Pipeline
+            ##########################################
 
-            ############################################################
-            ##################### creating the pipeline ##################
-            ############################################################
+            pipe = [("ne", ne), ("ce", ce)]
 
-            pipe = [("ne",ne),("ce",ce)]
-
-            ### do we need to cache transformers ###
+            # Do we need to cache transformers?
 
             cache = False
 
@@ -245,7 +269,7 @@ class Predictor():
                 else:
                     pass
 
-            if(fs is not None):
+            if (fs is not None):
                 if ("fs__strategy" in params):
                     if(params["fs__strategy"] != "variance"):
                         cache = True
@@ -254,36 +278,36 @@ class Predictor():
             else:
                 pass
 
-            if(len(STCK)!=0):
+            if (len(STCK) != 0):
                 cache = True
             else:
                 pass
 
-            ### pipeline creation ###
+            # Pipeline creation
 
-            if(fs is not None):
-                pipe.append(("fs",fs))
+            if (fs is not None):
+                pipe.append(("fs", fs))
             else:
                 pass
 
             for stck in np.sort(list(STCK)):
-                pipe.append((stck,STCK[stck]))
+                pipe.append((stck, STCK[stck]))
 
-            pipe.append(("est",est))
+            pipe.append(("est", est))
 
             if(cache):
-                pp = Pipeline(pipe, memory = self.to_path)
+                pp = Pipeline(pipe, memory=self.to_path)
             else:
                 pp = Pipeline(pipe)
 
-
-            #############################################################
-            #################### fitting the pipeline ###################
-            #############################################################
+            ##########################################
+            #          Fitting the Pipeline
+            ##########################################
 
             start_time = time.time()
 
-            ### no params : defaut config ###
+            # No params : default configuration
+
             if(params is None):
                 print("")
                 print('No parameters set. Default configuration is tested')
@@ -306,29 +330,34 @@ class Predictor():
                     pp.fit(df['train'], df['target'])
 
                     if(self.verbose):
-                        print("CPU time: %s seconds" % (time.time() - start_time))
+                        print("CPU time: %s seconds"%(time.time() - start_time))
 
                     try:
                         os.mkdir(self.to_path)
                     except OSError:
                         pass
 
+                    # Feature importances
 
-                    ### feature importances ###
                     try:
                         importance = est.feature_importances()
-                        self.__plot_feature_importances(importance, self.to_path+"/"+est.get_params()["strategy"]+"_feature_importance.png")
+                        self.__plot_feature_importances(importance,
+                                                        self.to_path
+                                                        + "/"
+                                                        + est.get_params()["strategy"]
+                                                        + "_feature_importance.png")
                     except:
                         warnings.warn("Unable to get feature importances...")
 
                 except:
                     raise ValueError("Pipeline cannot be fitted")
             else:
-                raise ValueError("Pipeline cannot be set with these parameters. Check the name of your stages.")
+                raise ValueError("Pipeline cannot be set with these parameters."
+                                 " Check the name of your stages.")
 
-            ############################################################
-            ######################## predicting #######################
-            ############################################################
+            ##########################################
+            #               Predicting
+            ##########################################
 
             if (df["test"].shape[0] == 0):
                 warnings.warn("You have no test dataset. Cannot predict !")
@@ -337,49 +366,56 @@ class Predictor():
 
                 start_time = time.time()
 
-                ######################
-                ### classification ###
+                ##########################################
+                #             Classification
+                ##########################################
 
-                if(df['target'].dtype=='int'):
+                if (df['target'].dtype == 'int'):
 
                     try:
 
-                        fhand = open(self.to_path+"/target_encoder.obj", 'rb')
+                        fhand = open(self.to_path + "/target_encoder.obj", 'rb')
                         enc = pickle.load(fhand)
                         fhand.close()
 
                     except:
-                        raise ValueError("Unable to load target encoder from directory : "+self.to_path)
+                        raise ValueError("Unable to load target encoder"
+                                         " from directory : " + self.to_path)
 
                     try:
                         if(self.verbose):
                             print("")
                             print("predicting...")
 
-                        pred = pd.DataFrame(pp.predict_proba(df['test']),columns = enc.inverse_transform(range(len(enc.classes_))), index = df['test'].index)
-                        pred[df['target'].name+"_predicted"] = pred.idxmax(axis=1)
+                        pred = pd.DataFrame(pp.predict_proba(df['test']),
+                                            columns=enc.inverse_transform(range(len(enc.classes_))),
+                                            index=df['test'].index)
+                        pred[df['target'].name + "_predicted"] = pred.idxmax(axis=1)  # noqa
                         
                         try:
-                            pred[df['target'].name+"_predicted"] = pred[df['target'].name+"_predicted"].apply(int)
+                            pred[df['target'].name + "_predicted"] = pred[df['target'].name + "_predicted"].apply(int)  # noqa
                         except:
                             pass
 
                     except:
                         raise ValueError("Can not predict")
 
-                ######################
-                ### regression ###
+                ##########################################
+                #               Regression
+                ##########################################
 
-                elif(df['target'].dtype=='float'):
+                elif (df['target'].dtype == 'float'):
 
-                    pred = pd.DataFrame([],columns=[df['target'].name+"_predicted"], index = df['test'].index)
+                    pred = pd.DataFrame([],
+                                        columns=[df['target'].name + "_predicted"],
+                                        index=df['test'].index)
 
                     try:
                         if(self.verbose):
                             print("")
                             print("predicting...")
 
-                        pred[df['target'].name+"_predicted"] = pp.predict(df['test'])
+                        pred[df['target'].name + "_predicted"] = pp.predict(df['test'])  # noqa
 
                     except:
                         raise ValueError("Can not predict")
@@ -390,9 +426,9 @@ class Predictor():
                 if(self.verbose):
                     print("CPU time: %s seconds" % (time.time() - start_time))
 
-                ############################################################
-                ######################## Displaying #######################
-                ############################################################
+                ##########################################
+                #               Displaying
+                ##########################################
 
                 if(self.verbose):
                     print("")
@@ -400,15 +436,18 @@ class Predictor():
                     print("")
                     print(pred.head(10))
 
-                ############################################################
-                #################### dumping predictions ###################
-                ############################################################
+                ##########################################
+                #           Dumping predictions
+                ##########################################
 
                 if(self.verbose):
                     print("")
                     print("dumping predictions into directory : "+self.to_path)
 
-                pred.to_csv(self.to_path+"/"+df['target'].name+"_predictions.csv",index=True)
+                pred.to_csv(self.to_path
+                            + "/"
+                            + df['target'].name
+                            + "_predictions.csv",
+                            index=True)
 
-                
         return self
