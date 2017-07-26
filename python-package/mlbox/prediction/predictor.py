@@ -104,6 +104,7 @@ class Predictor():
             plt.title("Feature importance (%)")
             plt.grid(True)
             plt.savefig(fig_name)
+            plt.close()
 
             ### leak detection
             leak = sorted(dict(tuples).items(), key=operator.itemgetter(1))[-1]
@@ -140,7 +141,7 @@ class Predictor():
             tuples = [(k, np.round(importance[k]*100./np.sum(list(importance.values())),2)) for k in importance]
             tuples = sorted(tuples, key=lambda x: x[1])[-top:]
             labels, values = zip(*tuples)
-            plt.figure(figsize=(20,int(len(importance)*0.3)+1))
+            plt.figure(figsize=(20, top*0.3+1))
 
             ylocs = np.arange(len(values))
             plt.barh(ylocs, values, align='center')
@@ -359,9 +360,16 @@ class Predictor():
 
                     ### feature importances ###
                     try:
-                        importance = est.feature_importances()
+                        if(self.verbose):
+                            print("")
+                            print("dumping feature importances into directory : "+self.to_path)
+                            
+                        importance = est.feature_importances()                       
                         self.__save_feature_importances(importance, self.to_path+"/"+est.get_params()["strategy"]+"_feature_importance.png")
-                        self.__plot_feature_importances(importance, 10)
+                        
+                        if(self.verbose):
+                            self.__plot_feature_importances(importance, 10)
+                            
                     except:
                         warnings.warn("Unable to get feature importances...")
 
