@@ -455,6 +455,12 @@ class Categorical_encoder():
 
                 elif (self.strategy == 'entity_embedding'):
 
+                    def get_embeddings(x, col):
+                        if int(self.__Enc[col][x]) < \
+                                np.shape(self.__weights[i])[0]:
+                            return self.__weights[i][int(self.__Enc[col][x]), :]
+                        return np.mean(self.__weights[i], axis=0)
+
                     for col in self.__Lcat:
 
                         # Handling unknown levels
@@ -473,21 +479,19 @@ class Categorical_encoder():
                                 self.__Enc[col] = d
 
                     if (len(self.__Lnum) == 0):
-                        # TODO: Find a way to shorten here below
                         return pd.concat(
                             [pd.DataFrame(
-                                df[col].apply(lambda x: self.__weights[i][int(self.__Enc[col][x]), :] if int(self.__Enc[col][x]) < np.shape(self.__weights[i])[0] else np.mean(self.__weights[i], axis=0)).tolist(),
+                                df[col].apply(lambda x: get_embeddings(x, col)).tolist(),
                                 columns=[col + "_emb" + str(k + 1)
                                          for k in range(self.__K[col])],
                                 index=df.index
                             )
                              for i, col in enumerate(self.__Lcat)], axis=1)
                     else:
-                        # TODO: Find a way to shorten here below
                         return pd.concat(
                             [df[self.__Lnum]] +
                             [pd.DataFrame(
-                                df[col].apply(lambda x: self.__weights[i][int(self.__Enc[col][x]), :] if int(self.__Enc[col][x]) < np.shape(self.__weights[i])[0] else np.mean(self.__weights[i], axis=0)).tolist(),
+                                df[col].apply(lambda x: get_embeddings(x, col)).tolist(),
                                 columns=[col + "_emb" + str(k + 1)
                                          for k in range(self.__K[col])],
                                 index=df.index
