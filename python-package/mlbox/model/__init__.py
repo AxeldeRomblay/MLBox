@@ -1,3 +1,3 @@
-import supervised
+import .supervised import *
 
-__all__ = ['supervised']
+#__all__ = ['supervised']
