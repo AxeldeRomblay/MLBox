@@ -9,7 +9,7 @@ import warnings
 import os
 
 # Set the keras backend if not set, default is theano
-if not "KERAS_BACKEND" in os.environ:
+if "KERAS_BACKEND" not in os.environ:
     os.environ["KERAS_BACKEND"] = "theano"
 
 from keras.layers.core import Dense, Reshape, Dropout
@@ -21,24 +21,27 @@ from keras.models import Model
 class Categorical_encoder():
 
     """
-    Encodes categorical features. Several strategies are possible (supervised or not). Works for both classification and regression tasks.
+    Encodes categorical features.
+    Several strategies are possible (supervised or not). Works for both
+    classification and regression tasks.
 
 
     Parameters
     ----------
 
-    strategy : string, defaut = "label_encoding"
+    strategy : string, default = "label_encoding"
         The strategy to encode categorical features.
-        Available strategies = "label_encoding", "dummification", "random_projection", entity_embedding"
+        Available strategies = {"label_encoding", "dummification",
+                               "random_projection", entity_embedding"}
 
-    verbose : boolean, defaut = False
+    verbose : boolean, default = False
         Verbose mode. Useful for entity embedding strategy.
 
     """
 
-    def __init__(self, strategy = 'label_encoding', verbose = False):
+    def __init__(self, strategy='label_encoding', verbose=False):
 
-        self.strategy = strategy    #label_encoding, dummification, random_projection and entity_embedding
+        self.strategy = strategy
         self.verbose = verbose
         self.__Lcat = []
         self.__Lnum = []
@@ -47,24 +50,23 @@ class Categorical_encoder():
         self.__weights = None
         self.__fitOK = False
 
+    def get_params(self, deep=True):
 
-    def get_params(self, deep = True):
+        return {'strategy': self.strategy,
+                'verbose': self.verbose}
 
-        return {'strategy' : self.strategy,
-                'verbose' : self.verbose}
-
-
-    def set_params(self,**params):
+    def set_params(self, **params):
 
         self.__fitOK = False
 
-        for k,v in params.items():
+        for k, v in params.items():
             if k not in self.get_params():
-                warnings.warn("Invalid parameter a for encoder Categorical_encoder. Parameter IGNORED. Check the list of available parameters with `encoder.get_params().keys()`")
+                warnings.warn("Invalid parameter(s) for encoder "
+                              "Categorical_encoder. Parameter(s) IGNORED. "
+                              "Check the list of available parameters with "
+                              "`encoder.get_params().keys()`")
             else:
-                setattr(self,k,v)
-
-
+                setattr(self, k, v)
 
     def fit(self, df_train, y_train):
 
@@ -75,11 +77,12 @@ class Categorical_encoder():
         Parameters
         ----------
 
-        df_train : pandas dataframe of shape = (n_train, n_features)
-        The train dataset with numerical and categorical features. NA values are allowed.
+        df_train : pandas.Dataframe of shape = (n_train, n_features).
+            The training dataset with numerical and categorical features.
+            NA values are allowed.
 
-        y_train : pandas series of shape = (n_train, ).
-        The target for classification or regression tasks.
+        y_train : pandas.Series of shape = (n_train, ).
+            The target for classification or regression tasks.
 
 
         Returns
@@ -91,205 +94,223 @@ class Categorical_encoder():
         self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index
         self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index
 
-        ###################################################
-        ################# Label encoding #################
-        ###################################################
+        if (len(self.__Lcat) == 0):
+            pass
 
+        #################################################
+        #                Label Encoding
+        #################################################
 
-        if(self.strategy=='label_encoding'):
+        if (self.strategy == 'label_encoding'):
 
-            if(len(self.__Lcat)==0):
-                pass
+            for col in self.__Lcat:
 
-            else:
-                for col in self.__Lcat:
+                d = dict()
+                levels = list(df_train[col].unique())
+                nan = False
 
-                    d = dict()
-                    levels = list(df_train[col].unique())
-                    nan = False
+                if np.NaN in levels:
+                    nan = True
+                    levels.remove(np.NaN)
 
-                    if np.NaN in levels:
-                        nan = True
-                        levels.remove(np.NaN)
+                for enc, level in enumerate([np.NaN]*nan + sorted(levels)):
+                    d[level] = enc  # TODO: Optimize loop?
 
-                    for enc,level in enumerate([np.NaN for i in range(int(nan))] + sorted(levels)):
-                        d[level] = enc  #boucle a optimiser ?
-
-                    self.__Enc[col] = d
-
+                self.__Enc[col] = d
 
             self.__fitOK = True
 
-        ###################################################
-        ################# dummification #################
-        ###################################################
+        #################################################
+        #                Dummification
+        #################################################
 
-        elif(self.strategy=='dummification'):
+        elif (self.strategy == 'dummification'):
 
-            if(len(self.__Lcat)==0):
-                pass
-
-            else:
-                for col in self.__Lcat:
-
-                    self.__Enc[col] = list(df_train[col].dropna().unique())  #a optimiser ?
+            for col in self.__Lcat:
+                # TODO: Optimize?
+                self.__Enc[col] = list(df_train[col].dropna().unique())
 
             self.__fitOK = True
 
-        ###################################################
-        ################# entity embedding #################
-        ###################################################
+        #################################################
+        #                Entity Embedding
+        #################################################
 
-        elif(self.strategy=='entity_embedding'):
+        elif (self.strategy == 'entity_embedding'):
 
-            if(len(self.__Lcat)==0):
-                pass
+            # Parameters
+            A = 10   # 15 : more complex
+            B = 5    # 2 or 3 : more complex
 
+            # Number of neurons for layer 1 and 2
+            sum_ = sum([1. * np.log(k) for k in self.__K.values()])
+            # TODO: Add reference for this formula?
+            n_layer1 = min(1000,
+                           int(A * (len(self.__K) ** 0.5) * sum_ + 1))
+            n_layer2 = int(n_layer1 / B) + 2
+
+            # Dropouts
+            dropout1 = 0.1
+            dropout2 = 0.1
+
+            # Learning parameters
+            epochs = 20  # 25 : more iterations
+            batch_size = 128  # 256 : gradient more stable
+
+            # Creating the neural network
+
+            embeddings = []
+            inputs = []
+
+            for col in self.__Lcat:
+
+                exp_ = np.exp(-df_train[col].nunique() * 0.05)
+                self.__K[col] = np.int(5 * (1 - exp_) + 1)
+
+                d = dict()
+                levels = list(df_train[col].unique())
+                nan = False
+
+                if np.NaN in levels:
+                    nan = True
+                    levels.remove(np.NaN)
+
+                for enc, level in enumerate([np.NaN]*nan + sorted(levels)):
+                    d[level] = enc  # TODO: Optimize loop?
+
+                self.__Enc[col] = d
+
+                var = Input(shape=(1,))
+                inputs.append(var)
+
+                emb = Embedding(input_dim=len(self.__Enc[col]),
+                                output_dim=self.__K[col],
+                                input_length=1)(var)
+                emb = Reshape(target_shape=(self.__K[col],))(emb)
+
+                embeddings.append(emb)
+
+            if (len(self.__Lcat) > 1):
+                emb_layer = concatenate(embeddings)
             else:
+                emb_layer = embeddings[0]
 
-                ### parameters ###
+            lay1 = Dense(n_layer1,
+                         kernel_initializer='uniform',
+                         activation='relu')(emb_layer)
+            lay1 = Dropout(dropout1)(lay1)
 
-                A = 10   # 15 : more complex
-                B = 5    # 2 or 3 : more complex
+            lay2 = Dense(n_layer2,
+                         kernel_initializer='uniform',
+                         activation='relu')(lay1)
+            lay2 = Dropout(dropout2)(lay2)
 
-                # number of neurons for layer 1 et 2
-                n_layer1 = min(1000,int(A*(len(self.__K)**0.5)*sum([1.*np.log(k) for k in self.__K.values()])+1))    # tuning
-                n_layer2 = int(n_layer1/B) + 2
+            # Learning the weights
 
-                #dropouts
-                dropout1 = 0.1
-                dropout2 = 0.1
+            if ((y_train.dtype == object) | (y_train.dtype == 'int')):
 
-                #learning parameters
-                epochs = 20  #25 : more iterations
-                batch_size = 128 # 256 : gradient more stable
+                # Classification
+                if (y_train.nunique() == 2):
 
+                    outputs = Dense(1,
+                                    kernel_initializer='normal',
+                                    activation='sigmoid')(lay2)
 
-                ### creating the neural network ###
+                    model = Model(inputs=inputs, outputs=outputs)
+                    model.compile(loss='binary_crossentropy',
+                                  optimizer='adam')
+                    model.fit(
+                        [df_train[col].apply(lambda x: self.__Enc[col][x]).values
+                         for col in self.__Lcat],
+                        pd.get_dummies(y_train,
+                                       drop_first=True).astype(int).values,
+                        epochs=epochs,
+                        batch_size=batch_size,
+                        verbose=int(self.verbose)
+                    )
 
-                embeddings = []
-                inputs = []
-
-                for col in self.__Lcat:
-
-                    self.__K[col] = np.int(5*(1-np.exp(-df_train[col].nunique()*0.05)))+1
-
-                    d = dict()
-                    levels = list(df_train[col].unique())
-                    nan = False
-
-                    if np.NaN in levels:
-                        nan = True
-                        levels.remove(np.NaN)
-
-                    for enc,level in enumerate([np.NaN for i in range(int(nan))] + sorted(levels)):
-                        d[level] = enc  #boucle a optimiser ?
-
-                    self.__Enc[col] = d
-
-                    var = Input(shape=(1,))
-                    inputs.append(var)
-
-                    emb = Embedding(input_dim = len(self.__Enc[col]), output_dim = self.__K[col], input_length=1)(var)
-                    emb = Reshape(target_shape=(self.__K[col],))(emb)
-
-                    embeddings.append(emb)
-
-                if(len(self.__Lcat)>1):
-                    emb_layer = concatenate(embeddings)
                 else:
-                    emb_layer = embeddings[0]
 
+                    outputs = Dense(y_train.nunique(),
+                                    kernel_initializer='normal',
+                                    activation='sigmoid')(lay2)
 
-                lay1 = Dense(n_layer1, kernel_initializer='uniform', activation='relu')(emb_layer)
-                lay1 = Dropout(dropout1)(lay1)
+                    model = Model(inputs=inputs, outputs=outputs)
+                    model.compile(loss='binary_crossentropy',
+                                  optimizer='adam')
+                    model.fit(
+                        [df_train[col].apply(lambda x: self.__Enc[col][x]).values
+                         for col in self.__Lcat],
+                        pd.get_dummies(y_train,
+                                       drop_first=False).astype(int).values,
+                        epochs=epochs,
+                        batch_size=batch_size,
+                        verbose=int(self.verbose)
+                    )
 
-                lay2 = Dense(n_layer2, kernel_initializer='uniform', activation='relu')(lay1)
-                lay2 = Dropout(dropout2)(lay2)
+            else:
 
+                # Regression
+                outputs = Dense(1, kernel_initializer='normal')(lay2)
+                model = Model(inputs=inputs, outputs=outputs)
+                model.compile(loss='mean_squared_error', optimizer='adam')
+                model.fit(
+                    [df_train[col].apply(lambda x: self.__Enc[col][x]).values
+                     for col in self.__Lcat],
+                    y_train.values,
+                    epochs=epochs,
+                    batch_size=batch_size,
+                    verbose=int(self.verbose)
+                )
 
-                ### fitting the weights ###
+            self.__weights = model.get_weights()
 
-                if((y_train.dtype==object)|(y_train.dtype=='int')):
+            self.__fitOK = True
 
-                    # classification
-                    if(y_train.nunique()==2):
+        #################################################
+        #                Random Projection
+        #################################################
 
-                        outputs = Dense(y_train.nunique()-1, kernel_initializer='normal', activation='sigmoid')(lay2)
-                        model = Model(inputs=inputs, outputs = outputs)
-                        model.compile(loss='binary_crossentropy', optimizer='adam')
-                        model.fit([df_train[col].apply(lambda x: self.__Enc[col][x]).values for col in self.__Lcat], pd.get_dummies(y_train,drop_first=True).astype(int).values, epochs=epochs, batch_size=batch_size, verbose=int(self.verbose))
+        elif(self.strategy == 'random_projection'):
+
+            for col in self.__Lcat:
+
+                exp_ = np.exp(-df_train[col].nunique() * 0.05)
+                # TODO: Add reference to formula used here below?
+                self.__K[col] = np.int(5 * (1 - exp_)) + 1
+
+                d = dict()
+                levels = list(df_train[col].unique())
+                nan = False
+
+                if np.NaN in levels:
+                    nan = True
+                    levels.remove(np.NaN)
+
+                for k in range(self.__K[col]):
+
+                    if (k == 0):
+                        levels = sorted(levels)
 
                     else:
+                        np.random.seed(k)
+                        np.random.shuffle(levels)
 
-                        outputs = Dense(y_train.nunique(), kernel_initializer='normal', activation='sigmoid')(lay2)
-                        model = Model(inputs=inputs, outputs = outputs)
-                        model.compile(loss='binary_crossentropy', optimizer='adam')
-                        model.fit([df_train[col].apply(lambda x: self.__Enc[col][x]).values for col in self.__Lcat], pd.get_dummies(y_train,drop_first=False).astype(int).values, epochs=epochs, batch_size=batch_size, verbose=int(self.verbose))
-
-                else:
-
-                    # regression
-                    outputs = Dense(1, kernel_initializer='normal')(lay2)
-                    model = Model(inputs=inputs, outputs = outputs)
-                    model.compile(loss='mean_squared_error', optimizer='adam')
-                    model.fit([df_train[col].apply(lambda x: self.__Enc[col][x]).values for col in self.__Lcat], y_train.values, epochs=epochs, batch_size=batch_size, verbose=int(self.verbose))
-
-
-                self.__weights = model.get_weights()
-
-            self.__fitOK = True
-
-        ###################################################
-        ################# random projection #################
-        ###################################################
-
-        elif(self.strategy=='random_projection'):
-
-            if(len(self.__Lcat)==0):
-                pass
-
-            else:
-                for col in self.__Lcat:
-
-                    self.__K[col] = np.int(5*(1-np.exp(-df_train[col].nunique()*0.05)))+1
-
-                    d = dict()
-                    levels = list(df_train[col].unique())
-                    nan = False
-
-                    if np.NaN in levels:
-                        nan = True
-                        levels.remove(np.NaN)
-
-                    for k in range(self.__K[col]):
-
-                        if(k==0):
-                            levels = sorted(levels)
-
+                    for enc, level in enumerate([np.NaN] * nan + levels):
+                        if(k == 0):
+                            d[level] = [enc]
                         else:
-                            np.random.seed(k)
-                            np.random.shuffle(levels)
+                            d[level] = d[level] + [enc]
 
-                        for enc,level in enumerate([np.NaN for i in range(int(nan))] + levels):
-                            if(k==0):
-                                d[level] = [enc]
-                            else:
-                                d[level] = d[level] + [enc]
-
-                    self.__Enc[col] = d
-
+                self.__Enc[col] = d
 
             self.__fitOK = True
-
 
         else:
 
-            raise ValueError("strategy for categorical encoding is not valid")
+            raise ValueError("Strategy for categorical encoding is not valid")
 
         return self
-
-
 
     def fit_transform(self, df_train, y_train):
 
@@ -300,26 +321,25 @@ class Categorical_encoder():
         Parameters
         ----------
 
-        df_train : pandas dataframe of shape = (n_train, n_features)
-        The train dataset with numerical and categorical features. NA values are allowed.
+        df_train : pandas.Dataframe of shape = (n_train, n_features)
+            The training dataset with numerical and categorical features.
+            NA values are allowed.
 
-        y_train : pandas series of shape = (n_train, ).
-        The target for classification or regression tasks.
+        y_train : pandas.Series of shape = (n_train, ).
+            The target for classification or regression tasks.
 
 
         Returns
         -------
 
-        df_train : pandas dataframe of shape = (n_train, n_features)
-        The train dataset with numerical and encoded categorical features.
+        df_train : pandas.Dataframe of shape = (n_train, n_features)
+            The training dataset with numerical and encoded categorical features
 
         '''
 
         self.fit(df_train, y_train)
 
         return self.transform(df_train)
-
-
 
     def transform(self, df):
 
@@ -330,96 +350,125 @@ class Categorical_encoder():
         Parameters
         ----------
 
-        df : pandas dataframe of shape = (n, n_features)
-        The dataset with numerical and categorical features. NA values are allowed.
-
+        df : pandas.Dataframe of shape = (n_train, n_features)
+            The training dataset with numerical and categorical features.
+            NA values are allowed.
 
         Returns
         -------
 
-        df : pandas dataframe of shape = (n, n_features)
-        The dataset with numerical and encoded categorical features.
+        df : pandas.Dataframe of shape = (n_train, n_features)
+            The dataset with numerical and encoded categorical features.
 
         '''
 
-        if(self.__fitOK):
+        if self.__fitOK:
 
-            if(len(self.__Lcat)==0):
+            if len(self.__Lcat) == 0:
                 return df[self.__Lnum]
 
             else:
 
-                ###################################################
-                ################# Label encoding #################
-                ###################################################
+                #################################################
+                #                Label Encoding
+                #################################################
 
-                if(self.strategy=='label_encoding'):
+                if (self.strategy == 'label_encoding'):
 
                     for col in self.__Lcat:
 
-                        ### handling unknown levels ###
-                        unknown_levels = list(set(df[col].values) - set(self.__Enc[col].keys()))
+                        # Handling unknown levels
+                        unknown_levels = list(set(df[col].values) -
+                                              set(self.__Enc[col].keys()))
 
-                        if(len(unknown_levels)!=0):
+                        if (len(unknown_levels) != 0):
 
                             new_enc = len(self.__Enc[col])
 
                             for unknown_level in unknown_levels:
 
                                 d = self.__Enc[col]
+                                # TODO: make sure no collisions introduced
                                 d[unknown_level] = new_enc
                                 self.__Enc[col] = d
 
-
-                    if(len(self.__Lnum)==0):
-                        return pd.concat([pd.DataFrame(df[col].apply(lambda x: self.__Enc[col][x]).values,
-                                                   columns=[col],index=df.index) for col in self.__Lcat],axis=1)[df.columns]
+                    if (len(self.__Lnum) == 0):
+                        return pd.concat(
+                            [pd.DataFrame(
+                                df[col].apply(lambda x: self.__Enc[col][x]).values,
+                                columns=[col], index=df.index
+                                         ) for col in self.__Lcat],
+                            axis=1)[df.columns]
                     else:
-                        return pd.concat([df[self.__Lnum]]+[pd.DataFrame(df[col].apply(lambda x: self.__Enc[col][x]).values,
-                                                   columns=[col],index=df.index) for col in self.__Lcat],axis=1)[df.columns]
+                        return pd.concat(
+                            [df[self.__Lnum]] +
+                            [pd.DataFrame(
+                                df[col].apply(lambda x: self.__Enc[col][x]).values,
+                                columns=[col],
+                                index=df.index
+                                ) for col in self.__Lcat],
+                            axis=1)[df.columns]
 
-                ###################################################
-                ################# dummification #################
-                ###################################################
+                #################################################
+                #                 Dummification
+                #################################################
 
-                elif(self.strategy=='dummification'):
+                elif (self.strategy == 'dummification'):
 
                     sub_var = []
                     missing_var = []
 
                     for col in self.__Lcat:
 
-                        ### handling unknown and missing levels ###
+                        # Handling unknown and missing levels
                         unique_levels = set(df[col].values)
                         sub_levels = unique_levels & set(self.__Enc[col])
-                        missing_levels = [col+"_"+ str(s) for s in list(set(self.__Enc[col]) - sub_levels)]
-                        sub_levels = [col+"_"+ str(s) for s in list(sub_levels)]
+                        missing_levels = [col + "_" + str(s)
+                                          for s in list(set(self.__Enc[col]) - sub_levels)]
+                        sub_levels = [col + "_" + str(s)
+                                      for s in list(sub_levels)]
 
                         sub_var = sub_var + sub_levels
                         missing_var = missing_var + missing_levels
 
+                    if (len(missing_var) != 0):
 
-                    if(len(missing_var)!=0):
-
-                        return pd.SparseDataFrame(pd.concat([pd.get_dummies(df,sparse=True)[list(self.__Lnum)+sub_var]]+[pd.DataFrame(np.zeros((df.shape[0],len(missing_var))),columns=missing_var,index=df.index)],axis=1)[list(self.__Lnum)+sorted(missing_var+sub_var)])
-
+                        return pd.SparseDataFrame(
+                            pd.concat(
+                                [pd.get_dummies(df,
+                                                sparse=True)[list(self.__Lnum) +
+                                                             sub_var]] +
+                                [pd.DataFrame(np.zeros((df.shape[0],
+                                                        len(missing_var))),
+                                              columns=missing_var,
+                                              index=df.index)],
+                                axis=1
+                            )[list(self.__Lnum)+sorted(missing_var+sub_var)])
 
                     else:
 
-                        return pd.get_dummies(df,sparse=True)[list(self.__Lnum)+sorted(sub_var)]
+                        return pd.get_dummies(df, sparse=True)[list(self.__Lnum) + sorted(sub_var)]
 
-                ###################################################
-                ################# entity embedding #################
-                ###################################################
+            #################################################
+            #               Entity Embedding
+            #################################################
 
-                elif(self.strategy=='entity_embedding'):
+                elif (self.strategy == 'entity_embedding'):
+
+                    def get_embeddings(x, col, i):
+                        if int(self.__Enc[col][x]) < \
+                                np.shape(self.__weights[i])[0]:
+                            return self.__weights[i][int(self.__Enc[col][x]), :]
+                        return np.mean(self.__weights[i], axis=0)
 
                     for col in self.__Lcat:
 
-                        ### handling unknown levels ###
-                        unknown_levels = list(set(df[col].values) - set(self.__Enc[col].keys()))
+                        # Handling unknown levels
+                        unknown_levels = list(set(df[col].values) -
+                                              set(self.__Enc[col].keys())
+                                              )
 
-                        if(len(unknown_levels)!=0):
+                        if (len(unknown_levels) != 0):
 
                             new_enc = len(self.__Enc[col])
 
@@ -429,44 +478,66 @@ class Categorical_encoder():
                                 d[unknown_level] = new_enc
                                 self.__Enc[col] = d
 
-
-                    if(len(self.__Lnum)==0):
-                        return pd.concat([pd.DataFrame(df[col].apply(lambda x: self.__weights[i][int(self.__Enc[col][x]),:] if int(self.__Enc[col][x])<np.shape(self.__weights[i])[0] else np.mean(self.__weights[i],axis=0)).tolist(),columns=[col+"_emb"+str(k+1) for k in range(self.__K[col])], index = df.index)
-                                            for i, col in enumerate(self.__Lcat)],axis=1)
+                    if (len(self.__Lnum) == 0):
+                        return pd.concat(
+                            [pd.DataFrame(
+                                df[col].apply(lambda x: get_embeddings(x, col, i)).tolist(),
+                                columns=[col + "_emb" + str(k + 1)
+                                         for k in range(self.__K[col])],
+                                index=df.index
+                            )
+                             for i, col in enumerate(self.__Lcat)], axis=1)
                     else:
+                        return pd.concat(
+                            [df[self.__Lnum]] +
+                            [pd.DataFrame(
+                                df[col].apply(lambda x: get_embeddings(x, col, i)).tolist(),
+                                columns=[col + "_emb" + str(k + 1)
+                                         for k in range(self.__K[col])],
+                                index=df.index
+                            )
+                             for i, col in enumerate(self.__Lcat)], axis=1)
 
-                        return pd.concat([df[self.__Lnum]]+[pd.DataFrame(df[col].apply(lambda x: self.__weights[i][int(self.__Enc[col][x]),:] if int(self.__Enc[col][x])<np.shape(self.__weights[i])[0] else np.mean(self.__weights[i],axis=0)).tolist(),columns=[col+"_emb"+str(k+1) for k in range(self.__K[col])], index = df.index)
-                                                                for i, col in enumerate(self.__Lcat)
-                                                            ],axis=1)
-
-                ###################################################
-                ################# random projection #################
-                ###################################################
+            #################################################
+            #               Random Projection
+            #################################################
 
                 else:
 
                     for col in self.__Lcat:
 
-                        unknown_levels = list(set(df[col].values) - set(self.__Enc[col].keys()))
+                        unknown_levels = list(set(df[col].values) -
+                                              set(self.__Enc[col].keys())
+                                              )
 
-                        if(len(unknown_levels)!=0):
+                        if (len(unknown_levels) != 0):
 
                             new_enc = len(self.__Enc[col])
 
                             for unknown_level in unknown_levels:
 
                                 d = self.__Enc[col]
-                                d[unknown_level] = [new_enc for k in range(self.__K[col])]
+                                d[unknown_level] = [new_enc
+                                                    for _ in range(self.__K[col])]
                                 self.__Enc[col] = d
 
-                    if(len(self.__Lnum)==0):
-                        return pd.concat([pd.DataFrame(df[col].apply(lambda x: self.__Enc[col][x]).tolist(),
-                                                columns=[col+"_proj"+str(k+1) for k in range(self.__K[col])],index=df.index) for col in self.__Lcat],axis=1)
+                    if (len(self.__Lnum) == 0):
+                        return pd.concat(
+                            [pd.DataFrame(
+                                df[col].apply(lambda x: self.__Enc[col][x]).tolist(),
+                                columns=[col + "_proj" + str(k + 1)
+                                         for k in range(self.__K[col])],
+                                index=df.index
+                            ) for col in self.__Lcat], axis=1)
                     else:
-                        return pd.concat([df[self.__Lnum]]+[pd.DataFrame(df[col].apply(lambda x: self.__Enc[col][x]).tolist(),
-                                                   columns=[col+"_proj"+str(k+1) for k in range(self.__K[col])],index=df.index) for col in self.__Lcat],axis=1)
+                        return pd.concat(
+                            [df[self.__Lnum]] +
+                            [pd.DataFrame(
+                                df[col].apply(lambda x: self.__Enc[col][x]).tolist(),
+                                columns=[col + "_proj" + str(k + 1)
+                                         for k in range(self.__K[col])],
+                                index=df.index) for col in self.__Lcat], axis=1)
 
         else:
 
-            raise ValueError("call fit or fit_transform function before")
-
+            raise ValueError("Call fit or fit_transform function before")
