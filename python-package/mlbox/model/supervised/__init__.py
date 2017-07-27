@@ -1,4 +1,4 @@
-import classification
-import regression
+import .classification import *
+import .regression import *
 
-__all__ = ['classification', 'regression']
+#__all__ = ['classification', 'regression']
