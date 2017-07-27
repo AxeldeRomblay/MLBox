@@ -8,15 +8,15 @@ from setuptools.command.install import install
 requirements = [
     "numpy>=1.13.0",
     "matplotlib>=2.0.2",
-    "hyperopt==0.1",
-    "ipyparallel==6.0.0",
-    "Keras==2.0.4",
+    "hyperopt>=0.1",
+    "ipyparallel>=6.0.0",
+    "Keras>=2.0.4",
     "pandas>=0.18.0",
-    "scikit-learn==0.19b2",
+    "scikit-learn>=0.19b2",
     "scipy>=0.17.0",
-    "Theano==0.9.0",
-    "xgboost==0.6a2",
-    "lightgbm==2.0.2"
+    "Theano>=0.9.0",
+    "xgboost>=0.6a2",
+    "lightgbm>=2.0.2"
 ]
 
 class OverrideInstallCommand(install):
@@ -45,7 +45,7 @@ with open('README.rst') as readme_file:
 
 setup(
     name='mlbox',
-    version='0.4.1',
+    version='0.4.3',
     description="A powerful Automated Machine Learning python library.",
     long_description=readme,
     author="Axel ARONIO DE ROMBLAY",

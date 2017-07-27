@@ -224,19 +224,21 @@ class Regressor():
             if (self.get_params()["strategy"] in ["Linear"]):
 
                 importance = {}
-
+                f = np.abs(self.get_estimator().coef_)
+                
                 for i, col in enumerate(self.__col):
-                    importance[col] = np.abs(self.get_estimator().coef_)[i]
+                    importance[col] = f[i]
 
             elif (self.get_params()["strategy"] in ["LightGBM", "XGBoost",
                                                     "RandomForest",
                                                     "ExtraTrees", "Tree"]):
 
                 importance = {}
+                f = self.get_estimator().feature_importances_
 
                 for i, col in enumerate(self.__col):
-                    estimator = self.get_estimator()
-                    importance[col] = estimator.feature_importances_[i]
+                    importance[col] = f[i]
+
 
             elif (self.get_params()["strategy"] in ["AdaBoost"]):
 

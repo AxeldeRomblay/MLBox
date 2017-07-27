@@ -232,19 +232,21 @@ class Classifier():
             if (self.get_params()["strategy"] in ["Linear"]):
 
                 importance = {}
+                f = np.mean(np.abs(self.get_estimator().coef_), axis=0)
 
                 for i, col in enumerate(self.__col):
-                    importance[col] = np.mean(
-                        np.abs(self.get_estimator().coef_), axis=0)[i]
+                    importance[col] = f[i]
 
             elif (self.get_params()["strategy"] in ["LightGBM", "XGBoost",
                                                     "RandomForest",
                                                     "ExtraTrees", "Tree"]):
 
                 importance = {}
+                f = self.get_estimator().feature_importances_
 
                 for i, col in enumerate(self.__col):
-                    importance[col] = self.get_estimator().feature_importances_[i]  # noqa
+                    importance[col] = f[i]
+
 
             elif(self.get_params()["strategy"] in ["AdaBoost"]):
 
