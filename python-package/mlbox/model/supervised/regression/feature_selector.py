@@ -71,8 +71,9 @@ class Reg_feature_selector():
 
         """
 
-        ### sanity checks
-        if ((type(df_train)!=pd.SparseDataFrame)&(type(df_train)!=pd.DataFrame)):
+        # sanity checks
+        if((type(df_train) != pd.SparseDataFrame) and
+           (type(df_train) != pd.DataFrame)):
             raise ValueError("df_train must be a DataFrame")
 
         if (type(y_train) != pd.core.series.Series):
@@ -80,7 +81,7 @@ class Reg_feature_selector():
 
         if(self.strategy == 'variance'):
             coef = df_train.std()
-            abstract_threshold = np.percentile(coef, 100.*self.threshold)
+            abstract_threshold = np.percentile(coef, 100. * self.threshold)
             self.__to_discard = coef[coef < abstract_threshold].index
             self.__fitOK = True
 
@@ -88,7 +89,7 @@ class Reg_feature_selector():
             model = Lasso(alpha=100.0, random_state=0)   # to be tuned
             model.fit(df_train, y_train)
             coef = np.abs(model.coef_)
-            abstract_threshold = np.percentile(coef, 100.*self.threshold)
+            abstract_threshold = np.percentile(coef, 100. * self.threshold)
             self.__to_discard = df_train.columns[coef < abstract_threshold]
             self.__fitOK = True
 
@@ -98,7 +99,7 @@ class Reg_feature_selector():
                                           random_state=0)  # to be tuned
             model.fit(df_train, y_train)
             coef = model.feature_importances_
-            abstract_threshold = np.percentile(coef, 100.*self.threshold)
+            abstract_threshold = np.percentile(coef, 100. * self.threshold)
             self.__to_discard = df_train.columns[coef < abstract_threshold]
             self.__fitOK = True
 
@@ -128,8 +129,8 @@ class Reg_feature_selector():
         """
         if(self.__fitOK):
 
-            ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
+            # sanity checks
+            if ((type(df) != pd.SparseDataFrame) & (type(df) != pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return df.drop(self.__to_discard, axis=1)

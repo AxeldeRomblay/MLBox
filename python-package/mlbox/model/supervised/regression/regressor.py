@@ -7,7 +7,8 @@ from copy import copy
 
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import *
+from sklearn.ensemble import (AdaBoostRegressor, BaggingRegressor,
+                              ExtraTreesRegressor, RandomForestRegressor)
 from xgboost import XGBRegressor
 from sklearn.linear_model import Ridge
 from sklearn.tree import DecisionTreeRegressor
@@ -17,8 +18,10 @@ global lgbm_installed
 try:
     from lightgbm import LGBMRegressor
     lgbm_installed = True
-except:
-    warnings.warn("Package lightgbm is not installed. Model LightGBM will be replaced by XGBoost")
+except Exception:
+    warnings.warn(
+        "Package lightgbm is not installed. Model LightGBM will be replaced"
+        "by XGBoost")
     lgbm_installed = False
 
 
@@ -33,7 +36,8 @@ class Regressor():
 
     strategy : string, defaut = "LightGBM" (if installed else "XGBoost")
         The choice for the regressor.
-        Available strategies = "LightGBM" (if installed), "XGBoost", "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear".
+        Available strategies = "LightGBM" (if installed), "XGBoost",
+        "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
 
     **params : parameters of the corresponding regressor.
         Examples : n_estimators, max_depth...
@@ -59,8 +63,6 @@ class Regressor():
         self.set_params(**params)
         self.__fitOK = False
 
-
-
     def get_params(self, deep=True):
 
         params = {}
@@ -69,7 +71,6 @@ class Regressor():
 
         return params
 
-
     def set_params(self, **params):
 
         self.__fitOK = False
@@ -77,63 +78,96 @@ class Regressor():
         if 'strategy' in params.keys():
             self.__set_regressor(params['strategy'])
 
-            for k,v in self.__regress_params.items():
+            for k, v in self.__regress_params.items():
                 if k not in self.get_params().keys():
-                    warnings.warn("Invalid parameter for regressor "+str(self.__strategy)+". Parameter IGNORED. Check the list of available parameters with `regressor.get_params().keys()`")
+                    warnings.warn("Invalid parameter for regressor " +
+                                  str(self.__strategy) +
+                                  ". Parameter IGNORED. Check the list of "
+                                  "available parameters with "
+                                  "`regressor.get_params().keys()`")
                 else:
-                    ret = setattr(self.__regressor,k,v)
+                    setattr(self.__regressor, k, v)
 
-        for k,v in params.items():
-            if(k=="strategy"):
+        for k, v in params.items():
+            if(k == "strategy"):
                 pass
             else:
                 if k not in self.__regressor.get_params().keys():
-                    warnings.warn("Invalid parameter for regressor "+str(self.__strategy)+". Parameter IGNORED. Check the list of available parameters with `regressor.get_params().keys()`")
+                    warnings.warn("Invalid parameter for regressor " +
+                                  str(self.__strategy) +
+                                  ". Parameter IGNORED. Check the list of "
+                                  "available parameters with "
+                                  "`regressor.get_params().keys()`")
                 else:
-                    ret = setattr(self.__regressor,k,v)
+                    setattr(self.__regressor, k, v)
                     self.__regress_params[k] = v
-
 
     def __set_regressor(self, strategy):
 
         self.__strategy = strategy
 
         if(strategy == 'RandomForest'):
-            self.__regressor = RandomForestRegressor(n_estimators=400, max_depth=10, max_features='sqrt', bootstrap = True, n_jobs=-1, random_state=0)
+            self.__regressor = RandomForestRegressor(
+                n_estimators=400, max_depth=10, max_features='sqrt',
+                bootstrap=True, n_jobs=-1, random_state=0)
 
         elif(strategy == 'XGBoost'):
-            self.__regressor = XGBRegressor(n_estimators=500, max_depth=6, learning_rate=0.05, colsample_bytree=0.8, colsample_bylevel=1., subsample=0.9, nthread=-1, seed=0)
+            self.__regressor = XGBRegressor(
+                n_estimators=500, max_depth=6, learning_rate=0.05,
+                colsample_bytree=0.8, colsample_bylevel=1., subsample=0.9,
+                nthread=-1, seed=0)
 
         elif(strategy == "LightGBM"):
             if(lgbm_installed):
-                self.__regressor = LGBMRegressor(n_estimators=500, learning_rate=0.05, colsample_bytree=0.8, subsample=0.9, nthread=-1, seed=0)
+                self.__regressor = LGBMRegressor(
+                    n_estimators=500, learning_rate=0.05,
+                    colsample_bytree=0.8, subsample=0.9, nthread=-1, seed=0)
             else:
-                warnings.warn("Package lightgbm is not installed. Model LightGBM will be replaced by XGBoost")
+                warnings.warn(
+                    "Package lightgbm is not installed. Model LightGBM will be"
+                    "replaced by XGBoost")
                 self.__strategy = "XGBoost"
-                self.__regressor = XGBRegressor(n_estimators=500, max_depth=6, learning_rate=0.05, colsample_bytree=0.8, colsample_bylevel=1., subsample=0.9, nthread=-1, seed=0)
+                self.__regressor = XGBRegressor(
+                    n_estimators=500, max_depth=6, learning_rate=0.05,
+                    colsample_bytree=0.8, colsample_bylevel=1.,
+                    subsample=0.9, nthread=-1, seed=0)
 
         elif(strategy == 'ExtraTrees'):
-            self.__regressor = ExtraTreesRegressor(n_estimators=400, max_depth=10, max_features='sqrt', bootstrap = True, n_jobs=-1, random_state=0)
+            self.__regressor = ExtraTreesRegressor(
+                n_estimators=400, max_depth=10, max_features='sqrt',
+                bootstrap=True, n_jobs=-1, random_state=0)
 
         elif(strategy == 'Tree'):
-            self.__regressor = DecisionTreeRegressor(criterion='mse', splitter='best', max_depth=None, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features=None, random_state=0, max_leaf_nodes=None, presort=False)
+            self.__regressor = DecisionTreeRegressor(
+                criterion='mse', splitter='best', max_depth=None,
+                min_samples_split=2, min_samples_leaf=1,
+                min_weight_fraction_leaf=0.0, max_features=None,
+                random_state=0, max_leaf_nodes=None, presort=False)
 
         elif(strategy == "Bagging"):
-            self.__regressor = BaggingRegressor(base_estimator=None, n_estimators=500, max_samples=.9, max_features=.85, bootstrap=False, bootstrap_features=False, n_jobs=-1, random_state=0)
+            self.__regressor = BaggingRegressor(
+                base_estimator=None, n_estimators=500, max_samples=.9,
+                max_features=.85, bootstrap=False, bootstrap_features=False,
+                n_jobs=-1, random_state=0)
 
         elif(strategy == "AdaBoost"):
-            self.__regressor = AdaBoostRegressor(base_estimator=None, n_estimators=400, learning_rate=.05, random_state=0)
+            self.__regressor = AdaBoostRegressor(
+                base_estimator=None, n_estimators=400, learning_rate=.05,
+                random_state=0)
 
         elif(strategy == "Linear"):
-            self.__regressor = Ridge(alpha=1.0, fit_intercept=True, normalize=False, copy_X=True, max_iter=None, tol=0.001, solver='auto', random_state=0)
+            self.__regressor = Ridge(
+                alpha=1.0, fit_intercept=True, normalize=False, copy_X=True,
+                max_iter=None, tol=0.001, solver='auto', random_state=0)
 
         else:
-            raise ValueError("Strategy invalid. Please choose between 'LightGBM' (if installed), 'XGBoost', 'RandomForest', 'ExtraTrees', 'Tree', 'Bagging', 'AdaBoost' or 'Linear'")
-
+            raise ValueError(
+                "Strategy invalid. Please choose between 'LightGBM' "
+                "(if installed), 'XGBoost', 'RandomForest', 'ExtraTrees', "
+                "'Tree', 'Bagging', 'AdaBoost' or 'Linear'")
 
     def fit(self, df_train, y_train):
-
-        '''
+        """
 
         Fits Regressor.
 
@@ -151,10 +185,11 @@ class Regressor():
         -------
         self
 
-        '''
+        """
 
-        ### sanity checks
-        if ((type(df_train)!=pd.SparseDataFrame)&(type(df_train)!=pd.DataFrame)):
+        # sanity checks
+        if((type(df_train) != pd.SparseDataFrame) and
+           (type(df_train) != pd.DataFrame)):
             raise ValueError("df_train must be a DataFrame")
 
         if (type(y_train) != pd.core.series.Series):
@@ -166,25 +201,24 @@ class Regressor():
 
         return self
 
-
     def feature_importances(self):
-        
-        '''
+        """
         Computes feature importances. Regressor must be fitted before.
 
         Parameters
         ----------
-        
+
         None
-        
+
         Returns
         -------
-        
+
         importance : dict
-        Dictionnary containing a measure of feature importance (value) for each feature (key).
-        
-        '''
-        
+            Dictionnary containing a measure of feature importance (value)
+            for each feature (key).
+
+        """
+
         if self.__fitOK:
 
             if (self.get_params()["strategy"] in ["Linear"]):
@@ -195,8 +229,9 @@ class Regressor():
                 for i, col in enumerate(self.__col):
                     importance[col] = f[i]
 
-
-            elif (self.get_params()["strategy"] in ["LightGBM", "XGBoost", "RandomForest", "ExtraTrees", "Tree"]):
+            elif (self.get_params()["strategy"] in ["LightGBM", "XGBoost",
+                                                    "RandomForest",
+                                                    "ExtraTrees", "Tree"]):
 
                 importance = {}
                 f = self.get_estimator().feature_importances_
@@ -211,14 +246,15 @@ class Regressor():
                 norm = self.get_estimator().estimator_weights_.sum()
 
                 try:
-                    f = sum(weight * est.feature_importances_ for weight, est in zip(self.get_estimator().estimator_weights_, self.get_estimator().estimators_)) / norm  # XGB, RF, ET, Tree and AdaBoost
+                    # XGB, RF, ET, Tree and AdaBoost
+                    # TODO: Refactor this part
+                    f = sum(weight * est.feature_importances_ for weight, est in zip(self.get_estimator().estimator_weights_, self.get_estimator().estimators_)) / norm  # noqa
 
-                except:
-                    f = sum(weight * np.abs(est.coef_) for weight, est in zip(self.get_estimator().estimator_weights_, self.get_estimator().estimators_)) / norm  # Linear
+                except Exception:
+                    f = sum(weight * np.abs(est.coef_) for weight, est in zip(self.get_estimator().estimator_weights_, self.get_estimator().estimators_)) / norm  # noqa
 
                 for i, col in enumerate(self.__col):
                     importance[col] = f[i]
-
 
             elif (self.get_params()["strategy"] in ["Bagging"]):
 
@@ -230,18 +266,22 @@ class Regressor():
                     d = {}
 
                     try:
-                        f = b.feature_importances_  # XGB, RF, ET, Tree and AdaBoost
-                    except:
+                        # XGB, RF, ET, Tree and AdaBoost
+                        f = b.feature_importances_
+                    except Exception:
                         f = np.abs(b.coef_)  # Linear
 
-                    for j, c in enumerate(self.get_estimator().estimators_features_[i]):
+                    estimator = self.get_estimator()
+                    items = enumerate(estimator.estimators_features_[i])
+                    for j, c in items:
                         d[self.__col[c]] = f[j]
 
                     importance_bag.append(d.copy())
 
                 for i, col in enumerate(self.__col):
-                    importance[col] = np.mean(filter(lambda x: x != 0, [d[col] if col in d else 0 for d in importance_bag]))
-
+                    importance[col] = np.mean(
+                        filter(lambda x: x != 0, [k[col] if col in k else 0
+                                                  for k in importance_bag]))
 
             else:
 
@@ -253,9 +293,7 @@ class Regressor():
 
             raise ValueError("You must call the fit function before !")
 
-
     def predict(self, df):
-
         '''
 
         Predicts the target.
@@ -282,8 +320,8 @@ class Regressor():
 
         if self.__fitOK:
 
-            ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
+            # sanity checks
+            if ((type(df) != pd.SparseDataFrame) & (type(df) != pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__regressor.predict(df.values)
@@ -291,9 +329,7 @@ class Regressor():
         else:
             raise ValueError("You must call the fit function before !")
 
-
     def transform(self, df):
-
         '''
 
         Transforms df.
@@ -320,18 +356,16 @@ class Regressor():
 
         if self.__fitOK:
 
-            ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
+            # sanity checks
+            if ((type(df) != pd.SparseDataFrame) & (type(df) != pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__regressor.transform(df.values)
         else:
             raise ValueError("You must call the fit function before !")
 
-
     def score(self, df, y, sample_weight=None):
-
-        '''
+        """
 
         Returns the coefficient of determination R^2 of the prediction.
 
@@ -349,7 +383,7 @@ class Regressor():
         score : float
         R^2 of self.predict(df) wrt. y.
 
-        '''
+        """
 
         try:
             if not callable(getattr(self.__regressor, "score")):
@@ -359,8 +393,9 @@ class Regressor():
 
         if self.__fitOK:
 
-            ### sanity checks
-            if ((type(df)!=pd.SparseDataFrame)&(type(df)!=pd.DataFrame)):
+            # sanity checks
+            if((type(df) != pd.SparseDataFrame) and
+               (type(df) != pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             if (type(y) != pd.core.series.Series):
@@ -370,7 +405,5 @@ class Regressor():
         else:
             raise ValueError("You must call the fit function before !")
 
-
     def get_estimator(self):
-
         return copy(self.__regressor)

@@ -1,2 +1,3 @@
-from .supervised import *
+import supervised
 
+__all__ = ['supervised']
