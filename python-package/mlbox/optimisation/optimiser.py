@@ -11,7 +11,7 @@ import time
 from hyperopt import fmin, hp, tpe
 from sklearn.model_selection import cross_val_score, KFold, StratifiedKFold
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import *
+from sklearn.metrics import roc_auc_score, make_scorer
 
 from ..encoding.na_encoder import NA_encoder
 from ..encoding.categorical_encoder import Categorical_encoder
