@@ -80,6 +80,9 @@ class Optimiser():
         self.to_path = to_path
         self.verbose = verbose
 
+        warnings.warn("Optimiser will save all your fitted models into directory '"
+                      +str(self.to_path)+"/joblib'. Please clear it regularly.")        
+        
     def get_params(self, deep=True):
 
         return {'scoring': self.scoring,
