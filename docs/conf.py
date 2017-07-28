@@ -15,6 +15,39 @@
 
 import sys
 import os
+from mock import Mock as MagicMock
+
+class Mock(MagicMock):
+    @classmethod
+    def __getattr__(cls, name):
+            return MagicMock()
+
+MOCK_MODULES = ['numpy',
+                'matplotlib',
+                'matplotlib.pyplot', 
+                'hyperopt',
+                'ipyparallel',
+                'keras',
+                'keras.layers.core',
+                'keras.layers.embeddings',
+                'keras.layers',
+                'keras.models',
+                'pandas',
+                'sklearn',
+                'sklearn.ensemble',
+                'sklearn.metrics',
+                'sklearn.linear_model',
+                'sklearn.model_selection',
+                'sklearn.tree',
+                'sklearn.pipeline',
+                'sklearn.preprocessing',
+                'scipy',
+                'theano',
+                'lightgbm',
+                'xgboost'
+                ]
+
+sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
 
 
 # If extensions (or modules to document with autodoc) are in another
@@ -124,20 +157,20 @@ html_theme = 'default'
 
 # The name for this set of Sphinx documents.  If None, it defaults to
 # "<project> v<release> documentation".
-#html_title = None
+html_title = "MLBox Documentation"
 
 # A shorter title for the navigation bar.  Default is the same as
 # html_title.
-#html_short_title = None
+html_short_title = "MLBox Documentation"
 
 # The name of an image file (relative to this directory) to place at the
 # top of the sidebar.
-#html_logo = None
+html_logo = "logos/small_logo.png"
 
 # The name of an image file (within the static path) to use as favicon
 # of the docs.  This file should be a Windows icon file (.ico) being
 # 16x16 or 32x32 pixels large.
-#html_favicon = None
+html_favicon = "logos/small_logo.ico"
 
 # Add any paths that contain custom static files (such as style sheets)
 # here, relative to this directory. They are copied after the builtin
@@ -178,7 +211,7 @@ html_static_path = ['_static']
 
 # If true, "(C) Copyright ..." is shown in the HTML footer.
 # Default is True.
-#html_show_copyright = True
+html_show_copyright = True
 
 # If true, an OpenSearch description file will be output, and all pages
 # will contain a <link> tag referring to it.  The value of this option
