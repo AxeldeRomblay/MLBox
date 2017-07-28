@@ -1,4 +1,4 @@
-.. image:: logo.png
+.. image:: docs/logos/logo.png
 
 |Documentation Status| |PyPI version| |Build Status| |Windows Build Status| |GitHub Issues| |codecov| |License|
 
@@ -14,11 +14,13 @@
 * Prediction with models interpretation 
 
 
-**> For more details**, please refer to the `official documentation <http://mlbox.readthedocs.io/en/docs/>`__
+**> For more details**, please refer to the `official documentation <http://mlbox.readthedocs.io/en/latest/?badge=latest>`__
 
-**> Experiments on Kaggle** : `Two Sigma Connect: Rental Listing Inquiries <https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard>`__ | **Rank : 85/2488**
+**> Experiments on Kaggle** : `Two Sigma Connect: Rental Listing Inquiries <https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard>`__ (rank : **85/2488**)
 
-**> Article** : `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__
+**> Articles from users** : `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__ & `MLBox : a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
+
+**> Webinar** : `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
 
 --------------------------
 
@@ -77,16 +79,18 @@ MLBox main package contains 3 sub-packages : **preprocessing**, **optimisation**
 .. code-block:: python 
 
    space = {
-           'ne__numerical_strategy' : {"search":"choice", "space":[0, 'mean']},
+   
+           'ne__numerical_strategy' : {"space" : [0, 'mean']},
 
-           'ce__strategy' : {"search":"choice", "space":["label_encoding", "random_projection"]},
+           'ce__strategy' : {"space" : ["label_encoding", "random_projection", "entity_embedding"]},
 
-           'fs__strategy' : {"search":"choice", "space":["variance", "l1"]},
-           'fs__threshold': {"search":"choice", "space":[0.1,0.2,0.3]},             
+           'fs__strategy' : {"space" : ["variance", "rf_feature_importance"]},
+           'fs__threshold': {"search" : "choice", "space" : [0.1, 0.2, 0.3]},             
 
-           'est__strategy' : {"search":"choice", "space":["XGBoost"]},
-           'est__max_depth' : {"search":"choice", "space":[5,6]},
-           'est__subsample' : {"search":"uniform", space":[0.6,0.9]}
+           'est__strategy' : {"space" : ["XGBoost"]},
+           'est__max_depth' : {"search" : "choice", "space" : [5,6]},
+           'est__subsample' : {"search" : "uniform", "space" : [0.6,0.9]}
+           
            }
 
    best = opt.optimise(space, data, max_evals = 5)
@@ -104,6 +108,20 @@ MLBox main package contains 3 sub-packages : **preprocessing**, **optimisation**
 * feature importances
 * drift coefficients of your variables (0.5 = very stable, 1. = not stable at all)
 
+--------------------------
+
+How to Contribute
+=================
+
+MLBox has been developed and used by many active community members. Your help is very valuable to make it better for everyone.
+
+- Check out `call for contributions <https://github.com/AxeldeRomblay/MLBox/labels/call-for-contributions>`__ to see what can be improved, or open an issue if you want something.
+- Contribute to the `tests <https://github.com/AxeldeRomblay/MLBox/tree/master/tests>`__ to make it more reliable. 
+- Contribute to the `documents <https://github.com/AxeldeRomblay/MLBox/tree/master/docs>`__ to make it clearer for everyone.
+- Contribute to the `examples <https://github.com/AxeldeRomblay/MLBox/tree/master/examples>`__ to share your experience with other users.
+- Open `issue <https://github.com/AxeldeRomblay/MLBox/issues>`__ if you met problems during development.
+
+For more details, please refer to `CONTRIBUTING <https://github.com/AxeldeRomblay/MLBox/blob/master/docs/contributing.rst>`__.
 
 .. |Documentation Status| image:: https://readthedocs.org/projects/mlbox/badge/?version=latest
    :target: http://mlbox.readthedocs.io/en/latest/?badge=latest
