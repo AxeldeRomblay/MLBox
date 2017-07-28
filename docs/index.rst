@@ -17,7 +17,7 @@ It provides the following features:
 
 -------------------
 
-**> For more details**, please refer to the `official documentation <http://mlbox.readthedocs.io/en/docs/>`__
+**> For more details**, please refer to the `official documentation <http://mlbox.readthedocs.io/en/latest/?badge=latest>`__
 
 **> Experiments on Kaggle** : `Two Sigma Connect: Rental Listing Inquiries <https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard>`__ | **Rank : 85/2488**
 
