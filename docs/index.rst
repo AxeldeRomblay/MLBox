@@ -19,9 +19,11 @@ It provides the following features:
 
 **> For more details**, please refer to the `official documentation <http://mlbox.readthedocs.io/en/latest/?badge=latest>`__
 
-**> Experiments on Kaggle** : `Two Sigma Connect: Rental Listing Inquiries <https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard>`__ | **Rank : 85/2488**
+**> Experiments on Kaggle** : `Two Sigma Connect: Rental Listing Inquiries <https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard>`__ (rank : **85/2488**)
 
-**> Article** : `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__
+**> Articles from users** : `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__ & `MLBox : a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
+
+**> Webinar** : `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
 
 
 
