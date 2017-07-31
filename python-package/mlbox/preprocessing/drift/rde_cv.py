@@ -3,13 +3,11 @@
 #          Alexis BONDU <alexis.bondu@gmail.com>
 # License: BSD 3 clause
 
-import sys
-import os
-
 import numpy as np
-import pandas as pd
-from sklearn.model_selection import KFold
-from  .drift_threshold import DriftThreshold
+from sklearn.model_selection import KFold, cross_val_score
+from .drift_threshold import DriftThreshold
+from ipywidgets import IntProgress, HTML, VBox
+from IPython.display import display
 
 
 def log_progress(sequence, every=None, size=None):
@@ -19,11 +17,8 @@ def log_progress(sequence, every=None, size=None):
 
     """
 
-
-    from ipywidgets import IntProgress, HTML, VBox
-    from IPython.display import display
-
     is_iterator = False
+
     if size is None:
         try:
             size = len(sequence)
@@ -34,7 +29,7 @@ def log_progress(sequence, every=None, size=None):
             if size <= 200:
                 every = 1
             else:
-                every = size / 200     # every 0.5%
+                every = size / 200  # every 0.5%
     else:
         assert every is not None, 'sequence is iterator, set every'
 
@@ -43,6 +38,7 @@ def log_progress(sequence, every=None, size=None):
         progress.bar_style = 'info'
     else:
         progress = IntProgress(min=0, max=size, value=0)
+
     label = HTML()
     box = VBox(children=[label, progress])
     display(box)
@@ -69,10 +65,16 @@ def log_progress(sequence, every=None, size=None):
         label.value = str(index or '?')
 
 
-
 class RDECV():
 
-    def __init__(self, estimator = None, scoring = None, delta_score = 0.1, cv = None, drifts = None, max_features = 1., verboseMode = True):
+    def __init__(self,
+                 estimator=None,
+                 scoring=None,
+                 delta_score=0.1,
+                 cv=None,
+                 drifts=None,
+                 max_features=1.,
+                 verboseMode=True):
 
         '''Recursive Drift Elimination
 
@@ -87,8 +89,9 @@ class RDECV():
 
         scoring : sklearn metric function, defaut = None
 
-        delta_score : float, defaut = 0.1
-            The allowed decrease of the quality of the estimator. Must be between 0. and 1.
+        delta_score : float, default = 0.1
+            The allowed decrease of the quality of the estimator.
+            Must be between 0. and 1.
 
         cv : cv object, default = None
             If none two folds are used
@@ -97,14 +100,14 @@ class RDECV():
             The dictionnary of the drifts coefs for each variables.
             If None, the univariate drifts are estimated with default parameters of the class DriftEstimator
 
-        max_features : int or float, defaut = 1.
+        max_features : int or float, default = 1.
             The proportion / or the number of features to process
 
-        verboseMode : bool, defaut = True
+        verboseMode : bool, default = True
             If true, messages are displayed during the algorithm
         '''
 
-        # pour le FIT
+        # For the fit method
 
         self.estimator = estimator
         self.cv = cv
@@ -113,24 +116,24 @@ class RDECV():
         self.drifts = drifts
         self.max_features = max_features
         self.verboseMode = verboseMode
-        self.__scores = None                                    # scores obtenus lors des iterations gagnantes ie les score est superieur a la limite fixee
-        self.__dropList = None                                  # variable a retirer
-        self.__keepList = None                                  # variable a garder
-        self.__fitOK = False                                   # indique si le fit a ete fait
-
+        # Scores obtained over the winning iterations
+        # Scores higher than the fixed limit
+        self.__scores = None
+        self.__dropList = None  # variables to drop
+        self.__keepList = None  # variables to keep
+        self.__fitOK = False
 
     def get_params(self):
 
         return {'estimator': self.estimator,
-            'cv': self.cv,
-            'scoring': self.scoring,
-            'delta_score': self.delta_score,
-            'drifts': self.drifts,
-            'max_features': self.max_features,
-            'verboseMode': self.verboseMode
-               }
+                'cv': self.cv,
+                'scoring': self.scoring,
+                'delta_score': self.delta_score,
+                'drifts': self.drifts,
+                'max_features': self.max_features,
+                'verboseMode': self.verboseMode}
 
-    def set_params(self,**params):
+    def set_params(self, **params):
 
         if('estimator' in params.keys()):
             self.estimator = params['estimator']
@@ -146,8 +149,6 @@ class RDECV():
             self.max_features = params['max_features']
         if('verboseMode' in params.keys()):
             self.verboseMode = params['verboseMode']
-
-
 
     def fit(self, df_train, df_test, y_train):
 
@@ -170,73 +171,77 @@ class RDECV():
             Returns self.
         '''
 
-        if(self.estimator == None):
+        if (self.estimator is None):
             raise ValueError('No estimator defined !')
 
-        if(self.scoring == None):
+        if (self.scoring is None):
             raise ValueError('You must specify the scoring function !')
 
-        if(self.cv == None):
-            self.cv = KFold(n_splits = 2, shuffle=True, random_state=1)
-            print('Warning : cv is not defined. 2 folds are used by defaut.')
+        if (self.cv is None):
+            self.cv = KFold(n_splits=2, shuffle=True, random_state=1)
+            print('Warning : cv is not defined. 2 folds are used by default.')
 
-        # si les niveaux de drift ne sont pas passes en parametre
-        if(self.drifts == None):
-            print('Warning : drift coeffs are not defined. Let\'s compute it...')
+        # If drift levels are not indicated
+        if (self.drifts is None):
+            print('Warning : drift coeffs are not defined. '
+                  'Let\'s compute them ...')
 
-            de = DriftThreshold()                     # on les calcule avec les parametres par defaut
+            de = DriftThreshold()
             de.fit(df_train, df_test)
             self.drifts = de.drifts()
             del de
 
-
-        # calcul du score initial
+        # Compute initial score
         print("")
         print('Computing initial score :')
         print('-------------------------')
         print ("")
+
         self.__scores = []
-        self.__scores.append(np.mean(cross_val_score(estimator=self.estimator, X=df_train, y=y_train, scoring=self.scoring, cv=self.cv)))
+        self.__scores.append(np.mean(cross_val_score(estimator=self.estimator,
+                                                     X=df_train,
+                                                     y=y_train,
+                                                     scoring=self.scoring,
+                                                     cv=self.cv)))
 
+        # Init
+        sorted_drifts = sorted(self.drifts.items(),
+                               key=lambda x: x[1],
+                               reverse=True)
 
-        # INIT
-        sorted_drifts = sorted(self.drifts.items(), key=lambda x: x[1], reverse=True)
-
-        col_drifts = []                                   #liste des noms de colonnes par drifts decroissants
+        col_drifts = []  # Contains column names with decreasing drift order
         for i in range(len(sorted_drifts)):
             col_drifts.append(sorted_drifts[i][0])
 
-
-        idEndLoop = None
-
-        if (type(self.max_features) == int):                                                 # calcul du nombre max de features a traiter
+        if (type(self.max_features) == int):
+            # Number maximum of features to deal with
             idEndLoop = min(self.max_features, len(col_drifts))
         else:
-            idEndLoop = min(int(self.max_features*len(col_drifts)), len(col_drifts))
+            idEndLoop = min(int(self.max_features * len(col_drifts)),
+                            len(col_drifts))
 
-
-        #verbose
+        # Verbose
 
         if self.verboseMode:
-            print('initial score (with all variables) : '+str(self.__scores[0]))
+            print('initial score (with all variables) : '+str(self.__scores[0])
+                  )
 
-            limitScore = None
-
-            if self.__scores[0]>0:
-                limitScore = self.__scores[0]*(1. - self.delta_score)
+            if self.__scores[0] > 0:
+                limitScore = self.__scores[0] * (1. - self.delta_score)
             else:
-                limitScore = self.__scores[0]*(1. + self.delta_score)
+                limitScore = self.__scores[0] * (1. + self.delta_score)
 
-            print('limit score : '+str(limitScore))
+            print('limit score : ' + str(limitScore))
 
             print("")
-            print('RDECV algorithm is starting : ('+str(idEndLoop)+' variables processed )')
+            print('RDECV algorithm is starting : (' + str(idEndLoop) + ' '
+                  'variables processed )')
             print('----------------------------')
             print("")
 
-        # RUN ALGO
+        # Run Algorithm
 
-        self.__dropList = []                                                               # liste des variables a retirer
+        self.__dropList = []
         self.__keepList = []
 
         countRemoveVar = 0
@@ -246,31 +251,40 @@ class RDECV():
             self.__dropList.append(col)
             self.__keepList.append(col)
 
-            currentScore = np.mean(cross_val_score(estimator=self.estimator, X=df_train.drop(self.__dropList,axis=1), y=y_train, scoring=self.scoring, cv=self.cv))
+            X_tmp = df_train.drop(self.__dropList, axis=1)
 
-            # Budget de degradation du modele atteint ?
+            currentScore = np.mean(cross_val_score(estimator=self.estimator,
+                                                   X=X_tmp,
+                                                   y=y_train,
+                                                   scoring=self.scoring,
+                                                   cv=self.cv)
+                                   )
 
+            # Degradation Budget (limitScore) of the model reached?
 
-            if currentScore < limitScore:                                              # cas ou on depasse le budget
-                del self.__dropList[-1]                                                # on remet la variable dans le dataset
+            if currentScore < limitScore:
+                del self.__dropList[-1]  # Put back the column in the dataset
 
                 if self.verboseMode:
-                    print('    CAN\'T BE REMOVED  - Removing variable \''+str(col)+'\' deteriorates the model with the too bad score : '+str(currentScore))
+                    print('    CAN\'T BE REMOVED  - '
+                          'Removing variable ' + '\'' + str(col) + '\'' + ''
+                          'deteriorates the model with '
+                          'the too bad score : ' + str(currentScore))
 
-            else:                                                                        # cas ou on ne depasse pas le budget
-                self.__scores.append(currentScore)                                       # on ne garde pas la variable
+            else:
+                self.__scores.append(currentScore)  # Column not kept
                 del self.__keepList[-1]
                 countRemoveVar += 1
 
                 if self.verboseMode:
-                    print(str(countRemoveVar)+' removed variables - Removing variable \''+str(col)+'\' is OK with the score : '+str(currentScore))
-
+                    print(str(countRemoveVar) + ' removed variables - '
+                          'Removing variable' + '\'' + str(col) + '\' is OK '
+                          'with the score : ' + str(currentScore))
 
         self.__keepList = self.__keepList + col_drifts[idEndLoop:]
         self.__fitOK = True
 
         return self
-
 
     def transform(self, df):
 
@@ -294,9 +308,7 @@ class RDECV():
         else:
             raise ValueError('Call the fit function before !')
 
-
-
-    def get_loss(self,absolute = False):
+    def get_loss(self, absolute=False):
 
         """Final score obtained at the end of the RDECV algorithm
 
@@ -321,12 +333,12 @@ class RDECV():
                 return self.__scores[-1]
 
             else:
-
-                return np.abs(self.__scores[0] - self.__scores[-1])/(np.abs(self.__scores[0])+1e-15)
+                numerator = np.abs(self.__scores[0] - self.__scores[-1])
+                denominator = (np.abs(self.__scores[0]) + 1e-15)
+                return numerator / denominator
 
         else:
             raise ValueError('Call the fit function before !')
-
 
     def get_support(self, complement = False):
 
@@ -353,8 +365,7 @@ class RDECV():
                 return self.__keepList
 
         else:
-             raise ValueError('Call the fit function before !')
-
+            raise ValueError('Call the fit function before !')
 
     def residual_drifts(self, complement = False):
 
