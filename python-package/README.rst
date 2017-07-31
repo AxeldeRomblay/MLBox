@@ -1,5 +1,5 @@
-MLBox Python Package
-====================
+Installation guide
+==================
 
 |Documentation Status| |PyPI version| |Build Status| |Windows Build Status| |GitHub Issues| |codecov| |License|
 
