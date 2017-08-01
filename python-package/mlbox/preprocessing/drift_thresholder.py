@@ -145,7 +145,7 @@ class Drift_thresholder():
                 fichier.write("\n")
 
                 for var, d in sorted(ds.drifts().items(), key=lambda x: x[1], reverse=True):
-                    fichier.write(var + " = " + str(d) + '\n')
+                    fichier.write(str(var) + " = " + str(d) + '\n')
 
                 if (self.verbose):
                     print("drift coefficients dumped")
