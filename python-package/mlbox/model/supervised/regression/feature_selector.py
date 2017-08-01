@@ -66,8 +66,8 @@ class Reg_feature_selector():
 
         Returns
         -------
-        self : object
-            Returns self.
+        sobject
+            self
         """
 
         # sanity checks

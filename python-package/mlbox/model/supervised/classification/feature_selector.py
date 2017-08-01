@@ -71,8 +71,8 @@ class Clf_feature_selector():
 
         Returns
         -------
-        self : object
-            Returns self.
+        object
+            self
         """
 
         # sanity checks

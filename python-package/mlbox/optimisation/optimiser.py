@@ -100,14 +100,13 @@ class Optimiser():
 
     def evaluate(self, params, df):
 
-        """Evaluate the data.
+        """Evaluates the data.
 
 
-        Evaluates the scoring function with given hyper-parameters of the whole
-        pipeline. If no parameters are set, default configuration for each step
-        is evaluated : no feature selection is applied and no meta features are
+        Evaluates the data with a given scoring function and given hyper-parameters
+        of the whole pipeline. If no parameters are set, default configuration for
+        each step is evaluated : no feature selection is applied and no meta features are
         created.
-
 
         Parameters
         ----------
@@ -119,14 +118,12 @@ class Optimiser():
                 - "enc" = "ne" for na encoder
                 - "enc" = "ce" for categorical encoder
                 - "enc" = "fs" for feature selector [OPTIONAL]
-                - "enc" = "stck"+str(i) to add layer n°i of meta-features
+                - "enc" = "stck"+str(i) to add layer n°i of meta-features [OPTIONAL]
                 - "enc" = "est" for the final estimator
 
-                - "param" : a correct associated parameter for each step.
-                (ex: "max_depth" for "enc"="est", ...)
+                - "param" : a correct associated parameter for each step. Ex: "max_depth" for "enc"="est", ...
 
-            - The values are those of the parameters
-            (ex: 4 for key = "est__max_depth")
+            - The values are those of the parameters. Ex: 4 for key = "est__max_depth", ...
 
         df : dict, default = None
             Train dictionary. Must contain keys "train" and "target" with
@@ -137,7 +134,7 @@ class Optimiser():
         Returns
         -------
         float.
-            The score. The higher the better
+            The score. The higher the better.
             Positive for a score and negative for a loss.
         """
 
@@ -443,33 +440,30 @@ class Optimiser():
         """Optimises the Pipeline.
 
         Optimises hyper-parameters of the whole Pipeline with a given scoring
-        function. Algorithm used to optimize : Tree Parzen Estimator
+        function. Algorithm used to optimize : Tree Parzen Estimator.
+
         IMPORTANT : Try to avoid dependent parameters and to set one feature
         selection strategy and one estimator strategy at a time.
 
         Parameters
         ----------
         space : dict, default = None.
-            Hyper-parameters space.
+            Hyper-parameters space:
 
             - The keys must respect the following syntax : "enc__param".
 
                 - "enc" = "ne" for na encoder
                 - "enc" = "ce" for categorical encoder
                 - "enc" = "fs" for feature selector [OPTIONAL]
-                - "enc" = "stck"+str(i) to add layer n°i of meta-features
+                - "enc" = "stck"+str(i) to add layer n°i of meta-features [OPTIONAL]
                 - "enc" = "est" for the final estimator
 
-                - "param" : a correct associated parameter for each step.
-                (ex: "max_depth" for "enc"="est", ...)
+                - "param" : a correct associated parameter for each step. Ex: "max_depth" for "enc"="est", ...
 
-            - The values must respect the following syntax :
-            {"search" : strategy, "space" : list}
-
+            - The values must respect the syntax: {"search":strategy,"space":list}
 
                 - "strategy" = "choice" or "uniform". Default = "choice"
-                - list : a list of values to be tested if strategy="choice".
-                If strategy = "uniform", list = [value_min, value_max].
+                - list : a list of values to be tested if strategy="choice". Else, list = [value_min, value_max].
 
         df : dict, default = None
             Train dictionary. Must contain keys "train" and "target" with the

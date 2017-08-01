@@ -60,17 +60,19 @@ class Drift_thresholder():
         ----------
         df : dict, defaut = None
             Dictionnary containing :
-                - 'train' : pandas dataframe for train dataset
-                - 'test' : pandas dataframe for test dataset
-                - 'target' : pandas serie for the target
+
+            - 'train' : pandas dataframe for train dataset
+            - 'test' : pandas dataframe for test dataset
+            - 'target' : pandas serie for the target
 
         Returns
         -------
         dict
             Dictionnary containing :
-                - 'train' : transformed pandas dataframe for train dataset
-                - 'test' : transformedpandas dataframe for test dataset
-                - 'target' : transformed pandas serie for the target
+
+            - 'train' : transformed pandas dataframe for train dataset
+            - 'test' : transformed pandas dataframe for test dataset
+            - 'target' : pandas serie for the target
         """
 
         ######################################################
