@@ -183,14 +183,12 @@ class Predictor():
                 - "enc" = "ne" for na encoder
                 - "enc" = "ce" for categorical encoder
                 - "enc" = "fs" for feature selector [OPTIONAL]
-                - "enc" = "stck"+str(i) to add layer n°i of meta-features
+                - "enc" = "stck"+str(i) to add layer n°i of meta-features [OPTIONAL]
                 - "enc" = "est" for the final estimator
 
-                - "param" : a correct associated parameter for each step.
-                (ex: "max_depth" for "enc"="est", ...)
+                - "param" : a correct associated parameter for each step. Ex: "max_depth" for "enc"="est", ...
 
-            - The values are those of the parameters
-            (ex: 4 for key = "est__max_depth")
+            - The values are those of the parameters. Ex: 4 for key = "est__max_depth", ...
 
         df : dict, default = None
             Dataset dictionary. Must contain keys "train", "test"
@@ -201,8 +199,8 @@ class Predictor():
         
         Returns
         -------
-        self : object
-            Returns self.
+        object
+            self.
         """
 
         if(self.to_path is None):

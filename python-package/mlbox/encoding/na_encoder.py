@@ -74,8 +74,8 @@ class NA_encoder():
 
         Returns
         -------
-        self : object
-            Returns self.
+        object
+            self
        """
 
         self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index

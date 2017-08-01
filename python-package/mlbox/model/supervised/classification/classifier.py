@@ -27,7 +27,7 @@ except Exception:
 
 class Classifier():
 
-    """Wraps scikitlearn classifiers.
+    """Wraps scikitlearn classifiers
 
     Parameters
     ----------
@@ -189,8 +189,8 @@ class Classifier():
 
         Returns
         -------
-        self : object
-            Returns self.
+        object
+            self
         """
 
         # sanity checks

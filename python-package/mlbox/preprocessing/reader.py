@@ -181,8 +181,9 @@ class Reader():
 
         date_strategy : str, defaut = "complete"
             The strategy to encode dates :
-                - complete : creates timestamp from 01/01/2017, month, day and day_of_week
-                - to_timestamp : creates timestamp from 01/01/2017
+
+            - complete : creates timestamp from 01/01/2017, month, day and day_of_week
+            - to_timestamp : creates timestamp from 01/01/2017
 
         drop_duplicate : bool, defaut = False
             If True, drop duplicates when reading each file.

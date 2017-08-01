@@ -182,8 +182,8 @@ class Regressor():
 
         Returns
         -------
-        self : object
-            Returns self.
+        object
+            self
         """
 
         # sanity checks
