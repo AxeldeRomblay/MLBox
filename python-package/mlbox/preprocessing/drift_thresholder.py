@@ -2,15 +2,12 @@
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
 
-from .drift import DriftThreshold
 import os
-from sklearn.pipeline import Pipeline
-import warnings
 import time
-
+from sklearn.pipeline import Pipeline
+from .drift import DriftThreshold
 from ..encoding.na_encoder import NA_encoder
 from ..encoding.categorical_encoder import Categorical_encoder
-
 
 
 class Drift_thresholder():
@@ -27,19 +24,23 @@ class Drift_thresholder():
         Threshold used to deletes variables and ids. Must be between 0.5 and 1.
         The lower the more you keep non-drifting/stable variables.
 
-    inplace : bool, defaut = False
+    inplace : bool, default = False
         If True, train and test datasets are transformed. Returns self.
         Otherwise, train and test datasets are not transformed. Returns a new dictionnary with
         cleaned datasets.
 
-    verbose : bool, defaut = True
+    verbose : bool, default = True
         Verbose mode
 
-    to_path : str, defaut = "save"
+    to_path : str, default = "save"
         Name of the folder where the list of drift coefficients is saved.
     """
 
-    def __init__(self, threshold = 0.8, inplace = False, verbose = True, to_path = "save"):
+    def __init__(self,
+                 threshold=0.8,
+                 inplace=False,
+                 verbose=True,
+                 to_path="save"):
 
         self.threshold = threshold
         self.inplace = inplace
@@ -76,10 +77,11 @@ class Drift_thresholder():
         """
 
         ######################################################
-        ################## deleting ids ##################
+        #                   Deleting IDs
         ######################################################
 
-        ### exception ###
+        # Exception
+
         if (df["test"].shape[0] == 0):
             if (self.verbose):
                 print("")
@@ -98,7 +100,8 @@ class Drift_thresholder():
             pp = Pipeline([("na", na), ("ca", ca)])
             pp.fit(df['train'], None)
 
-            ### deleting ids with drift threshold method ###
+            # Deleting IDs with drift threshold method
+
             if (self.verbose):
                 print("")
                 print("computing drifts...")
@@ -111,7 +114,9 @@ class Drift_thresholder():
 
             self.__fitOK = True
             self.__Ddrifts = ds.drifts()
-            drifts_top = sorted(ds.drifts().items(), key=lambda x: x[1], reverse=True)[:10]
+            drifts_top = sorted(ds.drifts().items(),
+                                key=lambda x: x[1],
+                                reverse=True)[:10]
 
             if (self.verbose):
                 print("Top 10 drifts")
@@ -121,10 +126,11 @@ class Drift_thresholder():
 
             if (self.verbose):
                 print("")
-                print("deleted variables : " + str(ds.get_support(complement=True)))
+                print("deleted "
+                      "variables : " + str(ds.get_support(complement=True)))
 
             ######################################################
-            ########### dumping encoders into directory #########
+            #           Dumping Encoders into directory
             ######################################################
 
             if (self.to_path is not None):
@@ -136,21 +142,27 @@ class Drift_thresholder():
 
                 if (self.verbose):
                     print("")
-                    print("dumping drift coefficients into directory : " + self.to_path)
+                    print("dumping drift coefficients into "
+                          "directory : " + self.to_path)
 
-                fichier = open(self.to_path + '/drifts.txt', "w")
-                fichier.write("\n")
-                fichier.write(
-                    "*****************************************************  DRIFTS Coefficients *********************************************************\n")
-                fichier.write("\n")
+                file = open(self.to_path + '/drifts.txt', "w")
+                file.write("\n")
+                file.write(
+                    "*****************************************************"
+                    "  DRIFTS Coefficients "
+                    "*****************************************************\n")
+                file.write("\n")
 
-                for var, d in sorted(ds.drifts().items(), key=lambda x: x[1], reverse=True):
-                    fichier.write(str(var) + " = " + str(d) + '\n')
+                for var, d in sorted(ds.drifts().items(),
+                                     key=lambda x: x[1],
+                                     reverse=True):
+                    file.write(str(var) + " = " + str(d) + '\n')
 
                 if (self.verbose):
                     print("drift coefficients dumped")
 
-            ### returning datasets with no ids
+            # Returning datasets with no IDs
+
             if (self.inplace):
 
                 df['train'] = ds.transform(df['train'])
@@ -161,7 +173,6 @@ class Drift_thresholder():
                 return {'train': ds.transform(df['train']),
                         'test': ds.transform(df['test']),
                         'target': df['target']}
-
 
     def drifts(self):
 
