@@ -27,21 +27,18 @@ except Exception:
 
 class Classifier():
 
-    """
-    Wraps scikitlearn classifiers.
-
+    """Wraps scikitlearn classifiers.
 
     Parameters
     ----------
-
-    strategy : string, defaut = "LightGBM" (if installed else "XGBoost")
+    strategy : str, default = "LightGBM" if installed else "XGBoost"
         The choice for the classifier.
         Available strategies = "LightGBM" (if installed), "XGBoost",
         "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
 
-    **params : parameters of the corresponding classifier.
+    **params : default = None
+        Parameters of the corresponding classifier.
         Examples : n_estimators, max_depth...
-
     """
 
     def __init__(self, **params):
@@ -63,6 +60,7 @@ class Classifier():
         self.set_params(**params)
         self.__fitOK = False
 
+
     def get_params(self, deep=True):
 
         params = {}
@@ -70,6 +68,7 @@ class Classifier():
         params.update(self.__classif_params)
 
         return params
+
 
     def set_params(self, **params):
 
@@ -101,6 +100,7 @@ class Classifier():
                 else:
                     setattr(self.__classifier, k, v)
                     self.__classif_params[k] = v
+
 
     def __set_classifier(self, strategy):
 
@@ -174,26 +174,24 @@ class Classifier():
                 "(if installed), 'XGBoost', 'RandomForest', 'ExtraTrees', "
                 "'Tree', 'Bagging', 'AdaBoost' or 'Linear'")
 
-    def fit(self, df_train, y_train):
-        '''
 
-        Fits Classifier.
+    def fit(self, df_train, y_train):
+
+        """Fits Classifier.
 
         Parameters
         ----------
-
         df_train : pandas dataframe of shape = (n_train, n_features)
-        The train dataset with numerical features.
+            The train dataset with numerical features.
 
         y_train : pandas series of shape = (n_train,)
-        The numerical encoded target for classification tasks.
-
+            The numerical encoded target for classification tasks.
 
         Returns
         -------
-        self
-
-        '''
+        self : object
+            Returns self.
+        """
 
         # sanity checks
         if((type(df_train) != pd.SparseDataFrame) and
@@ -209,22 +207,18 @@ class Classifier():
 
         return self
 
+
     def feature_importances(self):
-        """
-        Computes feature importances. Classifier must be fitted before.
 
-        Parameters
-        ----------
+        """Computes feature importances.
 
-        None
+        Classifier must be fitted before.
 
         Returns
         -------
-
-        importance : dict
+        dict
             Dictionnary containing a measure of feature importance (value) for
             each feature (key).
-
         """
 
         if self.__fitOK:
@@ -301,23 +295,20 @@ class Classifier():
 
             raise ValueError("You must call the fit function before !")
 
-    def predict(self, df):
-        """
 
-        Predicts the target.
+    def predict(self, df):
+
+        """Predicts the target.
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
             The dataset with numerical features.
 
-
         Returns
         -------
-        y : array of shape = (n, )
+        array of shape = (n, )
             The encoded classes to be predicted.
-
         """
 
         try:
@@ -339,22 +330,18 @@ class Classifier():
             raise ValueError("You must call the fit function before !")
 
     def predict_log_proba(self, df):
-        """
 
-        Predicts class log-probabilities for df.
+        """Predicts class log-probabilities for df.
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
             The dataset with numerical features.
-
 
         Returns
         -------
         y : array of shape = (n, n_classes)
             The log-probabilities for each class
-
         """
 
         try:
@@ -374,23 +361,20 @@ class Classifier():
         else:
             raise ValueError("You must call the fit function before !")
 
-    def predict_proba(self, df):
-        """
 
-        Predicts class probabilities for df.
+    def predict_proba(self, df):
+
+        """Predicts class probabilities for df.
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
             The dataset with numerical features.
 
-
         Returns
         -------
-        y : array of shape = (n, n_classes)
+        array of shape = (n, n_classes)
             The probabilities for each class
-
         """
 
         try:
@@ -410,23 +394,20 @@ class Classifier():
         else:
             raise ValueError("You must call the fit function before !")
 
-    def transform(self, df):
-        """
 
-        Transforms df.
+    def transform(self, df):
+
+        """Transforms df.
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
             The dataset with numerical features.
 
-
         Returns
         -------
-        df_transform : pandas dataframe of shape = (n, n_selected_features)
+        pandas dataframe of shape = (n, n_selected_features)
             The transformed dataset with its most important features.
-
         """
 
         try:
@@ -446,14 +427,13 @@ class Classifier():
         else:
             raise ValueError("You must call the fit function before !")
 
-    def score(self, df, y, sample_weight=None):
-        """
 
-        Returns the mean accuracy.
+    def score(self, df, y, sample_weight=None):
+
+        """Returns the mean accuracy.
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
             The dataset with numerical features.
 
@@ -462,9 +442,8 @@ class Classifier():
 
         Returns
         -------
-        score : float
+        float
             Mean accuracy of self.predict(df) wrt. y.
-
         """
 
         try:
@@ -486,6 +465,7 @@ class Classifier():
             return self.__classifier.score(df.values, y, sample_weight)
         else:
             raise ValueError("You must call the fit function before !")
+
 
     def get_estimator(self):
 

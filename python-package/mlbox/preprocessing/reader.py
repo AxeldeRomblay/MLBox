@@ -17,9 +17,18 @@ import ipyparallel as ipp
 
 def convert_list(serie):
 
-    """
-    A function to convert a pandas serie into a dataframe where which element of a list is a column
+    """Converts lists in a pandas serie into a dataframe
+    where which element of a list is a column
 
+    Parameters
+    ----------
+    serie : pandas Serie
+        The serie you want to cast into a dataframe
+
+    Returns
+    -------
+    pandas DataFrame
+        The converted dataframe
     """
 
     import numpy
@@ -42,10 +51,22 @@ def convert_list(serie):
 
 def convert_float_and_dates(serie, date_strategy):
 
+    """Converts into float if possible and converts dates
 
-    """
-    A function to cast into float and to convert dates
+    Parameters
+    ----------
+    serie : pandas Serie
+        The serie you want to convert
 
+    date_strategy : str, defaut = "complete"
+        The strategy to encode dates :
+            - complete : creates timestamp from 01/01/2017, month, day and day_of_week
+            - to_timestamp : creates timestamp from 01/01/2017
+
+    Returns
+    -------
+    pandas DataFrame
+        The converted dataframe
     """
 
     import pandas
@@ -107,13 +128,10 @@ def convert_float_and_dates(serie, date_strategy):
 
 class Reader():
 
-    """
-    Reads and cleans data
-
+    """Reads and cleans data
 
     Parameters
     ----------
-
     sep : str, defaut = None
          Delimiter to use when reading a csv file.
 
@@ -130,7 +148,6 @@ class Reader():
 
     verbose : bool, defaut = True
         Verbose mode
-
     """
 
     def __init__(self, sep = None, header = 0, to_hdf5 = False, to_path = "save", verbose = True):
@@ -146,10 +163,9 @@ class Reader():
         self.__dview = self.__client.direct_view()
 
 
-    def clean(self, path, date_strategy, drop_duplicate):
+    def clean(self, path, date_strategy = "complete", drop_duplicate = False):
 
-        """
-        Reads and cleans data (accepted formats : csv, xls, json and h5) :
+        """Reads and cleans data (accepted formats : csv, xls, json and h5):
 
         - del Unnamed columns
         - casts lists into variables
@@ -157,29 +173,23 @@ class Reader():
         - cleans dates
         - drop duplicates (if drop_duplicate=True)
 
-
         Parameters
         ----------
-
-        filepath_or_buffer : str, pathlib.Path, py._path.local.LocalPath or any object with a read() method (such as a file handle or StringIO)
-            The string could be a URL. Valid URL schemes include http, ftp, s3, and
-            file. For file URLs, a host is expected. For instance, a local file could
-            be file ://localhost/path/to/table.csv
+        path : str
+            The path to the dataset.
 
         date_strategy : str, defaut = "complete"
             The strategy to encode dates :
-            - complete : creates timestamp from 01/01/2017, month, day and day_of_week
-            - to_timestamp : creates timestamp from 01/01/2017
+                - complete : creates timestamp from 01/01/2017, month, day and day_of_week
+                - to_timestamp : creates timestamp from 01/01/2017
 
         drop_duplicate : bool, defaut = False
             If True, drop duplicates when reading each file.
 
-
         Returns
         -------
-
-        df : pandas dataframe
-
+        pandas dataframe
+            Cleaned dataset.
         """
 
         ###########################################################################
@@ -270,30 +280,29 @@ class Reader():
 
     def train_test_split(self, Lpath, target_name):
 
-        """
+        """Creates train and test datasets
+
         Given a list of several paths and a target name, automatically creates and cleans train and test datasets.
+        IMPORTANT: a dataset is considered as a test set if it does not contain the target value. Otherwise it is
+        considered as part of a train set.
         Also determines the task and encodes the target (classification problem only).
         Finally dumps the datasets to hdf5, and eventually the target encoder.
 
-
         Parameters
         ----------
-
         Lpath : list, defaut = None
             List of str paths to load the data
 
         target_name : str, defaut = None
             The name of the target. Works for both classification (multiclass or not) and regression.
 
-
         Returns
         -------
-
-        df : dict
+        dict
             Dictionnary containing :
-            'train' : pandas dataframe for train dataset
-            'test' : pandas dataframe for test dataset
-            'target' : pandas serie for the target
+                - 'train' : pandas dataframe for train dataset
+                - 'test' : pandas dataframe for test dataset
+                - 'target' : pandas serie for the target
 
         """
 

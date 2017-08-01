@@ -14,31 +14,34 @@ import warnings
 
 class StackingRegressor():
 
-    """A Stacking regressor is a regressor that uses the predictions of
+    """A Stacking regressor.
+
+     A stacking regressor is a regressor that uses the predictions of
     several first layer estimators (generated with a cross validation method)
     for a second layer estimator.
 
 
     Parameters
     ----------
-
-    base_estimators : list
+    base_estimators : list, default = [Regressor(strategy="XGBoost"),
+                                        Regressor(strategy="RandomForest"),
+                                        Regressor(strategy="ExtraTrees")]
         List of estimators to fit in the first level using a cross validation.
 
-    level_estimator : object, optional (default=LinearRegression())
+    level_estimator : object, default = LinearRegression()
         The estimator used in second and last level
 
-    n_folds : int, optional (default=5)
+    n_folds : int, default = 5
         Number of folds used to generate the meta features for the training set
 
-    copy : boolean, optional (default=False)
+    copy : bool, default = False
         If true, meta features are added to the original dataset
 
-    random_state : None, int or RandomState (default=1)
+    random_state : None, int or RandomState. default = 1
         Pseudo-random number generator state used for shuffling.
         If None, use default numpy RNG for shuffling.
 
-    verbose : boolean, optional (default=True)
+    verbose : bool, default = True
         Verbose mode.
     """
 
@@ -77,6 +80,7 @@ class StackingRegressor():
         self.__fitOK = False
         self.__fittransformOK = False
 
+
     def get_params(self, deep=True):
 
         return {'level_estimator': self.level_estimator,
@@ -85,6 +89,7 @@ class StackingRegressor():
                 'copy': self.copy,
                 'random_state': self.random_state,
                 'verbose': self.verbose}
+
 
     def set_params(self, **params):
 
@@ -100,23 +105,24 @@ class StackingRegressor():
             else:
                 setattr(self, k, v)
 
+
     def fit_transform(self, X, y):
+
         """Create meta-features for the training dataset.
 
         Parameters
         ----------
-        X : DataFrame, shape = [n_samples, n_features]
+        X : pandas DataFrame of shape = (n_samples, n_features)
             The training dataset.
 
-        y : pandas series of shape = [n_samples, ]
+        y : pandas series of shape = (n_samples, )
             The target
 
         Returns
         -------
-        X_transform : DataFrame, shape = [n_samples, n_features*int(copy)+n_metafeatures]
-            Returns the transformed training dataset.
-
-        """  # noqa
+        pandas DataFrame of shape = (n_samples, n_features*int(copy)+n_metafeatures)
+            The transformed training dataset.
+        """
 
         # sanity checks
         if((type(X) != pd.SparseDataFrame) & (type(X) != pd.DataFrame)):
@@ -167,20 +173,21 @@ class StackingRegressor():
         else:
             return preds  # we keep only the meta features
 
+
     def transform(self, X_test):
+
         """Create meta-features for the test dataset.
 
         Parameters
         ----------
-        X_test : DataFrame, shape = [n_samples_test, n_features]
+        X_test : pandas DataFrame of shape = (n_samples_test, n_features)
             The test dataset.
 
         Returns
         -------
-        X_test_transform : DataFrame, shape = [n_samples_test, n_features*int(copy)+n_metafeatures]
-            Returns the transformed test dataset.
-
-        """  # noqa
+        pandas DataFrame of shape = (n_samples_test, n_features*int(copy)+n_metafeatures)
+            The transformed test dataset.
+        """
 
         # sanity checks
         if((type(X_test) != pd.SparseDataFrame) and
@@ -218,17 +225,18 @@ class StackingRegressor():
         else:
             raise ValueError("Call fit_transform before !")
 
+
     def fit(self, X, y):
+
         """Fit the first level estimators and the second level estimator on X.
 
         Parameters
         ----------
-
-        X : DataFrame, shape (n_samples, n_features)
+        X : pandas DataFrame of shape (n_samples, n_features)
             Input data, where ``n_samples`` is the number of samples and
             ``n_features`` is the number of features.
 
-        y : pandas series of shape = [n_samples, ]
+        y : pandas series of shape = (n_samples, )
             The target
 
         Returns
@@ -256,19 +264,20 @@ class StackingRegressor():
 
         return self
 
+
     def predict(self, X_test):
+
         """Predict regression target for X_test using the meta-features.
 
         Parameters
         ----------
-        X_test : DataFrame of shape = [n_samples_test, n_features]
+        X_test : pandas DataFrame of shape = (n_samples_test, n_features)
             The testing samples
 
         Returns
         -------
-        y : array of shape = [n_samples_test]
+        array of shape = (n_samples_test, )
             The predicted values.
-
         """
 
         if(self.__fitOK):

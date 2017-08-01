@@ -20,23 +20,20 @@ from keras.models import Model
 
 class Categorical_encoder():
 
-    """
-    Encodes categorical features.
+    """Encodes categorical features.
+
     Several strategies are possible (supervised or not). Works for both
     classification and regression tasks.
 
-
     Parameters
     ----------
-
-    strategy : string, default = "label_encoding"
+    strategy : str, default = "label_encoding"
         The strategy to encode categorical features.
         Available strategies = {"label_encoding", "dummification",
-                               "random_projection", entity_embedding"}
+        "random_projection", entity_embedding"}
 
-    verbose : boolean, default = False
+    verbose : bool, default = False
         Verbose mode. Useful for entity embedding strategy.
-
     """
 
     def __init__(self, strategy='label_encoding', verbose=False):
@@ -50,10 +47,12 @@ class Categorical_encoder():
         self.__weights = None
         self.__fitOK = False
 
+
     def get_params(self, deep=True):
 
         return {'strategy': self.strategy,
                 'verbose': self.verbose}
+
 
     def set_params(self, **params):
 
@@ -68,15 +67,13 @@ class Categorical_encoder():
             else:
                 setattr(self, k, v)
 
+
     def fit(self, df_train, y_train):
 
-        '''
-
-        Fits Categorical Encoder.
+        """Fits Categorical Encoder.
 
         Parameters
         ----------
-
         df_train : pandas.Dataframe of shape = (n_train, n_features).
             The training dataset with numerical and categorical features.
             NA values are allowed.
@@ -84,12 +81,11 @@ class Categorical_encoder():
         y_train : pandas.Series of shape = (n_train, ).
             The target for classification or regression tasks.
 
-
         Returns
         -------
-        None
-
-        '''
+        self : object
+            Returns self.
+        """
 
         self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index
         self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index
@@ -312,15 +308,13 @@ class Categorical_encoder():
 
         return self
 
+
     def fit_transform(self, df_train, y_train):
 
-        '''
-
-        Fits Categorical Encoder and transforms the dataset
+        """Fits Categorical Encoder and transforms the dataset
 
         Parameters
         ----------
-
         df_train : pandas.Dataframe of shape = (n_train, n_features)
             The training dataset with numerical and categorical features.
             NA values are allowed.
@@ -328,39 +322,32 @@ class Categorical_encoder():
         y_train : pandas.Series of shape = (n_train, ).
             The target for classification or regression tasks.
 
-
         Returns
         -------
-
-        df_train : pandas.Dataframe of shape = (n_train, n_features)
+        pandas.Dataframe of shape = (n_train, n_features)
             The training dataset with numerical and encoded categorical features
-
-        '''
+        """
 
         self.fit(df_train, y_train)
 
         return self.transform(df_train)
 
+
     def transform(self, df):
 
-        '''
-
-        Transforms the dataset
+        """Transforms the dataset
 
         Parameters
         ----------
-
         df : pandas.Dataframe of shape = (n_train, n_features)
             The training dataset with numerical and categorical features.
             NA values are allowed.
 
         Returns
         -------
-
-        df : pandas.Dataframe of shape = (n_train, n_features)
+        pandas.Dataframe of shape = (n_train, n_features)
             The dataset with numerical and encoded categorical features.
-
-        '''
+        """
 
         if self.__fitOK:
 

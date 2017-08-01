@@ -15,27 +15,28 @@ from ..encoding.categorical_encoder import Categorical_encoder
 
 class Drift_thresholder():
 
-    """
-    Automatically deletes ids and drifting variables between train and test datasets.
-    Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt"
+    """Automatically drops ids and drifting variables between train and test datasets.
 
+    Drops on train and test datasets. The list of drift coefficients is available and
+    saved as "drifts.txt". To get familiar with drift:
+    https://github.com/AxeldeRomblay/MLBox/blob/master/docs/webinars/slides.pdf
 
     Parameters
     ----------
-
-    threshold : float (between 0.5 and 1.), defaut = 0.9
-        Threshold used to deletes variables and ids. The lower the more you keep non-drifting/stable variables.
+    threshold : float, defaut = 0.9
+        Threshold used to deletes variables and ids. Must be between 0.5 and 1.
+        The lower the more you keep non-drifting/stable variables.
 
     inplace : bool, defaut = False
         If True, train and test datasets are transformed. Returns self.
-        Otherwise, train and test datasets are not transformed. Returns a new dictionnary with cleaned datasets.
+        Otherwise, train and test datasets are not transformed. Returns a new dictionnary with
+        cleaned datasets.
 
     verbose : bool, defaut = True
         Verbose mode
 
     to_path : str, defaut = "save"
         Name of the folder where the list of drift coefficients is saved.
-
     """
 
     def __init__(self, threshold = 0.8, inplace = False, verbose = True, to_path = "save"):
@@ -47,33 +48,30 @@ class Drift_thresholder():
         self.__Ddrifts = {}
         self.__fitOK = False
 
+
     def fit_transform(self, df):
 
-        """
-        Automatically deletes ids and drifting variables between train and test datasets.
-        Deletes on train and test datasets. The list of drift coefficients is available and saved as "drifts.txt"
+        """Fits and transforms train and test datasets
 
+        Automatically drops ids and drifting variables between train and test datasets.
+        The list of drift coefficients is available and saved as "drifts.txt"
 
         Parameters
         ----------
-
         df : dict, defaut = None
             Dictionnary containing :
-            'train' : pandas dataframe for train dataset
-            'test' : pandas dataframe for test dataset
-            'target' : pandas serie for the target
+                - 'train' : pandas dataframe for train dataset
+                - 'test' : pandas dataframe for test dataset
+                - 'target' : pandas serie for the target
 
         Returns
         -------
-
-        df : dict
+        dict
             Dictionnary containing :
-            'train' : pandas dataframe for train dataset
-            'test' : pandas dataframe for test dataset
-            'target' : pandas serie for the target
-
+                - 'train' : transformed pandas dataframe for train dataset
+                - 'test' : transformedpandas dataframe for test dataset
+                - 'target' : transformed pandas serie for the target
         """
-
 
         ######################################################
         ################## deleting ids ##################
@@ -165,12 +163,16 @@ class Drift_thresholder():
 
     def drifts(self):
 
-        '''
-        Returns the univariate drifts for all variables.
-        '''
+        """Returns the univariate drifts for all variables.
+
+        Returns
+        -------
+        dict
+            Dictionnary containing the drifts for each feature
+        """
 
         if self.__fitOK:
 
             return self.__Ddrifts
         else:
-            raise ValueError('Call the fit function before !')
+            raise ValueError('Call the fit_transform function before !')

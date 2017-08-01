@@ -14,36 +14,37 @@ import warnings
 
 class StackingClassifier():
 
-    """A Stacking classifier is a classifier that uses the predictions of
+    """A Stacking classifier.
+
+    A stacking classifier is a classifier that uses the predictions of
     several first layer estimators (generated with a cross validation method)
     for a second layer estimator.
 
-
     Parameters
     ----------
-
-    base_estimators : list
+    base_estimators : list, default = [Classifier(strategy="XGBoost"),
+                                  Classifier(strategy="RandomForest"),
+                                  Classifier(strategy="ExtraTrees")]
         List of estimators to fit in the first level using a cross validation.
 
-    level_estimator : object, optional (default=LogisticRegression())
+    level_estimator : object, default = LogisticRegression()
         The estimator used in second and last level.
 
-    n_folds : int, optional (default=5)
+    n_folds : int, default = 5
         Number of folds used to generate the meta features for the training set
 
-    copy : boolean, optional (default=False)
+    copy : bool, default = False
         If true, meta features are added to the original dataset
 
-    drop_first = boolean, optional (default=True)
+    drop_first = bool, default = True
         If True, each estimator output n_classes-1 probabilities
 
-    random_state : None, int or RandomState (default=1)
+    random_state : None or int or RandomState. default = 1
         Pseudo-random number generator state used for shuffling. If None, use
         default numpy RNG for shuffling.
 
-    verbose : boolean, optional (default=True)
+    verbose : bool, default = True
         Verbose mode.
-
     """
 
     def __init__(self,
@@ -87,6 +88,7 @@ class StackingClassifier():
         self.__fitOK = False
         self.__fittransformOK = False
 
+
     def get_params(self, deep=True):
 
         return {'level_estimator': self.level_estimator,
@@ -96,6 +98,7 @@ class StackingClassifier():
                 'drop_first': self.drop_first,
                 'random_state': self.random_state,
                 'verbose': self.verbose}
+
 
     def set_params(self, **params):
 
@@ -111,13 +114,13 @@ class StackingClassifier():
             else:
                 setattr(self, k, v)
 
+
     def __cross_val_predict_proba(self, estimator, X, y, cv):
 
         """Evaluate the target by cross-validation
 
         Parameters
         ----------
-
         estimator : estimator object implementing 'fit'
             The object to use to fit the data.
 
@@ -135,7 +138,6 @@ class StackingClassifier():
         -------
         y_pred : array-like of shape = [n_samples, n_classes]
             The predicted class probabilities for X.
-
         """
 
         classes = y.value_counts()
@@ -165,24 +167,26 @@ class StackingClassifier():
 
         return y_pred
 
+
     def fit_transform(self, X, y):
 
         """Create meta-features for the training dataset.
 
         Parameters
         ----------
-        X : DataFrame, shape = [n_samples, n_features]
+        X : pandas dataframe of shape = (n_samples, n_features)
             The training dataset.
 
-        y : pandas series of shape = [n_samples, ]
+        y : pandas series of shape = (n_samples, )
             The target.
 
         Returns
         -------
-        X_transform : DataFrame, shape = [n_samples, n_features*int(copy)+n_metafeatures]
+        pandas dataframe of shape = (n_samples, n_features*int(copy)+n_metafeatures)
             Returns the transformed training dataset.
+        """
 
-        """   # noqa
+        # noqa
 
         # sanity checks
         if((type(X) != pd.SparseDataFrame) and (type(X) != pd.DataFrame)):
@@ -240,21 +244,21 @@ class StackingClassifier():
             # we keep only the meta features
             return preds
 
+
     def transform(self, X_test):
 
         """Create meta-features for the test dataset.
 
         Parameters
         ----------
-        X_test : DataFrame, shape = [n_samples_test, n_features]
+        X_test : pandas dataframe of shape = (n_samples_test, n_features)
             The test dataset.
 
         Returns
         -------
-        X_test_transform : DataFrame, shape = [n_samples_test, n_features * int(copy) + n_metafeatures]
+        pandas dataframe of shape = (n_samples_test, n_features*int(copy)+n_metafeatures)
             Returns the transformed test dataset.
-
-        """  # noqa
+        """
 
         # sanity checks
         if((type(X_test) != pd.SparseDataFrame) and
@@ -295,24 +299,24 @@ class StackingClassifier():
         else:
             raise ValueError("Call fit_transform before !")
 
+
     def fit(self, X, y):
 
         """Fit the first level estimators and the second level estimator on X.
 
         Parameters
         ----------
-        X : DataFrame, shape (n_samples, n_features)
+        X : pandas dataframe of shape (n_samples, n_features)
             Input data, where ``n_samples`` is the number of samples and
             ``n_features`` is the number of features.
 
-        y : pandas series of shape = [n_samples, ]
+        y : pandas series of shape = (n_samples, )
             The target
 
         Returns
         -------
         self : object
             Returns self.
-
         """
 
         X = self.fit_transform(X, y)  # we fit the base estimators
@@ -334,19 +338,19 @@ class StackingClassifier():
 
         return self
 
+
     def predict_proba(self, X_test):
 
         """Predict class probabilities for X_test using the meta-features.
 
-
         Parameters
         ----------
-        X_test : DataFrame of shape = [n_samples_test, n_features]
+        X_test : pandas DataFrame of shape = (n_samples_test, n_features)
             The testing samples
 
         Returns
         -------
-        p : array of shape = [n_samples_test, n_classes]
+        array of shape = (n_samples_test, n_classes)
             The class probabilities of the testing samples.
         """
 
@@ -360,19 +364,19 @@ class StackingClassifier():
 
             raise ValueError("Call fit before !")
 
+
     def predict(self, X_test):
 
         """Predict class for X_test using the meta-features.
 
-
         Parameters
         ----------
-        X_test : DataFrame of shape = [n_samples_test, n_features]
+        X_test : pandas DataFrame of shape = (n_samples_test, n_features)
             The testing samples
 
         Returns
         -------
-        y : array of shape = [n_samples_test]
+        array of shape = (n_samples_test,)
             The predicted classes.
         """
 

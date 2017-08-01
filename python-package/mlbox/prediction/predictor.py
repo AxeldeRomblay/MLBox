@@ -26,13 +26,12 @@ from ..model.supervised.regression.regressor import Regressor
 
 class Predictor():
 
-    """
-    Predicts the target on the test dataset.
+    """Fits and predicts the target on the test dataset.
 
+    The test dataset must not contain the target values.
 
     Parameters
     ----------
-
     to_path : str, default = "save"
         Name of the folder where feature importances and
         predictions are saved (.png and .csv formats).
@@ -40,7 +39,6 @@ class Predictor():
 
     verbose : bool, default = True
         Verbose mode
-
     """
 
     def __init__(self, to_path="save", verbose=True):
@@ -69,23 +67,20 @@ class Predictor():
                 
     def __save_feature_importances(self, importance, fig_name="feature_importance.png"):
 
-        """
-        Saves feature importances plot
+        """Saves feature importances plot
 
         Parameters
         ----------
-
         importance : dict
             Dictionary with features (key) and importances (values)
 
         fig_name : str, default = "feature_importance.png"
             figure name
 
-
         Returns
         -------
-
-        None
+        NoneType
+            None
         """
 
         if (len(importance) > 0):
@@ -126,12 +121,10 @@ class Predictor():
 
     def __plot_feature_importances(self, importance, top = 10):
 
-        """
-        Plots top 10 feature importances 
+        """Plots top 10 feature importances
         
         Parameters
         ----------
-        
         importance : dict
             Dictionary with features (key) and importances (values) 
         
@@ -140,8 +133,8 @@ class Predictor():
         
         Returns
         -------
-    
-        None
+        NoneType
+            None
         """
         
         if (len(importance) > 0):
@@ -170,40 +163,35 @@ class Predictor():
         else:
             pass
 
+
     def fit_predict(self, params, df):
 
 
-        '''
-        Fits the model. Then predicts on test dataset and outputs feature
-        importances and the submission file (.png and .csv format).
+        """Fits the model and predicts on the test set.
+
+        Also outputs feature importances and the submission file
+        (.png and .csv format).
 
         
         Parameters
         ----------
-        
         params : dict, default = None.
             Hyper-parameters dictionary for the whole pipeline.
-            If params = None, default configuration is evaluated.
-            
+
             - The keys must respect the following syntax : "enc__param".
-            
-            With :
-                1/ "enc" = "ne" for na encoder
-                2/ "enc" = "ce" for categorical encoder
-                3/ "enc" = "fs" for feature selector [OPTIONAL]
-                4/ "enc" = "stck"+str(i) to add layer n°i of meta-features
-                (assuming 1 ... i-1 layers are created...) [OPTIONAL]
-                5/ "enc" = "est" for the final estimator
-            
-            And:
-                "param" : a correct associated parameter for each step.
-                (for example : "max_depth" for "enc"="est",
-                               "entity_embedding" for "enc"="ce")
-            
+
+                - "enc" = "ne" for na encoder
+                - "enc" = "ce" for categorical encoder
+                - "enc" = "fs" for feature selector [OPTIONAL]
+                - "enc" = "stck"+str(i) to add layer n°i of meta-features
+                - "enc" = "est" for the final estimator
+
+                - "param" : a correct associated parameter for each step.
+                (ex: "max_depth" for "enc"="est", ...)
+
             - The values are those of the parameters
-                (for example : 4 for key = "est__max_depth")
-        
-        
+            (ex: 4 for key = "est__max_depth")
+
         df : dict, default = None
             Dataset dictionary. Must contain keys "train", "test"
             and "target" with the train dataset (pandas.DataFrame),
@@ -211,12 +199,11 @@ class Predictor():
             target (pandas Serie with dtype='float' for a regression or
             dtype='int' for a classification)
         
-        
         Returns
         -------
-        
-        None
-        '''
+        self : object
+            Returns self.
+        """
 
         if(self.to_path is None):
             raise ValueError("You must specify a path to save your model "

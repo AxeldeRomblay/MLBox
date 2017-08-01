@@ -12,20 +12,18 @@ from sklearn.preprocessing import Imputer
 
 class NA_encoder():
 
-    """
-    Encodes missing values for both numerical and categorical features.
-    Several strategies are possible in each case.
+    """Encodes missing values for both numerical and categorical features.
 
+    Several strategies are possible in each case.
 
     Parameters
     ----------
-
-    numerical_strategy : string or float or int, default = "mean"
+    numerical_strategy : str or float or int. default = "mean"
         The strategy to encode NA for numerical features.
         Available strategies = "mean", "median",
-                               "most_frequent" or a float/int value
+        "most_frequent" or a float/int value
 
-    categorical_strategy : string, default = '<NULL>'
+    categorical_strategy : str, default = '<NULL>'
         The strategy to encode NA for categorical features.
         Available strategies = a string or np.NaN
     """
@@ -41,10 +39,12 @@ class NA_encoder():
         self.__imp = None
         self.__fitOK = False
 
+
     def get_params(self, deep=True):
 
         return {'numerical_strategy': self.numerical_strategy,
                 'categorical_strategy': self.categorical_strategy}
+
 
     def set_params(self, **params):
 
@@ -59,28 +59,24 @@ class NA_encoder():
             else:
                 setattr(self, k, v)
 
+
     def fit(self, df_train, y_train=None):
 
-        '''
-
-        Fits NA Encoder.
+        """Fits NA Encoder.
 
         Parameters
         ----------
-
         df_train : pandas dataframe of shape = (n_train, n_features)
-        The train dataset with numerical and categorical features.
+            The train dataset with numerical and categorical features.
 
-        y_train : [OPTIONAL]. pandas series of shape = (n_train, ).
-            Default = None
+        y_train : pandas series of shape = (n_train, ), default = None
             The target for classification or regression tasks.
-
 
         Returns
         -------
-        None
-
-       '''
+        self : object
+            Returns self.
+       """
 
         self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index
         self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index
@@ -106,55 +102,44 @@ class NA_encoder():
 
         return self
 
+
     def fit_transform(self, df_train, y_train=None):
 
-        '''
-
-        Fits NA Encoder and transforms the dataset.
+        """Fits NA Encoder and transforms the dataset.
 
         Parameters
         ----------
-
         df_train : pandas.Dataframe of shape = (n_train, n_features)
             The train dataset with numerical and categorical features.
 
-        y_train : [OPTIONAL]. pandas.Series of shape = (n_train, ).
-            Default = None.
+        y_train : pandas.Series of shape = (n_train, ), default = None
             The target for classification or regression tasks.
-
 
         Returns
         -------
-
-        df_train : pandas.Dataframe of shape = (n_train, n_features)
+        pandas.Dataframe of shape = (n_train, n_features)
             The train dataset with no missing values.
-
-        '''
+        """
 
         self.fit(df_train, y_train)
 
         return self.transform(df_train)
 
+
     def transform(self, df):
 
-        '''
-
-        Transforms the dataset
+        """Transforms the dataset
 
         Parameters
         ----------
-
         df : pandas.Dataframe of shape = (n, n_features)
             The dataset with numerical and categorical features.
 
-
         Returns
         -------
-
-        df : pandas.Dataframe of shape = (n, n_features)
+        pandas.Dataframe of shape = (n, n_features)
             The dataset with no missing values.
-
-        '''
+        """
 
         if(self.__fitOK):
 

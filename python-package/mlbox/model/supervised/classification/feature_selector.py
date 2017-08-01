@@ -11,21 +11,20 @@ import warnings
 
 class Clf_feature_selector():
 
-    """
-    Selects useful features. Several strategies are possible (filter and
-    wrapper methods). Works for classification problems only (multiclass or
-    binary).
+    """Selects useful features.
+
+    Several strategies are possible (filter and wrapper methods).
+    Works for classification problems only (multiclass or binary).
 
     Parameters
     ----------
-
-    strategy : string, defaut = "l1"
+    strategy : str, defaut = "l1"
         The strategy to select features.
-        Available strategies = "variance", "l1" or "rf_feature_importance"
+        Available strategies = {"variance", "l1", "rf_feature_importance"}
 
-    threshold : float between 0. and 1., defaut = 0.3
-        The percentage of variable to discard according the strategy.
-
+    threshold : float, defaut = 0.3
+        The percentage of variable to discard according to the strategy.
+        Must be between 0. and 1.
     """
 
     def __init__(self, strategy='l1', threshold=0.3):
@@ -37,10 +36,12 @@ class Clf_feature_selector():
         self.__fitOK = False
         self.__to_discard = []
 
+
     def get_params(self, deep=True):
 
         return {'strategy': self.strategy,
                 'threshold': self.threshold}
+
 
     def set_params(self, **params):
 
@@ -55,15 +56,13 @@ class Clf_feature_selector():
             else:
                 setattr(self, k, v)
 
+
     def fit(self, df_train, y_train):
 
-        """
-
-        Fits Clf_feature_selector
+        """Fits Clf_feature_selector
 
         Parameters
         ----------
-
         df_train : pandas dataframe of shape = (n_train, n_features)
             The train dataset with numerical features and no NA
 
@@ -72,8 +71,8 @@ class Clf_feature_selector():
 
         Returns
         -------
-        None
-
+        self : object
+            Returns self.
         """
 
         # sanity checks
@@ -114,25 +113,20 @@ class Clf_feature_selector():
 
         return self
 
+
     def transform(self, df):
 
-        """
-
-        Transforms the dataset
+        """Transforms the dataset
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
             The dataset with numerical features and no NA
 
-
         Returns
         -------
-
-        df : pandas dataframe of shape = (n_train, n_features*(1-threshold))
+        pandas dataframe of shape = (n_train, n_features*(1-threshold))
             The train dataset with relevant features
-
         """
 
         if(self.__fitOK):
@@ -146,14 +140,13 @@ class Clf_feature_selector():
         else:
             raise ValueError("call fit or fit_transform function before")
 
+
     def fit_transform(self, df_train, y_train):
 
-        """
-        Fits Clf_feature_selector and transforms the dataset
+        """Fits Clf_feature_selector and transforms the dataset
     
         Parameters
         ----------
-    
         df_train : pandas dataframe of shape = (n_train, n_features)
             The train dataset with numerical features and no NA
 
@@ -162,11 +155,9 @@ class Clf_feature_selector():
     
         Returns
         -------
-    
-        df_train : pandas dataframe of shape = (n_train, n_features*(1-threshold))
+        pandas dataframe of shape = (n_train, n_features*(1-threshold))
             The train dataset with relevant features
-    
-        """   # noqa
+        """
 
         self.fit(df_train, y_train)
 

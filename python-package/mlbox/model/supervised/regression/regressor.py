@@ -27,21 +27,19 @@ except Exception:
 
 class Regressor():
 
-    """
-    Wraps scikitlearn regressors.
+    """Wraps scikitlearn regressors.
 
 
     Parameters
     ----------
-
-    strategy : string, defaut = "LightGBM" (if installed else "XGBoost")
+    strategy : str, default = "LightGBM" if installed else "XGBoost"
         The choice for the regressor.
         Available strategies = "LightGBM" (if installed), "XGBoost",
         "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
 
-    **params : parameters of the corresponding regressor.
+    **params : default = None
+        Parameters of the corresponding regressor.
         Examples : n_estimators, max_depth...
-
     """
 
     def __init__(self, **params):
@@ -63,6 +61,7 @@ class Regressor():
         self.set_params(**params)
         self.__fitOK = False
 
+
     def get_params(self, deep=True):
 
         params = {}
@@ -70,6 +69,7 @@ class Regressor():
         params.update(self.__regress_params)
 
         return params
+
 
     def set_params(self, **params):
 
@@ -101,6 +101,7 @@ class Regressor():
                 else:
                     setattr(self.__regressor, k, v)
                     self.__regress_params[k] = v
+
 
     def __set_regressor(self, strategy):
 
@@ -166,25 +167,23 @@ class Regressor():
                 "(if installed), 'XGBoost', 'RandomForest', 'ExtraTrees', "
                 "'Tree', 'Bagging', 'AdaBoost' or 'Linear'")
 
-    def fit(self, df_train, y_train):
-        """
 
-        Fits Regressor.
+    def fit(self, df_train, y_train):
+
+        """Fits Regressor.
 
         Parameters
         ----------
-
         df_train : pandas dataframe of shape = (n_train, n_features)
-        The train dataset with numerical features.
+            The train dataset with numerical features.
 
         y_train : pandas series of shape = (n_train, )
-        The target for regression tasks.
-
+            The target for regression tasks.
 
         Returns
         -------
-        self
-
+        self : object
+            Returns self.
         """
 
         # sanity checks
@@ -201,22 +200,18 @@ class Regressor():
 
         return self
 
+
     def feature_importances(self):
-        """
-        Computes feature importances. Regressor must be fitted before.
 
-        Parameters
-        ----------
+        """Computes feature importances.
 
-        None
+        Regressor must be fitted before.
 
         Returns
         -------
-
-        importance : dict
+        dict
             Dictionnary containing a measure of feature importance (value)
             for each feature (key).
-
         """
 
         if self.__fitOK:
@@ -293,24 +288,21 @@ class Regressor():
 
             raise ValueError("You must call the fit function before !")
 
-    def predict(self, df):
-        '''
 
-        Predicts the target.
+    def predict(self, df):
+
+        """Predicts the target.
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
-        The dataset with numerical features.
-
+            The dataset with numerical features.
 
         Returns
         -------
-        y : array of shape = (n, )
-        The target to be predicted.
-
-        '''
+        array of shape = (n, )
+            The target to be predicted.
+        """
 
         try:
             if not callable(getattr(self.__regressor, "predict")):
@@ -329,24 +321,21 @@ class Regressor():
         else:
             raise ValueError("You must call the fit function before !")
 
-    def transform(self, df):
-        '''
 
-        Transforms df.
+    def transform(self, df):
+
+        """Transforms df.
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
-        The dataset with numerical features.
-
+            The dataset with numerical features.
 
         Returns
         -------
-        df_transform : pandas dataframe of shape = (n, n_selected_features)
-        The transformed dataset with its most important features.
-
-        '''
+        pandas dataframe of shape = (n, n_selected_features)
+            The transformed dataset with its most important features.
+        """
 
         try:
             if not callable(getattr(self.__regressor, "transform")):
@@ -364,14 +353,13 @@ class Regressor():
         else:
             raise ValueError("You must call the fit function before !")
 
-    def score(self, df, y, sample_weight=None):
-        """
 
-        Returns the coefficient of determination R^2 of the prediction.
+    def score(self, df, y, sample_weight=None):
+
+        """Returns the coefficient of determination R^2 of the prediction.
 
         Parameters
         ----------
-
         df : pandas dataframe of shape = (n, n_features)
             The dataset with numerical features.
 
@@ -380,9 +368,8 @@ class Regressor():
 
         Returns
         -------
-        score : float
-        R^2 of self.predict(df) wrt. y.
-
+        float
+            R^2 of self.predict(df) wrt. y.
         """
 
         try:

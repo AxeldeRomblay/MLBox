@@ -16,7 +16,6 @@ def cross_val_predict_proba(estimator, X, y, cv):
 
     Parameters
     ----------
-
     estimator : estimator object implementing 'fit'
         The object to use to fit the data.
 
@@ -29,10 +28,9 @@ def cross_val_predict_proba(estimator, X, y, cv):
 
     cv : cross-validation generator
 
-
     Returns
     -------
-    y_pred : array-like of shape = [n_samples,]
+    array-like of shape = (n_samples,)
         The predicted class probabilities for X.        
 
     """
@@ -52,13 +50,11 @@ def cross_val_predict_proba(estimator, X, y, cv):
 
 class DriftEstimator():
     
-    """
-    Estimates the drift between two datasets    
+    """Estimates the drift between two datasets
     
         
     Parameters
     ----------
-    
     estimator : classifier, defaut = RandomForestClassifier(n_estimators = 50, n_jobs=-1, max_features=1., min_samples_leaf = 5, max_depth = 5)
         The estimator that estimates the drift between two datasets
         
@@ -69,12 +65,10 @@ class DriftEstimator():
         Whether the cv is stratified (same number of train and test samples within each fold)
 
     random_state : int, defaut = 1
-        Random state for cv 
-
+        Random state for cv
     """
     
     def __init__(self, estimator = RandomForestClassifier(n_estimators = 50, n_jobs=-1, max_features=1., min_samples_leaf = 5, max_depth = 5), n_folds = 2, stratify = True, random_state = 1):
-
 
         self.estimator = estimator
         self.n_folds = n_folds
@@ -112,16 +106,16 @@ class DriftEstimator():
 
         Parameters
         ----------
-
         df_train : pandas dataframe of shape = (n_train, p)
+            The train set
 
         df_test : pandas dataframe of shape = (n_test, p)
-
+            The test set
 
         Returns
         -------
-        None.        
-
+        self : object
+            Returns self.
         """
         
         df_train["target"] = 0
@@ -135,28 +129,28 @@ class DriftEstimator():
             self.__cv = KFold(n_splits = self.n_folds, shuffle = True, random_state = self.random_state)
 
             
-        self.__pred = cross_val_predict_proba(estimator = self.estimator, X = pd.concat((df_train, df_test),ignore_index=True).drop(['target'], axis = 1), y = self.__cible, cv = self.__cv)
+        self.__pred = cross_val_predict_proba(estimator = self.estimator,
+                                              X = pd.concat((df_train, df_test),ignore_index=True).drop(['target'], axis = 1),
+                                              y = self.__cible,
+                                              cv = self.__cv)
 
-        
         del df_train["target"]
         del df_test["target"]
         self.__fitOK = True
+
+        return self
         
         
     def score(self):
         
-        """Returns the drift measure. 0.50 = No drift. 1.00 = Maximal Drift
+        """Returns the global drift measure between two datasets.
 
-        Parameters
-        ----------
-
-        None
-        
+         0.50 = No drift. 1.00 = Maximal Drift
 
         Returns
         -------
-        float        
-
+        float
+            The drift measure
         """
         
         S = []
@@ -177,16 +171,10 @@ class DriftEstimator():
         
         """Returns the probabilities that the sample belongs to the test dataset 
 
-        Parameters
-        ----------
-
-        None
-        
-
         Returns
         -------
-        Array of shape = (n_train+n_test,)        
-
+        Array of shape = (n_train+n_test,)
+            The probabilities
         """
 
         

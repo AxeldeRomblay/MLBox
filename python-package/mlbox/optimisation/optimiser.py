@@ -25,34 +25,29 @@ from ..model.supervised.regression.regressor import Regressor
 
 class Optimiser():
 
-    """
-    Optimises hyper-parameters of the whole Pipeline :
+    """Optimises hyper-parameters of the whole Pipeline.
 
-    1/ NA encoder (missing values encoder)
-    2/ CA encoder (categorical features encoder)
-    3/ Feature selector [OPTIONAL]
-    4/ Stacking estimator - feature engineer [OPTIONAL]
-    5/ Estimator (classifier or regressor)
+    - NA encoder (missing values encoder)
+    - CA encoder (categorical features encoder)
+    - Feature selector (OPTIONAL)
+    - Stacking estimator - feature engineer (OPTIONAL)
+    - Estimator (classifier or regressor)
 
     Works for both regression and classification (multiclass or binary) tasks.
 
-
     Parameters
     ----------
-
-    scoring : string, callable or None, optional, default: None
-        A string (see model evaluation documentation) or a scorer callable
-        object / function with signature``scorer(estimator, X, y)``.
+    scoring : str, callable or None. default: None
+        A string or a scorer callable object.
 
         If None, "log_loss" is used for classification and
         "mean_squared_error" for regression
-        Available scorings for classification : "accuracy","roc_auc", "f1",
-                                                "log_loss", "precision",
-                                                "recall"
-        Available scorings for regression : "mean_absolute_error",
-                                            "mean_squared_error",
-                                            "median_absolute_error",
-                                            "r2"
+
+        Available scorings for classification : {"accuracy","roc_auc", "f1",
+        "log_loss", "precision", "recall"}
+
+        Available scorings for regression : {"mean_absolute_error",
+        "mean_squared_error","median_absolute_error","r2"}
 
     n_folds : int, default = 2
         The number of folds for cross validation (stratified for classification)
@@ -65,7 +60,6 @@ class Optimiser():
 
     verbose : bool, default = True
         Verbose mode
-
     """
 
     def __init__(self, scoring=None,
@@ -103,9 +97,11 @@ class Optimiser():
             else:
                 setattr(self, k, v)
 
+
     def evaluate(self, params, df):
 
-        '''
+        """Evaluate the data.
+
 
         Evaluates the scoring function with given hyper-parameters of the whole
         pipeline. If no parameters are set, default configuration for each step
@@ -115,46 +111,35 @@ class Optimiser():
 
         Parameters
         ----------
-
         params : dict, default = None.
             Hyper-parameters dictionary for the whole pipeline.
-            If params = None, default configuration is evaluated.
 
             - The keys must respect the following syntax : "enc__param".
 
-            With :
-                1/ "enc" = "ne" for na encoder
-                2/ "enc" = "ce" for categorical encoder
-                3/ "enc" = "fs" for feature selector [OPTIONAL]
-                4/ "enc" = "stck"+str(i) to add layer n°i of meta-features
-                    (assuming 1 ... i-1 layers are created...) [OPTIONAL]
-                5/ "enc" = "est" for the final estimator
+                - "enc" = "ne" for na encoder
+                - "enc" = "ce" for categorical encoder
+                - "enc" = "fs" for feature selector [OPTIONAL]
+                - "enc" = "stck"+str(i) to add layer n°i of meta-features
+                - "enc" = "est" for the final estimator
 
-            And:
-                "param" : a correct associated parameter for each step.
-                (for example : "max_depth" for "enc"="est",
-                               "entity_embedding" for "enc"="ce")
+                - "param" : a correct associated parameter for each step.
+                (ex: "max_depth" for "enc"="est", ...)
 
             - The values are those of the parameters
-            (for example : 4 for key = "est__max_depth")
-
+            (ex: 4 for key = "est__max_depth")
 
         df : dict, default = None
             Train dictionary. Must contain keys "train" and "target" with
             the train dataset (pandas.DataFrame) and the associated
-            target (pandas.Series) with
-            dtype='float' for a regression or dtype='int' for a classification)
-
+            target (pandas.Series) with dtype='float' for a regression
+            or dtype='int' for a classification)
 
         Returns
         -------
-
-        score : float.
+        float.
             The score. The higher the better
             Positive for a score and negative for a loss.
-
-
-        '''
+        """
 
         ne = NA_encoder()
         ce = Categorical_encoder()
@@ -452,70 +437,55 @@ class Optimiser():
 
         return score
 
+
     def optimise(self, space, df, max_evals=40):
 
-        '''
+        """Optimises the Pipeline.
 
         Optimises hyper-parameters of the whole Pipeline with a given scoring
-        function. By default, estimator used is 'xgboost' and
-        no feature selection is applied.
-        Algorithm used to optimize : Tree Parzen Estimator
-        (http://neupy.com/2016/12/17/hyperparameter_optimization_for_neural_networks.html)
+        function. Algorithm used to optimize : Tree Parzen Estimator
         IMPORTANT : Try to avoid dependent parameters and to set one feature
         selection strategy and one estimator strategy at a time.
 
         Parameters
         ----------
-
         space : dict, default = None.
             Hyper-parameters space.
 
             - The keys must respect the following syntax : "enc__param".
 
-            With :
-                1/ "enc" = "ne" for na encoder
-                2/ "enc" = "ce" for categorical encoder
-                3/ "enc" = "fs" for feature selector [OPTIONAL]
-                4/ "enc" = "stck"+str(i) to add layer n°i of meta-features
-                (assuming 1 ... i-1 layers are created...) [OPTIONAL]
-                5/ "enc" = "est" for the final estimator
+                - "enc" = "ne" for na encoder
+                - "enc" = "ce" for categorical encoder
+                - "enc" = "fs" for feature selector [OPTIONAL]
+                - "enc" = "stck"+str(i) to add layer n°i of meta-features
+                - "enc" = "est" for the final estimator
 
-            And:
-                "param" : a correct associated parameter for each step.
-                (for example : "max_depth" for "enc"="est",
-                               "entity_embedding" for "enc"="ce")
+                - "param" : a correct associated parameter for each step.
+                (ex: "max_depth" for "enc"="est", ...)
 
             - The values must respect the following syntax :
-                {"search" : strategy, "space" : list}
+            {"search" : strategy, "space" : list}
 
-            With:
-                "strategy" = "choice" or "uniform". Default = "choice"
 
-            And:
-               list : a list of values to be tested if strategy="choice".
-               If strategy = "uniform", list = [value_min, value_max].
-
+                - "strategy" = "choice" or "uniform". Default = "choice"
+                - list : a list of values to be tested if strategy="choice".
+                If strategy = "uniform", list = [value_min, value_max].
 
         df : dict, default = None
             Train dictionary. Must contain keys "train" and "target" with the
             train dataset (pandas.DataFrame) and the associated
-            target (pandas.Series) with
-            dtype='float' for a regression or dtype='int' for a classification)
-
+            target (pandas.Series) with dtype='float' for a regression
+            or dtype='int' for a classification)
 
         max_evals : int, default = 40.
             Number of iterations.
             For an accurate optimal hyper-parameter, max_evals = 40.
 
-
         Returns
         -------
-
-        best_params : dict.
+        dict.
             The optimal hyper-parameter dictionary.
-
-
-        '''
+        """
 
         hyperopt_objective = lambda params: -self.evaluate(params, df)
 

@@ -74,18 +74,18 @@ class RDECV():
 
     def __init__(self, estimator = None, scoring = None, delta_score = 0.1, cv = None, drifts = None, max_features = 1., verboseMode = True):
 
-        '''
+        '''Recursive Drift Elimination
+
         Recursive Drift Elimination algorithm that performs a robust feature selection using a cross-validation.
         Variables kept are those that optimize the mean of the scoring function across the folds and that are stables (low drift)
 
 
         Parameters
         ----------
-
         estimator : estimator, defaut = None
             The estimator which will be deteriorated in order to reduce the drift between train and test datasets (classifier or regressor !)
 
-        scoring : a scikit-learn metric function, defaut = None
+        scoring : sklearn metric function, defaut = None
 
         delta_score : float, defaut = 0.1
             The allowed decrease of the quality of the estimator. Must be between 0. and 1.
@@ -94,7 +94,8 @@ class RDECV():
             If none two folds are used
 
         drifts : dict, defaut = None
-            The dictionnary of the drifts coefs for each variables (if None, the univariate drifts are estimated with default parameters of the class DriftEstimator)
+            The dictionnary of the drifts coefs for each variables.
+            If None, the univariate drifts are estimated with default parameters of the class DriftEstimator
 
         max_features : int or float, defaut = 1.
             The proportion / or the number of features to process
@@ -150,24 +151,23 @@ class RDECV():
 
     def fit(self, df_train, df_test, y_train):
 
-        '''
-        Launch RDECV algorithm.
-
+        '''Fits RDECV algorithm.
 
         Parameters
         ----------
-
         df_train : pandas dataframe of shape = (n_train, p)
+            Train set
 
         df_test : pandas dataframe of shape = (n_test, p)
+            Test set
 
         y_train : target
-
+            Target for train set
 
         Returns
         -------
-        None
-
+        self : object
+            Returns self.
         '''
 
         if(self.estimator == None):
@@ -269,22 +269,22 @@ class RDECV():
         self.__keepList = self.__keepList + col_drifts[idEndLoop:]
         self.__fitOK = True
 
+        return self
+
 
     def transform(self, df):
 
-        """
-        Select the features with low drift and high predictive information.
+        """Select the features with low drift and high predictive information.
 
         Parameters
         ----------
-
         df : pandas dataframe
-
+            A DataFrame with the same features
 
         Returns
         -------
-        a sub-dataframe
-
+        pandas DataFrame
+            The transformed dataset
         """
 
         if self.__fitOK:
@@ -298,9 +298,21 @@ class RDECV():
 
     def get_loss(self,absolute = False):
 
-        '''
-        Final score obtained at the end of the RDECV algorithm (the decrease of the initial score is limited by the parameter \'delta_score\')
-        '''
+        """Final score obtained at the end of the RDECV algorithm
+
+        The decrease of the initial score is limited by the parameter \'delta_score\'
+
+        Parameters
+        ----------
+        absolute : bool, default = False
+            If False, the relative decrease is returned
+
+        Returns
+        -------
+        float
+            The final score
+        """
+
 
         if self.__fitOK:
 
@@ -316,11 +328,21 @@ class RDECV():
             raise ValueError('Call the fit function before !')
 
 
-    def get_support(self,complement = False):
+    def get_support(self, complement = False):
 
-        '''
-        Returns the variables kept or dropped.
-        '''
+        """Returns the variables kept or dropped.
+
+        Parameters
+        ----------
+        complement : bool, default = True
+            If True, returns the features to drop
+            If False, returns the features to keep
+
+        Returns
+        -------
+        list
+            The list of features to keep or to drop.
+        """
 
         if self.__fitOK:
 
@@ -334,10 +356,22 @@ class RDECV():
              raise ValueError('Call the fit function before !')
 
 
-    def residual_drifts(self,complement = False):
+    def residual_drifts(self, complement = False):
 
         '''
         Returns the univariate drifts for the variables kept or dropped.
+
+        Parameters
+        ----------
+        complement : bool, default = False
+            If True, returns the drifts for the features to drop
+            If False, returns the drifts for the features to keep
+
+        Returns
+        -------
+        dict
+            The dictionnary of drifts for the kept or dropped features.
+
         '''
 
         if self.__fitOK:

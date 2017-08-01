@@ -13,18 +13,19 @@ from sklearn.tree import DecisionTreeClassifier
 def sync_fit(df_train, df_test, estimator, n_folds, stratify, random_state):
 
 
-    """
-    Computes the univariate drifts between df_train and df_test datasets. Multi-threaded version.
+    """Computes the univariate drifts between df_train and df_test datasets.
 
+    Multi-threaded version.
 
     Parameters
     ----------
-
     df_train : pandas dataframe of shape = (n_train, p)
+        The train set
 
     df_test : pandas dataframe of shape = (n_test, p)
+        The test set
 
-    estimator : classifier, defaut = DecisionTreeClassifier(max_depth=6)
+    estimator : classifier, defaut = RandomForestClassifier(n_estimators = 50, n_jobs=-1, max_features=1., min_samples_leaf = 5, max_depth = 5)
         The estimator that estimates the drift between two datasets
 
     n_folds : int, defaut = 2
@@ -38,8 +39,8 @@ def sync_fit(df_train, df_test, estimator, n_folds, stratify, random_state):
 
     Returns
     -------
-    drift measure (float)
-
+    float
+        drift measure
     """
 
     from .drift_estimator import DriftEstimator
@@ -51,18 +52,17 @@ def sync_fit(df_train, df_test, estimator, n_folds, stratify, random_state):
 
 class DriftThreshold():
 
-    """
-    Estimates the univariate drift between two datasets and select features with low drifts
-
+    """Estimates the univariate drift between two datasets and select features with low drifts
 
     Parameters
     ----------
-
-    threshold : float between 0.5 and 1, defaut = 0.6
+    threshold : float, defaut = 0.6
         The drift threshold (univariate drift below are kept)
+        Must be between 0.5 and 1.
 
-    subsample : float between 0. and 1. , defaut = 1.
+    subsample : float, defaut = 1.
         Subsampling parameter for the datasets.
+        Must be between 0. and 1.
 
     estimator : classifier, defaut = DecisionTreeClassifier(max_depth=6)
         The estimator that estimates the drift between two datasets
@@ -78,7 +78,6 @@ class DriftThreshold():
 
     n_jobs : int, defaut = -1
         Number of cores used for processing (-1 -> all cores, else -> 1 core)
-
     """
 
     def __init__(self, threshold = 0.6, subsample = 1., estimator = DecisionTreeClassifier(max_depth=6), n_folds = 2, stratify = True, random_state = 1, n_jobs=-1):
@@ -136,23 +135,22 @@ class DriftThreshold():
 
     def fit(self, df_train, df_test):
 
-        '''
-        Computes the univariate drifts between df_train and df_test datasets.
+        """Computes the univariate drifts between df_train and df_test datasets.
 
 
         Parameters
         ----------
-
         df_train : pandas dataframe of shape = (n_train, p)
+            The train set
 
         df_test : pandas dataframe of shape = (n_test, p)
-
+            The test set
 
         Returns
         -------
         None
 
-        '''
+        """
 
 
         self.__Ddrifts = dict()
@@ -189,19 +187,17 @@ class DriftThreshold():
         
     def transform(self, df):
                 
-        """
-        Select the features with low drift 
+        """Select the features with low drift
         
         Parameters
         ----------
-        
         df : pandas dataframe 
-        
+            A dataset with the same features
 
         Returns
         -------
-        a sub-dataframe  
-        
+        pandas DataFrame
+            The transformed dataframe
         """
         
         if self.__fitOK:
@@ -222,9 +218,19 @@ class DriftThreshold():
     
     def get_support(self, complement = False):
               
-        '''
-        Returns the variables kept or dropped.
-        '''   
+        """Returns the variables kept or dropped.
+
+        Parameters
+        ----------
+        complement : bool, default = True
+            If True, returns the features to drop
+            If False, returns the features to keep
+
+        Returns
+        -------
+        list
+            The list of features to keep or to drop.
+        """
         
         if self.__fitOK:
         
@@ -249,9 +255,13 @@ class DriftThreshold():
         
     def drifts(self):
                         
-        '''
-        Returns the univariate drifts for all variables.
-        '''
+        """Returns the univariate drifts for all variables.
+
+        Returns
+        -------
+        dict
+            The dictionnary of drift measures for each features
+        """
         
         if self.__fitOK:
         
