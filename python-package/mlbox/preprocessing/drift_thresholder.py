@@ -158,6 +158,8 @@ class Drift_thresholder():
                                      reverse=True):
                     file.write(str(var) + " = " + str(d) + '\n')
 
+                file.close()
+
                 if (self.verbose):
                     print("drift coefficients dumped")
 
