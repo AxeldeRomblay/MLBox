@@ -9,7 +9,7 @@ Tests for `mlbox` module.
 """
 
 import pytest
-
+import mlbox
 
 
 @pytest.fixture
