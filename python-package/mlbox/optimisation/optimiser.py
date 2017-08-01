@@ -121,8 +121,7 @@ class Optimiser():
                 - "enc" = "stck"+str(i) to add layer n°i of meta-features [OPTIONAL]
                 - "enc" = "est" for the final estimator
 
-                - "param" : a correct associated parameter for each step. Ex: "max_depth"
-                for "enc"="est", ...
+                - "param" : a correct associated parameter for each step. Ex: "max_depth" for "enc"="est", ...
 
             - The values are those of the parameters. Ex: 4 for key = "est__max_depth", ...
 
@@ -461,7 +460,7 @@ class Optimiser():
 
                 - "param" : a correct associated parameter for each step. Ex: "max_depth" for "enc"="est", ...
 
-            - The values must respect the following syntax : {"search":strategy, "space":list}
+            - The values must respect the syntax: {"search":strategy,"space":list}
 
                 - "strategy" = "choice" or "uniform". Default = "choice"
                 - list : a list of values to be tested if strategy="choice". Else, list = [value_min, value_max].

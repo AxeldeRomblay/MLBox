@@ -71,8 +71,8 @@ class Drift_thresholder():
             Dictionnary containing :
 
             - 'train' : transformed pandas dataframe for train dataset
-            - 'test' : transformedpandas dataframe for test dataset
-            - 'target' : transformed pandas serie for the target
+            - 'test' : transformed pandas dataframe for test dataset
+            - 'target' : pandas serie for the target
         """
 
         ######################################################
