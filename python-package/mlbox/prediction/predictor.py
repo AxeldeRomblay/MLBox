@@ -171,7 +171,6 @@ class Predictor():
 
         Also outputs feature importances and the submission file
         (.png and .csv format).
-
         
         Parameters
         ----------
@@ -191,12 +190,13 @@ class Predictor():
             - The values are those of the parameters. Ex: 4 for key = "est__max_depth", ...
 
         df : dict, default = None
-            Dataset dictionary. Must contain keys "train", "test"
-            and "target" with the train dataset (pandas.DataFrame),
-            the test dataset (pandas.DataFrame) and the associated
-            target (pandas Serie with dtype='float' for a regression or
-            dtype='int' for a classification)
-        
+            Dataset dictionary. Must contain keys and values:
+
+            - "train": pandas DataFrame for the train set.
+            - "test" : pandas DataFrame for the test set.
+            - "target" : encoded pandas Serie for the target on train set (with dtype='float' for a regression or
+            dtype='int' for a classification). Indexes should match the train set.
+
         Returns
         -------
         object
@@ -410,15 +410,17 @@ class Predictor():
 
                 if (df['target'].dtype == 'int'):
 
+                    enc_name = "target_encoder.obj"
+
                     try:
 
-                        fhand = open(self.to_path + "/target_encoder.obj", 'rb')
+                        fhand = open(self.to_path + "/" + enc_name, 'rb')
                         enc = pickle.load(fhand)
                         fhand.close()
 
                     except:
-                        raise ValueError("Unable to load target encoder"
-                                         " from directory : " + self.to_path)
+                        raise ValueError("Unable to load '" + enc_name +
+                                         "' from directory : " + self.to_path)
 
                     try:
                         if(self.verbose):
