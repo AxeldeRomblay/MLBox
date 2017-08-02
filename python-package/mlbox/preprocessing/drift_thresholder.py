@@ -20,9 +20,10 @@ class Drift_thresholder():
 
     Parameters
     ----------
-    threshold : float, defaut = 0.9
-        Threshold used to deletes variables and ids. Must be between 0.5 and 1.
-        The lower the more you keep non-drifting/stable variables.
+    threshold : float, defaut = 0.6
+        Drift threshold under which features are kept. Must be between 0. and 1.
+        The lower the more you keep non-drifting/stable variables: a feature with
+        a drift measure of 0. is very stable and a one with 1. is highly unstable.
 
     inplace : bool, default = False
         If True, train and test datasets are transformed. Returns self.
@@ -37,7 +38,7 @@ class Drift_thresholder():
     """
 
     def __init__(self,
-                 threshold=0.8,
+                 threshold=0.6,
                  inplace=False,
                  verbose=True,
                  to_path="save"):

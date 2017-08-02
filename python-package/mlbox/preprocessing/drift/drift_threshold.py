@@ -59,7 +59,7 @@ class DriftThreshold():
     ----------
     threshold : float, defaut = 0.6
         The drift threshold (univariate drift below are kept)
-        Must be between 0.5 and 1.
+        Must be between 0. and 1.
 
     subsample : float, defaut = 1.
         Subsampling parameter for the datasets.

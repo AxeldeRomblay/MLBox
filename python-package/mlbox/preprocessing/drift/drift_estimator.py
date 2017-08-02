@@ -157,7 +157,7 @@ class DriftEstimator():
         
         """Returns the global drift measure between two datasets.
 
-         0.50 = No drift. 1.00 = Maximal Drift
+         0. = No drift. 1. = Maximal Drift
 
         Returns
         -------
@@ -177,8 +177,7 @@ class DriftEstimator():
                 S.append(roc_auc_score(self.__cible.iloc[test_index],
                                        self.__pred[test_index]))
 
-            # TODO: return the mean of mirrored AUC metrics
-            return max(np.mean(S), 1-np.mean(S))
+            return (max(np.mean(S), 1-np.mean(S))-0.5) * 2
 
         else:
             raise ValueError('Call the fit function before !')
