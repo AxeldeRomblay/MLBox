@@ -326,7 +326,7 @@ class Reader():
 
             - 'train' : pandas dataframe for train dataset
             - 'test' : pandas dataframe for test dataset
-            - 'target' : pandas serie for the target
+            - 'target' : encoded pandas Serie for the target on train set (with dtype='float' for a regression or dtype='int' for a classification)
 
         """
 

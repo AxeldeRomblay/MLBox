@@ -65,7 +65,7 @@ class Drift_thresholder():
 
             - 'train' : pandas dataframe for train dataset
             - 'test' : pandas dataframe for test dataset
-            - 'target' : pandas serie for the target
+            - 'target' : pandas serie for the target on train set
 
         Returns
         -------

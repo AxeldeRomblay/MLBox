@@ -194,8 +194,7 @@ class Predictor():
 
             - "train": pandas DataFrame for the train set.
             - "test" : pandas DataFrame for the test set.
-            - "target" : encoded pandas Serie for the target on train set (with dtype='float' for a regression or
-            dtype='int' for a classification). Indexes should match the train set.
+            - "target" : encoded pandas Serie for the target on train set (with dtype='float' for a regression or dtype='int' for a classification). Indexes should match the train set.
 
         Returns
         -------
