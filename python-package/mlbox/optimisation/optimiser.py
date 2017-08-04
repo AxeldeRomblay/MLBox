@@ -126,16 +126,34 @@ class Optimiser():
             - The values are those of the parameters. Ex: 4 for key = "est__max_depth", ...
 
         df : dict, default = None
-            Train dictionary. Must contain keys "train" and "target" with
-            the train dataset (pandas.DataFrame) and the associated
-            target (pandas.Series) with dtype='float' for a regression
-            or dtype='int' for a classification)
+            Dataset dictionary. Must contain keys and values:
+
+            - "train": pandas DataFrame for the train set.
+            - "target" : encoded pandas Serie for the target on train set (with dtype='float' for a regression or dtype='int' for a classification). Indexes should match the train set.
 
         Returns
         -------
         float.
             The score. The higher the better.
             Positive for a score and negative for a loss.
+
+        Examples
+        --------
+        >>> from mlbox.optimisation import *
+        >>> from sklearn.datasets import load_boston
+        >>> #load data
+        >>> dataset = load_boston()
+        >>> #evaluating the pipeline
+        >>> opt = Optimiser()
+        >>> params = {
+        ...     "ne__numerical_strategy" : 0,
+        ...     "ce__strategy" : "label_encoding",
+        ...     "fs__threshold" : 0.1,
+        ...     "stck__base_estimators" : [Regressor(strategy="RandomForest"), Regressor(strategy="ExtraTrees")],
+        ...     "est__strategy" : "Linear"
+        ... }
+        >>> df = {"train" : pd.DataFrame(dataset.data), "target" : pd.Series(dataset.target)}
+        >>> opt.evaluate(params, df)
         """
 
         ne = NA_encoder()
@@ -466,10 +484,10 @@ class Optimiser():
                 - list : a list of values to be tested if strategy="choice". Else, list = [value_min, value_max].
 
         df : dict, default = None
-            Train dictionary. Must contain keys "train" and "target" with the
-            train dataset (pandas.DataFrame) and the associated
-            target (pandas.Series) with dtype='float' for a regression
-            or dtype='int' for a classification)
+            Dataset dictionary. Must contain keys and values:
+
+            - "train": pandas DataFrame for the train set.
+            - "target" : encoded pandas Serie for the target on train set (with dtype='float' for a regression or dtype='int' for a classification). Indexes should match the train set.
 
         max_evals : int, default = 40.
             Number of iterations.
@@ -479,6 +497,21 @@ class Optimiser():
         -------
         dict.
             The optimal hyper-parameter dictionary.
+
+        Examples
+        --------
+        >>> from mlbox.optimisation import *
+        >>> from sklearn.datasets import load_boston
+        >>> #loading data
+        >>> dataset = load_boston()
+        >>> #optimising the pipeline
+        >>> opt = Optimiser()
+        >>> space = {
+        ...     'fs__strategy':{"search":"choice","space":["variance","rf_feature_importance"]},
+        ...     'est__colsample_bytree':{"search":"uniform", "space":[0.3,0.7]}
+        ... }
+        >>> df = {"train" : pd.DataFrame(dataset.data), "target" : pd.Series(dataset.target)}
+        >>> best = opt.optimise(space, df, 3)
         """
 
         hyperopt_objective = lambda params: -self.evaluate(params, df)
