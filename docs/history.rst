@@ -55,3 +55,9 @@ History
 ------------------
 * improvement in verbose mode for predictor (display feature importances)
 * wait until modules and engines are imported
+
+0.4.4 (2017-08-04)
+------------------
+* pep8 style
+* normalization of drift coefficients
+* warning size of folder 'save' 
