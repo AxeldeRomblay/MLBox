@@ -17,11 +17,23 @@ It provides the following features:
 
 -------------------
 
-**> Experiments on Kaggle** : `Two Sigma Connect: Rental Listing Inquiries <https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard>`__ (rank : **85/2488**)
+Links
+~~~~~
 
-**> Articles from users** : `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__ & `MLBox : a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
+* **Performance experiments:** 
+   * `Kaggle competition "Two Sigma Connect: Rental Listing Inquiries" <https://www.kaggle.com/c/two-sigma-connect-rental-listing-inquiries/leaderboard>`__ (rank: **85/2488**)
+   * `Kaggle competition "Sberbank Russian Housing Market" <https://www.kaggle.com/c/sberbank-russian-housing-market/leaderboard>`__ (rank: **190/3274**)
+   
+* **Examples & demos:**
+   * `Kaggle kernel on "Titanic" dataset <https://www.kaggle.com/axelderomblay/running-mlbox-auto-ml-package-on-titanic>`__ (classification)
+   * `Kaggle kernel on "House Prices" dataset <https://www.kaggle.com/axelderomblay/running-mlbox-auto-ml-package-on-house-prices>`__ (regression)
 
-**> Webinar** : `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
+* **Articles from users:** 
+   * `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__ 
+   * `MLBox : a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
+
+* **Webinar:** 
+  `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
 
 
 
