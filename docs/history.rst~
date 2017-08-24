@@ -66,5 +66,5 @@ History
 ------------------
 * improvement in verbose mode
 * add of new dates features 
-* add of a new strategy for missing categorical values
 * new parallel computing
+* warning size of folder 'save' 

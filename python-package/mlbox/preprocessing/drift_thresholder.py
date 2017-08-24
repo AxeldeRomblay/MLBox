@@ -105,7 +105,7 @@ class Drift_thresholder():
 
             if (self.verbose):
                 print("")
-                print("computing drifts...")
+                print("computing drifts ...")
 
             ds.fit(pp.transform(df['train']), pp.transform(df['test']))
 
@@ -120,14 +120,14 @@ class Drift_thresholder():
                                 reverse=True)[:10]
 
             if (self.verbose):
-                print("Top 10 drifts")
+                print("> Top 10 drifts")
                 print("")
                 for d in range(len(drifts_top)):
                     print(drifts_top[d])
 
             if (self.verbose):
                 print("")
-                print("deleted "
+                print("> Deleted "
                       "variables : " + str(ds.get_support(complement=True)))
 
             ######################################################
@@ -141,17 +141,12 @@ class Drift_thresholder():
                 except OSError:
                     pass
 
-                if (self.verbose):
-                    print("")
-                    print("dumping drift coefficients into "
-                          "directory : " + self.to_path)
-
                 file = open(self.to_path + '/drifts.txt', "w")
                 file.write("\n")
                 file.write(
-                    "*****************************************************"
-                    "  DRIFTS Coefficients "
-                    "*****************************************************\n")
+                    "*******************************************"
+                    "  Drifts coefficients "
+                    "*******************************************\n")
                 file.write("\n")
 
                 for var, d in sorted(ds.drifts().items(),
@@ -162,7 +157,7 @@ class Drift_thresholder():
                 file.close()
 
                 if (self.verbose):
-                    print("drift coefficients dumped")
+                    print("> Drift coefficients dumped into directory : " + self.to_path)
 
             # Returning datasets with no IDs
 

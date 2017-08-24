@@ -3,8 +3,7 @@
 #          Alexis BONDU <alexis.bondu@gmail.com>
 # License: BSD 3 clause
 
-import os
-import ipyparallel as ipp
+from joblib import Parallel, delayed
 import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 
@@ -79,7 +78,7 @@ class DriftThreshold():
         Seed for for cv and subsampling.
 
     n_jobs : int, defaut = -1
-        Number of cores used for processing (-1 -> all cores, else -> 1 core)
+        Number of cores used for processing (-1 for all cores)
     """
 
     def __init__(self,
@@ -100,16 +99,6 @@ class DriftThreshold():
         self.n_jobs = n_jobs
         self.__Ddrifts = dict()
         self.__fitOK = False
-
-        if (self.n_jobs == -1):
-
-            self.__client = ipp.Client(profile='home')
-            self.__dview = self.__client.direct_view()
-
-    def shutdown_engines(self):
-
-        self.__client.shutdown(hub=True)
-        os.system('ipcluster stop --profile=default')
 
     def get_params(self):
 
@@ -169,47 +158,27 @@ class DriftThreshold():
             df_train = df_train.iloc[np.random.permutation(train_range)]
             df_test = df_test.iloc[np.random.permutation(test_range)]
 
-        if (self.n_jobs == -1):
-
-            with self.__dview.sync_imports(quiet=True):
-
-                train_cols = [df_train[[col]] for col in df_train.columns]
-                test_cols = [df_test[[col]] for col in df_train.columns]
-                estimators = [self.estimator for _ in df_train.columns]
-                folds = [self.n_folds for _ in df_train.columns]
-                strats = [self.stratify for _ in df_train.columns]
-                random_states = [self.random_state for _ in df_train.columns]
-
-                Ldrifts = self.__dview.map_sync(sync_fit,
-                                                train_cols,
-                                                test_cols,
-                                                estimators,
-                                                folds,
-                                                strats,
-                                                random_states)
-
-            for i, col in enumerate(df_train.columns):
-
-                self.__Ddrifts[col] = Ldrifts[i]
-
-            del Ldrifts
-
         else:
-            print("You are using 1 job...")
+            pass
 
-            de = DriftEstimator(estimator=DecisionTreeClassifier(max_depth=6),
-                                n_folds=self.n_folds,
-                                stratify=self.stratify,
-                                random_state=self.random_state)
+        Ldrifts = Parallel(n_jobs=self.n_jobs)(delayed(sync_fit)(df_train[[col]],
+                                                                 df_test[[col]],
+                                                                 self.estimator,
+                                                                 self.n_folds,
+                                                                 self.stratify,
+                                                                 self.random_state)
+                                               for col in df_train.columns)
 
-            for col in df_train.columns:
+        for i, col in enumerate(df_train.columns):
 
-                de.fit(df_train[[col]], df_test[[col]])
-                self.__Ddrifts[col] = de.score()
+            self.__Ddrifts[col] = Ldrifts[i]
+
+        del Ldrifts
 
         self.__fitOK = True
 
     def transform(self, df):
+
         """Select the features with low drift
         
         Parameters

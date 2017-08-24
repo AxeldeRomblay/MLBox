@@ -9,9 +9,7 @@ import time
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
-
-os.system("ipcluster start --profile=home &")
-import ipyparallel as ipp  # noqa
+from joblib import Parallel, delayed
 
 
 def convert_list(serie):
@@ -51,20 +49,16 @@ def convert_list(serie):
         return serie
 
 
-def convert_float_and_dates(serie, date_strategy):
+def convert_float_and_dates(serie):
 
-    """Converts into float if possible and converts dates
+    """Converts into float if possible and converts dates.
+
+    Creates timestamp from 01/01/2017, year, month, day, day_of_week and hour
 
     Parameters
     ----------
     serie : pandas Serie
         The serie you want to convert
-
-    date_strategy : str, defaut = "complete"
-        The strategy to encode dates :
-        
-        - complete : creates timestamp from 01/01/2017, month, day and day_of_week
-        - to_timestamp : creates timestamp from 01/01/2017
 
     Returns
     -------
@@ -83,13 +77,21 @@ def convert_float_and_dates(serie, date_strategy):
                                          pandas.datetime(2017, 1, 1)
                                          ).total_seconds()
 
-        if (date_strategy == "complete"):
-            df[serie.name + "_MONTH"] = pandas.DatetimeIndex(serie).month.astype(  # noqa
-                float)  # TODO: be careful with nan ! object or float ??
-            df[serie.name + "_DAY"] = pandas.DatetimeIndex(serie).day.astype(
-                float)  # TODO: be careful with nan ! object or float ??
-            df[serie.name + "_DAYOFWEEK"] = pandas.DatetimeIndex(serie).dayofweek.astype(  # noqa
-                float)  # TODO: be careful with nan ! object or float ??
+        df[serie.name + "_YEAR"] = pandas.DatetimeIndex(serie).year.astype(  # noqa
+            float)  # TODO: be careful with nan ! object or float ??
+
+        df[serie.name + "_MONTH"] = pandas.DatetimeIndex(serie).month.astype(  # noqa
+            float)  # TODO: be careful with nan ! object or float ??
+
+        df[serie.name + "_DAY"] = pandas.DatetimeIndex(serie).day.astype(
+            float)  # TODO: be careful with nan ! object or float ??
+
+        df[serie.name + "_DAYOFWEEK"] = pandas.DatetimeIndex(serie).dayofweek.astype(  # noqa
+            float)  # TODO: be careful with nan ! object or float ??
+
+        df[serie.name + "_HOUR"] = pandas.DatetimeIndex(serie).hour.astype(float) + \
+                                   pandas.DatetimeIndex(serie).minute.astype(float)/60. + \
+                                   pandas.DatetimeIndex(serie).second.astype(float)/3600.
 
         return df
 
@@ -120,13 +122,21 @@ def convert_float_and_dates(serie, date_strategy):
                                                  pandas.datetime(2017, 1, 1)
                                                  ).total_seconds()
 
-                if (date_strategy == "complete"):
-                    df[serie.name + "_MONTH"] = serie_to_df.month.astype(
-                        float)  # TODO: be careful with nan ! object or float??
-                    df[serie.name + "_DAY"] = serie_to_df.day.astype(
-                        float)  # TODO: be careful with nan ! object or float??
-                    df[serie.name + "_DAYOFWEEK"] = serie_to_df.dayofweek.astype(  # noqa
-                        float)  # TODO: be careful with nan ! object or float??
+                df[serie.name + "_YEAR"] = serie_to_df.year.astype(
+                    float)  # TODO: be careful with nan ! object or float??
+
+                df[serie.name + "_MONTH"] = serie_to_df.month.astype(
+                    float)  # TODO: be careful with nan ! object or float??
+
+                df[serie.name + "_DAY"] = serie_to_df.day.astype(
+                    float)  # TODO: be careful with nan ! object or float??
+
+                df[serie.name + "_DAYOFWEEK"] = serie_to_df.dayofweek.astype(
+                    float)  # TODO: be careful with nan ! object or float??
+
+                df[serie.name + "_HOUR"] = serie_to_df.hour.astype(float) + \
+                                           serie_to_df.minute.astype(float)/60. + \
+                                           serie_to_df.second.astype(float) / 3600.
 
                 return df
 
@@ -172,29 +182,20 @@ class Reader():
         self.to_path = to_path
         self.verbose = verbose
 
-        self.__client = ipp.Client(profile='home')
-        self.__dview = self.__client.direct_view()
-
-    def clean(self, path, date_strategy="complete", drop_duplicate=False):
+    def clean(self, path, drop_duplicate=False):
 
         """Reads and cleans data (accepted formats : csv, xls, json and h5):
 
         - del Unnamed columns
         - casts lists into variables
         - try to cast variables into float
-        - cleans dates
+        - cleans dates and extracts timestamp from 01/01/2017, year, month, day, day_of_week and hour
         - drop duplicates (if drop_duplicate=True)
 
         Parameters
         ----------
         path : str
             The path to the dataset.
-
-        date_strategy : str, defaut = "complete"
-            The strategy to encode dates :
-
-            - complete : creates timestamp from 01/01/2017, month, day and day_of_week
-            - to_timestamp : creates timestamp from 01/01/2017
 
         drop_duplicate: bool, default = False
             If True, drop duplicates when reading each file.
@@ -273,16 +274,12 @@ class Reader():
         ##############################################################
 
         if (self.verbose):
-            print("cleaning data...")
+            print("cleaning data ...")
 
-        df = pd.concat(self.__dview.map_sync(convert_list,
-                                             [df[col] for col in df.columns]),
+        df = pd.concat(Parallel(n_jobs=-1)(delayed(convert_list)(df[col]) for col in df.columns),
                        axis=1)
 
-        df = pd.concat(self.__dview.map_sync(convert_float_and_dates,
-                                             [df[col] for col in df.columns],
-                                             [date_strategy
-                                              for _ in df.columns]),
+        df = pd.concat(Parallel(n_jobs=-1)(delayed(convert_float_and_dates)(df[col]) for col in df.columns),
                        axis=1)
 
         # Drop duplicates
@@ -357,9 +354,7 @@ class Reader():
 
                 # Reading each file
 
-                df = self.clean(path,
-                                date_strategy="complete",
-                                drop_duplicate=False)
+                df = self.clean(path, drop_duplicate=False)
 
                 # Checking if the target exists to split into test and train
 
@@ -407,18 +402,19 @@ class Reader():
                     col_test = list(set(col_test) & set(df.columns))
 
             # Subset of common features
+
             col = sorted(list(set(col_train) & set(col_test)))
 
             if (self.verbose):
                 print("")
-                print("number of common features : " + str(len(col)))
+                print("> Number of common features : " + str(len(col)))
 
                 ##############################################################
                 #          Creating train, test and target dataframes
                 ##############################################################
 
                 print("")
-                print("Gathering and crunching for train and test datasets")
+                print("gathering and crunching for train and test datasets ...")
 
             # TODO: Optimize
             df_train = pd.concat([df[col] for df in df_train.values()])
@@ -438,7 +434,7 @@ class Reader():
             # Handling indices
 
             if (self.verbose):
-                print("reindexing for train and test datasets")
+                print("reindexing for train and test datasets ...")
 
             if (df_train.index.nunique() < df_train.shape[0]):
                 df_train.index = range(df_train.shape[0])
@@ -452,7 +448,7 @@ class Reader():
             # Dropping duplicates
 
             if (self.verbose):
-                print("Dropping training duplicates")
+                print("dropping training duplicates ...")
 
             # Temp adding target to check (x,y) duplicates...
             df_train[target_name] = y_train.values
@@ -463,7 +459,7 @@ class Reader():
             # Deleting constant variables
 
             if (self.verbose):
-                print("Dropping constant variables on training set")
+                print("dropping constant variables on training set ...")
             for var in col:
                 if (df_train[var].nunique(dropna=False) == 1):
                     del df_train[var]
@@ -482,23 +478,23 @@ class Reader():
 
             if (self.verbose):
                 print("")
-                print("number of categorical features:"
+                print("> Number of categorical features:"
                       " " + str(len(df_train.dtypes[df_train.dtypes == 'object'].index)))  # noqa
-                print("number of numerical features:"
+                print("> Number of numerical features:"
                       " " + str(len(df_train.dtypes[df_train.dtypes != 'object'].index)))  # noqa
-                print("number of training samples : " + str(df_train.shape[0]))
-                print("number of test samples : " + str(df_test.shape[0]))
+                print("> Number of training samples : " + str(df_train.shape[0]))
+                print("> Number of test samples : " + str(df_test.shape[0]))
 
                 if(sparse):
                     print("")
-                    print("Top sparse features "
+                    print("> Top sparse features "
                           "(% missing values on train set):")
                     print(np.round(sparse_features[sparse_features > 0.0][:5],
                                    1))
 
                 else:
                     print("")
-                    print("you have no missing values on train set...")
+                    print("> You have no missing values on train set...")
 
             ##############################################################
             #                    Encoding target
@@ -518,12 +514,13 @@ class Reader():
 
             if (self.verbose):
                 print("")
-                print("task : " + task)
+                print("> Task : " + task)
 
             if (task == "classification"):
                 if (self.verbose):
                     print(y_train.value_counts())
-                    print("encoding target")
+                    print("")
+                    print("encoding target ...")
                 enc = LabelEncoder()
                 y_train = pd.Series(enc.fit_transform(y_train.values),
                                     index=y_train.index,

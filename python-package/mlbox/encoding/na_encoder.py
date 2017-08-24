@@ -25,7 +25,7 @@ class NA_encoder():
 
     categorical_strategy : str, default = '<NULL>'
         The strategy to encode NA for categorical features.
-        Available strategies = a string or np.NaN
+        Available strategies = a string or "most_frequent"
     """
 
     def __init__(self,
@@ -37,6 +37,7 @@ class NA_encoder():
         self.__Lcat = []
         self.__Lnum = []
         self.__imp = None
+        self.__mode = dict()
         self.__fitOK = False
 
 
@@ -81,6 +82,8 @@ class NA_encoder():
         self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index
         self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index
 
+        # Dealing with numerical features
+
         if (self.numerical_strategy in ['mean', 'median', "most_frequent"]):
 
             self.__imp = Imputer(strategy=self.numerical_strategy)
@@ -90,15 +93,32 @@ class NA_encoder():
             else:
                 pass
 
-            self.__fitOK = True
-
         elif ((type(self.numerical_strategy) == int) | (type(self.numerical_strategy) == float)):
 
-            self.__fitOK = True
+            pass
 
         else:
 
             raise ValueError("Numerical strategy for NA encoding is not valid")
+
+        # Dealing with categorical features
+
+        if (type(self.categorical_strategy) == str):
+
+            if (self.categorical_strategy == "most_frequent"):
+
+                na_count = df_train[self.__Lcat].isnull().sum()
+
+                for col in na_count[na_count>0].index:
+                    self.__mode[col] = df_train[col].mode()[0]
+
+            else:
+                pass
+
+        else:
+            raise ValueError("Categorical strategy for NA encoding is not valid")
+
+        self.__fitOK = True
 
         return self
 
@@ -145,7 +165,11 @@ class NA_encoder():
 
             if(len(self.__Lnum) == 0):
 
-                return df[self.__Lcat].fillna(self.categorical_strategy)
+                if (self.categorical_strategy != "most_frequent"):
+                    return df[self.__Lcat].fillna(self.categorical_strategy)
+
+                else:
+                    return df[self.__Lcat].fillna(self.__mode)
 
             else:
 
@@ -155,13 +179,25 @@ class NA_encoder():
 
                     if (len(self.__Lcat) != 0):
 
-                        return pd.concat(
-                            (pd.DataFrame(self.__imp.transform(df[self.__Lnum]),
-                                          columns=self.__Lnum,
-                                          index=df.index),
-                             df[self.__Lcat].fillna(self.categorical_strategy)
-                             ),
-                            axis=1)[df.columns]
+                        if (self.categorical_strategy != "most_frequent"):
+
+                            return pd.concat(
+                                (pd.DataFrame(self.__imp.transform(df[self.__Lnum]),
+                                              columns=self.__Lnum,
+                                              index=df.index),
+                                 df[self.__Lcat].fillna(self.categorical_strategy)
+                                 ),
+                                axis=1)[df.columns]
+
+                        else:
+
+                            return pd.concat(
+                                (pd.DataFrame(self.__imp.transform(df[self.__Lnum]),
+                                              columns=self.__Lnum,
+                                              index=df.index),
+                                 df[self.__Lcat].fillna(self.__mode)
+                                 ),
+                                axis=1)[df.columns]
 
                     else:
 
@@ -175,12 +211,21 @@ class NA_encoder():
 
                     if (len(self.__Lcat) != 0):
 
-                        return pd.concat(
-                            (df[self.__Lnum].fillna(self.numerical_strategy),
-                             df[self.__Lcat].fillna(self.categorical_strategy)
-                             ),
-                            axis=1)[df.columns]
+                        if (self.categorical_strategy != "most_frequent"):
 
+                            return pd.concat(
+                                (df[self.__Lnum].fillna(self.numerical_strategy),
+                                 df[self.__Lcat].fillna(self.categorical_strategy)
+                                 ),
+                                axis=1)[df.columns]
+
+                        else:
+
+                            return pd.concat(
+                                (df[self.__Lnum].fillna(self.numerical_strategy),
+                                 df[self.__Lcat].fillna(self.__mode)
+                                 ),
+                                axis=1)[df.columns]
                     else:
 
                         return df[self.__Lnum].fillna(self.numerical_strategy)
