@@ -68,3 +68,7 @@ History
 * add of new dates features 
 * add of a new strategy for missing categorical values
 * new parallel computing
+
+0.5.1 (2017-08-25)
+------------------
+* improvement in verbose mode for reader (display target quantiles for regression)
