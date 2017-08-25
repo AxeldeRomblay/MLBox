@@ -293,7 +293,7 @@ texinfo_documents = [
      u'MLBox Documentation',
      u'Axel ARONIO DE ROMBLAY',
      'mlbox',
-     'One line description of project.',
+     'MLBox is a powerful Automated Machine Learning python library.',
      'Miscellaneous'),
 ]
 
