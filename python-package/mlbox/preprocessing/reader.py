@@ -528,7 +528,8 @@ class Reader():
                                     dtype='int')
 
             else:
-                pass
+                if (self.verbose):
+                    print(y_train.describe())
 
             ##############################################################
             #                         Dumping
