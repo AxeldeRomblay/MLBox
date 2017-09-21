@@ -32,10 +32,9 @@ Links
    * `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__ 
    * `MLBox : a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
 
-* **Webinar:** 
-  `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
-
-
+* **Webinars:**
+   * `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
+   * `Analytics Vidhya: Automated Machine Learning using MLBox python package <https://www.youtube.com/watch?v=NH1KsHeDf8Y>`__
 
 .. toctree::
    :maxdepth: 1
