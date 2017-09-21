@@ -1,4 +1,3 @@
-
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
@@ -8,7 +7,6 @@ import pandas as pd
 import warnings
 
 from sklearn.preprocessing import Imputer
-
 
 class NA_encoder():
 
@@ -40,12 +38,10 @@ class NA_encoder():
         self.__mode = dict()
         self.__fitOK = False
 
-
     def get_params(self, deep=True):
 
         return {'numerical_strategy': self.numerical_strategy,
                 'categorical_strategy': self.categorical_strategy}
-
 
     def set_params(self, **params):
 
@@ -59,7 +55,6 @@ class NA_encoder():
                               "`encoder.get_params().keys()`")
             else:
                 setattr(self, k, v)
-
 
     def fit(self, df_train, y_train=None):
 
@@ -110,7 +105,11 @@ class NA_encoder():
                 na_count = df_train[self.__Lcat].isnull().sum()
 
                 for col in na_count[na_count>0].index:
-                    self.__mode[col] = df_train[col].mode()[0]
+
+                    try:
+                        self.__mode[col] = df_train[col].mode()[0]
+                    except:
+                        self.__mode[col] = "<NULL>"
 
             else:
                 pass
@@ -121,7 +120,6 @@ class NA_encoder():
         self.__fitOK = True
 
         return self
-
 
     def fit_transform(self, df_train, y_train=None):
 
@@ -144,7 +142,6 @@ class NA_encoder():
         self.fit(df_train, y_train)
 
         return self.transform(df_train)
-
 
     def transform(self, df):
 
