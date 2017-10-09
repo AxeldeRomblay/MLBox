@@ -60,21 +60,12 @@ Install from the Github
         $ curl  -OL https://github.com/AxeldeRomblay/mlbox/tarball/master
 
 
-* Once you have a copy of the source, **you can install it:**
-
-    * Using setup.py: 
+* Once you have a copy of the source, **you can install it** using setup.py :
     
-    .. code-block:: console
+.. code-block:: console
 
-        $ cd python-package/
-        $ python setup.py install
-
-    * Or directly, from the wheel:
-
-    .. code-block:: console
-
-        $ cd python-package/dist/
-        $ pip install *.whl
+    $ cd python-package/
+    $ python setup.py install
 
 
 .. _Github repo: https://github.com/AxeldeRomblay/mlbox
