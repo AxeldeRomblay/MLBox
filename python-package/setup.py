@@ -6,17 +6,18 @@ from setuptools import setup
 from setuptools.command.install import install
 
 requirements = [
-    "numpy>=1.13.0",
-    "matplotlib>=2.0.2",
-    "hyperopt>=0.1",
-    "Keras>=2.0.4",
-    "pandas>=0.18.0",
-    "joblib>=0.11",
-    "scikit-learn>=0.19b2",
-    "scipy>=0.17.0",
-    "Theano>=0.9.0",
-    "xgboost>=0.6a2",
-    "lightgbm>=2.0.2"
+    "numpy==1.13.0",
+    "matplotlib==2.0.2",
+    "hyperopt==0.1",
+    "Keras==2.0.4",
+    "pandas==0.18.0",
+    "joblib==0.11",
+    "scikit-learn==0.19.0",
+    "scipy==0.17.0",
+    "Theano==0.9.0",
+    "xgboost==0.6a2",
+    "lightgbm==2.0.2", 
+    "networkx==1.11"
 ]
 
 class OverrideInstallCommand(install):
