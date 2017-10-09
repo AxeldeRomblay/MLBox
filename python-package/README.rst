@@ -62,10 +62,10 @@ Install from the Github
 
 * Once you have a copy of the source, **you can install it** using setup.py :
     
-.. code-block:: console
+    .. code-block:: console
 
-    $ cd python-package/
-    $ python setup.py install
+        $ cd python-package/
+        $ python setup.py install
 
 
 .. _Github repo: https://github.com/AxeldeRomblay/mlbox
