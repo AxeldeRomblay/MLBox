@@ -107,7 +107,7 @@ class DriftEstimator():
                                         X=X_tmp,
                                         y=self.__target,
                                         cv=self.__cv,
-                                        method="predict_proba")
+                                        method="predict_proba")[:,1]
 
         del df_train["target"]
         del df_test["target"]

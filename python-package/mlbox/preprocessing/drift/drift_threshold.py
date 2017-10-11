@@ -4,7 +4,6 @@
 # License: BSD 3 clause
 
 from joblib import Parallel, delayed
-import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 
 from .drift_estimator import DriftEstimator
@@ -148,16 +147,9 @@ class DriftThreshold():
 
         self.__Ddrifts = dict()
 
-        np.random.seed(self.random_state)
-
-        train_range = np.random.permutation(np.arange(self.subsample *
-                                                          len(df_train)))
-        test_range = np.random.permutation(np.arange(self.subsample *
-                                                         len(df_test)))
-
         Ldrifts = Parallel(n_jobs=self.n_jobs)(delayed(sync_fit)
-                                               (df_train.iloc[train_range][[col]],
-                                                df_test.iloc[test_range][[col]],
+                                               (df_train.sample(frac=self.subsample)[[col]],
+                                                df_test.sample(frac=self.subsample)[[col]],
                                                 self.estimator,
                                                 self.n_folds,
                                                 self.stratify,
