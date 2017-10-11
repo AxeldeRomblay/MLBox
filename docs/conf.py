@@ -41,7 +41,6 @@ MOCK_MODULES = ['numpy',
                 'sklearn.tree',
                 'sklearn.pipeline',
                 'sklearn.preprocessing',
-                'scipy',
                 'theano',
                 'lightgbm',
                 'xgboost'
