@@ -10,7 +10,7 @@ requirements = [
     "matplotlib==2.0.2",
     "hyperopt==0.1",
     "Keras==2.0.4",
-    "pandas==0.19.0",
+    "pandas==0.20.3",
     "joblib==0.11",
     "scikit-learn==0.19.0",
     "Theano==0.9.0",
