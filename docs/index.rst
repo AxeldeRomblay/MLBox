@@ -36,8 +36,7 @@ Links
    * `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
    * `Analytics Vidhya: Automated Machine Learning using MLBox python package <https://www.youtube.com/watch?v=NH1KsHeDf8Y>`__
 
-* **Conferences:**
-  * `DataHack Summit 2017 by Analytics Vidhya <https://github.com/AxeldeRomblay/MLBox/blob/master/docs/webinars/auto-ML.pdf>`__
+* **Conference:** `DataHack Summit 2017 by Analytics Vidhya <https://github.com/AxeldeRomblay/MLBox/blob/master/docs/webinars/auto-ML.pdf>`__
 
 .. toctree::
    :maxdepth: 1
