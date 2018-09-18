@@ -16,7 +16,7 @@ class Drift_thresholder():
 
     Drops on train and test datasets. The list of drift coefficients is available and
     saved as "drifts.txt". To get familiar with drift:
-    https://github.com/AxeldeRomblay/MLBox/blob/master/docs/webinars/slides.pdf
+    https://github.com/AxeldeRomblay/MLBox/blob/master/docs/webinars/features.pdf
 
     Parameters
     ----------
