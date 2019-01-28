@@ -235,7 +235,7 @@ class Categorical_encoder():
 
                         outputs = Dense(y_train.nunique(),
                                         kernel_initializer='normal',
-                                        activation='sigmoid')(lay2)
+                                        activation='softmax')(lay2)
 
                         model = Model(inputs=inputs, outputs=outputs)
                         model.compile(loss='binary_crossentropy',
