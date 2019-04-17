@@ -6,21 +6,95 @@ import numpy as np
 import pandas as pd
 import warnings
 import time
+import sys
+import copy
 
 from hyperopt import fmin, hp, tpe
 from sklearn.model_selection import cross_val_score, KFold, StratifiedKFold
-from sklearn.pipeline import Pipeline
 from sklearn.metrics import roc_auc_score, make_scorer
 
-from ..encoding.na_encoder import NA_encoder
-from ..encoding.categorical_encoder import Categorical_encoder
-from ..model.supervised.classification.feature_selector import Clf_feature_selector
-from ..model.supervised.regression.feature_selector import Reg_feature_selector
-from ..model.supervised.classification.stacking_classifier import StackingClassifier
-from ..model.supervised.regression.stacking_regressor import StackingRegressor
-from ..model.supervised.classification.classifier import Classifier
-from ..model.supervised.regression.regressor import Regressor
+from .encoding.target_encoder import Target_encoder
+from ..prediction.predictor import create_pipeline
 
+# TODO : encode target ici ou dans les etapes du pipe !!!!
+
+def get_metric(scoring, task):
+
+    metric = {}
+
+    if (task == "classification"):
+
+        if (scoring is None):
+            scoring = 'roc_auc'
+
+        if (scoring == 'roc_auc'):
+            metric[scoring] = make_scorer(lambda y_true, y_pred:
+                                          roc_auc_score(pd.get_dummies(y_true), y_pred),
+                                          greater_is_better=True,
+                                          needs_proba=True)
+
+        else:
+            if (type(scoring) == str):
+
+                Lscoring = ["accuracy",
+                            "roc_auc",
+                            "f1",
+                            "log_loss",
+                            "precision",
+                            "recall"]
+
+                if (scoring in Lscoring):
+
+                    metric[scoring] = scoring
+
+                else:
+                    warnings.warn("Invalid scoring metric for classification. "
+                                  "'log_loss' is used instead. "
+                                  "Available predefined scoring metrics : "
+                                  +str(Lscoring))
+
+                    metric["log_loss"] = 'log_loss'
+
+            else:
+                metric["custom"] = scoring
+
+    else:
+
+        if (scoring is None):
+            scoring = 'mape'
+
+        if (scoring == 'mape'):
+            metric[scoring] = make_scorer(lambda y_true, y_pred: 100*np.sum(np.abs(y_true-y_pred)/y_true)/len(y_true),
+                                          greater_is_better=False,
+                                          needs_proba=False)
+
+        else:
+
+            if (type(scoring) == str):
+
+                Lscoring = ["mape",
+                            "mean_absolute_error",
+                            "mean_squared_error",
+                            "median_absolute_error",
+                            "r2"]
+
+                if (scoring in Lscoring):
+
+                    metric[scoring] = scoring
+
+                else:
+
+                    warnings.warn("Invalid scoring metric for regression. "
+                                  "'mean_squared_error' is used instead. "
+                                  "Available predefined scoring metrics : "
+                                  + str(Lscoring))
+
+                    metric["mean_squared_error"] = 'mean_squared_error'
+
+            else:
+                metric["custom"] = scoring
+
+    return metric
 
 class Optimiser():
 
@@ -96,11 +170,9 @@ class Optimiser():
             else:
                 setattr(self, k, v)
 
-
-    def evaluate(self, params, df):
+    def evaluate(self, data, params={}):
 
         """Evaluates the data.
-
 
         Evaluates the data with a given scoring function and given hyper-parameters
         of the whole pipeline. If no parameters are set, default configuration for
@@ -109,26 +181,25 @@ class Optimiser():
 
         Parameters
         ----------
-        params : dict, default = None.
-            Hyper-parameters dictionary for the whole pipeline.
+        data : dict
+            Dictionary containing :
 
-            - The keys must respect the following syntax : "enc__param".
+            - 'train' : pandas dataframe for train dataset
+            - 'target' : pandas serie for the target on train set
 
-                - "enc" = "ne" for na encoder
-                - "enc" = "ce" for categorical encoder
-                - "enc" = "fs" for feature selector [OPTIONAL]
-                - "enc" = "stck"+str(i) to add layer n°i of meta-features [OPTIONAL]
-                - "enc" = "est" for the final estimator
+        params : dict, default = {}
+            Hyper-parameters dictionary for the whole pipeline with keys 'encoding' and 'modeling'.
 
-                - "param" : a correct associated parameter for each step. Ex: "max_depth" for "enc"="est", ...
+            - params["encoding"] is a dictionary with items :
 
-            - The values are those of the parameters. Ex: 4 for key = "est__max_depth", ...
+                - key : 'missing_values' and value : parameter dictionary for 'NA_encoder' object
+                - key : 'categorical features' and value : parameter dictionary for 'Categorical_encoder' object
 
-        df : dict, default = None
-            Dataset dictionary. Must contain keys and values:
+            - params["modeling"] is a dictionary with items :
 
-            - "train": pandas DataFrame for the train set.
-            - "target" : encoded pandas Serie for the target on train set (with dtype='float' for a regression or dtype='int' for a classification). Indexes should match the train set.
+                - key : 'feature_selection' and value : parameter dictionary for 'NA_encoder' object
+                - key : 'stacking_layeri', i=1...n and value : parameter dictionary for 'StackingClassifier' or 'StackingRegressor' object
+                - key : 'estimation' and value : parameter dictionary for 'Classifier' or 'Regressor' object
 
         Returns
         -------
@@ -145,273 +216,145 @@ class Optimiser():
         >>> #evaluating the pipeline
         >>> opt = Optimiser()
         >>> params = {
-        ...     "ne__numerical_strategy" : 0,
-        ...     "ce__strategy" : "label_encoding",
-        ...     "fs__threshold" : 0.1,
-        ...     "stck__base_estimators" : [Regressor(strategy="RandomForest"), Regressor(strategy="ExtraTrees")],
-        ...     "est__strategy" : "Linear"
-        ... }
-        >>> df = {"train" : pd.DataFrame(dataset.data), "target" : pd.Series(dataset.target)}
-        >>> opt.evaluate(params, df)
+        ...
+        ...     "encoding" : {
+        ...
+        ...         "missing_values" : {
+        ...             "numerical_strategy" : 0,
+        ...             "categorical_strategy" : "NULL"
+        ...             },
+        ...
+        ...           "categorical_features" : {
+        ...                "strategy": "random_projection"
+        ...                }
+        ...            },
+        ...
+        ...        "modeling" : {
+        ...
+        ...            "feature_selection" : {
+        ...                "strategy" : "variance",
+        ...               "threshold" : 0.2
+        ...                },
+        ...
+        ...            "stacking_layer1" : {
+        ...                "n_folds" : 6,
+        ...                "verbose" : False
+        ...                },
+        ...
+        ...            "estimation" : {
+        ...                "strategy" : "LightGBM",
+        ...                "colsample_bytree" : 0.6
+        ...                }
+        ...            }
+        ...        }
+        >>> data = {"train" : pd.DataFrame(dataset.data), "target" : pd.Series(dataset.target)}
+        >>> opt.evaluate(data, params)
         """
 
-        ne = NA_encoder()
-        ce = Categorical_encoder()
+        # Checking the task
 
-        ##########################################
-        #    Automatically checking the task
-        ##########################################
+        te = Target_encoder()
+        te.detect_task(data["target"])
+        task = te.get_task()
 
-        # TODO: a lot of code can be factorized for the different tasks
+        # creating cross validation object
 
-        ##########################################
-        #             Classification
-        ##########################################
+        if (task == "classification"):
 
-        if (df['target'].dtype == 'int'):
-
-            # Cross validation
-
-            counts = df['target'].value_counts()
+            counts = data['target'].value_counts()
             classes_to_drop = counts[counts < self.n_folds].index
-            mask_to_drop = df['target'].apply(lambda x: x in classes_to_drop)
-            indexes_to_drop = df['target'][mask_to_drop].index
+            mask_to_drop = data['target'].apply(lambda x: x in classes_to_drop)
+            indexes_to_drop = data['target'][mask_to_drop].index
 
             cv = StratifiedKFold(n_splits=self.n_folds,
                                  shuffle=True,
                                  random_state=self.random_state)
 
-            # Estimator
-
-            est = Classifier()
-
-            # Feature selection if specified
-
-            fs = None
-            if (params is not None):
-                for p in params.keys():
-                    if (p.startswith("fs__")):
-                        fs = Clf_feature_selector()
-                    else:
-                        pass
-
-            # Stacking if specified
-
-            STCK = {}
-            if (params is not None):
-                for p in params.keys():
-                    if (p.startswith("stck")):
-                        # TODO: Check if p.split("__")[1] instead?
-                        STCK[p.split("__")[0]] = StackingClassifier(verbose=False)  # noqa
-                    else:
-                        pass
-
-            # Default scoring for classification
-
-            auc = False
-
-            if (self.scoring is None):
-                self.scoring = 'log_loss'
-
-            elif (self.scoring == 'roc_auc'):
-                auc = True
-                self.scoring = make_scorer(lambda y_true, y_pred: roc_auc_score(pd.get_dummies(y_true), y_pred),  # noqa
-                                           greater_is_better=True,
-                                           needs_proba=True)
-
-            else:
-                if (type(self.scoring) == str):
-                    if (self.scoring in ["accuracy", "roc_auc", "f1",
-                                         "log_loss", "precision", "recall"]):
-                        pass
-                    else:
-                        warnings.warn("Invalid scoring metric. "
-                                      "log_loss is used instead.")
-                        self.scoring = 'log_loss'
-
-                else:
-                    pass
-
-        ##########################################
-        #               Regression
-        ##########################################
-
-        elif (df['target'].dtype == 'float'):
-
-            # Cross validation
+        else:
 
             indexes_to_drop = []
             cv = KFold(n_splits=self.n_folds,
                        shuffle=True,
                        random_state=self.random_state)
 
-            # Estimator
+        # metrics
 
-            est = Regressor()
+        metric = get_metric(self.scoring, task)
 
-            # Feature selection if specified
+        # Creating the Pipeline
 
-            fs = None
-            if (params is not None):
-                for p in params.keys():
-                    if (p.startswith("fs__")):
-                        fs = Reg_feature_selector()
-                    else:
-                        pass
+        pp = create_pipeline(params, task, self.to_path)
 
-            # Stacking if specified
-
-            STCK = {}
-            if (params is not None):
-                for p in params.keys():
-                    if (p.startswith("stck")):
-                        # TODO: Check if p.split("__")[1] instead?
-                        STCK[p.split("__")[0]] = StackingRegressor(verbose=False)
-                    else:
-                        pass
-
-            # Default scoring for regression
-
-            auc = False
-
-            if (self.scoring is None):
-                self.scoring = "mean_squared_error"
-            else:
-                if (type(self.scoring) == str):
-                    if (self.scoring in ["mean_absolute_error",
-                                         "mean_squared_error",
-                                         "median_absolute_error",
-                                         "r2"]):
-                        pass
-                    else:
-                        warnings.warn("Invalid scoring metric. "
-                                      "mean_squarred_error is used instead.")
-                        self.scoring = 'mean_squared_error'
-                else:
-                    pass
-
-        else:
-            raise ValueError("Impossible to determine the task. "
-                             "Please check that your target is encoded.")
-
-        ##########################################
-        #          Creating the Pipeline
-        ##########################################
-
-        pipe = [("ne", ne), ("ce", ce)]
-
-        # Do we need to cache transformers?
-
-        cache = False
-
-        if (params is not None):
-            if ("ce__strategy" in params):
-                if(params["ce__strategy"] == "entity_embedding"):
-                    cache = True
-                else:
-                    pass
-            else:
-                pass
-
-        if (fs is not None):
-            if ("fs__strategy" in params):
-                if(params["fs__strategy"] != "variance"):
-                    cache = True
-                else:
-                    pass
-        else:
-            pass
-
-        if (len(STCK) != 0):
-            cache = True
-        else:
-            pass
-
-        # Pipeline creation
-
-        if (fs is not None):
-            pipe.append(("fs", fs))
-        else:
-            pass
-
-        for stck in np.sort(list(STCK)):
-            pipe.append((stck, STCK[stck]))
-
-        pipe.append(("est", est))
-
-        if cache:
-            pp = Pipeline(pipe, memory=self.to_path)
-        else:
-            pp = Pipeline(pipe)
-
-        ##########################################
-        #          Fitting the Pipeline
-        ##########################################
+        # Fitting the Pipeline
 
         start_time = time.time()
 
-        # No params : default configuration
+        if (self.verbose):
+            print("=" * 50 + " TESTING HYPER-PARAMETERS ... " + "=" * 50)
+            print("")
+            print("> ENCODING: - missing values: " +
+                  str(pp.named_steps["missing_values"].get_params()))
+            print("")
+            print("            - categorical features: " +
+                  str(pp.named_steps["categorical_features"].get_params()))
+            print("")
+            print("")
 
-        if (params is None):
-            set_params = True
-            print('No parameters set. Default configuration is tested')
-
-        else:
+            sys.stdout.write("> MODELING: ")
             try:
-                pp = pp.set_params(**params)
-                set_params = True
+                sys.stdout.write("- feature selection: " +
+                                 str(pp.named_steps["feature_selection"].get_params()))
+                print("")
+                print("")
+                sys.stdout.write("            ")
+
             except:
-                set_params = False
+                pass
 
-        if (set_params):
+            try:
+                lay = 0
 
-            if (self.verbose):
-                print("")
-                print("#####################################################"
-                      " testing hyper-parameters... "
-                      "#####################################################")
-                print("")
-                print(">>> NA ENCODER :" + str(ne.get_params()))
-                print("")
-                print(">>> CA ENCODER :" + str({'strategy': ce.strategy}))
+                for k in np.sort(list(pp.named_steps.keys())):
 
-                if (fs is not None):
-                    print("")
-                    print(">>> FEATURE SELECTOR :" + str(fs.get_params()))
+                    if (k.startswith("stacking_layer")):
 
-                for i, stck in enumerate(np.sort(list(STCK))):
+                        lay = lay + 1
+                        stck_params = pp.named_steps["stacking_layer"+str(lay)]\
+                            .get_params().copy()
 
-                    stck_params = STCK[stck].get_params().copy()
-                    stck_params_display = {k: stck_params[k]
-                                           for k in stck_params.keys() if
-                                           k not in ["level_estimator",
-                                                     "verbose",
-                                                     "base_estimators"]}
+                        p = {k: stck_params[k] for k in stck_params.keys()
+                                if k not in ["level_estimator",
+                                            "verbose",
+                                            "base_estimators"]}
 
-                    print("")
-                    print(">>> STACKING LAYER n°"
-                          + str(i + 1) + " :" + str(stck_params_display))
+                        p["base_estimators"] = [est.get_params() for
+                                                est in stck_params['base_estimators']]
 
-                    for j, model in enumerate(stck_params["base_estimators"]):
+                        sys.stdout.write("- stacking layer " + str(lay) + ": " + str(p))
                         print("")
-                        print("    > base_estimator n°" + str(j + 1) + " :"
-                              + str(dict(list(model.get_params().items())
-                                         + list(model.get_estimator().get_params().items()))))
+                        print("")
+                        sys.stdout.write("            ")
 
-                print("")
-                print(">>> ESTIMATOR :" + str(
-                    dict(list(est.get_params().items())
-                         + list(est.get_estimator().get_params().items()))
-                ))
-                print("")
+            except:
+                pass
+
+            est = pp.named_steps["estimation"]
+
+            sys.stdout.write("- estimation: " + str(dict(
+                list(est.get_params().items())
+                + list(est.get_estimator().get_params().items())
+            )))
+
+            print("")
+            print("")
 
             try:
 
                 # Computing the mean cross validation score across the folds
                 scores = cross_val_score(estimator=pp,
-                                         X=df['train'].drop(indexes_to_drop),
-                                         y=df['target'].drop(indexes_to_drop),
-                                         scoring=self.scoring,
+                                         X=data['train'].drop(indexes_to_drop),
+                                         y=te.fit_transform(data['target'].drop(indexes_to_drop)),
+                                         scoring=list(metric.items())[0][1],
                                          cv=cv)
                 score = np.mean(scores)
 
@@ -419,15 +362,9 @@ class Optimiser():
 
                 scores = [-np.inf for _ in range(self.n_folds)]
                 score = -np.inf
-
-        else:
-            raise ValueError("Pipeline cannot be set with these parameters."
-                             " Check the name of your stages.")
-
-        if (score == -np.inf):
-            warnings.warn("An error occurred while computing the cross "
-                          "validation mean score. Check the parameter values "
-                          "and your scoring function.")
+                warnings.warn("An error occurred while computing the cross "
+                              "validation mean score. Check the parameter values "
+                              "and your scoring function.")
 
         ##########################################
         #             Reporting scores
@@ -438,12 +375,9 @@ class Optimiser():
         for i, s in enumerate(scores[:-1]):
             out = out + "fold " + str(i + 1) + " = " + str(s) + ", "
 
-        if (auc):
-            self.scoring = "roc_auc"
-
         if (self.verbose):
             print("")
-            print("MEAN SCORE : " + str(self.scoring) + " = " + str(score))
+            print("MEAN SCORE : " + list(metric.keys())[0] + " = " + str(score))
             print("VARIANCE : " + str(np.std(scores))
                   + out + "fold " + str(i + 2) + " = " + str(scores[-1]) + ")")
             print("CPU time: %s seconds" % (time.time() - start_time))
@@ -452,44 +386,41 @@ class Optimiser():
         return score
 
 
-    def optimise(self, space, df, max_evals=40):
+    def run(self, data, space = {}, max_evals=1):
 
         """Optimises the Pipeline.
 
         Optimises hyper-parameters of the whole Pipeline with a given scoring
         function. Algorithm used to optimize : Tree Parzen Estimator.
 
-        IMPORTANT : Try to avoid dependent parameters and to set one feature
+        Try to avoid dependent parameters and to set one feature
         selection strategy and one estimator strategy at a time.
 
         Parameters
         ----------
-        space : dict, default = None.
-            Hyper-parameters space:
+        data : dict
+            Dictionary containing :
 
-            - The keys must respect the following syntax : "enc__param".
+            - 'train' : pandas dataframe for train dataset
+            - 'target' : pandas serie for the target on train set
 
-                - "enc" = "ne" for na encoder
-                - "enc" = "ce" for categorical encoder
-                - "enc" = "fs" for feature selector [OPTIONAL]
-                - "enc" = "stck"+str(i) to add layer n°i of meta-features [OPTIONAL]
-                - "enc" = "est" for the final estimator
+        space : dict, default = {}
+            Hyper-parameters space for the whole pipeline with keys 'encoding' and 'modeling'.
 
-                - "param" : a correct associated parameter for each step. Ex: "max_depth" for "enc"="est", ...
+            - params["encoding"] is a dictionary with items :
 
-            - The values must respect the syntax: {"search":strategy,"space":list}
+                - key : 'missing_values' and value : parameter dictionary for 'NA_encoder' object
+                - key : 'categorical features' and value : parameter dictionary for 'Categorical_encoder' object
 
-                - "strategy" = "choice" or "uniform". Default = "choice"
-                - list : a list of values to be tested if strategy="choice". Else, list = [value_min, value_max].
+            - params["modeling"] is a dictionary with items :
 
-        df : dict, default = None
-            Dataset dictionary. Must contain keys and values:
+                - key : 'feature_selection' and value : parameter dictionary for 'NA_encoder' object
+                - key : 'stacking_layeri', i=1...n and value : parameter dictionary for 'StackingClassifier' or 'StackingRegressor' object
+                - key : 'estimation' and value : parameter dictionary for 'Classifier' or 'Regressor' object
 
-            - "train": pandas DataFrame for the train set.
-            - "target" : encoded pandas Serie for the target on train set (with dtype='float' for a regression or dtype='int' for a classification). Indexes should match the train set.
-
-        max_evals : int, default = 40.
+        max_evals : int, default = 1.
             Number of iterations.
+            To evaluate a configuration, max_evals = 1
             For an accurate optimal hyper-parameter, max_evals = 40.
 
         Returns
@@ -501,88 +432,153 @@ class Optimiser():
         --------
         >>> from mlbox.optimisation import *
         >>> from sklearn.datasets import load_boston
-        >>> #loading data
+        >>> #load data
         >>> dataset = load_boston()
-        >>> #optimising the pipeline
+        >>> #evaluating the pipeline
         >>> opt = Optimiser()
         >>> space = {
-        ...     'fs__strategy':{"search":"choice","space":["variance","rf_feature_importance"]},
-        ...     'est__colsample_bytree':{"search":"uniform", "space":[0.3,0.7]}
-        ... }
-        >>> df = {"train" : pd.DataFrame(dataset.data), "target" : pd.Series(dataset.target)}
-        >>> best = opt.optimise(space, df, 3)
+        ...
+        ...     "encoding" : {
+        ...
+        ...         "missing_values" : {
+        ...             "numerical_strategy" : {0, "mean"},
+        ...             "categorical_strategy" : "NULL"
+        ...             },
+        ...
+        ...           "categorical_features" : {
+        ...                "strategy": {"random_projection", "label_encoding"}
+        ...                }
+        ...            },
+        ...
+        ...        "modeling" : {
+        ...
+        ...            "feature_selection" : {
+        ...                "strategy" : {"variance", "l1"},
+        ...               "threshold" : (0.2, 0.3)
+        ...                },
+        ...
+        ...            "stacking_layer1" : {
+        ...                "n_folds" : {6},
+        ...                "verbose" : {False}
+        ...                },
+        ...
+        ...            "estimation" : {
+        ...                "strategy" : {"LightGBM", "XGBoost"},
+        ...                "colsample_bytree" : (0.6, 0.9)
+        ...                }
+        ...            }
+        ...        }
+        >>> data = {"train" : pd.DataFrame(dataset.data), "target" : pd.Series(dataset.target)}
+        >>> opt.run(data, space, max_evals=2)
         """
 
-        hyperopt_objective = lambda params: -self.evaluate(params, df)
+        start_time = time.time()
 
-        # Creating a correct space for hyperopt
+        if (self.verbose):
+            print("")
+            print("STEP 5 - tuning/evaluating the pipeline ...")
+            print("")
+            print("")
 
-        if (space is None):
-            warnings.warn(
-                "Space is empty. Please define a search space. "
-                "Otherwise, call the method 'evaluate' for custom settings")
-            return dict()
+        # checks
+
+        if (type(space) != dict):
+            raise ValueError("Parameter space must be a dictionary with keys 'encoding' and 'modeling'. Please read the docs.")
+
+        # Evaluating
+
+        if (len(space) == 0):
+            self.evaluate(data)
+
+        # Tuning
 
         else:
 
-            if (len(space) == 0):
-                warnings.warn(
-                    "Space is empty. Please define a search space. "
-                    "Otherwise, call the method 'evaluate' for custom settings")
-                return dict()
+            # Creating a correct space for hyperopt
 
-            else:
+            K = ["encoding", "modeling"]
+            hyper_space = copy.deepcopy(space)
 
-                hyper_space = {}
+            for step in K:
 
-                for p in space.keys():
+                if (step in space.keys()):
 
-                    if ("space" not in space[p]):
-                        raise ValueError("You must give a space list ie values"
-                                         " for hyper parameter " + p + ".")
+                    if (type(space[step]) != dict):
+                        raise ValueError("Parameter space for " + step + " must be a dictionary. Please read the docs.")
 
                     else:
 
-                        if ("search" in space[p]):
+                        for k1 in space[step]:
 
-                            if (space[p]["search"] == "uniform"):
-                                hyper_space[p] = hp.uniform(p, np.sort(space[p]["space"])[0],  # noqa
-                                                            np.sort(space[p]["space"])[-1])  # noqa
+                            for k2 in space[step][k1]:
 
-                            elif (space[p]["search"] == "choice"):
-                                hyper_space[p] = hp.choice(p, space[p]["space"])
-                            else:
-                                raise ValueError(
-                                    "Invalid search strategy "
-                                    "for hyper parameter " + p + ". Please"
-                                    " choose between 'choice' and 'uniform'.")
+                                v = space[step][k1][k2]
 
-                        else:
-                            hyper_space[p] = hp.choice(p, space[p]["space"])
+                                if (type(v) == set):
+                                    hyper_space[step][k1][k2] = hp.choice(k1 + "__" + k2, list(v))
 
-                best_params = fmin(hyperopt_objective,
-                                   space=hyper_space,
-                                   algo=tpe.suggest,
-                                   max_evals=max_evals)
+                                elif ((type(v) == tuple) | (type(v) == list)):
+                                    hyper_space[step][k1][k2] = hp.uniform(k1 + "__" + k2, float(min(v)), float(max(v)))
 
-                # Displaying best_params
+                                else:
+                                    raise ValueError(
+                                        "Hyper-parameter values must be either tuples/lists with floats or sets. Please read the docs.")
 
-                for p, v in best_params.items():
-                    if ("search" in space[p]):
-                        if (space[p]["search"] == "choice"):
-                            best_params[p] = space[p]["space"][v]
-                        else:
-                            pass
+            # Launching optimisation
+
+            # TODO : auto optim (deap) + better memory
+
+            hyperopt_objective = lambda params: -self.evaluate(data, params)
+
+            best = fmin(hyperopt_objective,
+                        space=hyper_space,
+                        algo=tpe.suggest,
+                        max_evals=max_evals)
+
+            # formatting
+
+            best_params = {"encoding" : {},
+                           "modeling" : {}
+                           }
+
+            for (k, v) in list(best.items()):
+
+                (k1, k2) = k.split("__")
+
+                if ((k1 == "missing_values") | (k1 == "categorical_features")):
+                    step = "encoding"
+
+                elif((k1 == "feature_selection") | (k1.startswith("stacking_layer")) | (k1 == "estimation")):
+                    step = "modeling"
+
+                else:
+                    step = None
+
+                if (step is not None):
+
+                    range = space[step][k1][k2]
+
+                    if (type(range) == set):
+                        value = list(range)[v]
                     else:
-                        best_params[p] = space[p]["space"][v]
+                        value = v
 
-                if (self.verbose):
-                    print("")
-                    print("")
-                    print("~" * 137)
-                    print("~" * 57 + " BEST HYPER-PARAMETERS " + "~" * 57)
-                    print("~" * 137)
-                    print("")
-                    print(best_params)
+                    if (k1 in best_params[step]):
 
-                return best_params
+                        best_params[step][k1].update({k2 : value})
+
+                    else:
+                        best_params[step][k1] = {k2 : value}
+
+            # Displaying best_params
+
+            if (self.verbose):
+                print("")
+                print("-" * 50 + "  BEST HYPER-PARAMETERS  " + "-" * 50)
+                print("")
+                print(best_params)
+                print("")
+                print("CPU time for STEP 5: %s seconds" % np.round((time.time() - start_time), 2))
+                print("")
+
+            return best_params

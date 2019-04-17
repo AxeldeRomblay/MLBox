@@ -4,20 +4,10 @@
 import pip
 from setuptools import setup
 from setuptools.command.install import install
+from mlbox.__init__ import __version__
 
-requirements = [
-    "numpy==1.13.0",
-    "matplotlib==2.0.2",
-    "hyperopt==0.1",
-    "Keras==2.0.4",
-    "pandas==0.20.3",
-    "joblib==0.11",
-    "scikit-learn==0.19.0",
-    "Theano==0.9.0",
-    "xgboost==0.6a2",
-    "lightgbm==2.0.2", 
-    "networkx==1.11"
-]
+with open('requirements.txt', 'rt') as fh:
+    requirements = fh.read().splitlines()
 
 class OverrideInstallCommand(install):
     def run(self):
@@ -45,26 +35,25 @@ with open('README.rst') as readme_file:
 
 setup(
     name='mlbox',
-    version='0.5.3',
+    version=__version__,
     description="A powerful Automated Machine Learning python library.",
     long_description=readme,
     author="Axel ARONIO DE ROMBLAY",
     author_email='axelderomblay@gmail.com',
     url='https://github.com/AxeldeRomblay/mlbox',
     packages=[
-        'mlbox','mlbox.encoding','mlbox.model','mlbox.optimisation','mlbox.prediction',
-        'mlbox.preprocessing','mlbox.model.supervised','mlbox.model.supervised.classification',
-        'mlbox.model.supervised.regression','mlbox.preprocessing.drift'
+        'mlbox','mlbox.optimisation','mlbox.prediction',
+        'mlbox.preprocessing','mlbox.optimisation.encoding','mlbox.optimisation.modeling',
+        'mlbox.optimisation.modeling.classification','mlbox.optimisation.modeling.regression','mlbox.preprocessing.drift'
     ],
     package_dir={'mlbox':'mlbox',
-                 'mlbox.encoding':'mlbox/encoding',
-                 'mlbox.model':'mlbox/model',
+                 'mlbox.preprocessing':'mlbox/preprocessing',
                  'mlbox.optimisation':'mlbox/optimisation',
                  'mlbox.prediction':'mlbox/prediction',
-                 'mlbox.preprocessing':'mlbox/preprocessing',
-                 'mlbox.model.supervised':'mlbox/model/supervised',
-                 'mlbox.model.supervised.classification':'mlbox/model/supervised/classification',
-                 'mlbox.model.supervised.regression':'mlbox/model/supervised/regression',
+                 'mlbox.optimisation.encoding':'mlbox/optimisation/encoding',
+                 'mlbox.optimisation.modeling':'mlbox/optimisation/modeling',
+                 'mlbox.optimisation.modeling.classification':'mlbox/optimisation/modeling/classification',
+                 'mlbox.optimisation.modeling.regression': 'mlbox/optimisation/modeling/regression',
                  'mlbox.preprocessing.drift':'mlbox/preprocessing/drift'
                  },
     include_package_data=True,
@@ -96,5 +85,6 @@ setup(
         'Programming Language :: Python :: 3.6'
     ],
     test_suite='tests',
-    tests_require=requirements
+    tests_require=requirements,
+    extras_require={'extended': ["xgboost==0.6a2"]}
 )

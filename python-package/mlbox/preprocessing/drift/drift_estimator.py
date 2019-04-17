@@ -7,7 +7,44 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import roc_auc_score
-from sklearn.model_selection import KFold, StratifiedKFold, cross_val_predict
+from sklearn.model_selection import KFold, StratifiedKFold
+
+
+def cross_val_predict_proba(estimator, X, y, cv):
+
+    """Evaluates the target by cross-validation
+
+    Parameters
+    ----------
+    estimator : estimator object implementing 'fit'
+        The object to use to fit the data.
+
+    X : array-like of shape at least 2D
+        The data to fit.
+
+    y : array-like
+        The target variable to try to predict in the case of
+        supervised learning.
+
+    cv : cross-validation generator
+
+    Returns
+    -------
+    array-like of shape = (n_samples,)
+        The predicted class probabilities for X.        
+
+    """
+
+    y_pred = np.zeros(len(y))
+
+    for train_index, test_index in cv.split(X, y):
+
+        estimator.fit(X.iloc[train_index], y.iloc[train_index])
+
+        y_pred[test_index] = estimator.predict_proba(X.iloc[test_index])[:, 1]
+
+    return y_pred
+
 
 class DriftEstimator():
 
@@ -45,7 +82,8 @@ class DriftEstimator():
         self.random_state = random_state
         self.__cv = None
         self.__pred = None
-        self.__target = None
+        # TODO: Change to 'cible' to english 'target'?
+        self.__cible = None
         self.__fitOK = False
 
     def get_params(self):
@@ -88,8 +126,8 @@ class DriftEstimator():
         df_train["target"] = 0
         df_test["target"] = 1
 
-        self.__target = pd.concat((df_train.target, df_test.target),
-                                  ignore_index=True)
+        self.__cible = pd.concat((df_train.target, df_test.target),
+                                 ignore_index=True)
 
         if self.stratify:
             self.__cv = StratifiedKFold(n_splits=self.n_folds,
@@ -103,11 +141,10 @@ class DriftEstimator():
         X_tmp = pd.concat((df_train, df_test),
                           ignore_index=True).drop(['target'], axis=1)
 
-        self.__pred = cross_val_predict(estimator=self.estimator,
-                                        X=X_tmp,
-                                        y=self.__target,
-                                        cv=self.__cv,
-                                        method="predict_proba")[:,1]
+        self.__pred = cross_val_predict_proba(estimator=self.estimator,
+                                              X=X_tmp,
+                                              y=self.__cible,
+                                              cv=self.__cv)
 
         del df_train["target"]
         del df_test["target"]
@@ -132,12 +169,12 @@ class DriftEstimator():
 
         if self.__fitOK:
 
-            X_zeros = np.zeros(len(self.__target))
+            X_zeros = np.zeros(len(self.__cible))
 
             for train_index, test_index in self.__cv.split(X=X_zeros,
-                                                           y=self.__target):
+                                                           y=self.__cible):
 
-                S.append(roc_auc_score(self.__target.iloc[test_index],
+                S.append(roc_auc_score(self.__cible.iloc[test_index],
                                        self.__pred[test_index]))
 
             return (max(np.mean(S), 1-np.mean(S))-0.5) * 2

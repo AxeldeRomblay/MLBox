@@ -6,7 +6,7 @@ Installation guide
 Compatibilities 
 ---------------
 
-* *It is compatible with:* **Python 2.7 - 3.6**. & **64-bit version only** (32-bit python is not supported)
+* *It is compatible with:* **Python 2.7, 3.4 - 3.6**. & **64-bit version only** (32-bit python is not supported)
 * *Operating system:* **Linux**. (MacOS & Windows very soon...)
 
 
@@ -60,12 +60,21 @@ Install from the Github
         $ curl  -OL https://github.com/AxeldeRomblay/mlbox/tarball/master
 
 
-* Once you have a copy of the source, **you can install it** using setup.py :
+* Once you have a copy of the source, **you can install it:**
+
+    * Using setup.py: 
     
     .. code-block:: console
 
         $ cd python-package/
         $ python setup.py install
+
+    * Or directly, from the wheel:
+
+    .. code-block:: console
+
+        $ cd python-package/dist/
+        $ pip install *.whl
 
 
 .. _Github repo: https://github.com/AxeldeRomblay/mlbox

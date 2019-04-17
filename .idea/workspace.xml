@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="4b091a13-027d-4e04-b631-87b80f350da6" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/AUTHORS.rst" afterPath="$PROJECT_DIR$/AUTHORS.rst" />
+      <change beforePath="$PROJECT_DIR$/LICENSE" afterPath="$PROJECT_DIR$/LICENSE" />
+      <change beforePath="$PROJECT_DIR$/Makefile" afterPath="$PROJECT_DIR$/Makefile" />
+      <change beforePath="$PROJECT_DIR$/README.rst" afterPath="$PROJECT_DIR$/README.rst" />
+      <change beforePath="$PROJECT_DIR$/appveyor.yml" afterPath="$PROJECT_DIR$/appveyor.yml" />
+      <change beforePath="$PROJECT_DIR$/docs/Makefile" afterPath="$PROJECT_DIR$/docs/Makefile" />
+      <change beforePath="$PROJECT_DIR$/docs/authors.rst" afterPath="$PROJECT_DIR$/docs/authors.rst" />
+      <change beforePath="$PROJECT_DIR$/docs/conf.py" afterPath="$PROJECT_DIR$/docs/conf.py" />
+      <change beforePath="$PROJECT_DIR$/docs/contributing.rst" afterPath="$PROJECT_DIR$/docs/contributing.rst" />
+      <change beforePath="$PROJECT_DIR$/docs/features.rst" afterPath="$PROJECT_DIR$/docs/features.rst" />
+      <change beforePath="$PROJECT_DIR$/docs/history.rst" afterPath="$PROJECT_DIR$/docs/history.rst" />
+      <change beforePath="$PROJECT_DIR$/docs/index.rst" afterPath="$PROJECT_DIR$/docs/index.rst" />
+      <change beforePath="$PROJECT_DIR$/docs/installation.rst" afterPath="$PROJECT_DIR$/docs/installation.rst" />
+      <change beforePath="$PROJECT_DIR$/docs/introduction.rst" afterPath="$PROJECT_DIR$/docs/introduction.rst" />
+      <change beforePath="$PROJECT_DIR$/docs/logos/logo.png" afterPath="$PROJECT_DIR$/docs/logos/logo.png" />
+      <change beforePath="$PROJECT_DIR$/docs/logos/small_logo.ico" afterPath="$PROJECT_DIR$/docs/logos/small_logo.ico" />
+      <change beforePath="$PROJECT_DIR$/docs/logos/small_logo.png" afterPath="$PROJECT_DIR$/docs/logos/small_logo.png" />
+      <change beforePath="$PROJECT_DIR$/docs/make.bat" afterPath="$PROJECT_DIR$/docs/make.bat" />
+      <change beforePath="$PROJECT_DIR$/docs/webinars/auto-ML.pdf" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/docs/webinars/features.pdf" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/examples/classification/example.ipynb" afterPath="$PROJECT_DIR$/examples/classification/example.ipynb" />
+      <change beforePath="$PROJECT_DIR$/examples/classification/test.csv" afterPath="$PROJECT_DIR$/examples/classification/test.csv" />
+      <change beforePath="$PROJECT_DIR$/examples/classification/train.csv" afterPath="$PROJECT_DIR$/examples/classification/train.csv" />
+      <change beforePath="$PROJECT_DIR$/examples/regression/example.ipynb" afterPath="$PROJECT_DIR$/examples/regression/example.ipynb" />
+      <change beforePath="$PROJECT_DIR$/examples/regression/test.csv" afterPath="$PROJECT_DIR$/examples/regression/test.csv" />
+      <change beforePath="$PROJECT_DIR$/examples/regression/train.csv" afterPath="$PROJECT_DIR$/examples/regression/train.csv" />
+      <change beforePath="$PROJECT_DIR$/python-package/README.rst" afterPath="$PROJECT_DIR$/python-package/README.rst" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/__init__.py" afterPath="$PROJECT_DIR$/python-package/mlbox/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/encoding/__init__.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/encoding/categorical_encoder.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/encoding/na_encoder.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/__init__.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/__init__.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/classification/__init__.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/classification/classifier.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/classification/feature_selector.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/classification/stacking_classifier.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/__init__.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/feature_selector.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/regressor.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/stacking_regressor.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/optimisation/__init__.py" afterPath="$PROJECT_DIR$/python-package/mlbox/optimisation/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/optimisation/optimiser.py" afterPath="$PROJECT_DIR$/python-package/mlbox/optimisation/optimiser.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/prediction/__init__.py" afterPath="$PROJECT_DIR$/python-package/mlbox/prediction/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/prediction/predictor.py" afterPath="$PROJECT_DIR$/python-package/mlbox/prediction/predictor.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/preprocessing/__init__.py" afterPath="$PROJECT_DIR$/python-package/mlbox/preprocessing/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/__init__.py" afterPath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/drift_estimator.py" afterPath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/drift_estimator.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/drift_threshold.py" afterPath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/drift_threshold.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/rde_cv.py" afterPath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/rde_cv.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift_thresholder.py" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/python-package/mlbox/preprocessing/reader.py" afterPath="$PROJECT_DIR$/python-package/mlbox/preprocessing/reader.py" />
+      <change beforePath="$PROJECT_DIR$/python-package/requirements.txt" afterPath="$PROJECT_DIR$/python-package/requirements.txt" />
+      <change beforePath="$PROJECT_DIR$/python-package/requirements_dev.txt" afterPath="$PROJECT_DIR$/python-package/requirements_dev.txt" />
+      <change beforePath="$PROJECT_DIR$/python-package/setup.py" afterPath="$PROJECT_DIR$/python-package/setup.py" />
+      <change beforePath="$PROJECT_DIR$/tests/__init__.py" afterPath="$PROJECT_DIR$/tests/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/tests/test_mlbox.py" afterPath="$PROJECT_DIR$/tests/test_mlbox.py" />
+      <change beforePath="$PROJECT_DIR$/tox.ini" afterPath="$PROJECT_DIR$/tox.ini" />
+      <change beforePath="$PROJECT_DIR$/travis_pypi_setup.py" afterPath="$PROJECT_DIR$/travis_pypi_setup.py" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="1057" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scratches" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="MLBox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MLBox" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MLBox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MLBox" type="462c0819:PsiDirectoryNode" />
+              <item name="python-package" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MLBox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MLBox" type="462c0819:PsiDirectoryNode" />
+              <item name="python-package" type="462c0819:PsiDirectoryNode" />
+              <item name="mlbox" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MLBox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MLBox" type="462c0819:PsiDirectoryNode" />
+              <item name="python-package" type="462c0819:PsiDirectoryNode" />
+              <item name="mlbox" type="462c0819:PsiDirectoryNode" />
+              <item name="prediction" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="MLBox" type="b2602c69:ProjectViewProjectNode" />
+              <item name="MLBox" type="462c0819:PsiDirectoryNode" />
+              <item name="python-package" type="462c0819:PsiDirectoryNode" />
+              <item name="mlbox" type="462c0819:PsiDirectoryNode" />
+              <item name="preprocessing" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4b091a13-027d-4e04-b631-87b80f350da6" name="Default" comment="" />
+      <created>1555494331802</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1555494331802</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1920" height="1057" extended-state="0" />
+    <layout>
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/github/python-package/mlbox/preprocessing/cleaner.py" />
+    <entry file="file://$PROJECT_DIR$/github/python-package/mlbox/optimisation/encoding/date_encoder.py" />
+    <entry file="file://$PROJECT_DIR$/github/python-package/mlbox/optimisation/encoding/text_encoder.py" />
+  </component>
+</project>

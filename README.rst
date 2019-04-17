@@ -14,7 +14,7 @@
 * Prediction with models interpretation 
 
 
-**For more details**, please refer to the `official documentation <https://mlbox.readthedocs.io/en/latest/>`__
+**For more details**, please refer to the `official documentation <http://mlbox.readthedocs.io/en/latest/?badge=latest>`__
 
 --------------------------
 
@@ -118,7 +118,7 @@ MLBox has been developed and used by many active community members. Your help is
 For more details, please refer to `CONTRIBUTING <https://github.com/AxeldeRomblay/MLBox/blob/master/docs/contributing.rst>`__.
 
 .. |Documentation Status| image:: https://readthedocs.org/projects/mlbox/badge/?version=latest
-   :target: https://mlbox.readthedocs.io/en/latest/
+   :target: http://mlbox.readthedocs.io/en/latest/?badge=latest
 .. |PyPI version| image:: https://badge.fury.io/py/mlbox.svg
    :target: https://pypi.python.org/pypi/mlbox
 .. |Build Status| image:: https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master
