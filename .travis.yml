@@ -1,18 +1,20 @@
 language: python
 python:
-  - "2.7"
-  - "3.6"
-# command to install dependencies
+- '2.7'
+- '3.6'
 install:
-  - pip install codecov
-  - pip install --upgrade setuptools wheel  
-  - pip install --only-binary all -r python-package/requirements.txt
-# command to run tests
+- pip install codecov
+- pip install --upgrade setuptools wheel
+- pip install --only-binary all -r python-package/requirements.txt
 script:
-  - cd python-package
-  - python setup.py install
-  - cd ../tests
-  - coverage run test_mlbox.py
-  
+- cd python-package
+- python setup.py install
+- cd ../tests
+- coverage run test_mlbox.py
 after_success:
 - codecov
+deploy:
+  provider: pypi
+  user: AxeldeRomblay
+  password:
+    secure: YiApWm2gnE2SiBQQZ4gbWEJrFl+Jo381e07viF9Lgo30+mjnCEpMilAZpCl9MuzslOkXyFCv/U9JNnj9+yGtMcxJQE+82E3eoqupgoMQeGZuWIMN9cRNemxZWgOAwrzslfqEYWvMVdNzIayFYAw6HUgmNI5sHiefX2JjFA7Y0MYlL0SZBjeqUESqpjTHIS0nRTCKpv77XKo/SASJsqkpYg8OgnYgKWKvxpols/bZDwmAwy2j0izuyNAY9ASJx5awg9x/bJnn7IzvO8w+j/iQTQjs5CIa1NBW77Naqplxk1rlivIO3+3rT4QJG+xRacJHa1vLInATCcUVpbhzk/NbOPUxLXpxX6XUPDhUysR1sQbaYBbBOdLOnTAmKBv5WozLzXDUxO/3xwUNUB5+JhMikjOWiwA6Q9pJ7q/nsDMRoTcXrjN/jqMDMQ+CU7h7QBIZFoekDO2hEmWRkcgndbgzPcaTmX8AnjoZCvayYvdge47199feXkTUv+Gx68kInYuj+p3m6He36tJegCnsiAdc2eOzbPswt7/KVBbvbIfRaRj+5LtH69ozn1xpEJJOisiJnF9y0ysB00U4B4bE1kGGmxQeMI6f8Gp33wzvYYUrmB+5AESBzr7Mk4Yfc0Y36vA6NilIj7bK4WmTsWkCmmzazGOwgKi1zWC51W/SjNXyWkc=

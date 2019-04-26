@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4b091a13-027d-4e04-b631-87b80f350da6" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.travis.yml" afterPath="$PROJECT_DIR$/.travis.yml" />
       <change beforePath="$PROJECT_DIR$/README.rst" afterPath="$PROJECT_DIR$/README.rst" />
       <change beforePath="$PROJECT_DIR$/docs/conf.py" afterPath="$PROJECT_DIR$/docs/conf.py" />
       <change beforePath="$PROJECT_DIR$/docs/history.rst" afterPath="$PROJECT_DIR$/docs/history.rst" />
@@ -13,7 +14,6 @@
       <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/regressor.py" afterPath="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/regressor.py" />
       <change beforePath="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/stacking_regressor.py" afterPath="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/stacking_regressor.py" />
       <change beforePath="$PROJECT_DIR$/python-package/requirements.txt" afterPath="$PROJECT_DIR$/python-package/requirements.txt" />
-      <change beforePath="$PROJECT_DIR$/python-package/setup.py" afterPath="$PROJECT_DIR$/python-package/setup.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,16 +24,6 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="history.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/history.rst">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="37" column="18" lean-forward="true" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/index.rst">
           <provider selected="true" editor-type-id="text-editor">
@@ -68,7 +58,7 @@
         <entry file="file://$PROJECT_DIR$/python-package/requirements.txt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="150">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -78,7 +68,7 @@
         <entry file="file://$PROJECT_DIR$/python-package/README.rst">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="750">
-              <caret line="79" column="46" lean-forward="true" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="46" />
+              <caret line="79" column="46" lean-forward="false" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -87,11 +77,21 @@
       <file leaf-file-name="setup.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/python-package/setup.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="47" lean-forward="true" selection-start-line="18" selection-start-column="47" selection-end-line="18" selection-end-column="47" />
+            <state relative-caret-position="255">
+              <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
               <folding>
                 <element signature="e#47#57#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".travis.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.travis.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -100,7 +100,7 @@
         <entry file="file://$PROJECT_DIR$/README.rst">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="569">
-              <caret line="101" column="21" lean-forward="true" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
+              <caret line="101" column="21" lean-forward="false" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -110,7 +110,7 @@
         <entry file="file://$PROJECT_DIR$/python-package/mlbox/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="105">
-              <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+              <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -132,6 +132,7 @@
     <findStrings>
       <find>XGB</find>
       <find>xgb</find>
+      <find>pip</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -140,7 +141,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/python-package/setup.py" />
         <option value="$PROJECT_DIR$/python-package/mlbox/model/supervised/regression/stacking_regressor.py" />
         <option value="$PROJECT_DIR$/python-package/mlbox/model/supervised/classification/stacking_classifier.py" />
         <option value="$PROJECT_DIR$/python-package/mlbox/model/supervised/classification/classifier.py" />
@@ -153,10 +153,12 @@
         <option value="$PROJECT_DIR$/python-package/mlbox/preprocessing/drift/drift_threshold.py" />
         <option value="$PROJECT_DIR$/python-package/requirements.txt" />
         <option value="$PROJECT_DIR$/python-package/mlbox/__init__.py" />
+        <option value="$PROJECT_DIR$/python-package/setup.py" />
+        <option value="$PROJECT_DIR$/.travis.yml" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="y" value="23" />
     <option name="width" value="1920" />
     <option name="height" value="1057" />
@@ -235,10 +237,10 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.33333334" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -288,7 +290,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#100#118#0" expanded="true" />
+            <element signature="e#100#118#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -298,7 +300,7 @@
         <state relative-caret-position="303">
           <caret line="47" column="62" lean-forward="false" selection-start-line="47" selection-start-column="62" selection-end-line="47" selection-end-column="62" />
           <folding>
-            <element signature="e#101#119#0" expanded="true" />
+            <element signature="e#101#119#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -308,7 +310,7 @@
         <state relative-caret-position="15">
           <caret line="1" column="12" lean-forward="false" selection-start-line="1" selection-start-column="12" selection-end-line="1" selection-end-column="12" />
           <folding>
-            <element signature="e#101#119#0" expanded="true" />
+            <element signature="e#101#119#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -318,7 +320,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#100#118#0" expanded="true" />
+            <element signature="e#100#118#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -336,7 +338,7 @@
         <state relative-caret-position="3030">
           <caret line="202" column="0" lean-forward="true" selection-start-line="202" selection-start-column="0" selection-end-line="202" selection-end-column="0" />
           <folding>
-            <element signature="e#100#115#0" expanded="true" />
+            <element signature="e#100#115#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -402,7 +404,7 @@
         <state relative-caret-position="75">
           <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
           <folding>
-            <element signature="e#101#120#0" expanded="true" />
+            <element signature="e#101#120#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -412,7 +414,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#100#118#0" expanded="true" />
+            <element signature="e#100#118#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -430,7 +432,7 @@
         <state relative-caret-position="60">
           <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <element signature="e#100#109#0" expanded="true" />
+            <element signature="e#100#109#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -440,7 +442,7 @@
         <state relative-caret-position="135">
           <caret line="9" column="14" lean-forward="true" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
           <folding>
-            <element signature="e#150#168#0" expanded="true" />
+            <element signature="e#150#168#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -450,7 +452,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#150#168#0" expanded="true" />
+            <element signature="e#150#168#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -460,7 +462,7 @@
         <state relative-caret-position="60">
           <caret line="4" column="0" lean-forward="true" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
           <folding>
-            <element signature="e#150#186#0" expanded="true" />
+            <element signature="e#150#186#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -500,7 +502,7 @@
     <entry file="file://$PROJECT_DIR$/docs/history.rst">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="37" column="18" lean-forward="true" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+          <caret line="37" column="18" lean-forward="false" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
           <folding />
         </state>
       </provider>
@@ -540,7 +542,7 @@
     <entry file="file://$PROJECT_DIR$/python-package/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -548,25 +550,33 @@
     <entry file="file://$PROJECT_DIR$/python-package/README.rst">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="750">
-          <caret line="79" column="46" lean-forward="true" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="46" />
+          <caret line="79" column="46" lean-forward="false" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="46" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/python-package/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="47" lean-forward="true" selection-start-line="18" selection-start-column="47" selection-end-line="18" selection-end-column="47" />
-          <folding>
-            <element signature="e#47#57#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/README.rst">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="569">
-          <caret line="101" column="21" lean-forward="true" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
+          <caret line="101" column="21" lean-forward="false" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/python-package/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="17" column="32" lean-forward="false" selection-start-line="17" selection-start-column="32" selection-end-line="17" selection-end-column="32" />
+          <folding>
+            <element signature="e#47#57#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.travis.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="9" lean-forward="true" selection-start-line="14" selection-start-column="9" selection-end-line="14" selection-end-column="9" />
           <folding />
         </state>
       </provider>
@@ -574,7 +584,7 @@
     <entry file="file://$PROJECT_DIR$/python-package/mlbox/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
-          <caret line="11" column="0" lean-forward="true" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
+          <caret line="11" column="0" lean-forward="false" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
           <folding />
         </state>
       </provider>
