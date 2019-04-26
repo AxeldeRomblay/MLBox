@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import pip
+from pip._internal import main
 from setuptools import setup
 from setuptools.command.install import install
-from mlbox.__init__ import __version__
+
 
 with open('requirements.txt', 'rt') as fh:
     requirements = fh.read().splitlines()
@@ -16,8 +17,12 @@ class OverrideInstallCommand(install):
         failed = []
 
         for req in requirements:
-            if pip.main(["install", req]) == 1:
-                failed.append(req)
+            try:
+                if main(["install", req]) == 1:
+                    failed.append(req)
+            except:
+                if pip.main(["install", req]) == 1:
+                    failed.append(req)
 
         if len(failed) > 0:
             print("")
@@ -36,7 +41,7 @@ with open('README.rst') as readme_file:
 
 setup(
     name='mlbox',
-    version=__version__,
+    version="0.6.1",
     description="A powerful Automated Machine Learning python library.",
     long_description=readme,
     author="Axel ARONIO DE ROMBLAY",
