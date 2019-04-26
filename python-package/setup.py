@@ -2,13 +2,24 @@
 # -*- coding: utf-8 -*-
 
 import pip
-from pip._internal import main
 from setuptools import setup
 from setuptools.command.install import install
 
+#with open('requirements.txt', 'rt') as fh:
+    #requirements = fh.read().splitlines()
 
-with open('requirements.txt', 'rt') as fh:
-    requirements = fh.read().splitlines()
+requirements = [
+    "numpy>=1.13.0",
+    "matplotlib>=2.0.2",
+    "hyperopt==0.1",
+    "Keras==2.1.2",
+    "pandas==0.21.0",
+    "joblib==0.11",
+    "scikit-learn==0.19.0",
+    "Theano==1.0.1",
+    "lightgbm==2.0.11",
+    "networkx==1.11"
+]
 
 
 class OverrideInstallCommand(install):
@@ -18,6 +29,7 @@ class OverrideInstallCommand(install):
 
         for req in requirements:
             try:
+                from pip._internal import main
                 if main(["install", req]) == 1:
                     failed.append(req)
             except:
