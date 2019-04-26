@@ -60,7 +60,7 @@ MLBox main package contains 3 sub-packages : **preprocessing**, **optimisation**
            'fs__strategy' : {"space" : ["variance", "rf_feature_importance"]},
            'fs__threshold': {"search" : "choice", "space" : [0.1, 0.2, 0.3]},             
 
-           'est__strategy' : {"space" : ["XGBoost"]},
+           'est__strategy' : {"space" : ["LightGBM"]},
            'est__max_depth' : {"search" : "choice", "space" : [5,6]},
            'est__subsample' : {"search" : "uniform", "space" : [0.6,0.9]}
            
