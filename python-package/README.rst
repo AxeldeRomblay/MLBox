@@ -7,7 +7,7 @@ Compatibilities
 ---------------
 
 * *It is compatible with:* **Python 2.7 - 3.6**. & **64-bit version only** (32-bit python is not supported)
-* *Operating system:* **Linux**. (MacOS & Windows very soon...)
+* *Operating system:* **Linux**. (EXPERIMENTAL for MacOS & Windows)
 
 
 Preparation 
@@ -26,8 +26,10 @@ First, make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`
 .. code-block:: console
 
     $ pip install cmake
-    
-    
+
+
+If you get any errors during preparation, please refer to `LightGBM's installation guide <https://github.com/Microsoft/LightGBM/tree/master/python-package#lightgbm-python-package>`__
+
     
 Installation
 ------------
@@ -35,7 +37,7 @@ Installation
 Install from pip 
 ~~~~~~~~~~~~~~~~
 
-MLBox is now available on **PyPI**, so you only need to run the following command:
+MLBox is available on **PyPI**, so you only need to run the following command:
 
 .. code-block:: console
 

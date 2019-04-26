@@ -9,20 +9,9 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import (AdaBoostClassifier, BaggingClassifier,
                               ExtraTreesClassifier, RandomForestClassifier)
-from xgboost import XGBClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
-
-global lgbm_installed
-
-try:
-    from lightgbm import LGBMClassifier
-    lgbm_installed = True
-except Exception:
-    warnings.warn(
-        "Package lightgbm is not installed. Model LightGBM will be replaced by"
-        "XGBoost")
-    lgbm_installed = False
+from lightgbm import LGBMClassifier
 
 
 class Classifier():
@@ -31,10 +20,9 @@ class Classifier():
 
     Parameters
     ----------
-    strategy : str, default = "LightGBM" if installed else "XGBoost"
+    strategy : str, default = "LightGBM"
         The choice for the classifier.
-        Available strategies = "LightGBM" (if installed), "XGBoost",
-        "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
+        Available strategies = "LightGBM", "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
 
     **params : default = None
         Parameters of the corresponding classifier.
@@ -46,10 +34,7 @@ class Classifier():
         if ("strategy" in params):
             self.__strategy = params["strategy"]
         else:
-            if (lgbm_installed):
-                self.__strategy = "LightGBM"
-            else:
-                self.__strategy = "XGBoost"
+            self.__strategy = "LightGBM"
 
         self.__classif_params = {}
 
@@ -111,31 +96,10 @@ class Classifier():
                 n_estimators=400, max_depth=10, max_features='sqrt',
                 bootstrap=True, n_jobs=-1, random_state=0)
 
-        elif(strategy == 'XGBoost'):
-            self.__classifier = XGBClassifier(n_estimators=500, max_depth=6,
-                                              learning_rate=0.05,
-                                              colsample_bytree=0.8,
-                                              colsample_bylevel=1.,
-                                              subsample=0.9,
-                                              nthread=-1, seed=0)
-
         elif(strategy == "LightGBM"):
-            if(lgbm_installed):
-                self.__classifier = LGBMClassifier(
-                    n_estimators=500, learning_rate=0.05,
-                    colsample_bytree=0.8, subsample=0.9, nthread=-1, seed=0)
-            else:
-                warnings.warn(
-                    "Package lightgbm is not installed. Model LightGBM will be"
-                    "replaced by XGBoost")
-                self.__strategy = "XGBoost"
-                self.__classifier = XGBClassifier(n_estimators=500,
-                                                  max_depth=6,
-                                                  learning_rate=0.05,
-                                                  colsample_bytree=0.8,
-                                                  colsample_bylevel=1.,
-                                                  subsample=0.9, nthread=-1,
-                                                  seed=0)
+            self.__classifier = LGBMClassifier(
+                n_estimators=500, learning_rate=0.05,
+                colsample_bytree=0.8, subsample=0.9, nthread=-1, seed=0)
 
         elif(strategy == 'ExtraTrees'):
             self.__classifier = ExtraTreesClassifier(
@@ -170,8 +134,8 @@ class Classifier():
 
         else:
             raise ValueError(
-                "Strategy invalid. Please choose between 'LightGBM' "
-                "(if installed), 'XGBoost', 'RandomForest', 'ExtraTrees', "
+                "Strategy invalid. Please choose between 'LightGBM'"
+                ", 'RandomForest', 'ExtraTrees', "
                 "'Tree', 'Bagging', 'AdaBoost' or 'Linear'")
 
 
@@ -231,8 +195,7 @@ class Classifier():
                 for i, col in enumerate(self.__col):
                     importance[col] = f[i]
 
-            elif (self.get_params()["strategy"] in ["LightGBM", "XGBoost",
-                                                    "RandomForest",
+            elif (self.get_params()["strategy"] in ["LightGBM", "RandomForest",
                                                     "ExtraTrees", "Tree"]):
 
                 importance = {}
@@ -248,7 +211,7 @@ class Classifier():
                 norm = self.get_estimator().estimator_weights_.sum()
 
                 try:
-                    # XGB, RF, ET, Tree and AdaBoost
+                    # LGB, RF, ET, Tree and AdaBoost
                     f = sum(weight * est.feature_importances_
                         for weight, est in zip(self.get_estimator().estimator_weights_, self.get_estimator().estimators_)) / norm  # noqa
 
@@ -270,7 +233,7 @@ class Classifier():
                     d = {}
 
                     try:
-                        # XGB, RF, ET, Tree and AdaBoost
+                        # LGB, RF, ET, Tree and AdaBoost
                         f = b.feature_importances_
                     except:  # noqa
                         # Linear

@@ -72,3 +72,7 @@ History
 0.5.1 (2017-08-25)
 ------------------
 * improvement in verbose mode for reader (display target quantiles for regression)
+
+0.6.0 (2019-04-26)
+------------------
+* remove xgboost installation

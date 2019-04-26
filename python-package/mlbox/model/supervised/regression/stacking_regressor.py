@@ -23,7 +23,7 @@ class StackingRegressor():
 
     Parameters
     ----------
-    base_estimators : list, default = [Regressor(strategy="XGBoost"), Regressor(strategy="RandomForest"), Regressor(strategy="ExtraTrees")]
+    base_estimators : list, default = [Regressor(strategy="LightGBM"), Regressor(strategy="RandomForest"), Regressor(strategy="ExtraTrees")]
         List of estimators to fit in the first level using a cross validation.
 
     level_estimator : object, default = LinearRegression()
@@ -43,7 +43,7 @@ class StackingRegressor():
         Verbose mode.
     """
 
-    def __init__(self, base_estimators=[Regressor(strategy="XGBoost"),
+    def __init__(self, base_estimators=[Regressor(strategy="LightGBM"),
                                         Regressor(strategy="RandomForest"),
                                         Regressor(strategy="ExtraTrees")],
                  level_estimator=LinearRegression(), n_folds=5,

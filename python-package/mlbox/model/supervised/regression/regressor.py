@@ -9,20 +9,9 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import (AdaBoostRegressor, BaggingRegressor,
                               ExtraTreesRegressor, RandomForestRegressor)
-from xgboost import XGBRegressor
 from sklearn.linear_model import Ridge
 from sklearn.tree import DecisionTreeRegressor
-
-global lgbm_installed
-
-try:
-    from lightgbm import LGBMRegressor
-    lgbm_installed = True
-except Exception:
-    warnings.warn(
-        "Package lightgbm is not installed. Model LightGBM will be replaced"
-        "by XGBoost")
-    lgbm_installed = False
+from lightgbm import LGBMRegressor
 
 
 class Regressor():
@@ -32,10 +21,9 @@ class Regressor():
 
     Parameters
     ----------
-    strategy : str, default = "LightGBM" if installed else "XGBoost"
+    strategy : str, default = "LightGBM"
         The choice for the regressor.
-        Available strategies = "LightGBM" (if installed), "XGBoost",
-        "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
+        Available strategies = "LightGBM", "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
 
     **params : default = None
         Parameters of the corresponding regressor.
@@ -47,10 +35,7 @@ class Regressor():
         if ("strategy" in params):
             self.__strategy = params["strategy"]
         else:
-            if (lgbm_installed):
-                self.__strategy = "LightGBM"
-            else:
-                self.__strategy = "XGBoost"
+            self.__strategy = "LightGBM"
 
         self.__regress_params = {}
 
@@ -112,26 +97,10 @@ class Regressor():
                 n_estimators=400, max_depth=10, max_features='sqrt',
                 bootstrap=True, n_jobs=-1, random_state=0)
 
-        elif(strategy == 'XGBoost'):
-            self.__regressor = XGBRegressor(
-                n_estimators=500, max_depth=6, learning_rate=0.05,
-                colsample_bytree=0.8, colsample_bylevel=1., subsample=0.9,
-                nthread=-1, seed=0)
-
         elif(strategy == "LightGBM"):
-            if(lgbm_installed):
-                self.__regressor = LGBMRegressor(
-                    n_estimators=500, learning_rate=0.05,
-                    colsample_bytree=0.8, subsample=0.9, nthread=-1, seed=0)
-            else:
-                warnings.warn(
-                    "Package lightgbm is not installed. Model LightGBM will be"
-                    "replaced by XGBoost")
-                self.__strategy = "XGBoost"
-                self.__regressor = XGBRegressor(
-                    n_estimators=500, max_depth=6, learning_rate=0.05,
-                    colsample_bytree=0.8, colsample_bylevel=1.,
-                    subsample=0.9, nthread=-1, seed=0)
+            self.__regressor = LGBMRegressor(
+                n_estimators=500, learning_rate=0.05,
+                colsample_bytree=0.8, subsample=0.9, nthread=-1, seed=0)
 
         elif(strategy == 'ExtraTrees'):
             self.__regressor = ExtraTreesRegressor(
@@ -163,8 +132,8 @@ class Regressor():
 
         else:
             raise ValueError(
-                "Strategy invalid. Please choose between 'LightGBM' "
-                "(if installed), 'XGBoost', 'RandomForest', 'ExtraTrees', "
+                "Strategy invalid. Please choose between 'LightGBM'"
+                ", 'RandomForest', 'ExtraTrees', "
                 "'Tree', 'Bagging', 'AdaBoost' or 'Linear'")
 
 
@@ -224,8 +193,7 @@ class Regressor():
                 for i, col in enumerate(self.__col):
                     importance[col] = f[i]
 
-            elif (self.get_params()["strategy"] in ["LightGBM", "XGBoost",
-                                                    "RandomForest",
+            elif (self.get_params()["strategy"] in ["LightGBM", "RandomForest",
                                                     "ExtraTrees", "Tree"]):
 
                 importance = {}
@@ -241,7 +209,7 @@ class Regressor():
                 norm = self.get_estimator().estimator_weights_.sum()
 
                 try:
-                    # XGB, RF, ET, Tree and AdaBoost
+                    # LGB, RF, ET, Tree and AdaBoost
                     # TODO: Refactor this part
                     f = sum(weight * est.feature_importances_ for weight, est in zip(self.get_estimator().estimator_weights_, self.get_estimator().estimators_)) / norm  # noqa
 
@@ -261,7 +229,7 @@ class Regressor():
                     d = {}
 
                     try:
-                        # XGB, RF, ET, Tree and AdaBoost
+                        # LGB, RF, ET, Tree and AdaBoost
                         f = b.feature_importances_
                     except Exception:
                         f = np.abs(b.coef_)  # Linear
