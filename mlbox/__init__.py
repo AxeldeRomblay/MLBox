@@ -4,8 +4,8 @@ __author__ = """Axel ARONIO DE ROMBLAY"""
 __email__ = 'axelderomblay@gmail.com'
 __version__ = '0.6.2'
 
-from .preprocessing import *
-from .encoding import *
-from .optimisation import *
-from .prediction import *
-from .model import *
+# from .preprocessing import *
+# from .encoding import *
+# from .optimisation import *
+# from .prediction import *
+# from .model import *

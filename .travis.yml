@@ -5,7 +5,7 @@ python:
 install:
 - pip install codecov
 - pip install --upgrade setuptools wheel
-- pip install --only-binary all -r python-package/requirements.txt
+# - pip install --only-binary all -r python-package/requirements.txt
 script:
 - cd python-package
 - python setup.py install
