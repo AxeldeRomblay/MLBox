@@ -1,4 +1,4 @@
-numpy>=1.13.0
+numpy>=1.16.3
 matplotlib>=2.0.2
 hyperopt==0.1
 Keras==2.1.2
