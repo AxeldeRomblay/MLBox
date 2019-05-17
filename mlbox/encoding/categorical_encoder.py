@@ -87,12 +87,13 @@ class Categorical_encoder():
     def fit(self, df_train, y_train):
         """Fits Categorical Encoder.
 
+        Encode categorical variable of a dataframe following strategy parameters.
+
         Parameters
         ----------
         df_train : pandas.Dataframe of shape = (n_train, n_features).
             The training dataset with numerical and categorical features.
             NA values are allowed.
-
         y_train : pandas.Series of shape = (n_train, ).
             The target for classification or regression tasks.
 
@@ -324,39 +325,40 @@ class Categorical_encoder():
                 self.__fitOK = True
 
             else:
-
                 raise ValueError("Strategy for categorical encoding is not valid")
 
         return self
 
-
     def fit_transform(self, df_train, y_train):
+        """Fits Categorical Encoder and transforms the dataset.
 
-        """Fits Categorical Encoder and transforms the dataset
+        Fit categorical encoder following strategy parameter and transform the
+        dataset df_train.
 
         Parameters
         ----------
         df_train : pandas.Dataframe of shape = (n_train, n_features)
             The training dataset with numerical and categorical features.
             NA values are allowed.
-
         y_train : pandas.Series of shape = (n_train, ).
             The target for classification or regression tasks.
 
         Returns
         -------
         pandas.Dataframe of shape = (n_train, n_features)
-            The training dataset with numerical and encoded categorical features
-        """
+            Training dataset with numerical and encoded categorical features.
 
+        """
         self.fit(df_train, y_train)
 
         return self.transform(df_train)
 
 
     def transform(self, df):
+        """Transform categorical variable of df dataset.
 
-        """Transforms the dataset
+        Transform df DataFrame encoding categorical features with the strategy
+        parameter if self.__fitOK is set to True.
 
         Parameters
         ----------
@@ -368,8 +370,8 @@ class Categorical_encoder():
         -------
         pandas.Dataframe of shape = (n_train, n_features)
             The dataset with numerical and encoded categorical features.
-        """
 
+        """
         if self.__fitOK:
 
             if len(self.__Lcat) == 0:

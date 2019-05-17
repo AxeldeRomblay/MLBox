@@ -2,14 +2,13 @@
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
 
-import numpy as np
 import pandas as pd
 import warnings
 
 from sklearn.preprocessing import Imputer
 
-class NA_encoder():
 
+class NA_encoder():
     """Encodes missing values for both numerical and categorical features.
 
     Several strategies are possible in each case.
@@ -24,6 +23,7 @@ class NA_encoder():
     categorical_strategy : str, default = '<NULL>'
         The strategy to encode NA for categorical features.
         Available strategies = a string or "most_frequent"
+
     """
 
     def __init__(self,
