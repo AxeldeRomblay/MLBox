@@ -5,7 +5,7 @@ python:
 install:
 - pip install coverage
 - pip install codecov
-- pip install pytest
+- pip install -U pytest
 - pip install --upgrade setuptools wheel
 script:
 - python setup.py install
