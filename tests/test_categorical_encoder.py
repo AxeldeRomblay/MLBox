@@ -19,55 +19,55 @@ def test_init_encoder():
     assert not encoder._Categorical_encoder__fitOK
 
 
-def test_get_params_encoder():
-    encoder = Categorical_encoder()
-    dict = {'strategy': "label_encoding",
-            'verbose': False}
-    assert encoder.get_params() == dict
-
-
-def test_set_params_encoder():
-    encoder = Categorical_encoder()
-    encoder.set_params(strategy="label_encoding")
-    assert encoder.strategy == "label_encoding"
-    encoder.set_params(strategy="dummification")
-    assert encoder.strategy == "dummification"
-    encoder.set_params(strategy="random_projection")
-    assert encoder.strategy == "random_projection"
-    encoder.set_params(strategy="entity_embedding")
-    assert encoder.strategy == "entity_embedding"
-    encoder.set_params(verbose=True)
-    assert encoder.verbose
-    encoder.set_params(verbose=False)
-    assert not encoder.verbose
-    with pytest.warns(UserWarning) as record:
-        encoder.set_params(_Categorical_encoder__Lcat=[])
-    assert len(record) == 1
-
-
-def test_fit_encoder():
-    df = pd.read_csv("data_for_tests/train.csv")
-    encoder = Categorical_encoder(strategy="wrong_strategy")
-    with pytest.raises(ValueError):
-        encoder.fit(df, df["Survived"])
-    encoder.set_params(strategy="label_encoding")
-    encoder.fit(df, df["Survived"])
-    assert encoder._Categorical_encoder__fitOK
-    encoder.set_params(strategy="dummification")
-    encoder.fit(df, df["Survived"])
-    assert encoder._Categorical_encoder__fitOK
-    encoder.set_params(strategy="random_projection")
-    encoder.fit(df, df["Survived"])
-    assert encoder._Categorical_encoder__fitOK
-    encoder.set_params(strategy="entity_embedding")
-    encoder.fit(df, df["Survived"])
-    assert encoder._Categorical_encoder__fitOK
-
-def test_transform_encoder():
-    df = pd.read_csv("data_for_tests/train.csv")
-    encoder = Categorical_encoder()
-    with pytest.raises(ValueError):
-        encoder.transform(df)
-    encoder.fit(df, df["Survived"])
-    df_encoded = encoder.transform(df)
-    assert (df.columns == df_encoded.columns).all()
+# def test_get_params_encoder():
+#     encoder = Categorical_encoder()
+#     dict = {'strategy': "label_encoding",
+#             'verbose': False}
+#     assert encoder.get_params() == dict
+#
+#
+# def test_set_params_encoder():
+#     encoder = Categorical_encoder()
+#     encoder.set_params(strategy="label_encoding")
+#     assert encoder.strategy == "label_encoding"
+#     encoder.set_params(strategy="dummification")
+#     assert encoder.strategy == "dummification"
+#     encoder.set_params(strategy="random_projection")
+#     assert encoder.strategy == "random_projection"
+#     encoder.set_params(strategy="entity_embedding")
+#     assert encoder.strategy == "entity_embedding"
+#     encoder.set_params(verbose=True)
+#     assert encoder.verbose
+#     encoder.set_params(verbose=False)
+#     assert not encoder.verbose
+#     with pytest.warns(UserWarning) as record:
+#         encoder.set_params(_Categorical_encoder__Lcat=[])
+#     assert len(record) == 1
+#
+#
+# def test_fit_encoder():
+#     df = pd.read_csv("data_for_tests/train.csv")
+#     encoder = Categorical_encoder(strategy="wrong_strategy")
+#     with pytest.raises(ValueError):
+#         encoder.fit(df, df["Survived"])
+#     encoder.set_params(strategy="label_encoding")
+#     encoder.fit(df, df["Survived"])
+#     assert encoder._Categorical_encoder__fitOK
+#     encoder.set_params(strategy="dummification")
+#     encoder.fit(df, df["Survived"])
+#     assert encoder._Categorical_encoder__fitOK
+#     encoder.set_params(strategy="random_projection")
+#     encoder.fit(df, df["Survived"])
+#     assert encoder._Categorical_encoder__fitOK
+#     encoder.set_params(strategy="entity_embedding")
+#     encoder.fit(df, df["Survived"])
+#     assert encoder._Categorical_encoder__fitOK
+#
+# def test_transform_encoder():
+#     df = pd.read_csv("data_for_tests/train.csv")
+#     encoder = Categorical_encoder()
+#     with pytest.raises(ValueError):
+#         encoder.transform(df)
+#     encoder.fit(df, df["Survived"])
+#     df_encoded = encoder.transform(df)
+#     assert (df.columns == df_encoded.columns).all()
