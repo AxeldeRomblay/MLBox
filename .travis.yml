@@ -10,6 +10,6 @@ install:
 script:
 - python setup.py install
 - cd tests
-- coverage run -m pytest test_mlbox.py
+- coverage run -m pytest
 after_success:
 - codecov
