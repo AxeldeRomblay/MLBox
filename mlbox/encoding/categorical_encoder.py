@@ -8,18 +8,17 @@ import warnings
 
 import os
 
-# Set the keras backend if not set, default is theano
-if "KERAS_BACKEND" not in os.environ:
-    os.environ["KERAS_BACKEND"] = "theano"
-
 from keras.layers.core import Dense, Reshape, Dropout
 from keras.layers.embeddings import Embedding
 from keras.layers import concatenate, Input
 from keras.models import Model
 
+# Set the keras backend if not set, default is theano
+if "KERAS_BACKEND" not in os.environ:
+    os.environ["KERAS_BACKEND"] = "theano"
+
 
 class Categorical_encoder():
-
     """Encodes categorical features.
 
     Several strategies are possible (supervised or not). Works for both
@@ -31,13 +30,13 @@ class Categorical_encoder():
         The strategy to encode categorical features.
         Available strategies = {"label_encoding", "dummification",
         "random_projection", entity_embedding"}
-
     verbose : bool, default = False
         Verbose mode. Useful for entity embedding strategy.
+
     """
 
     def __init__(self, strategy='label_encoding', verbose=False):
-
+        """Init method for class Categorical_encoder()."""
         self.strategy = strategy
         self.verbose = verbose
         self.__Lcat = []
@@ -47,12 +46,29 @@ class Categorical_encoder():
         self.__weights = None
         self.__fitOK = False
 
-
     def get_params(self, deep=True):
+        """Get param that can be defined by the user.
 
-        return {'strategy': self.strategy,
+        Get strategy parameters and verbose parameters
+
+        Parameters
+        ----------
+        strategy : str, default = "label_encoding"
+            The strategy to encode categorical features.
+            Available strategies = {"label_encoding", "dummification",
+            "random_projection", entity_embedding"}
+        verbose : bool, default = False
+            Verbose mode. Useful for entity embedding strategy.
+
+        Returns
+        -------
+        dict : dictionary
+            Dictionary that contains strategy parameters and verbose parameters.
+
+        """
+        dict = {'strategy': self.strategy,
                 'verbose': self.verbose}
-
+        return dict
 
     def set_params(self, **params):
 
@@ -69,7 +85,6 @@ class Categorical_encoder():
 
 
     def fit(self, df_train, y_train):
-
         """Fits Categorical Encoder.
 
         Parameters

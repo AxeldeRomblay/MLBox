@@ -14,7 +14,6 @@ install:
 
 # command to run tests
 script:
-  - cd mlbox
   - python setup.py install
-  - cd ../tests
+  - cd tests
   - coverage run test_mlbox.py
