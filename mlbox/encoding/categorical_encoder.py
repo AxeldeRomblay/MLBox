@@ -15,7 +15,7 @@ from keras.models import Model
 
 # Set the keras backend if not set, default is theano
 if "KERAS_BACKEND" not in os.environ:
-    os.environ["KERAS_BACKEND"] = "theano"
+    os.environ["KERAS_BACKEND"] = "tensorflow"
 
 
 class Categorical_encoder():

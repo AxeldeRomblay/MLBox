@@ -76,3 +76,7 @@ History
 0.6.0 (2019-04-26)
 ------------------
 * remove xgboost installation
+
+1.0.0 (2019-06-01)
+------------------
+* change package architecture

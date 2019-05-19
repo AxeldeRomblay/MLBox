@@ -1,3 +1,4 @@
-from . import supervised
+from . import classification
+from . import regression
 
-__all__ = ['supervised']
+__all__ = ['classification', 'regression']
