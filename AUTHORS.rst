@@ -15,3 +15,4 @@ Contributors
 
 * Nicolas CHEREL <nicolas.cherel@telecom-paristech.fr>
 * Mohamed MASKANI <maskani.mohamed@gmail.com>
+* Henri GERARD <hgerard.pro@gmail.com>
