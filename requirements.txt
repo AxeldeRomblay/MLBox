@@ -1,5 +1,5 @@
 numpy>=1.16.3
-scipy==1.2.0
+scipy==1.2.1
 matplotlib==2.2.4
 hyperopt==0.1
 Keras==2.1.2
