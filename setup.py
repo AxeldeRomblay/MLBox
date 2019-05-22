@@ -3,7 +3,6 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
-from mlbox.__init__ import __version__
 
 
 with open('requirements.txt', 'rt') as fh:
@@ -12,10 +11,13 @@ with open('requirements.txt', 'rt') as fh:
 with open('README.rst') as readme_file:
     readme = readme_file.read()
 
+with open('VERSION.txt') as version_file:
+    version = version_file.read()
+
 
 setup(
     name='mlbox',
-    version=__version__,
+    version=version,
     description="A powerful Automated Machine Learning python library.",
     long_description=readme,
     author="Axel ARONIO DE ROMBLAY",

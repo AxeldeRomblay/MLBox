@@ -16,12 +16,12 @@ from sklearn.pipeline import Pipeline
 
 from ..encoding.na_encoder import NA_encoder
 from ..encoding.categorical_encoder import Categorical_encoder
-from ..model.supervised.classification.feature_selector import Clf_feature_selector
-from ..model.supervised.regression.feature_selector import Reg_feature_selector
-from ..model.supervised.classification.stacking_classifier import StackingClassifier
-from ..model.supervised.regression.stacking_regressor import StackingRegressor
-from ..model.supervised.classification.classifier import Classifier
-from ..model.supervised.regression.regressor import Regressor
+from ..model.classification.feature_selector import Clf_feature_selector
+from ..model.regression.feature_selector import Reg_feature_selector
+from ..model.classification.stacking_classifier import StackingClassifier
+from ..model.regression.stacking_regressor import StackingRegressor
+from ..model.classification.classifier import Classifier
+from ..model.regression.regressor import Regressor
 
 
 class Predictor():
@@ -64,7 +64,7 @@ class Predictor():
                               "`predictor.get_params().keys()`")
             else:
                 setattr(self,k,v)
-                
+
     def __save_feature_importances(self, importance, fig_name="feature_importance.png"):
 
         """Saves feature importances plot
@@ -117,32 +117,32 @@ class Predictor():
 
         else:
             pass
-                
+
 
     def __plot_feature_importances(self, importance, top = 10):
 
         """Plots top 10 feature importances
-        
+
         Parameters
         ----------
         importance : dict
-            Dictionary with features (key) and importances (values) 
-        
+            Dictionary with features (key) and importances (values)
+
         top : int
             Number of top features to display.
-        
+
         Returns
         -------
         NoneType
             None
         """
-        
+
         if (len(importance) > 0):
 
             # Plot feature importances
-            
+
             importance_sum = np.sum(list(importance.values()))
-            tuples = [(k, np.round(importance[k] * 100. / importance_sum, 2)) 
+            tuples = [(k, np.round(importance[k] * 100. / importance_sum, 2))
                       for k in importance]
             tuples = sorted(tuples, key=lambda x: x[1])[-top:]
             labels, values = zip(*tuples)
@@ -171,7 +171,7 @@ class Predictor():
 
         Also outputs feature importances and the submission file
         (.png and .csv format).
-        
+
         Parameters
         ----------
         params : dict, default = None.
@@ -369,14 +369,14 @@ class Predictor():
                     # Feature importances
 
                     try:
-                            
-                        importance = est.feature_importances()                       
-                        self.__save_feature_importances(importance, 
+
+                        importance = est.feature_importances()
+                        self.__save_feature_importances(importance,
                                                         self.to_path
-                                                        + "/" 
-                                                        + est.get_params()["strategy"] 
+                                                        + "/"
+                                                        + est.get_params()["strategy"]
                                                         + "_feature_importance.png")
-                        
+
                         if(self.verbose):
                             self.__plot_feature_importances(importance, 10)
                             print("")
@@ -429,7 +429,7 @@ class Predictor():
                                             columns=enc.inverse_transform(range(len(enc.classes_))),
                                             index=df['test'].index)
                         pred[df['target'].name + "_predicted"] = pred.idxmax(axis=1)  # noqa
-                        
+
                         try:
                             pred[df['target'].name + "_predicted"] = pred[df['target'].name + "_predicted"].apply(int)  # noqa
                         except:
