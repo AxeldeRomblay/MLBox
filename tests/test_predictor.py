@@ -62,5 +62,5 @@ def test_fit_predict():
 
     optimal_hyper_parameters = opt.optimise(space, dict, 1)
 
-    predictor = Predictor()
+    predictor = Predictor(verbose=False)
     predictor.fit_predict(optimal_hyper_parameters, dict)
