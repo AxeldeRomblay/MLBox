@@ -38,8 +38,8 @@ def test_get_params_stacking_classifier():
 
 def test_set_params_stacking_classifier():
     stacking_classifier = StackingClassifier()
-    stacking_classifier.set_params(n_folds=5)
-    assert stacking_classifier.n_folds == 5
+    stacking_classifier.set_params(n_folds=6)
+    assert stacking_classifier.n_folds == 6
     stacking_classifier.set_params(copy=True)
     assert stacking_classifier.copy
     stacking_classifier.set_params(drop_first=False)
