@@ -60,6 +60,9 @@ def test_fit_encoder():
     encoder.set_params(strategy="random_projection")
     encoder.fit(df, df["Survived"])
     assert encoder._Categorical_encoder__fitOK
+    encoder.set_params(strategy="entity_embedding")
+    encoder.fit(df, df["Survived"])
+    assert encoder._Categorical_encoder__fitOK
 
 
 def test_transform_encoder():

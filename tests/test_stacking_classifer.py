@@ -4,6 +4,7 @@
 # License: BSD 3 clause
 import pytest
 import pandas as pd
+import numpy as np
 
 from sklearn.linear_model import LogisticRegression
 from mlbox.model.classification.stacking_classifier import StackingClassifier
@@ -63,3 +64,49 @@ def test_fit_transform_stacking_classifier():
         stacking_classifier.fit_transform(df_train, None)
     stacking_classifier.fit_transform(df_train, y_train)
     assert stacking_classifier._StackingClassifier__fittransformOK
+
+
+def test_transform_stacking_classifier():
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    stacking_classifier = StackingClassifier()
+    with pytest.raises(ValueError):
+        stacking_classifier.transform(None)
+    with pytest.raises(ValueError):
+        stacking_classifier.transform(df_test)
+    stacking_classifier.fit_transform(df_train, y_train)
+    results = stacking_classifier.transform(df_test)
+    assert len(results.columns == 3)
+
+
+def test_fit_stacking_classifier():
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    stacking_classifier = StackingClassifier(verbose=True)
+    stacking_classifier.fit(df_train, y_train)
+    assert stacking_classifier._StackingClassifier__fitOK
+
+
+def test_predict_proba_stacking_classifier():
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    stacking_classifier = StackingClassifier()
+    with pytest.raises(ValueError):
+        stacking_classifier.predict_proba(df_test)
+    stacking_classifier.fit(df_train, y_train)
+    results = stacking_classifier.predict_proba(df_test)
+    assert np.shape(results) == (418, 2)
+
+
+def test_predict_stacking_classifier():
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    stacking_classifier = StackingClassifier()
+    with pytest.raises(ValueError):
+        stacking_classifier.predict(df_test)
+    stacking_classifier.fit(df_train, y_train)
+    results = stacking_classifier.predict(df_test)
+    assert np.shape(results) == (418,)
