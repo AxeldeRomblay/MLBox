@@ -6,7 +6,7 @@ Installation guide
 Compatibilities
 ---------------
 
-* *It is compatible with:* **Python 2.7, 3.4 - 3.7**. & **64-bit version only** (32-bit python is not supported)
+* *It is compatible with:* **Python 2.7, 3.5 & 3.6**. & **64-bit version only** (32-bit python is not supported)
 * *Operating system:* **Linux**. (EXPERIMENTAL for MacOS & Windows)
 
 
