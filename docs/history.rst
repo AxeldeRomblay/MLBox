@@ -77,6 +77,11 @@ History
 ------------------
 * remove xgboost installation
 
-1.0.0 (2019-06-01)
+0.7.0 (2019-07-01)
 ------------------
 * change package architecture
+* add tests
+* improve setup
+* update support for python versions
+* add support for Mac OS
+* improve documentation & examples
