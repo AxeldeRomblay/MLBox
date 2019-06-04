@@ -28,9 +28,21 @@ def test_clean():
         reader.clean(path="data_for_tests/train.csv")
     reader = Reader(sep=",")
     df = reader.clean(path="data_for_tests/train.csv")
+    assert np.shape(df) == (891, 12)
     with pytest.raises(ValueError):
         reader.clean(path="data_for_tests/train.wrong_extension")
-    df = reader.clean(path="data_for_tests/train.csv", drop_duplicate=True)
+    df_drop = reader.clean(path="data_for_tests/train.csv", drop_duplicate=True)
+    assert np.shape(df_drop) == (891, 12)
+    assert np.all(df["Name"] == df_drop["Name"])
+    reader = Reader()
+    df_excel = reader.clean(path="data_for_tests/train.xls")
+    assert np.shape(df_excel) == (891, 12)
+    assert np.all(df["Name"] == df_excel["Name"])
+    df_hdf = reader.clean(path="data_for_tests/train.h5")
+    assert np.shape(df_hdf) == (891, 12)
+    assert np.all(df["Name"] == df_hdf["Name"])
+    df_json = reader.clean(path="data_for_tests/train.json")
+    assert np.shape(df_json) == (891, 12)
 
 
 def test_train_test_split():
@@ -44,6 +56,9 @@ def test_train_test_split():
         reader.train_test_split(Lpath=["data_for_tests/train.csv"], target_name="Survived")
     reader = Reader(sep=",")
     dict = reader.train_test_split(Lpath=["data_for_tests/train.csv"], target_name="Survived")
+    reader = Reader(to_hdf5=True)
+    dict = reader.train_test_split(Lpath=["data_for_tests/train.h5"], target_name="Survived")
+
 
 
 def test_convert_list():

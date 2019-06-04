@@ -9,6 +9,7 @@ import numpy as np
 from mlbox.optimisation.optimiser import Optimiser
 from mlbox.preprocessing.drift_thresholder import Drift_thresholder
 from mlbox.preprocessing.reader import Reader
+from mlbox.optimisation import make_scorer
 
 
 def test_init_optimiser():
@@ -53,13 +54,84 @@ def test_set_params_optimiser():
     assert len(record) == 1
 
 
-def test_evaluate_and_optimise():
+def test_evaluate_classification_optimiser():
     reader = Reader(sep=",")
     dict = reader.train_test_split(Lpath=["data_for_tests/train.csv",
                                           "data_for_tests/test.csv"],
                                    target_name="Survived")
     drift_thresholder = Drift_thresholder()
     drift_thresholder = drift_thresholder.fit_transform(dict)
+
+    with pytest.warns(UserWarning) as record:
+        opt = Optimiser(scoring=None, n_folds=3)
+    assert len(record) == 1
+    score = opt.evaluate(None, dict)
+    assert -np.Inf <= score
+
+    with pytest.warns(UserWarning) as record:
+        opt = Optimiser(scoring="roc_auc", n_folds=3)
+    assert len(record) == 1
+    score = opt.evaluate(None, dict)
+    assert 0. <= score <= 1.
+
+    with pytest.warns(UserWarning) as record:
+        opt = Optimiser(scoring="wrong_scoring", n_folds=3)
+    assert len(record) == 1
+    with pytest.warns(UserWarning) as record:
+        score = opt.evaluate(None, dict)
+    assert opt.scoring == "log_loss"
+
+
+def test_evaluate_regression_optimiser():
+    reader = Reader(sep=",")
+    dict = reader.train_test_split(Lpath=["data_for_tests/train_regression.csv",
+                                          "data_for_tests/test_regression.csv"],
+                                   target_name="SalePrice")
+    drift_thresholder = Drift_thresholder()
+    drift_thresholder = drift_thresholder.fit_transform(dict)
+
+    mape = make_scorer(lambda y_true,
+                       y_pred: 100*np.sum(
+                                          np.abs(y_true-y_pred)/y_true
+                                          )/len(y_true),
+                       greater_is_better=False,
+                       needs_proba=False)
+    with pytest.warns(UserWarning) as record:
+        opt = Optimiser(scoring=mape, n_folds=3)
+    assert len(record) == 1
+    score = opt.evaluate(None, dict)
+    assert -np.Inf <= score
+
+    with pytest.warns(UserWarning) as record:
+        opt = Optimiser(scoring=None, n_folds=3)
+    assert len(record) == 1
+    score = opt.evaluate(None, dict)
+    assert -np.Inf <= score
+
+    with pytest.warns(UserWarning) as record:
+        opt = Optimiser(scoring="wrong_scoring", n_folds=3)
+    assert len(record) == 1
+    with pytest.warns(UserWarning) as record:
+        score = opt.evaluate(None, dict)
+    assert -np.Inf <= score
+
+
+def test_evaluate_and_optimise_classification():
+    reader = Reader(sep=",")
+
+    dict = reader.train_test_split(Lpath=["data_for_tests/train.csv",
+                                          "data_for_tests/test.csv"],
+                                   target_name="Survived")
+    drift_thresholder = Drift_thresholder()
+    drift_thresholder = drift_thresholder.fit_transform(dict)
+
+    with pytest.warns(UserWarning) as record:
+        opt = Optimiser(scoring='accuracy', n_folds=3)
+    assert len(record) == 1
+    dict_error = dict.copy()
+    dict_error["target"] = dict_error["target"].astype(str)
+    with pytest.raises(ValueError):
+        score = opt.evaluate(None, dict_error)
 
     with pytest.warns(UserWarning) as record:
         opt = Optimiser(scoring='accuracy', n_folds=3)
