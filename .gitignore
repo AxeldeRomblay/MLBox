@@ -39,6 +39,7 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
+.pytest_cache/
 .coverage.*
 .cache
 nosetests.xml

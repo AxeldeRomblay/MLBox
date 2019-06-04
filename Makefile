@@ -51,14 +51,14 @@ lint: ## check style with flake8
 	flake8 mlbox tests
 
 test: ## run tests quickly with the default Python
-	py.test
+	pytest
 	
 
 test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source mlbox -m pytest
+	coverage run -m --source=../mlbox/ pytest
 	
 		coverage report -m
 		coverage html
