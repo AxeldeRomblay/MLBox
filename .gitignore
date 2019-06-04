@@ -73,6 +73,7 @@ target/
 
 # pycharm
 .idea
+.DS_Store
 
 # pyenv
 .python-version
