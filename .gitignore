@@ -39,6 +39,7 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
+.pytest_cache/
 .coverage.*
 .cache
 nosetests.xml
@@ -72,6 +73,7 @@ target/
 
 # pycharm
 .idea
+.DS_Store
 
 # pyenv
 .python-version
