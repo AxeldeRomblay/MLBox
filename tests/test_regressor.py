@@ -92,10 +92,10 @@ def test_feature_importances_regressor():
     regressor.fit(df_train, y_train)
     importance = regressor.feature_importances()
     assert importance != {}
-    # regressor.set_params(strategy="Bagging")
-    # regressor.fit(df_train, y_train)
-    # importance = regressor.feature_importances()
-    # assert importance != {}
+    regressor.set_params(strategy="Bagging")
+    regressor.fit(df_train, y_train)
+    importance = regressor.feature_importances()
+    assert importance != {}
 
 
 def test_predict_regressor():
@@ -109,18 +109,6 @@ def test_predict_regressor():
     with pytest.raises(ValueError):
         regressor.predict(None)
     assert len(regressor.predict(df_train)) > 0
-
-
-# def test_transform_regressor():
-#     df_train = pd.read_csv("data_for_tests/clean_train.csv")
-#     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
-#     regressor = Regressor(strategy="Linear")
-#     with pytest.raises(ValueError):
-#         regressor.transform(df_train)
-#     regressor.fit(df_train, y_train)
-#     with pytest.raises(ValueError):
-#         regressor.transform(None)
-#     assert len(regressor.transform(df_train)) > 0
 
 
 def test_score_regressor():

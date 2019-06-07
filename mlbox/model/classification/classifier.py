@@ -1,3 +1,4 @@
+"""Define class Classifier that wraps scikitlearn classifiers."""
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
@@ -15,22 +16,34 @@ from lightgbm import LGBMClassifier
 
 
 class Classifier():
-
-    """Wraps scikitlearn classifiers
+    """Wraps scikitlearn classifiers.
 
     Parameters
     ----------
     strategy : str, default = "LightGBM"
         The choice for the classifier.
-        Available strategies = "LightGBM", "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
+        Available strategies = {"LightGBM", "RandomForest", "ExtraTrees",
+        "Tree", "Bagging", "AdaBoost" or "Linear"}.
 
     **params : default = None
         Parameters of the corresponding classifier.
         Examples : n_estimators, max_depth...
+
     """
 
     def __init__(self, **params):
+        """Init Classifier object.
 
+        User can define strategy parameters.
+
+        Parameters
+        ----------
+        strategy : str, default = "LightGBM"
+            The choice of the classifier.
+            Available strategies = {"LightGBM", "RandomForest", "ExtraTrees",
+            "Tree", "Bagging", "AdaBoost" or "Linear"}.
+
+        """
         if ("strategy" in params):
             self.__strategy = params["strategy"]
         else:
@@ -45,18 +58,16 @@ class Classifier():
         self.set_params(**params)
         self.__fitOK = False
 
-
     def get_params(self, deep=True):
-
+        """Get strategy parameters of Classifier object."""
         params = {}
         params["strategy"] = self.__strategy
         params.update(self.__classif_params)
 
         return params
 
-
     def set_params(self, **params):
-
+        """Set strategy parameters of Classifier object."""
         self.__fitOK = False
 
         if 'strategy' in params.keys():
@@ -64,9 +75,9 @@ class Classifier():
 
             for k, v in self.__classif_params.items():
                 if k not in self.get_params().keys():
-                    warnings.warn("Invalid parameter for classifier " +
-                                  str(self.__strategy) +
-                                  ". Parameter IGNORED. Check the list of "
+                    warnings.warn("Invalid parameter for classifier "
+                                  + str(self.__strategy)
+                                  + ". Parameter IGNORED. Check the list of "
                                   "available parameters with "
                                   "`classifier.get_params().keys()`")
                 else:
@@ -77,18 +88,17 @@ class Classifier():
                 pass
             else:
                 if k not in self.__classifier.get_params().keys():
-                    warnings.warn("Invalid parameter for classifier " +
-                                  str(self.__strategy) +
-                                  ". Parameter IGNORED. Check the list of "
+                    warnings.warn("Invalid parameter for classifier "
+                                  + str(self.__strategy)
+                                  + ". Parameter IGNORED. Check the list of "
                                   "available parameters with "
                                   "`classifier.get_params().keys()`")
                 else:
                     setattr(self.__classifier, k, v)
                     self.__classif_params[k] = v
 
-
     def __set_classifier(self, strategy):
-
+        """Set the classifier using scikitlearn Classifier."""
         self.__strategy = strategy
 
         if(strategy == 'RandomForest'):
@@ -138,9 +148,7 @@ class Classifier():
                 ", 'RandomForest', 'ExtraTrees', "
                 "'Tree', 'Bagging', 'AdaBoost' or 'Linear'")
 
-
     def fit(self, df_train, y_train):
-
         """Fits Classifier.
 
         Parameters
@@ -155,11 +163,11 @@ class Classifier():
         -------
         object
             self
-        """
 
+        """
         # sanity checks
-        if((type(df_train) != pd.SparseDataFrame) and
-           (type(df_train) != pd.DataFrame)):
+        if((type(df_train) != pd.SparseDataFrame)
+           and (type(df_train) != pd.DataFrame)):
             raise ValueError("df_train must be a DataFrame")
 
         if (type(y_train) != pd.core.series.Series):
@@ -171,10 +179,8 @@ class Classifier():
 
         return self
 
-
     def feature_importances(self):
-
-        """Computes feature importances.
+        """Compute feature importances.
 
         Classifier must be fitted before.
 
@@ -183,8 +189,8 @@ class Classifier():
         dict
             Dictionnary containing a measure of feature importance (value) for
             each feature (key).
-        """
 
+        """
         if self.__fitOK:
 
             if (self.get_params()["strategy"] in ["Linear"]):
@@ -203,7 +209,6 @@ class Classifier():
 
                 for i, col in enumerate(self.__col):
                     importance[col] = f[i]
-
 
             elif(self.get_params()["strategy"] in ["AdaBoost"]):
 
@@ -245,8 +250,10 @@ class Classifier():
                     importance_bag.append(d.copy())
 
                 for i, col in enumerate(self.__col):
-                    importance[col] = np.mean(
-                        filter(lambda x: x != 0, [k[col] if col in k else 0 for k in importance_bag]))  # noqa
+                    list_filtered = filter(lambda x: x != 0,
+                                           [k[col] if col in k
+                                            else 0 for k in importance_bag])
+                    importance[col] = np.mean(list(list_filtered))  # noqa
 
             else:
 
@@ -258,9 +265,7 @@ class Classifier():
 
             raise ValueError("You must call the fit function before !")
 
-
     def predict(self, df):
-
         """Predicts the target.
 
         Parameters
@@ -272,8 +277,8 @@ class Classifier():
         -------
         array of shape = (n, )
             The encoded classes to be predicted.
-        """
 
+        """
         try:
             if not callable(getattr(self.__classifier, "predict")):
                 raise ValueError("predict attribute is not callable")
@@ -293,7 +298,6 @@ class Classifier():
             raise ValueError("You must call the fit function before !")
 
     def predict_log_proba(self, df):
-
         """Predicts class log-probabilities for df.
 
         Parameters
@@ -305,8 +309,8 @@ class Classifier():
         -------
         y : array of shape = (n, n_classes)
             The log-probabilities for each class
-        """
 
+        """
         try:
             if not callable(getattr(self.__classifier, "predict_log_proba")):
                 raise ValueError("predict_log_proba attribute is not callable")
@@ -324,9 +328,7 @@ class Classifier():
         else:
             raise ValueError("You must call the fit function before !")
 
-
     def predict_proba(self, df):
-
         """Predicts class probabilities for df.
 
         Parameters
@@ -338,8 +340,8 @@ class Classifier():
         -------
         array of shape = (n, n_classes)
             The probabilities for each class
-        """
 
+        """
         try:
             if not callable(getattr(self.__classifier, "predict_proba")):
                 raise ValueError("predict_proba attribute is not callable")
@@ -349,51 +351,16 @@ class Classifier():
         if self.__fitOK:
 
             # sanity checks
-            if((type(df) != pd.SparseDataFrame) and
-               (type(df) != pd.DataFrame)):
+            if((type(df) != pd.SparseDataFrame)
+               and (type(df) != pd.DataFrame)):
                 raise ValueError("df must be a DataFrame")
 
             return self.__classifier.predict_proba(df.values)
         else:
             raise ValueError("You must call the fit function before !")
 
-
-    def transform(self, df):
-
-        """Transforms df.
-
-        Parameters
-        ----------
-        df : pandas dataframe of shape = (n, n_features)
-            The dataset with numerical features.
-
-        Returns
-        -------
-        pandas dataframe of shape = (n, n_selected_features)
-            The transformed dataset with its most important features.
-        """
-
-        try:
-            if not callable(getattr(self.__classifier, "transform")):
-                raise ValueError("transform attribute is not callable")
-        except Exception as e:
-            raise e
-
-        if self.__fitOK:
-
-            # sanity checks
-            if((type(df) != pd.SparseDataFrame) and
-               (type(df) != pd.DataFrame)):
-                raise ValueError("df must be a DataFrame")
-
-            return self.__classifier.transform(df.values)
-        else:
-            raise ValueError("You must call the fit function before !")
-
-
     def score(self, df, y, sample_weight=None):
-
-        """Returns the mean accuracy.
+        """Return the mean accuracy.
 
         Parameters
         ----------
@@ -407,8 +374,8 @@ class Classifier():
         -------
         float
             Mean accuracy of self.predict(df) wrt. y.
-        """
 
+        """
         try:
             if not callable(getattr(self.__classifier, "score")):
                 raise ValueError("score attribute is not callable")
@@ -429,7 +396,6 @@ class Classifier():
         else:
             raise ValueError("You must call the fit function before !")
 
-
     def get_estimator(self):
-
+        """Return classfier."""
         return copy(self.__classifier)

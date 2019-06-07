@@ -90,10 +90,10 @@ def test_feature_importances_classifier():
     classifier.fit(df_train, y_train)
     importance = classifier.feature_importances()
     assert importance != {}
-    # classifier.set_params(strategy="Bagging")
-    # classifier.fit(df_train, y_train)
-    # importance = classifier.feature_importances()
-    # assert importance != {}
+    classifier.set_params(strategy="Bagging")
+    classifier.fit(df_train, y_train)
+    importance = classifier.feature_importances()
+    assert importance != {}
 
 
 def test_predict_classifier():
@@ -109,16 +109,17 @@ def test_predict_classifier():
     assert len(classifier.predict(df_train)) > 0
 
 
-# def test_predict_log_proba_classifier():
-#     df_train = pd.read_csv("data_for_tests/clean_train.csv")
-#     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
-#     classifier = Classifier()
-#     with pytest.raises(ValueError):
-#         classifier.predict_log_proba(df_train)
-#     classifier.fit(df_train, y_train)
-#     with pytest.raises(ValueError):
-#         classifier.predict_log_proba(None)
-#     assert len(classifier.predict_log_proba(df_train)) > 0
+def test_predict_log_proba_classifier():
+    """Test predict_log_proba method of Classifier class."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    classifier = Classifier(strategy="Linear")
+    with pytest.raises(ValueError):
+        classifier.predict_log_proba(df_train)
+    classifier.fit(df_train, y_train)
+    with pytest.raises(ValueError):
+        classifier.predict_log_proba(None)
+    assert len(classifier.predict_log_proba(df_train)) > 0
 
 
 def test_predict_proba_classifier():
@@ -132,18 +133,6 @@ def test_predict_proba_classifier():
     with pytest.raises(ValueError):
         classifier.predict_proba(None)
     assert len(classifier.predict_proba(df_train)) > 0
-
-
-# def test_transform_classifier():
-#     df_train = pd.read_csv("data_for_tests/clean_train.csv")
-#     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
-#     classifier = Classifier()
-#     with pytest.raises(ValueError):
-#         classifier.transform(df_train)
-#     classifier.fit(df_train, y_train)
-#     with pytest.raises(ValueError):
-#         classifier.transform(None)
-#     assert len(classifier.transform(df_train)) > 0
 
 
 def test_score_classifier():

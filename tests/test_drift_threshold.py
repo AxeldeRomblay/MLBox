@@ -9,7 +9,9 @@ import pytest
 import pandas as pd
 
 from mlbox.preprocessing.drift import DriftThreshold
+from mlbox.preprocessing.drift import sync_fit
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier
 
 
 def test_init_drift_threshold():
@@ -49,6 +51,7 @@ def test_set_params_drift_threshold():
     drift_threshold = DriftThreshold()
     dict = {'threshold': 0.6,
             'subsample': 1.,
+            'estimator': DecisionTreeClassifier(max_depth=6),
             'n_folds': 2,
             'stratify': True,
             'random_state': 1,
@@ -63,32 +66,71 @@ def test_set_params_drift_threshold():
     assert dict_get_params["n_jobs"] == dict["n_jobs"]
 
 
-# def test_fit_drift_threshold():
-    # df_train = pd.read_csv("data_for_tests/train.csv")
-    # df_test = pd.read_csv("data_for_tests/test.csv")
-    # # df = df.rename(columns={'Survived': 'newName1', 'oldName2': 'newName2'})
-    # drift_estimator = DriftEstimator()
-    # drift_estimator.fit(df_train, df_test)
-    # assert drift_estimator._DriftEstimator__fitOK
-#     encoder = Categorical_encoder(strategy="wrong_strategy")
-#     with pytest.raises(ValueError):
-#         encoder.fit(df, df["Survived"])
-#     encoder.set_params(strategy="label_encoding")
-#     encoder.fit(df, df["Survived"])
-#     assert encoder._Categorical_encoder__fitOK
-#     encoder.set_params(strategy="dummification")
-#     encoder.fit(df, df["Survived"])
-#     assert encoder._Categorical_encoder__fitOK
-#     encoder.set_params(strategy="random_projection")
-#     encoder.fit(df, df["Survived"])
-#     assert encoder._Categorical_encoder__fitOK
-#
-#
-# def test_transform_encoder():
-#     df = pd.read_csv("data_for_tests/train.csv")
-#     encoder = Categorical_encoder()
-#     with pytest.raises(ValueError):
-#         encoder.transform(df)
-#     encoder.fit(df, df["Survived"])
-#     df_encoded = encoder.transform(df)
-#     assert (df.columns == df_encoded.columns).all()
+def test_fit_drift_threshold():
+    """Test fit method of DriftThreshold class."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    drift_threshold = DriftThreshold()
+    drift_threshold.fit(df_train, df_test)
+    assert drift_threshold._DriftThreshold__fitOK
+
+
+def test_transform_drift_threshold():
+    """Test transform method of DriftThreshold class."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    drift_threshold = DriftThreshold()
+    with pytest.raises(ValueError):
+        drift_threshold.transform(df_train)
+    drift_threshold.fit(df_train, df_test)
+    df_transformed = drift_threshold.transform(df_train)
+    assert (df_train.columns == df_transformed.columns).all()
+
+
+def test_get_support_drift_threshold():
+    """Test get_support method of DriftThreshold class."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    drift_threshold = DriftThreshold()
+    with pytest.raises(ValueError):
+        drift_threshold.get_support()
+    drift_threshold.fit(df_train, df_test)
+    keep_list = drift_threshold.get_support()
+    drop_list = drift_threshold.get_support(complement=True)
+    assert (keep_list == ['Unnamed: 0',
+                          'Age',
+                          'Fare',
+                          'Parch',
+                          'Pclass',
+                          'SibSp'])
+    assert not drop_list
+
+
+def test_drifts_drift_threshold():
+    """Test drifts method of DriftThreshold class."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    drift_threshold = DriftThreshold()
+    with pytest.raises(ValueError):
+        drift_threshold.drifts()
+    drift_threshold.fit(df_train, df_test)
+    drifts = drift_threshold.drifts()
+    assert (list(drifts.keys()) == ['Unnamed: 0',
+                                    'Age',
+                                    'Fare',
+                                    'Parch',
+                                    'Pclass',
+                                    'SibSp'])
+
+
+def test_sync_fit_drift_threshold():
+    """Test method sync_fit of drift_threshold module."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    estimator = RandomForestClassifier(n_estimators=50,
+                                       n_jobs=-1,
+                                       max_features=1.,
+                                       min_samples_leaf=5,
+                                       max_depth=5)
+
+    score = sync_fit(df_train, df_test, estimator)
