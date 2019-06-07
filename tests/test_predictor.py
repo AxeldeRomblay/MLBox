@@ -8,11 +8,16 @@ import pytest
 import numpy as np
 import pandas as pd
 
+from unittest.mock import patch
+
 from mlbox.prediction.predictor import Predictor
 from mlbox.optimisation.optimiser import Optimiser
 from mlbox.preprocessing.drift_thresholder import Drift_thresholder
 from mlbox.preprocessing.reader import Reader
 from mlbox.optimisation import make_scorer
+
+
+set_backend = "import matplotlib\nmatplotlib.use('Agg')\n"
 
 
 def test_init_predictor():
@@ -79,7 +84,8 @@ def test_fit_predict_predictor_classification():
     assert np.shape(pred_df) == (418, 4)
 
 
-def test_fit_predict_predictor_regression():
+@patch('matplotlib.pyplot.show')
+def test_fit_predict_predictor_regression(mock_show):
     """Test fit_predict method of Predictor class for regression."""
     rd = Reader(sep=',')
     dict = rd.train_test_split(Lpath=["data_for_tests/train_regression.csv",
