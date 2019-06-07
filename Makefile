@@ -43,25 +43,25 @@ clean-pyc: ## remove Python file artifacts
 	find . -name '__pycache__' -exec rm -fr {} +
 
 clean-test: ## remove test and coverage artifacts
-	rm -fr .tox/
-	rm -f .coverage
-	rm -fr htmlcov/
+	cd tests/; \
+		rm -fr .tox/; \
+		rm -f .coverage; \
+		rm -fr htmlcov/
 
 lint: ## check style with flake8
 	flake8 mlbox tests
 
 test: ## run tests quickly with the default Python
-	pytest
-	
+	cd tests/; \
+		pytest
 
 test-all: ## run tests on every Python version with tox
 	tox
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run -m --source=../mlbox/ pytest
-	
-		coverage report -m
-		coverage html
+	cd tests/; \
+		coverage run -m --source=../mlbox/ pytest;\
+		coverage html;\
 		$(BROWSER) htmlcov/index.html
 
 docs: ## generate Sphinx HTML documentation, including API docs
@@ -86,3 +86,6 @@ dist: clean ## builds source and wheel package
 
 install: clean ## install the package to the active Python's site-packages
 	python setup.py install
+
+develop: clean ## install the package to the active Python's site-packages in developer mode
+	python setup.py develop
