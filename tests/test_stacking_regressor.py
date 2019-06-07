@@ -5,6 +5,7 @@
 # License: BSD 3 clause
 import pytest
 import pandas as pd
+import numpy as np
 
 from sklearn.linear_model import LinearRegression
 from mlbox.model.regression.stacking_regressor import StackingRegressor
@@ -12,6 +13,16 @@ from mlbox.model.regression.stacking_regressor import StackingRegressor
 
 def test_init_stacking_regressor():
     """Test init method of StackingRegressor class."""
+    with pytest.raises(ValueError):
+        stacking_regressor = StackingRegressor(base_estimators=dict())
+    with pytest.raises(ValueError):
+        stacking_regressor = StackingRegressor(n_folds=dict())
+    with pytest.raises(ValueError):
+        stacking_regressor = StackingRegressor(copy="True")
+    with pytest.raises(ValueError):
+        stacking_regressor = StackingRegressor(random_state="1")
+    with pytest.raises(ValueError):
+        stacking_regressor = StackingRegressor(verbose="True")
     stacking_regressor = StackingRegressor()
     assert len(stacking_regressor.base_estimators) == 3
     assert isinstance(stacking_regressor.level_estimator,
@@ -64,3 +75,40 @@ def test_fit_transform_stacking_regressor():
         stacking_regressor.fit_transform(df_train, None)
     stacking_regressor.fit_transform(df_train, y_train)
     assert stacking_regressor._StackingRegressor__fittransformOK
+
+
+def test_transform_stacking_regressor():
+    """Test transform method of StackingRegressor class."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    stacking_regressor = StackingRegressor()
+    with pytest.raises(ValueError):
+        stacking_regressor.transform(None)
+    with pytest.raises(ValueError):
+        stacking_regressor.transform(df_test)
+    stacking_regressor.fit_transform(df_train, y_train)
+    results = stacking_regressor.transform(df_test)
+    assert len(results.columns == 3)
+
+
+def test_fit_stacking_regressor():
+    """Test fit method of StackingRegressor class."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    stacking_regressor = StackingRegressor(verbose=True)
+    stacking_regressor.fit(df_train, y_train)
+    assert stacking_regressor._StackingRegressor__fitOK
+
+
+def test_predict_stacking_regressor():
+    """Test predict method of StackingRegressor class."""
+    df_train = pd.read_csv("data_for_tests/clean_train.csv")
+    y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    df_test = pd.read_csv("data_for_tests/clean_test.csv")
+    stacking_regressor = StackingRegressor()
+    with pytest.raises(ValueError):
+        stacking_regressor.predict(df_test)
+    stacking_regressor.fit(df_train, y_train)
+    results = stacking_regressor.predict(df_test)
+    assert np.shape(results) == (418,)

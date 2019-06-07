@@ -97,12 +97,8 @@ def test_get_support_drift_threshold():
     drift_threshold.fit(df_train, df_test)
     keep_list = drift_threshold.get_support()
     drop_list = drift_threshold.get_support(complement=True)
-    assert (keep_list == ['Unnamed: 0',
-                          'Age',
-                          'Fare',
-                          'Parch',
-                          'Pclass',
-                          'SibSp'])
+    for name in ['Age', 'Fare', 'Parch', 'Pclass', 'SibSp']:
+        assert (name in keep_list)
     assert not drop_list
 
 
@@ -115,12 +111,8 @@ def test_drifts_drift_threshold():
         drift_threshold.drifts()
     drift_threshold.fit(df_train, df_test)
     drifts = drift_threshold.drifts()
-    assert (list(drifts.keys()) == ['Unnamed: 0',
-                                    'Age',
-                                    'Fare',
-                                    'Parch',
-                                    'Pclass',
-                                    'SibSp'])
+    for name in ['Age', 'Fare', 'Parch', 'Pclass', 'SibSp']:
+        assert (name in list(drifts.keys()))
 
 
 def test_sync_fit_drift_threshold():
@@ -134,3 +126,4 @@ def test_sync_fit_drift_threshold():
                                        max_depth=5)
 
     score = sync_fit(df_train, df_test, estimator)
+    assert 0 <= score

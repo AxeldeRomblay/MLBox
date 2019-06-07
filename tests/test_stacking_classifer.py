@@ -13,6 +13,18 @@ from mlbox.model.classification.stacking_classifier import StackingClassifier
 
 def test_init_stacking_classifier():
     """Test init method of StackingClassifier class."""
+    with pytest.raises(ValueError):
+        stacking_classifier = StackingClassifier(base_estimators=dict())
+    with pytest.raises(ValueError):
+        stacking_classifier = StackingClassifier(n_folds=dict())
+    with pytest.raises(ValueError):
+        stacking_classifier = StackingClassifier(copy="True")
+    with pytest.raises(ValueError):
+        stacking_classifier = StackingClassifier(drop_first="True")
+    with pytest.raises(ValueError):
+        stacking_classifier = StackingClassifier(random_state="1")
+    with pytest.raises(ValueError):
+        stacking_classifier = StackingClassifier(verbose="True")
     stacking_classifier = StackingClassifier()
     assert len(stacking_classifier.base_estimators) == 3
     assert isinstance(stacking_classifier.level_estimator,
