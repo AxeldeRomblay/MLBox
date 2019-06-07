@@ -1,4 +1,3 @@
-"""Define class Regressor that wraps scikitlearn regressors."""
 # coding: utf-8
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>

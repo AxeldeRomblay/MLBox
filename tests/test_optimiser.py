@@ -1,9 +1,9 @@
-"""Test mlbox.optimisation.optimiser module."""
 # !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
+"""Test mlbox.optimisation.optimiser module."""
 import pytest
 import numpy as np
 

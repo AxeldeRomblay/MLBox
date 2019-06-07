@@ -1,9 +1,9 @@
-"""Test mlbox.preprocessing.drift_thresholder module."""
 # !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
+"""Test mlbox.preprocessing.drift_thresholder module."""
 import pytest
 
 from mlbox.preprocessing.drift_thresholder import Drift_thresholder

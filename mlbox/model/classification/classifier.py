@@ -1,4 +1,3 @@
-"""Define class Classifier that wraps scikitlearn classifiers."""
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause

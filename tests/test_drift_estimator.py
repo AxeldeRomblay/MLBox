@@ -1,10 +1,9 @@
-"""Test mlbox.preprocessing.drift.drift_estimator module."""
 # !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
-
+"""Test mlbox.preprocessing.drift.drift_estimator module."""
 import pytest
 import pandas as pd
 

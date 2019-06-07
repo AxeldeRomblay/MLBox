@@ -1,8 +1,9 @@
-"""Test mlbox.model.regression.stacking_regressor module."""
 # !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
+"""Test mlbox.model.regression.stacking_regressor module."""
 import pytest
 import pandas as pd
 import numpy as np

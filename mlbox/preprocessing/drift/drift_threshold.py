@@ -1,4 +1,3 @@
-"""Provide class for calculating drift threshold between two datasets."""
 # coding: utf-8
 # Authors: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 #          Alexis BONDU <alexis.bondu@gmail.com>

@@ -1,11 +1,10 @@
-"""Test mlbox.model.regression.feature_selector module."""
 # !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
 # import pytest
-
+"""Test mlbox.model.regression.feature_selector module."""
 import pytest
 import pandas as pd
 
