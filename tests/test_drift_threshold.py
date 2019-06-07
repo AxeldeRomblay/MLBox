@@ -1,40 +1,66 @@
-#!/usr/bin/env python
+"""Test mlbox.preprocessing.drift module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
+
 import pytest
 import pandas as pd
 
 from mlbox.preprocessing.drift import DriftThreshold
+from sklearn.tree import DecisionTreeClassifier
 
 
 def test_init_drift_threshold():
+    """Test init method of DriftThreshold class."""
     drift_threshold = DriftThreshold()
-    # assert drift_estimator.n_folds == 2
-    # assert drift_estimator.stratify
-    # assert drift_estimator.random_state == 1
-    # assert not drift_estimator._DriftEstimator__cv
-    # assert not drift_estimator._DriftEstimator__pred
-    # assert not drift_estimator._DriftEstimator__target
-    # assert not drift_estimator._DriftEstimator__fitOK
+    assert drift_threshold.threshold == 0.6
+    assert drift_threshold.subsample == 1.
+    assert isinstance(drift_threshold.estimator,
+                      type(DecisionTreeClassifier()))
+    assert drift_threshold.n_folds == 2
+    assert drift_threshold.stratify
+    assert drift_threshold.random_state == 1
+    assert drift_threshold.n_jobs == -1
+    assert not drift_threshold._DriftThreshold__fitOK
 
 
 def test_get_params_drift_threshold():
+    """Test get_params method of DriftThreshold class."""
     drift_threshold = DriftThreshold()
-    # dict = {'estimator': drift_threshold.estimator,
-    #         'n_folds': 2,
-    #         'stratify': True,
-    #         'random_state': 1}
-    # assert drift_estimator.get_params() == dict
+    dict = {'threshold': 0.6,
+            'subsample': 1.,
+            'n_folds': 2,
+            'stratify': True,
+            'random_state': 1,
+            'n_jobs': -1}
+    dict_get_params = drift_threshold.get_params()
+    assert dict_get_params["threshold"] == dict["threshold"]
+    assert dict_get_params["subsample"] == dict["subsample"]
+    assert dict_get_params["n_folds"] == dict["n_folds"]
+    assert dict_get_params["stratify"] == dict["stratify"]
+    assert dict_get_params["random_state"] == dict["random_state"]
+    assert dict_get_params["n_jobs"] == dict["n_jobs"]
+
 
 def test_set_params_drift_threshold():
+    """Test set_params method of DriftThreshold class."""
     drift_threshold = DriftThreshold()
-    # dict = {'estimator': drift_estimator.estimator,
-    #         'n_folds': 3,
-    #         'stratify': False,
-    #         'random_state': 2}
-    # drift_estimator.set_params(**dict)
-    # assert drift_estimator.get_params() == dict
+    dict = {'threshold': 0.6,
+            'subsample': 1.,
+            'n_folds': 2,
+            'stratify': True,
+            'random_state': 1,
+            'n_jobs': -1}
+    drift_threshold.set_params(**dict)
+    dict_get_params = drift_threshold.get_params()
+    assert dict_get_params["threshold"] == dict["threshold"]
+    assert dict_get_params["subsample"] == dict["subsample"]
+    assert dict_get_params["n_folds"] == dict["n_folds"]
+    assert dict_get_params["stratify"] == dict["stratify"]
+    assert dict_get_params["random_state"] == dict["random_state"]
+    assert dict_get_params["n_jobs"] == dict["n_jobs"]
 
 
 # def test_fit_drift_threshold():

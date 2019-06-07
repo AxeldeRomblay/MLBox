@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+"""Test mlbox.model.classification.stacking_classifier module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
@@ -11,6 +12,7 @@ from mlbox.model.classification.stacking_classifier import StackingClassifier
 
 
 def test_init_stacking_classifier():
+    """Test init method of StackingClassifier class."""
     stacking_classifier = StackingClassifier()
     assert len(stacking_classifier.base_estimators) == 3
     assert isinstance(stacking_classifier.level_estimator,
@@ -25,6 +27,7 @@ def test_init_stacking_classifier():
 
 
 def test_get_params_stacking_classifier():
+    """Test get_params method StackingClassifier class."""
     stacking_classifier = StackingClassifier()
     dict = stacking_classifier.get_params()
     assert len(dict["base_estimators"]) == 3
@@ -38,6 +41,7 @@ def test_get_params_stacking_classifier():
 
 
 def test_set_params_stacking_classifier():
+    """Test set_params method of StackingClassifier class."""
     stacking_classifier = StackingClassifier()
     stacking_classifier.set_params(n_folds=6)
     assert stacking_classifier.n_folds == 6
@@ -55,6 +59,7 @@ def test_set_params_stacking_classifier():
 
 
 def test_fit_transform_stacking_classifier():
+    """Test fit_transform method of StackingClassifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     stacking_classifier = StackingClassifier()
@@ -67,6 +72,7 @@ def test_fit_transform_stacking_classifier():
 
 
 def test_transform_stacking_classifier():
+    """Test transform method of StackingClassifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     df_test = pd.read_csv("data_for_tests/clean_test.csv")
@@ -81,6 +87,7 @@ def test_transform_stacking_classifier():
 
 
 def test_fit_stacking_classifier():
+    """Test fit method of StackingClassifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     stacking_classifier = StackingClassifier(verbose=True)
@@ -89,6 +96,7 @@ def test_fit_stacking_classifier():
 
 
 def test_predict_proba_stacking_classifier():
+    """Test predict_proba method of StackingClassifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     df_test = pd.read_csv("data_for_tests/clean_test.csv")
@@ -101,6 +109,7 @@ def test_predict_proba_stacking_classifier():
 
 
 def test_predict_stacking_classifier():
+    """Test predict method of StackingClassifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     df_test = pd.read_csv("data_for_tests/clean_test.csv")

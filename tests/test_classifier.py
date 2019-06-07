@@ -1,6 +1,8 @@
-#!/usr/bin/env python
+"""Test mlbox.model.classification.classifier module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
 # import pytest
 
@@ -9,11 +11,11 @@ import pandas as pd
 import numpy as np
 
 from mlbox.model.classification.classifier import Classifier
-from mlbox.encoding.categorical_encoder import Categorical_encoder
 from lightgbm import LGBMClassifier
 
 
 def test_init_classifier():
+    """Test init method of Classifier class."""
     classifier = Classifier()
     assert classifier._Classifier__strategy == "LightGBM"
     assert classifier._Classifier__classif_params == {}
@@ -23,6 +25,7 @@ def test_init_classifier():
 
 
 def test_get_params_classifier():
+    """Test get_params method of Classifier class."""
     classifier = Classifier()
     params = classifier.get_params()
     assert params == {'strategy': "LightGBM"}
@@ -30,6 +33,7 @@ def test_get_params_classifier():
 
 
 def test_set_params_classifier():
+    """Test set_params method of Classifier class."""
     classifier = Classifier()
     classifier.set_params(strategy="LightGBM")
     assert classifier._Classifier__strategy == "LightGBM"
@@ -51,12 +55,14 @@ def test_set_params_classifier():
 
 
 def test_set_classifier():
+    """Test set method of Classifier class."""
     classifier = Classifier()
     with pytest.raises(ValueError):
         classifier._Classifier__set_classifier("wrong_strategy")
 
 
 def test_fit_classifier():
+    """Test fit method of Classifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     classifier = Classifier()
@@ -66,6 +72,7 @@ def test_fit_classifier():
 
 
 def test_feature_importances_classifier():
+    """Test feature_importances method of Classifier class."""
     classifier = Classifier()
     with pytest.raises(ValueError):
         classifier.feature_importances()
@@ -90,6 +97,7 @@ def test_feature_importances_classifier():
 
 
 def test_predict_classifier():
+    """Test predict method of Classifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     classifier = Classifier()
@@ -114,6 +122,7 @@ def test_predict_classifier():
 
 
 def test_predict_proba_classifier():
+    """Test predict_proba method of Classifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     classifier = Classifier()
@@ -138,6 +147,7 @@ def test_predict_proba_classifier():
 
 
 def test_score_classifier():
+    """Test score method of Classifier class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     classifier = Classifier()
@@ -152,6 +162,7 @@ def test_score_classifier():
 
 
 def test_get_estimator_classifier():
+    """Test get_estimator method of Classifier class."""
     classifier = Classifier()
     estimator = classifier.get_estimator()
-    assert type(estimator) == type(LGBMClassifier())
+    assert isinstance(estimator, type(LGBMClassifier()))

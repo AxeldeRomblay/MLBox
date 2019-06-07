@@ -1,9 +1,10 @@
-#!/usr/bin/env python
+"""Test mlbox.optimisation.optimiser module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
 import pytest
-import pandas as pd
 import numpy as np
 
 from mlbox.optimisation.optimiser import Optimiser
@@ -13,6 +14,7 @@ from mlbox.optimisation import make_scorer
 
 
 def test_init_optimiser():
+    """Test init method of Optimiser class."""
     with pytest.warns(UserWarning) as record:
         optimiser = Optimiser()
     assert len(record) == 1
@@ -24,6 +26,7 @@ def test_init_optimiser():
 
 
 def test_get_params_optimiser():
+    """Test get_params method of optimiser class."""
     with pytest.warns(UserWarning) as record:
         optimiser = Optimiser()
     assert len(record) == 1
@@ -36,6 +39,7 @@ def test_get_params_optimiser():
 
 
 def test_set_params_optimiser():
+    """Test set_params method of Optimiser class."""
     with pytest.warns(UserWarning) as record:
         optimiser = Optimiser()
     assert len(record) == 1
@@ -55,6 +59,7 @@ def test_set_params_optimiser():
 
 
 def test_evaluate_classification_optimiser():
+    """Test evaluate method of Optimiser class for classication."""
     reader = Reader(sep=",")
     dict = reader.train_test_split(Lpath=["data_for_tests/train.csv",
                                           "data_for_tests/test.csv"],
@@ -83,6 +88,7 @@ def test_evaluate_classification_optimiser():
 
 
 def test_evaluate_regression_optimiser():
+    """Test evaluate method of Optimiser class for regression."""
     reader = Reader(sep=",")
     dict = reader.train_test_split(Lpath=["data_for_tests/train_regression.csv",
                                           "data_for_tests/test_regression.csv"],
@@ -117,6 +123,7 @@ def test_evaluate_regression_optimiser():
 
 
 def test_evaluate_and_optimise_classification():
+    """Test evaluate_and_optimise method of Optimiser class."""
     reader = Reader(sep=",")
 
     dict = reader.train_test_split(Lpath=["data_for_tests/train.csv",

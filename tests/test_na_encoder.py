@@ -1,6 +1,8 @@
-#!/usr/bin/env python
+"""Test mlbox.encoding.na_encoder module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
 import pytest
 import pandas as pd
@@ -9,6 +11,7 @@ from mlbox.encoding.na_encoder import NA_encoder
 
 
 def test_init_NA_encoder():
+    """Test init method of NA_encoder class."""
     encoder = NA_encoder()
     assert encoder.numerical_strategy == "mean"
     assert encoder.categorical_strategy == "<NULL>"
@@ -20,6 +23,7 @@ def test_init_NA_encoder():
 
 
 def test_get_params_NA_encoder():
+    """Test get_params method of NA_encoder class."""
     encoder = NA_encoder()
     dict = {'numerical_strategy': "mean",
             'categorical_strategy': "<NULL>"}
@@ -27,6 +31,7 @@ def test_get_params_NA_encoder():
 
 
 def test_set_params_NA_encoder():
+    """Test set_params method of NA_encoder class."""
     encoder = NA_encoder()
 
     encoder.set_params(numerical_strategy="mean")
@@ -51,6 +56,7 @@ def test_set_params_NA_encoder():
 
 
 def test_fit_NA_encoder():
+    """Test fit method of NA_encoder class."""
     df = pd.read_csv("data_for_tests/train.csv")
 
     encoder = NA_encoder(numerical_strategy="wrong_strategy")
@@ -80,6 +86,7 @@ def test_fit_NA_encoder():
 
 
 def test_transform_NA_encoder():
+    """Test transform method of NA_encoder class."""
     df = pd.read_csv("data_for_tests/train.csv")
     encoder = NA_encoder()
     with pytest.raises(ValueError):

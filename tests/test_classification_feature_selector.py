@@ -1,6 +1,8 @@
-#!/usr/bin/env python
+"""Test mlbox.model.classification.feature_selector module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
 # import pytest
 
@@ -11,6 +13,7 @@ from mlbox.model.classification.feature_selector import Clf_feature_selector
 
 
 def test_init_Clf_feature_selector():
+    """Test init method of Clf_feature_selector class."""
     feature_selector = Clf_feature_selector()
     assert feature_selector.strategy == "l1"
     assert feature_selector.threshold == 0.3
@@ -19,6 +22,7 @@ def test_init_Clf_feature_selector():
 
 
 def test_get_params_Clf_feature_selector():
+    """Test get_params method of Clf_feature_selector class."""
     feature_selector = Clf_feature_selector()
     dict = {'strategy': "l1",
             'threshold': 0.3}
@@ -26,6 +30,7 @@ def test_get_params_Clf_feature_selector():
 
 
 def test_set_params_Clf_feature_selector():
+    """Test set_params method of Clf_feature_selector class."""
     feature_selector = Clf_feature_selector()
     feature_selector.set_params(strategy="variance")
     assert feature_selector.strategy == "variance"
@@ -37,6 +42,7 @@ def test_set_params_Clf_feature_selector():
 
 
 def test_fit_Clf_feature_selector():
+    """Test fit method of Clf_feature_selector class."""
     feature_selector = Clf_feature_selector()
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
@@ -58,6 +64,7 @@ def test_fit_Clf_feature_selector():
 
 
 def test_transform_Clf_feature_selector():
+    """Test transform method of Clf_feature_selector class."""
     feature_selector = Clf_feature_selector(threshold=0)
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
@@ -71,6 +78,7 @@ def test_transform_Clf_feature_selector():
 
 
 def test_fit_transform_Clf_feature_selector():
+    """Test fit_transform method of Clf_feature_selector class."""
     feature_selector = Clf_feature_selector(threshold=0)
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)

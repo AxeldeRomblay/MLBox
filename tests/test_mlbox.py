@@ -1,13 +1,7 @@
-#!/usr/bin/env python
+"""Test import of module mlbox."""
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
-
-"""
-test_mlbox
-----------------------------------
-
-Tests for `mlbox` module.
-"""
-
+# License: BSD 3 clause
 import pytest
 import mlbox
 
@@ -15,6 +9,7 @@ import mlbox
 @pytest.fixture
 def response():
     """Sample pytest fixture.
+
     See more at: http://doc.pytest.org/en/latest/fixture.html
     """
     # import requests
@@ -22,7 +17,6 @@ def response():
 
 
 def test_content(response):
-    """Sample pytest test function with the pytest fixture as an argument.
-    """
+    """Sample pytest test function with the pytest fixture as an argument."""
     # from bs4 import BeautifulSoup
     # assert 'GitHub' in BeautifulSoup(response.content).title.string

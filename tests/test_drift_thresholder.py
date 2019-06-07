@@ -1,15 +1,17 @@
-#!/usr/bin/env python
+"""Test mlbox.preprocessing.drift_thresholder module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
 import pytest
-import pandas as pd
 
 from mlbox.preprocessing.drift_thresholder import Drift_thresholder
 from mlbox.preprocessing.reader import Reader
 
 
 def test_init_drift_thresholder():
+    """Test init method of Drift_thresholder class."""
     drift_thresholder = Drift_thresholder()
     assert drift_thresholder.threshold == 0.6
     assert not drift_thresholder.inplace
@@ -20,6 +22,7 @@ def test_init_drift_thresholder():
 
 
 def test_fit_transform():
+    """Test fit transform method of Drift_thresholder class."""
     drift_thresholder = Drift_thresholder()
     reader = Reader(sep=",")
     dict = reader.train_test_split(Lpath=["data_for_tests/train.csv"],
@@ -39,8 +42,8 @@ def test_fit_transform():
     assert drift_thresholder._Drift_thresholder__fitOK
 
 
-
 def test_drifts():
+    """Test drifts method of Drift_thresholder class."""
     drift_thresholder = Drift_thresholder()
     with pytest.raises(ValueError):
         drift_thresholder.drifts()

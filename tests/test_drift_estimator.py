@@ -1,16 +1,18 @@
-#!/usr/bin/env python
+"""Test mlbox.preprocessing.drift.drift_estimator module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
+
 import pytest
 import pandas as pd
-import numpy as np
 
 from mlbox.preprocessing.drift.drift_estimator import DriftEstimator
-from mlbox.preprocessing.reader import Reader
 
 
 def test_init_drift_estimator():
+    """Test init method of DriftEstimator class."""
     drift_estimator = DriftEstimator()
     assert drift_estimator.n_folds == 2
     assert drift_estimator.stratify
@@ -22,6 +24,7 @@ def test_init_drift_estimator():
 
 
 def test_get_params_drift_estimator():
+    """Test get_params method of DriftEstimator class."""
     drift_estimator = DriftEstimator()
     dict = {'estimator': drift_estimator.estimator,
             'n_folds': 2,
@@ -31,6 +34,7 @@ def test_get_params_drift_estimator():
 
 
 def test_set_params_drift_estimator():
+    """Test set_params method of DriftEstimator class."""
     drift_estimator = DriftEstimator()
     dict = {'estimator': drift_estimator.estimator,
             'n_folds': 3,
@@ -41,6 +45,7 @@ def test_set_params_drift_estimator():
 
 
 def test_fit_drift_estimator():
+    """Test fit method of DriftEstimator class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     df_test = pd.read_csv("data_for_tests/clean_test.csv")
     drift_estimator = DriftEstimator()
@@ -49,6 +54,7 @@ def test_fit_drift_estimator():
 
 
 def test_score_drift_estimator():
+    """Test score method of DriftEstimator class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     df_test = pd.read_csv("data_for_tests/clean_test.csv")
     drift_estimator = DriftEstimator()
@@ -59,6 +65,7 @@ def test_score_drift_estimator():
 
 
 def test_predict_drift_estimator():
+    """Test predict method of DriftEstimator class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     df_test = pd.read_csv("data_for_tests/clean_test.csv")
     drift_estimator = DriftEstimator()

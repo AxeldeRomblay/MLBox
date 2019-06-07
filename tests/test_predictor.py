@@ -1,10 +1,12 @@
-#!/usr/bin/env python
+"""Test mlbox.prediction0.predictor module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
 import pytest
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from mlbox.prediction.predictor import Predictor
 from mlbox.optimisation.optimiser import Optimiser
@@ -14,12 +16,14 @@ from mlbox.optimisation import make_scorer
 
 
 def test_init_predictor():
+    """Test init method of Predictor class."""
     predictor = Predictor()
     assert predictor.to_path == "save"
     assert predictor.verbose
 
 
 def test_get_params_predictor():
+    """Test get_params method of Predictor class."""
     predictor = Predictor()
     dict = {'to_path': "save",
             'verbose': True}
@@ -27,6 +31,7 @@ def test_get_params_predictor():
 
 
 def test_set_params_predictor():
+    """Test set_params method of Predictor class."""
     predictor = Predictor()
     predictor.set_params(to_path="name")
     assert predictor.to_path == "name"
@@ -38,6 +43,7 @@ def test_set_params_predictor():
 
 
 def test_fit_predict_predictor_classification():
+    """Test fit_predict method of Predictor class for classification."""
     reader = Reader(sep=",")
     dict = reader.train_test_split(Lpath=["data_for_tests/train.csv",
                                           "data_for_tests/test.csv"],
@@ -48,7 +54,6 @@ def test_fit_predict_predictor_classification():
     with pytest.warns(UserWarning) as record:
         opt = Optimiser(scoring='accuracy', n_folds=3)
     assert len(record) == 1
-    score = opt.evaluate(None, dict)
 
     space = {'ne__numerical_strategy': {"search": "choice", "space": [0]},
              'ce__strategy': {"search": "choice",
@@ -66,18 +71,24 @@ def test_fit_predict_predictor_classification():
 
     predictor = Predictor(verbose=False)
     predictor.fit_predict(optimal_hyper_parameters, dict)
+    pred_df = pd.read_csv("save/Survived_predictions.csv")
+    assert np.all(list(pred_df.columns) == ['Unnamed: 0',
+                                            '0.0',
+                                            '1.0',
+                                            'Survived_predicted'])
+    assert np.shape(pred_df) == (418, 4)
 
 
 def test_fit_predict_predictor_regression():
-    reader = Reader(sep=',')
-    dict = reader.train_test_split(Lpath=["data_for_tests/train_regression.csv",
-                                          "data_for_tests/test_regression.csv"],
-                                   target_name="SalePrice")
+    """Test fit_predict method of Predictor class for regression."""
+    rd = Reader(sep=',')
+    dict = rd.train_test_split(Lpath=["data_for_tests/train_regression.csv",
+                                      "data_for_tests/test_regression.csv"],
+                               target_name="SalePrice")
 
     drift_thresholder = Drift_thresholder()
     df = drift_thresholder.fit_transform(dict)
 
-    # Tuning
     mape = make_scorer(lambda y_true,
                        y_pred: 100*np.sum(
                                           np.abs(y_true-y_pred)/y_true
@@ -106,3 +117,7 @@ def test_fit_predict_predictor_regression():
 
     prd = Predictor(verbose=True)
     prd.fit_predict(best, df)
+    pred_df = pd.read_csv("save/SalePrice_predictions.csv")
+    assert np.all(list(pred_df.columns) == ['Unnamed: 0',
+                                            'SalePrice_predicted'])
+    assert np.shape(pred_df) == (1459, 2)

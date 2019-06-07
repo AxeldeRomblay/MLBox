@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+"""Test mlbox.preprocessing.reader module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
@@ -15,6 +16,7 @@ from mlbox.preprocessing.reader import Reader
 
 
 def test_init_reader():
+    """Test init method of Reader class."""
     reader = Reader()
     assert not reader.sep
     assert reader.header == 0
@@ -23,7 +25,8 @@ def test_init_reader():
     assert reader.verbose
 
 
-def test_clean():
+def test_clean_reader():
+    """Test clean method of Reader class."""
     reader = Reader()
     with pytest.raises(ValueError):
         reader.clean(path=None, drop_duplicate=False)
@@ -34,7 +37,8 @@ def test_clean():
     assert np.shape(df) == (891, 12)
     with pytest.raises(ValueError):
         reader.clean(path="data_for_tests/train.wrong_extension")
-    df_drop = reader.clean(path="data_for_tests/train.csv", drop_duplicate=True)
+    df_drop = reader.clean(path="data_for_tests/train.csv",
+                           drop_duplicate=True)
     assert np.shape(df_drop) == (891, 12)
     assert np.all(df["Name"] == df_drop["Name"])
     reader = Reader()
@@ -49,24 +53,35 @@ def test_clean():
     assert np.shape(df_json) == (891, 12)
 
 
-def test_train_test_split():
+def test_train_test_split_reader():
+    """Test train_test_split method of Reader class."""
     reader = Reader(sep=",")
     with pytest.raises(ValueError):
         reader.train_test_split(Lpath=None, target_name="target")
     with pytest.raises(ValueError):
-        reader.train_test_split(Lpath=["data_for_tests/train.csv"], target_name=None)
+        reader.train_test_split(Lpath=["data_for_tests/train.csv"],
+                                target_name=None)
     with pytest.raises(ValueError):
         reader = Reader(to_path=None)
-        reader.train_test_split(Lpath=["data_for_tests/train.csv"], target_name="Survived")
+        reader.train_test_split(Lpath=["data_for_tests/train.csv"],
+                                target_name="Survived")
     reader = Reader(sep=",")
-    dict = reader.train_test_split(Lpath=["data_for_tests/train.csv"], target_name="Survived")
+    dict = reader.train_test_split(Lpath=["data_for_tests/train.csv"],
+                                   target_name="Survived")
+    assert len(dict) == 3
+    assert np.all(list(dict.keys()) == ['train', 'test', 'target'])
+    assert np.all(dict["train"].columns == dict["train"].columns)
     if sys.version_info[0] >= 3:
         reader = Reader(to_hdf5=True)
-        dict = reader.train_test_split(Lpath=["data_for_tests/train.h5"], target_name="Survived")
+        dict = reader.train_test_split(Lpath=["data_for_tests/train.h5"],
+                                       target_name="Survived")
+        assert len(dict) == 3
+        assert np.all(list(dict.keys()) == ['train', 'test', 'target'])
+        assert np.all(dict["train"].columns == dict["train"].columns)
 
 
-
-def test_convert_list():
+def test_convert_list_reader():
+    """Test convert_list function of reader module."""
     data_list = list()
     data_list.append([1, 2])
     data_list.append([3, 4])
@@ -77,7 +92,8 @@ def test_convert_list():
     assert np.all(df.columns.values == ['test_item1', 'test_item2'])
 
 
-def test_convert_float_and_dates():
+def test_convert_float_and_dates_reader():
+    """Test convert_float_and_dates function of reader module."""
     index = ['a', 'b', 'c']
     values = [1, 2, 3]
     serie = pd.Series(data=values, index=index)
@@ -85,8 +101,12 @@ def test_convert_float_and_dates():
     assert serie.dtype == 'float64'
 
     index = ['a', 'b', 'c']
-    values = np.array(['2007-07-13', '2006-01-13', '2010-08-13'], dtype='datetime64')
-    serie = pd.Series(data=values, index=index, dtype='datetime64[ns]', name="test")
+    values = np.array(['2007-07-13', '2006-01-13', '2010-08-13'],
+                      dtype='datetime64')
+    serie = pd.Series(data=values,
+                      index=index,
+                      dtype='datetime64[ns]',
+                      name="test")
     df = convert_float_and_dates(serie)
     assert np.all(df.index == serie.index)
     assert np.all(df.columns.values == ['test_TIMESTAMP',

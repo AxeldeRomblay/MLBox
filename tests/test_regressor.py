@@ -1,6 +1,8 @@
-#!/usr/bin/env python
+"""Test mlbox.model.regression.regressor module."""
+# !/usr/bin/env python
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
+# Author: Henri GERARD <hgerard.pro@gmail.com>
 # License: BSD 3 clause
 # import pytest
 
@@ -9,11 +11,11 @@ import pandas as pd
 import numpy as np
 
 from mlbox.model.regression.regressor import Regressor
-from mlbox.encoding.categorical_encoder import Categorical_encoder
 from lightgbm import LGBMRegressor
 
 
 def test_init_regressor():
+    """Test init method of Regressor class."""
     regressor = Regressor()
     assert regressor._Regressor__strategy == "LightGBM"
     assert regressor._Regressor__regress_params == {}
@@ -23,6 +25,7 @@ def test_init_regressor():
 
 
 def test_get_params_regressor():
+    """Test get_params method of Regressor class."""
     regressor = Regressor()
     params = regressor.get_params()
     assert params == {'strategy': "LightGBM"}
@@ -30,6 +33,7 @@ def test_get_params_regressor():
 
 
 def test_set_params_regressor():
+    """Test set_params method of Regressor class."""
     regressor = Regressor()
     regressor.set_params(strategy="LightGBM")
     assert regressor._Regressor__strategy == "LightGBM"
@@ -53,12 +57,14 @@ def test_set_params_regressor():
 
 
 def test_set_regressor():
+    """Test set method of Regressor class."""
     regressor = Regressor()
     with pytest.raises(ValueError):
         regressor._Regressor__set_regressor("wrong_strategy")
 
 
 def test_fit_regressor():
+    """Test fit method of Regressor class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     regressor = Regressor()
@@ -66,7 +72,9 @@ def test_fit_regressor():
     assert np.all(regressor._Regressor__col == df_train.columns)
     assert regressor._Regressor__fitOK
 
+
 def test_feature_importances_regressor():
+    """Test feature_importances of Regressor class."""
     regressor = Regressor()
     with pytest.raises(ValueError):
         regressor.feature_importances()
@@ -91,6 +99,7 @@ def test_feature_importances_regressor():
 
 
 def test_predict_regressor():
+    """Test predict method of Regressor class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     regressor = Regressor()
@@ -115,6 +124,7 @@ def test_predict_regressor():
 
 
 def test_score_regressor():
+    """Test_score method of Regressor class."""
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
     regressor = Regressor(strategy="Linear")
@@ -127,7 +137,9 @@ def test_score_regressor():
         regressor.score(df_train, None)
     assert regressor.score(df_train, y_train) > 0
 
-def test_get_estimator():
+
+def test_get_estimator_regressor():
+    """Test get_estimator of Regressor class."""
     regressor = Regressor()
     estimator = regressor.get_estimator()
-    assert type(estimator) == type(LGBMRegressor())
+    assert isinstance(estimator, type(LGBMRegressor()))
