@@ -31,7 +31,7 @@ Links
 * **Articles from users:** 
    * `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__ 
    * `MLBox: a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
-   * `KDnuggets: Implementing Automated Machine Learning Systems with Open Source Tools <https://www.kdnuggets.com/2018/10/implementing-automated-machine-learning-open-source-path.html>`__
+   * `KDnuggets: Implementing Auto-ML Systems with Open Source Tools <https://www.kdnuggets.com/2018/10/implementing-automated-machine-learning-open-source-path.html>`__
 
 * **Webinars:**
    * `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
