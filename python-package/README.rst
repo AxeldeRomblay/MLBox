@@ -1,7 +1,7 @@
 Installation guide
 ==================
 
-|Documentation Status| |PyPI version| |Build Status| |Windows Build Status| |GitHub Issues| |codecov| |License| |Downloads|
+|Documentation Status| |PyPI version| |Build Status| |Windows Build Status| |GitHub Issues| |codecov| |License| |Downloads| |Python Versions|
 
 Compatibilities 
 ---------------
@@ -90,3 +90,5 @@ Install from the Github
    :target: https://github.com/AxeldeRomblay/MLBox/blob/master/LICENSE
 .. |Downloads| image:: https://pepy.tech/badge/mlbox
    :target: https://pepy.tech/project/mlbox
+.. |Python Versions| image:: https://img.shields.io/pypi/pyversions/mlbox.svg
+   :target: https://pypi.org/project/mlbox
