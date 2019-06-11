@@ -30,13 +30,20 @@ Links
 
 * **Articles from users:** 
    * `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__ 
-   * `MLBox : a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
+   * `MLBox: a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
+   * `KDnuggets: Implementing Automated Machine Learning Systems with Open Source Tools <https://www.kdnuggets.com/2018/10/implementing-automated-machine-learning-open-source-path.html>`__
 
 * **Webinars:**
    * `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
    * `Analytics Vidhya: Automated Machine Learning using MLBox python package <https://www.youtube.com/watch?v=NH1KsHeDf8Y>`__
 
-* **Conference:** `DataHack Summit 2017 by Analytics Vidhya <https://www.slideshare.net/AxeldeRomblay/how-to-automate-machine-learning-pipeline>`__
+* **Conference:** `DataHack Summit 2017 by Analytics Vidhya <https://www.youtube.com/watch?v=hstu3FaMkls&t=859s>`__
+
+* **References:**
+   * `AutoML.org  <http://ml4aad.org/automl/>`__
+   * `Skymind AI Wiki <https://skymind.ai/wiki/automl-automated-machine-learning-ai>`__
+   * `TPOT <https://epistasislab.github.io/tpot/related/>`__
+   * `Towards Data Science <https://towardsdatascience.com/gui-fying-the-machine-learning-workflow-towards-rapid-discovery-of-viable-pipelines-cab2552c909f>`__
 
 .. toctree::
    :maxdepth: 1
