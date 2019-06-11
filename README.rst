@@ -1,6 +1,6 @@
 .. image:: docs/logos/logo.png
 
-|Documentation Status| |PyPI version| |Build Status| |Windows Build Status| |GitHub Issues| |codecov| |License|
+|Documentation Status| |PyPI version| |Build Status| |Windows Build Status| |GitHub Issues| |codecov| |License| |Downloads|
 
 -----------------------
 
@@ -131,3 +131,5 @@ For more details, please refer to `CONTRIBUTING <https://github.com/AxeldeRombla
    :target: https://codecov.io/gh/AxeldeRomblay/MLBox
 .. |License| image:: https://img.shields.io/badge/License-BSD%203--Clause-blue.svg
    :target: https://github.com/AxeldeRomblay/MLBox/blob/master/LICENSE
+.. |Downloads| image:: https://pepy.tech/badge/mlbox
+   :target: https://pepy.tech/project/mlbox
