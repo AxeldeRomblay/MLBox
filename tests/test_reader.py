@@ -74,7 +74,7 @@ def test_train_test_split_reader():
     assert "test" in list(dict.keys())
     assert "target" in list(dict.keys())
     assert np.all(dict["train"].columns == dict["train"].columns)
-    if sys.version_info[0] >= 3:
+    if (sys.version_info[0] >= 3 and sys.platform != "win32"):
         reader = Reader(to_hdf5=True)
         dict = reader.train_test_split(Lpath=["data_for_tests/train.h5"],
                                        target_name="Survived")

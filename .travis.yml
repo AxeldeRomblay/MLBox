@@ -20,6 +20,7 @@ matrix:
             - brew update
             - brew upgrade pyenv
             - pyenv install 2.7.15
+            - pip install virtualenv
             - virtualenv -p /usr/local/bin/python2.7.15 venv
             - source venv/bin/activate
 
@@ -30,6 +31,7 @@ matrix:
             - brew update
             - brew upgrade pyenv
             - pyenv install 3.5.6
+            - pip install virtualenv
             - virtualenv -p /usr/local/bin/python3.5.6 venv
             - source venv/bin/activate
 
@@ -40,6 +42,7 @@ matrix:
             - brew update
             - brew upgrade pyenv
             - pyenv install 3.6.7
+            - pip install virtualenv
             - virtualenv -p /usr/local/bin/python3.6.7 venv
             - source venv/bin/activate
 
@@ -52,6 +55,7 @@ matrix:
             - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
             - choco install pip --allow-empty-checksums
             - export PATH="/c/tools/python/Scripts:$PATH"
+            - python -m pip install --upgrade pip
             - pip --version
 
         - os: windows
@@ -61,12 +65,12 @@ matrix:
             - choco install python --version 3.5.4
             - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
 
-        - os: windows
-          language: sh
-          python: "3.6"
-          before_install:
-            - choco install python --version 3.6.7
-            - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
+        # - os: windows
+        #   language: sh
+        #   python: "3.6"
+        #   before_install:
+        #     - choco install python --version 3.6.7
+        #     - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
 
 install:
   - python --version
