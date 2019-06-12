@@ -2,6 +2,7 @@
 # Authors: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 #          Alexis BONDU <alexis.bondu@gmail.com>
 # License: BSD 3 clause
+import sys
 
 from joblib import Parallel, delayed
 from sklearn.tree import DecisionTreeClassifier
@@ -150,7 +151,16 @@ class DriftThreshold():
         """
         self.__Ddrifts = dict()
 
-        Ldrifts = Parallel(n_jobs=self.n_jobs)(delayed(sync_fit)
+        if sys.platform == 'win32':
+            Ldrifts = [sync_fit(df_train.sample(frac=self.subsample)[[col]],
+                               df_test.sample(frac=self.subsample)[[col]],
+                               self.estimator,
+                               self.n_folds,
+                               self.stratify,
+                               self.random_state)
+                               for col in df_train.columns]
+        else:
+            Ldrifts = Parallel(n_jobs=self.n_jobs)(delayed(sync_fit)
                                                (df_train.sample(frac=self.subsample)[[col]],
                                                 df_test.sample(frac=self.subsample)[[col]],
                                                 self.estimator,

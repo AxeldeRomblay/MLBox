@@ -18,33 +18,30 @@ matrix:
           python: "2.7"
           before_install:
             - brew update
-            - brew install pyenv
+            - brew upgrade pyenv
             - pyenv install 2.7
             - virtualenv venv --python=python2.7
             - source venv/bin/activate
-            - python --version
 
         - os: osx
           language: generic
           python: "3.5"
           before_install:
             - brew update
-            - brew install pyenv
+            - brew upgrade pyenv
             - pyenv install 3.5
             - virtualenv venv --python=python3.5
             - source venv/bin/activate
-            - python --version
 
         - os: osx
           language: generic
           python: "3.6"
           before_install:
             - brew update
-            - brew install pyenv
+            - brew upgrade pyenv
             - pyenv install 3.6
             - virtualenv venv --python=python3.6
             - source venv/bin/activate
-            - python --version
 
         # Use sh language for windows
         - os: windows
@@ -53,7 +50,8 @@ matrix:
           before_install:
             - choco install python --version 2.7.11
             - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
-            - python --version
+            - choco install pip
+            - pip --version
 
         - os: windows
           language: sh
@@ -61,7 +59,6 @@ matrix:
           before_install:
             - choco install python --version 3.5.4
             - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
-            - python --version
 
         - os: windows
           language: sh
@@ -69,7 +66,6 @@ matrix:
           before_install:
             - choco install python --version 3.6.7
             - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
-            - python --version
 
 # before_install:
 #   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then   virtualenv venv --python=python2.7; fi
