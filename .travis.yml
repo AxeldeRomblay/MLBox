@@ -14,28 +14,37 @@ matrix:
 
         # Use generic language for osx
         - os: osx
-          python: "2.7"
+          language: generic
           before_install:
             - brew update
             - brew install python2.7
+            - python --version
+            - pip install virtualenv
             - virtualenv venv --python=python2.7
             - source venv/bin/activate
+            - python --version
 
         - os: osx
-          python: "3.5"
+          language: generic
           before_install:
             - brew update
             - brew install python3.5
+            - python --version
+            - pip install virtualenv
             - virtualenv venv --python=python3.5
             - source venv/bin/activate
+            - python --version
 
         - os: osx
-          python: "3.6"
+          language: generic
           before_install:
             - brew update
             - brew install python3.6
+            - python --version
+            - pip install virtualenv
             - virtualenv venv --python=python3.6
             - source venv/bin/activate
+            - python --version
 
         # Use sh language for windows
         - os: windows
@@ -44,8 +53,11 @@ matrix:
           before_install:
             - choco install python --version 2.7.11
             - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
+            - python --version
+            - pip install virtualenv
             - virtualenv $HOME/venv --python=python2.7.11
             - source $HOME/venv/Scripts/activate
+            - python --version
 
         - os: windows
           language: sh
@@ -53,8 +65,11 @@ matrix:
           before_install:
             - choco install python --version 3.5.4
             - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
+            - python --version
+            - pip install virtualenv
             - virtualenv $HOME/venv --python=python3.5.4
             - source $HOME/venv/Scripts/activate
+            - python --version
 
         - os: windows
           language: sh
@@ -62,8 +77,11 @@ matrix:
           before_install:
             - choco install python --version 3.6.7
             - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
+            - python --version
+            - pip install virtualenv
             - virtualenv $HOME/venv --python=python3.6.7
             - source $HOME/venv/Scripts/activate
+            - python --version
 
 # before_install:
 #   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then   virtualenv venv --python=python2.7; fi
