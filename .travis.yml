@@ -41,9 +41,9 @@ install:
 script:
   - python setup.py install
   - cd tests
-  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; coverage run -m --source=../mlbox/ pytest; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" != "3.6" ] ; pytest; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] ; pytest; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then coverage run -m --source=../mlbox/ pytest; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" != "3.6" ] ; then pytest; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ] ; then pytest; fi
 
 after_success:
   - codecov
