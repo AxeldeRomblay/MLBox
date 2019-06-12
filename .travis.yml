@@ -37,6 +37,7 @@ matrix:
             # - pyenv global 3.5.6
             # - python --version
             # - pyenv versions
+            - eval "$(pyenv init -)"
             - pyenv virtualenv 3.5.6 venv
             - pyenv activate venv
             # - source venv/bin/activate
