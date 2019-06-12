@@ -1,19 +1,28 @@
 language: python
+
+os:
+  -linux
+  -osx
+
 python:
-- '2.7'
-- '3.5'
-- '3.6'
+  - '2.7'
+  - '3.5'
+  - '3.6'
+
 install:
-- pip install coverage
-- pip install codecov
-- pip install -U pytest
-- pip install --upgrade setuptools wheel
+  - pip install coverage
+  - pip install codecov
+  - pip install -U pytest
+  - pip install --upgrade setuptools wheel
+
 script:
-- python setup.py install
-- cd tests
-- coverage run -m --source=../mlbox/ pytest
+  - python setup.py install
+  - cd tests
+  - coverage run -m --source=../mlbox/ pytest
+
 after_success:
-- codecov
+  - codecov
+
 deploy:
  provider: pypi
  user: AxeldeRomblay
