@@ -1,13 +1,50 @@
 language: python
 
-os:
-  -linux
-  -osx
+matrix:
+    include:
+        # Use the built in venv for linux builds
+        - os: linux
+          python: "2.7"
+          dist: trusty
 
-python:
-  - '2.7'
-  - '3.5'
-  - '3.6'
+        - os: linux
+          python: "3.5"
+          dist: trusty
+
+        - os: linux
+          python: "3.6"
+          dist: trusty
+
+        # Use generic language for osx
+        - os: osx
+          language: generic
+          python: "2.7"
+
+        - os: osx
+          language: generic
+          python: "3.5"
+
+        - os: osx
+          language: generic
+          python: "3.6"
+
+before_install:
+  if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+          brew install python2.7;
+          virtualenv venv -p python2.7;
+          source venv/bin/activate;
+      elif [[ "$TRAVIS_PYTHON_VERSION" == "3.5" ]]; then
+          brew install python3.5;
+          virtualenv venv -p python3.5;
+          source venv/bin/activate;
+      else [[ "$TRAVIS_PYTHON_VERSION" == "3.6" ]]; then
+          brew install python3.6;
+          virtualenv venv -p python3.6;
+          source venv/bin/activate;
+      fi
+  fi
+
 
 install:
   - pip install coverage
@@ -24,7 +61,7 @@ after_success:
   - codecov
 
 deploy:
- provider: pypi
- user: AxeldeRomblay
- password:
-   secure: YiApWm2gnE2SiBQQZ4gbWEJrFl+Jo381e07viF9Lgo30+mjnCEpMilAZpCl9MuzslOkXyFCv/U9JNnj9+yGtMcxJQE+82E3eoqupgoMQeGZuWIMN9cRNemxZWgOAwrzslfqEYWvMVdNzIayFYAw6HUgmNI5sHiefX2JjFA7Y0MYlL0SZBjeqUESqpjTHIS0nRTCKpv77XKo/SASJsqkpYg8OgnYgKWKvxpols/bZDwmAwy2j0izuyNAY9ASJx5awg9x/bJnn7IzvO8w+j/iQTQjs5CIa1NBW77Naqplxk1rlivIO3+3rT4QJG+xRacJHa1vLInATCcUVpbhzk/NbOPUxLXpxX6XUPDhUysR1sQbaYBbBOdLOnTAmKBv5WozLzXDUxO/3xwUNUB5+JhMikjOWiwA6Q9pJ7q/nsDMRoTcXrjN/jqMDMQ+CU7h7QBIZFoekDO2hEmWRkcgndbgzPcaTmX8AnjoZCvayYvdge47199feXkTUv+Gx68kInYuj+p3m6He36tJegCnsiAdc2eOzbPswt7/KVBbvbIfRaRj+5LtH69ozn1xpEJJOisiJnF9y0ysB00U4B4bE1kGGmxQeMI6f8Gp33wzvYYUrmB+5AESBzr7Mk4Yfc0Y36vA6NilIj7bK4WmTsWkCmmzazGOwgKi1zWC51W/SjNXyWkc=
+  provider: pypi
+  user: AxeldeRomblay
+  password:
+    secure: YiApWm2gnE2SiBQQZ4gbWEJrFl+Jo381e07viF9Lgo30+mjnCEpMilAZpCl9MuzslOkXyFCv/U9JNnj9+yGtMcxJQE+82E3eoqupgoMQeGZuWIMN9cRNemxZWgOAwrzslfqEYWvMVdNzIayFYAw6HUgmNI5sHiefX2JjFA7Y0MYlL0SZBjeqUESqpjTHIS0nRTCKpv77XKo/SASJsqkpYg8OgnYgKWKvxpols/bZDwmAwy2j0izuyNAY9ASJx5awg9x/bJnn7IzvO8w+j/iQTQjs5CIa1NBW77Naqplxk1rlivIO3+3rT4QJG+xRacJHa1vLInATCcUVpbhzk/NbOPUxLXpxX6XUPDhUysR1sQbaYBbBOdLOnTAmKBv5WozLzXDUxO/3xwUNUB5+JhMikjOWiwA6Q9pJ7q/nsDMRoTcXrjN/jqMDMQ+CU7h7QBIZFoekDO2hEmWRkcgndbgzPcaTmX8AnjoZCvayYvdge47199feXkTUv+Gx68kInYuj+p3m6He36tJegCnsiAdc2eOzbPswt7/KVBbvbIfRaRj+5LtH69ozn1xpEJJOisiJnF9y0ysB00U4B4bE1kGGmxQeMI6f8Gp33wzvYYUrmB+5AESBzr7Mk4Yfc0Y36vA6NilIj7bK4WmTsWkCmmzazGOwgKi1zWC51W/SjNXyWkc=
