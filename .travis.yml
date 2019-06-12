@@ -36,8 +36,9 @@ matrix:
             - pyenv global 3.5.6
             - python --version
             - pyenv versions
-            - virtualenv -p /usr/local/bin/python3.5.6 venv
-            - source venv/bin/activate
+            - pyenv virtualenv 3.5.6 venv
+            - pyenv activate venv
+            # - source venv/bin/activate
 
         # - os: osx
         #   language: generic
