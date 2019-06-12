@@ -25,29 +25,36 @@ matrix:
           language: generic
           python: "3.6"
 
-        # Use generic language for windows
+        # Use sh language for windows
+        - os: windows
+          language: sh
+          python: "2.7"
+          before_install:
+            - choco install python2.7
+            - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
+
+        - os: windows
+          language: sh
+          python: "3.5"
+          before_install:
+            - choco install python3.5
+            - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
+
         - os: windows
           language: sh
           python: "3.6"
           before_install:
-            - choco install python3
-            - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
-
-        # - os: osx
-        #   language: generic
-        #   python: "3.5"
-        #
-        # - os: osx
-        #   language: generic
-        #   python: "3.6"
+            - choco install python3.6
+            - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
 
 before_install:
   - if [ "$TRAVIS_OS_NAME" = "osx" ] ; then brew update; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then   brew install python2.7 && virtualenv venv -p python2.7 && source venv/bin/activate; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.5" ] ; then   brew install python3.5 && virtualenv venv -p python3.5 && source venv/bin/activate; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then   brew install python3.9 && virtualenv venv -p python3.6 && source venv/bin/activate; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then  choco install python3  && export PATH="/c/Python37:/c/Python37/Scripts:$PATH" && virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
-
+  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then   brew install python3.6 && virtualenv venv -p python3.6 && source venv/bin/activate; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then  choco install python2.7  && export PATH="/c/Python27:/c/Python27/Scripts:$PATH" && virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.5" ] ; then  choco install python3.5  && export PATH="/c/Python35:/c/Python35/Scripts:$PATH" && virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then  choco install python3.6  && export PATH="/c/Python36:/c/Python36/Scripts:$PATH" && virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
 
 install:
   - pip install coverage
@@ -61,6 +68,7 @@ script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then coverage run -m --source=../mlbox/ pytest; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" != "3.6" ] ; then pytest; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ] ; then pytest; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ] ; then pytest; fi
 
 after_success:
   - codecov
