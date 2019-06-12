@@ -14,16 +14,28 @@ matrix:
 
         # Use generic language for osx
         - os: osx
-          language: generic
           python: "2.7"
+          before_install:
+            - brew update
+            - brew install python2.7
+            - virtualenv venv --python=python2.7
+            - source venv/bin/activate
 
         - os: osx
-          language: generic
           python: "3.5"
+          before_install:
+            - brew update
+            - brew install python3.5
+            - virtualenv venv --python=python3.5
+            - source venv/bin/activate
 
         - os: osx
-          language: generic
           python: "3.6"
+          before_install:
+            - brew update
+            - brew install python3.6
+            - virtualenv venv --python=python3.6
+            - source venv/bin/activate
 
         # Use sh language for windows
         - os: windows
@@ -32,6 +44,8 @@ matrix:
           before_install:
             - choco install python --version 2.7.11
             - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
+            - virtualenv $HOME/venv --python=python2.7.11
+            - source $HOME/venv/Scripts/activate
 
         - os: windows
           language: sh
@@ -39,6 +53,8 @@ matrix:
           before_install:
             - choco install python --version 3.5.4
             - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
+            - virtualenv $HOME/venv --python=python3.5.4
+            - source $HOME/venv/Scripts/activate
 
         - os: windows
           language: sh
@@ -46,17 +62,22 @@ matrix:
           before_install:
             - choco install python --version 3.6.7
             - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
+            - virtualenv $HOME/venv --python=python3.6.7
+            - source $HOME/venv/Scripts/activate
 
-before_install:
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] ; then brew update; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then   brew install python2.7 && virtualenv venv -p python2.7 && source venv/bin/activate; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.5" ] ; then   brew install python3.5 && virtualenv venv -p python3.5 && source venv/bin/activate; fi
-  - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then   brew install python3.6 && virtualenv venv -p python3.6 && source venv/bin/activate; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then  virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.5" ] ; then  virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then  virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
+# before_install:
+#   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then   virtualenv venv --python=python2.7; fi
+#   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.5" ] ; then   virtualenv venv --python=python3.5; fi
+#   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then   virtualenv venv --python=python3.6; fi
+#   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then   source venv/bin/activate; fi
+#   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.5" ] ; then   source venv/bin/activate; fi
+#   - if [ "$TRAVIS_OS_NAME" = "osx" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then   source venv/bin/activate; fi
+#   - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "2.7" ] ; then  virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
+#   - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.5" ] ; then  virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
+#   - if [ "$TRAVIS_OS_NAME" = "windows" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then  virtualenv $HOME/venv && source $HOME/venv/Scripts/activate; fi
 
 install:
+  - python --version
   - pip install coverage
   - pip install codecov
   - pip install -U pytest
