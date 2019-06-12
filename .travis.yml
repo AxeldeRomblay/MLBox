@@ -30,14 +30,14 @@ matrix:
           language: sh
           python: "2.7"
           before_install:
-            - choco install python --version 2.7
+            - choco install python --version 2.7.15
             - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
 
         - os: windows
           language: sh
           python: "3.5"
           before_install:
-            - cchoco install python --version 3.5
+            - choco install python --version 3.5
             - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
 
         - os: windows
@@ -68,7 +68,7 @@ script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then coverage run -m --source=../mlbox/ pytest; fi
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" != "3.6" ] ; then pytest; fi
   # - if [ "$TRAVIS_OS_NAME" = "osx" ] ; then pytest; fi
-  - if [ "$TRAVIS_OS_NAME" = "windows" ] ; then pytest; fi
+  # - if [ "$TRAVIS_OS_NAME" = "windows" ] ; then pytest; fi
 
 after_success:
   - codecov
