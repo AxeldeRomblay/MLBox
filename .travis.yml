@@ -66,12 +66,12 @@ matrix:
         #     - export PATH="/c/tools/python/Scripts:$PATH"
         #     - pip --version
 
-        # - os: windows
-        #   language: sh
-        #   python: "3.5"
-        #   before_install:
-        #     - choco install python --version 3.5.4
-        #     - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
+        - os: windows
+          language: sh
+          python: "3.5"
+          before_install:
+            - choco install python --version 3.5.4
+            - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
 
         - os: windows
           language: sh
