@@ -1,7 +1,7 @@
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
-
+import sys
 import pickle
 import os
 import time
@@ -242,7 +242,8 @@ class Reader():
                 df = pd.read_excel(path, header=self.header)
 
             elif (type_doc == 'h5'):
-
+                if (sys.platform == "win32" and sys.version_info[0] <=3 and sys.version_info[1] <=5):
+                    raise ValueError("h5 format not supported for python under 3.6 on windows. Please upgrade python")
                 if (self.verbose):
                     print("")
                     print("reading hdf5 : " + path.split("/")[-1] + " ...")
@@ -250,7 +251,8 @@ class Reader():
                 df = pd.read_hdf(path)
 
             elif (type_doc == 'json'):
-
+                if (sys.platform == "win32" and sys.version_info[0] <=3 and sys.version_info[1] <=5):
+                    raise ValueError("json format not supported for python under 3.6 on windows. Please upgrade python")
                 if (self.verbose):
                     print("")
                     print("reading json : " + path.split("/")[-1] + " ...")
@@ -275,11 +277,15 @@ class Reader():
         if (self.verbose):
             print("cleaning data ...")
 
-        df = pd.concat(Parallel(n_jobs=-1)(delayed(convert_list)(df[col]) for col in df.columns),
-                       axis=1)
+        if (sys.platform == "win32"):
+            df = pd.concat([convert_list(df[col]) for col in df.columns], axis=1)
+            df = pd.concat([convert_float_and_dates(df[col]) for col in df.columns], axis=1)
+        else:
+            df = pd.concat(Parallel(n_jobs=-1)(delayed(convert_list)(df[col]) for col in df.columns),
+                           axis=1)
 
-        df = pd.concat(Parallel(n_jobs=-1)(delayed(convert_float_and_dates)(df[col]) for col in df.columns),
-                       axis=1)
+            df = pd.concat(Parallel(n_jobs=-1)(delayed(convert_float_and_dates)(df[col]) for col in df.columns),
+                           axis=1)
 
         # Drop duplicates
 

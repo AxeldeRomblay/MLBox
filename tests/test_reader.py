@@ -46,12 +46,15 @@ def test_clean_reader():
     df_excel = reader.clean(path="data_for_tests/train.xls")
     assert np.shape(df_excel) == (891, 12)
     assert np.all(df["Name"] == df_excel["Name"])
-    if sys.version_info[0] >= 3:
-        df_hdf = reader.clean(path="data_for_tests/train.h5")
-        assert np.shape(df_hdf) == (891, 12)
-        assert np.all(df["Name"] == df_hdf["Name"])
-    df_json = reader.clean(path="data_for_tests/train.json")
-    assert np.shape(df_json) == (891, 12)
+    if (sys.platform == "win32" and sys.version_info[0] <=3 and sys.version_info[1] <=5):
+        pass
+    else:
+        if sys.version_info[0] >= 3:
+            df_hdf = reader.clean(path="data_for_tests/train.h5")
+            assert np.shape(df_hdf) == (891, 12)
+            assert np.all(df["Name"] == df_hdf["Name"])
+        df_json = reader.clean(path="data_for_tests/train.json")
+        assert np.shape(df_json) == (891, 12)
 
 
 def test_train_test_split_reader():
