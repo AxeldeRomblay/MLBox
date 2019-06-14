@@ -1,6 +1,6 @@
 .. image:: docs/logos/logo.png
 
-|Documentation Status| |PyPI version| |Build Status| |Windows Build Status| |GitHub Issues| |codecov| |License| |Downloads| |Python Versions|
+|Documentation Status| |PyPI version| |Build Status| |GitHub Issues| |codecov| |License| |Downloads| |Python Versions|
 
 -----------------------
 
@@ -38,8 +38,6 @@ For more details, please refer to `CONTRIBUTING <https://github.com/AxeldeRombla
    :target: https://pypi.python.org/pypi/mlbox
 .. |Build Status| image:: https://travis-ci.org/AxeldeRomblay/MLBox.svg?branch=master
    :target: https://travis-ci.org/AxeldeRomblay/MLBox
-.. |Windows Build Status| image:: https://ci.appveyor.com/api/projects/status/5ypa8vaed6kpmli8?svg=true
-   :target: https://ci.appveyor.com/project/AxeldeRomblay/mlbox
 .. |GitHub Issues| image:: https://img.shields.io/github/issues/AxeldeRomblay/MLBox.svg
    :target: https://github.com/AxeldeRomblay/MLBox/issues
 .. |codecov| image:: https://codecov.io/gh/AxeldeRomblay/MLBox/branch/master/graph/badge.svg
