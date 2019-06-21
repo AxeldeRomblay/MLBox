@@ -46,10 +46,8 @@ matrix:
           python: "3.6"
           before_install:
             - brew update
-            - if [[ $COMPILER != "clang" ]]; then sudo softwareupdate -i "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.3"; fi
+            - brew install libomp
             - brew install gcc
-            - if [[ $COMPILER == "gcc" ]]; then export CXX=g++-8; fi
-            - if [[ $COMPILER == "gcc" ]]; then export CC=gcc-8; fi
             - brew upgrade pyenv
             - brew install pyenv-virtualenv
             - pyenv install 3.6.7
