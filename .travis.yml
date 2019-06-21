@@ -2,15 +2,15 @@ language: python
 
 matrix:
     include:
-        # Use the built in venv for linux builds
-        # - os: linux
-        #   python: "2.7"
-        #
-        # - os: linux
-        #   python: "3.5"
-        #
-        # - os: linux
-        #   python: "3.6"
+        Use the built in venv for linux builds
+        - os: linux
+          python: "2.7"
+
+        - os: linux
+          python: "3.5"
+
+        - os: linux
+          python: "3.6"
 
         # Use generic language for osx
         # - os: osx
@@ -26,20 +26,20 @@ matrix:
         #     - eval "$(pyenv init -)"
         #     - pyenv virtualenv 2.7.15 venv
         #     - pyenv activate venv
-        #
-        # - os: osx
-        #   language: generic
-        #   python: "3.5"
-        #   before_install:
-        #     - brew update
-        #     - brew install gcc@7
-        #     - brew install libomp
-        #     - brew upgrade pyenv
-        #     - brew install pyenv-virtualenv
-        #     - pyenv install 3.5.6
-        #     - eval "$(pyenv init -)"
-        #     - pyenv virtualenv 3.5.6 venv
-        #     - pyenv activate venv
+
+        - os: osx
+          language: generic
+          python: "3.5"
+          before_install:
+            - brew update
+            - brew install libomp
+            - brew install gcc
+            - brew upgrade pyenv
+            - brew install pyenv-virtualenv
+            - pyenv install 3.5.6
+            - eval "$(pyenv init -)"
+            - pyenv virtualenv 3.5.6 venv
+            - pyenv activate venv
 
         - os: osx
           language: generic
@@ -55,30 +55,30 @@ matrix:
             - pyenv virtualenv 3.6.7 venv
             - pyenv activate venv
 
-        # Use sh language for windows
-        # - os: windows
-        #   language: sh
-        #   python: "2.7"
-        #   before_install:
-        #     - choco install python --version 2.7.11
-        #     - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
-        #     - choco install pip --allow-empty-checksums --verison=1.18.1
-        #     - export PATH="/c/tools/python/Scripts:$PATH"
-        #     - pip --version
+        Use sh language for windows
+        - os: windows
+          language: sh
+          python: "2.7"
+          before_install:
+            - choco install python --version 2.7.11
+            - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
+            - choco install pip --allow-empty-checksums --verison=1.18.1
+            - export PATH="/c/tools/python/Scripts:$PATH"
+            - pip --version
 
-        # - os: windows
-        #   language: sh
-        #   python: "3.5"
-        #   before_install:
-        #     - choco install python --version 3.5.4
-        #     - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
-        #
-        # - os: windows
-        #   language: sh
-        #   python: "3.6"
-        #   before_install:
-        #     - choco install python --version 3.6.7
-        #     - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
+        - os: windows
+          language: sh
+          python: "3.5"
+          before_install:
+            - choco install python --version 3.5.4
+            - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
+
+        - os: windows
+          language: sh
+          python: "3.6"
+          before_install:
+            - choco install python --version 3.6.7
+            - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
 
 install:
   - python --version
