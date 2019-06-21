@@ -55,7 +55,7 @@ matrix:
             - pyenv virtualenv 3.6.7 venv
             - pyenv activate venv
 
-        Use sh language for windows
+        # Use sh language for windows
         - os: windows
           language: sh
           python: "2.7"
