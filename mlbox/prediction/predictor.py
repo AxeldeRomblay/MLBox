@@ -10,6 +10,8 @@ import pickle
 import warnings
 import time
 import operator
+import matplotlib
+matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
 from sklearn.pipeline import Pipeline
