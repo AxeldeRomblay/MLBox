@@ -46,10 +46,7 @@ matrix:
           python: "3.6"
           before_install:
             - brew update
-            - if [[ $COMPILER == "clang" ]]; then brew install libomp; fi
-            - if [[ $COMPILER == "clang" ]]; then brew reinstall cmake; fi
             - if [[ $COMPILER != "clang" ]]; then sudo softwareupdate -i "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.3"; fi
-            - if [[ $COMPILER != "clang" ]]; then rm '/usr/local/include/c++'; fi
             - brew install gcc
             - if [[ $COMPILER == "gcc" ]]; then export CXX=g++-8; fi
             - if [[ $COMPILER == "gcc" ]]; then export CC=gcc-8; fi
