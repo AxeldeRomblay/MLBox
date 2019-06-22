@@ -13,7 +13,7 @@ from keras.layers.embeddings import Embedding
 from keras.layers import concatenate, Input
 from keras.models import Model
 
-# Set the keras backend if not set, default is theano
+# Set the keras backend if not set, default is tensorflow
 if "KERAS_BACKEND" not in os.environ:
     os.environ["KERAS_BACKEND"] = "tensorflow"
 
