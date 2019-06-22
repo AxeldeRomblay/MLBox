@@ -14,20 +14,15 @@ Compatibilities
 Preparation
 -----------
 
-First, make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`__ installed. Since MLBox package contains C++ source code, check that the following requirements are installed:
+First, make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`__ installed.
 
-* `gcc <https://gcc.gnu.org/>`__
+Since MLBox package contains C++ source code (LightGBM model), check that the following requirements are installed:
 
-.. code-block:: console
+* For **Windows** users, `VC runtime <https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads>`_ is needed if **Visual Studio** (2015 or newer) is not installed.
 
-    $ sudo apt-get install build-essential
+* For **Linux** users, **glibc** >= 2.14 is required.
 
-* `cmake <https://cmake.org/>`__
-
-.. code-block:: console
-
-    $ pip install cmake
-
+* For **macOS** users, **OpenMP** is required for running LightGBM on the system with the Apple Clang compiler. You can install the **OpenMP** library by the following command: ``brew install libomp``.
 
 If you get any errors during preparation, please refer to `LightGBM's installation guide <https://github.com/Microsoft/LightGBM/tree/master/python-package#lightgbm-python-package>`__
 
@@ -67,7 +62,6 @@ Install from the Github
 
     .. code-block:: console
 
-        $ cd python-package/
         $ python setup.py install
 
 

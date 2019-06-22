@@ -79,9 +79,9 @@ History
 
 0.7.0 (2019-07-01)
 ------------------
-* change package architecture
-* add tests
+* add support for Mac OS & Windows
 * improve setup
 * update support for python versions
-* add support for Mac OS
+* add tests
 * improve documentation & examples
+* change package architecture
