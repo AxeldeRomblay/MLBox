@@ -22,7 +22,7 @@ Since MLBox package contains C++ source code (LightGBM model), check that the fo
 
 * For **Linux** users, **glibc** >= 2.14 is required.
 
-* For **macOS** users, **OpenMP** is required for running LightGBM on the system with the Apple Clang compiler. You can install the **OpenMP** library by the following command: ``brew install libomp``.
+* For **macOS** users, **OpenMP** is required for running LightGBM on the system with the Apple Clang compiler. You can install it by the following command: ``brew install libomp``.
 
 If you get any errors during preparation, please refer to `LightGBM's installation guide <https://github.com/Microsoft/LightGBM/tree/master/python-package#lightgbm-python-package>`__
 
