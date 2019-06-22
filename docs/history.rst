@@ -80,8 +80,8 @@ History
 0.7.0 (2019-07-01)
 ------------------
 * add support for Mac OS & Windows
-* improve setup
 * update support for python versions
+* improve setup
 * add tests
 * improve documentation & examples
-* change package architecture
+* minor changes in the package architecture

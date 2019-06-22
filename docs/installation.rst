@@ -7,8 +7,8 @@ Installation guide
 Compatibilities
 ---------------
 
-* *It is compatible with:* **Python 2.7, 3.5 & 3.6**. & **64-bit version only** (32-bit python is not supported)
-* *Operating system:* **Linux, MacOS & Windows**.
+* *Operating systems:* **Linux, MacOS & Windows**.
+* *Python versions:* **Python 2.7, 3.5 & 3.6**. & **64-bit version only** (32-bit python is not supported)
 
 
 Preparation
@@ -16,7 +16,7 @@ Preparation
 
 First, make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`__ installed.
 
-Since MLBox package contains C++ source code (LightGBM model), check that the following requirements are installed:
+Since MLBox package contains C++ source code (LightGBM), check that the following requirements are installed:
 
 * For **Windows** users, `VC runtime <https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads>`_ is needed if **Visual Studio** (2015 or newer) is not installed.
 
@@ -33,7 +33,7 @@ Installation
 Install from pip
 ~~~~~~~~~~~~~~~~
 
-MLBox is available on **PyPI**, so you only need to run the following command:
+Official releases of MLBox are available on **PyPI**, so you only need to run the following command:
 
 .. code-block:: console
 
@@ -42,6 +42,8 @@ MLBox is available on **PyPI**, so you only need to run the following command:
 
 Install from the Github
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+If you want to get the latest features, you can also install MLBox from the Github.
 
 * **The sources for MLBox can be downloaded** from the `Github repo`_.
 
@@ -58,11 +60,12 @@ Install from the Github
         $ curl  -OL https://github.com/AxeldeRomblay/mlbox/tarball/master
 
 
-* Once you have a copy of the source, **you can install it** using setup.py :
+* Once you have a copy of the source, **you can install it**:
 
     .. code-block:: console
 
-        $ python setup.py install
+        $ cd mlbox
+        $ make install
 
 
 .. _Github repo: https://github.com/AxeldeRomblay/mlbox
