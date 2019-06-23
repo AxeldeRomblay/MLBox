@@ -62,7 +62,8 @@ matrix:
           before_install:
             - choco install python --version 2.7.11
             - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
-            - choco install pip --allow-empty-checksums --version 1.18.1
+            # - choco install pip --allow-empty-checksums --version 1.18.1
+            - choco upgrade pip
             - export PATH="/c/tools/python/Scripts:$PATH"
             - pip --version
             - python -m pip install --upgrade pip
