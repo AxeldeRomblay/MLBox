@@ -66,8 +66,8 @@ matrix:
             # - choco upgrade pip --allow-empty-checksums
             # - export PATH="/c/tools/python/Scripts:$PATH"
             # - pip --version
-            - python -m pip install --upgrade pip
-            - pip --version
+            # - python -m pip install --upgrade pip
+            # - pip --version
 
         # - os: windows
         #   language: sh
