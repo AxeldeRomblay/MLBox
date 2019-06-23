@@ -12,20 +12,20 @@ matrix:
         # - os: linux
         #   python: "3.6"
 
-        # Use generic language for osx
-        - os: osx
-          language: generic
-          python: "2.7"
-          before_install:
-            - brew update
-            - brew install libomp
-            - brew install gcc
-            - brew upgrade pyenv
-            - brew install pyenv-virtualenv
-            - pyenv install 2.7.15
-            - eval "$(pyenv init -)"
-            - pyenv virtualenv 2.7.15 venv
-            - pyenv activate venv
+        # # Use generic language for osx
+        # - os: osx
+        #   language: generic
+        #   python: "2.7"
+        #   before_install:
+        #     - brew update
+        #     - brew install libomp
+        #     - brew install gcc
+        #     - brew upgrade pyenv
+        #     - brew install pyenv-virtualenv
+        #     - pyenv install 2.7.15
+        #     - eval "$(pyenv init -)"
+        #     - pyenv virtualenv 2.7.15 venv
+        #     - pyenv activate venv
 
         # - os: osx
         #   language: generic
@@ -62,7 +62,7 @@ matrix:
           before_install:
             - choco install python --version 2.7.11
             - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
-            - choco install pip --allow-empty-checksums --verison=1.18.1
+            - choco install pip --allow-empty-checksums --version=1.18.1
             - export PATH="/c/tools/python/Scripts:$PATH"
             - pip --version
             - python -m pip install --upgrade pip
