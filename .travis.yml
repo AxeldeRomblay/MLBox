@@ -19,7 +19,6 @@ matrix:
           before_install:
             - brew update
             - brew install libomp
-            - brew install gcc
             - brew upgrade pyenv
             - brew install pyenv-virtualenv
             - pyenv install 2.7.15
@@ -33,7 +32,6 @@ matrix:
           before_install:
             - brew update
             - brew install libomp
-            - brew install gcc
             - brew upgrade pyenv
             - brew install pyenv-virtualenv
             - pyenv install 3.5.6
@@ -47,7 +45,6 @@ matrix:
           before_install:
             - brew update
             - brew install libomp
-            - brew install gcc
             - brew upgrade pyenv
             - brew install pyenv-virtualenv
             - pyenv install 3.6.7
