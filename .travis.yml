@@ -2,88 +2,73 @@ language: python
 
 matrix:
     include:
-        # # Use the built in venv for linux builds
-        # - os: linux
-        #   python: "2.7"
-        #
-        # - os: linux
-        #   python: "3.5"
-        #
-        # - os: linux
-        #   python: "3.6"
+        # Use the built in venv for linux builds
+        - os: linux
+          python: "2.7"
+        
+        - os: linux
+          python: "3.5"
+        
+        - os: linux
+          python: "3.6"
 
-        # # Use generic language for osx
-        # - os: osx
-        #   language: generic
-        #   python: "2.7"
-        #   before_install:
-        #     - brew update
-        #     - brew install libomp
-        #     - brew install gcc
-        #     - brew upgrade pyenv
-        #     - brew install pyenv-virtualenv
-        #     - pyenv install 2.7.15
-        #     - eval "$(pyenv init -)"
-        #     - pyenv virtualenv 2.7.15 venv
-        #     - pyenv activate venv
+        # Use generic language for osx
+        - os: osx
+          language: generic
+          python: "2.7"
+          before_install:
+            - brew update
+            - brew install libomp
+            - brew install gcc
+            - brew upgrade pyenv
+            - brew install pyenv-virtualenv
+            - pyenv install 2.7.15
+            - eval "$(pyenv init -)"
+            - pyenv virtualenv 2.7.15 venv
+            - pyenv activate venv
 
-        # - os: osx
-        #   language: generic
-        #   python: "3.5"
-        #   before_install:
-        #     - brew update
-        #     - brew install libomp
-        #     - brew install gcc
-        #     - brew upgrade pyenv
-        #     - brew install pyenv-virtualenv
-        #     - pyenv install 3.5.6
-        #     - eval "$(pyenv init -)"
-        #     - pyenv virtualenv 3.5.6 venv
-        #     - pyenv activate venv
-        #
-        # - os: osx
-        #   language: generic
-        #   python: "3.6"
-        #   before_install:
-        #     - brew update
-        #     - brew install libomp
-        #     - brew install gcc
-        #     - brew upgrade pyenv
-        #     - brew install pyenv-virtualenv
-        #     - pyenv install 3.6.7
-        #     - eval "$(pyenv init -)"
-        #     - pyenv virtualenv 3.6.7 venv
-        #     - pyenv activate venv
+        - os: osx
+          language: generic
+          python: "3.5"
+          before_install:
+            - brew update
+            - brew install libomp
+            - brew install gcc
+            - brew upgrade pyenv
+            - brew install pyenv-virtualenv
+            - pyenv install 3.5.6
+            - eval "$(pyenv init -)"
+            - pyenv virtualenv 3.5.6 venv
+            - pyenv activate venv
+        
+        - os: osx
+          language: generic
+          python: "3.6"
+          before_install:
+            - brew update
+            - brew install libomp
+            - brew install gcc
+            - brew upgrade pyenv
+            - brew install pyenv-virtualenv
+            - pyenv install 3.6.7
+            - eval "$(pyenv init -)"
+            - pyenv virtualenv 3.6.7 venv
+            - pyenv activate venv
 
         # Use sh language for windows
         - os: windows
           language: sh
-          python: "2.7"
+          python: "3.5"
           before_install:
-            - choco install python --version 2.7.11
-            - export PATH="/c/tools/python:/c/tools/python/Scripts:$PATH"
-            - python --version
-            - pip --version
-            # - choco install pip --allow-empty-checksums --version 1.18.1
-            # - choco upgrade pip --allow-empty-checksums
-            # - export PATH="/c/tools/python/Scripts:$PATH"
-            # - pip --version
-            # - python -m pip install --upgrade pip
-            # - pip --version
-
-        # - os: windows
-        #   language: sh
-        #   python: "3.5"
-        #   before_install:
-        #     - choco install python --version 3.5.4
-        #     - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
-        #
-        # - os: windows
-        #   language: sh
-        #   python: "3.6"
-        #   before_install:
-        #     - choco install python --version 3.6.7
-        #     - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
+            - choco install python --version 3.5.4
+            - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
+        
+        - os: windows
+          language: sh
+          python: "3.6"
+          before_install:
+            - choco install python --version 3.6.7
+            - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
 
 install:
   - python --version
