@@ -61,8 +61,11 @@ matrix:
           python: "2.7"
           before_install:
             - choco install python --version 2.7.11
-            - set PATH=%PATH%;C:\Python27;C:\Python27\Scripts
-            - echo %PATH%
+            - echo $PATH
+            - echo %PATH
+            - export PATH="/c/Python27:/c/Python27/Scripts:$PATH"
+            - echo $PATH
+            - pip install coverage
             # - choco install pip --allow-empty-checksums --version 1.18.1
             # - choco upgrade pip --allow-empty-checksums
             # - export PATH="/c/tools/python/Scripts:$PATH"
