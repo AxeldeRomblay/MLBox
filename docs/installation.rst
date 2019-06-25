@@ -29,7 +29,7 @@ For **MacOS** users only, **OpenMP** is required. You can install it by the foll
 Installation
 ------------
 
-You can choose to install MLBox either from pip or from the github.
+You can choose to install MLBox either from pip or from the Github.
 
 
 Install from pip
@@ -74,6 +74,7 @@ Issues
 ------
 
 If you get any troubles during installation, you can refer to the `issues <https://github.com/AxeldeRomblay/MLBox/issues>`__.
+
 **Please first check that there are no similar issues opened before opening one**.
 
 
