@@ -77,7 +77,7 @@ History
 ------------------
 * remove xgboost installation
 
-0.7.0 (2019-07-01)
+0.7.0 (2019-06-26)
 ------------------
 * add support for Mac OS & Windows
 * update support for python versions
