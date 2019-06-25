@@ -8,7 +8,7 @@ Compatibilities
 ---------------
 
 * *Operating systems:* **Linux**, **MacOS** & **Windows**.
-* *Python versions:* **2.7** (except on Windows), **3.5** & **3.6**. & **64-bit version** only (32-bit python is not supported)
+* *Python versions:* **2.7** (except on Windows), **3.5** - **3.6**. & **64-bit version** only (32-bit python is not supported)
 
 
 Basic requirements
@@ -16,18 +16,21 @@ Basic requirements
 
 We suppose that `pip <https://pip.pypa.io/en/stable/installing/>`__ is already installed.
 
-Also, please make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`__ and `wheel <https://pythonwheels.com/>`__ installed.
+Also, please make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`__ and `wheel <https://pythonwheels.com/>`__ installed, which is usually the case if pip is installed.
 If not, you can install both by running the following commands respectively: ``pip install setuptools`` and ``pip install wheel``.
 
 
-Preparation (for MacOS users only)
-----------------------------------
+Preparation (MacOS only)
+------------------------
 
 For **MacOS** users only, **OpenMP** is required. You can install it by the following command: ``brew install libomp``.
 
 
 Installation
 ------------
+
+You can choose to install MLBox either from pip or from the github.
+
 
 Install from pip
 ~~~~~~~~~~~~~~~~
@@ -65,6 +68,13 @@ If you want to get the latest features, you can also install MLBox from the Gith
 
         $ cd mlbox
         $ make install
+
+
+Issues
+------
+
+If you get any troubles during installation, you can refer to the `issues <https://github.com/AxeldeRomblay/MLBox/issues>`__.
+**Please first check that there are no similar issues opened before opening one**.
 
 
 .. _Github repo: https://github.com/AxeldeRomblay/mlbox
