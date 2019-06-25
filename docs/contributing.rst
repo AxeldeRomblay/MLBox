@@ -74,13 +74,9 @@ Ready to contribute? Here's how to set up `mlbox` for local development.
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass flake8 and the tests, including testing other Python versions with tox::
+5. When you're done making changes, check that your changes pass the tests::
 
-    $ flake8 mlbox tests
-    $ python setup.py test or py.test
-    $ tox
-
-   To get flake8 and tox, just pip install them into your virtualenv.
+    $ make test
 
 6. Commit your changes and push your branch to GitHub::
 
@@ -97,16 +93,7 @@ Before you submit a pull request, check that it meets these guidelines:
 
 1. The pull request should include tests.
 2. If the pull request adds functionality, the docs should be updated. Put
-   your new functionality into a function with a docstring, and add the
-   feature to the list in README.rst.
-3. The pull request should work for Python 2.6, 2.7, 3.3, 3.4 and 3.5, and for PyPy. Check
+   your new functionality into a function with a docstring.
+3. The pull request should work for all supported Python versions and for PyPy. Check
    https://travis-ci.org/AxeldeRomblay/MLBox/pull_requests
    and make sure that the tests pass for all supported Python versions.
-
-Tips
-----
-
-To run a subset of tests::
-
-$ py.test tests.test_mlbox
-
