@@ -7,24 +7,23 @@ Installation guide
 Compatibilities
 ---------------
 
-* *Operating systems:* **Linux, MacOS & Windows**.
-* *Python versions:* **Python 2.7, 3.5 & 3.6**. & **64-bit version only** (32-bit python is not supported)
+* *Operating systems:* **Linux**, **MacOS** & **Windows**.
+* *Python versions:* **2.7** (except on Windows), **3.5** & **3.6**. & **64-bit version** only (32-bit python is not supported)
 
 
-Preparation
------------
+Basic requirements
+------------------
 
-First, make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`__ installed.
+We suppose that `pip <https://pip.pypa.io/en/stable/installing/>`__ is already installed.
 
-Since MLBox package contains C++ source code (LightGBM), check that the following requirements are installed:
+Also, please make sure you have `setuptools <https://pypi.python.org/pypi/setuptools>`__ and `wheel <https://pythonwheels.com/>`__ installed.
+If not, you can install both by running the following commands respectively: ``pip install setuptools`` and ``pip install wheel``.
 
-* For **Windows** users, `VC runtime <https://support.microsoft.com/en-us/help/2977003/the-latest-supported-visual-c-downloads>`_ is needed if **Visual Studio** (2015 or newer) is not installed.
 
-* For **Linux** users, **glibc** >= 2.14 is required.
+Preparation (for MacOS users only)
+----------------------------------
 
-* For **MacOS** users, **OpenMP** is required for running LightGBM on the system with the Apple Clang compiler. You can install it by the following command: ``brew install libomp``.
-
-If you get any errors during preparation, please refer to `LightGBM's installation guide <https://github.com/Microsoft/LightGBM/tree/master/python-package#lightgbm-python-package>`__
+For **MacOS** users only, **OpenMP** is required. You can install it by the following command: ``brew install libomp``.
 
 
 Installation
