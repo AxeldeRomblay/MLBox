@@ -71,7 +71,6 @@ matrix:
 
 # Common steps to all os
 install:
-  - python --version
   - pip install coverage
   - pip install codecov
   - pip install -U pytest
