@@ -11,7 +11,7 @@ coverage:
     project:
       default:
         # Commits pushed to master should not make the overall
-        # project coverage decrease by more than 1%:
+        # project coverage decrease by more than 1%
         target: auto
         threshold: 1%
     patch:
