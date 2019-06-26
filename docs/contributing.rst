@@ -19,7 +19,7 @@ If you are reporting a bug, please include:
 
 * Your operating system name and version.
 * Any details about your local setup that might be helpful in troubleshooting.
-* Detailed steps to reproduce the bug.
+* The smallest possible example to reproduce the bug.
 
 Fix Bugs
 ~~~~~~~~
@@ -58,37 +58,44 @@ Get Started!
 Ready to contribute? Here's how to set up `mlbox` for local development.
 
 1. Fork the `mlbox` repo on GitHub.
+
 2. Clone your fork locally::
 
     $ git clone git@github.com:your_name_here/mlbox.git
 
-3. Install your local copy into a virtualenv. Assuming you have virtualenvwrapper installed, this is how you set up your fork for local development::
+3. If you have virtualenvwrapper install, skip this step. Either, run the following::
 
-    $ mkvirtualenv mlbox
-    $ cd mlbox/
+    $ pip install virtualenv
+    
+4. Install your local copy into a virtualenv following this commands to set up your fork for local development::
+
+    $ virtualenv mlboxenv --python=python3.6
+    $ cd mlboxenv/
     $ python setup.py develop
 
 If you have any troubles with the setup, please refer to https://mlbox.readthedocs.io/en/latest/installation.html
 
-4. Create a branch for local development::
+5. Create a branch for local development::
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
    Now you can make your changes locally.
 
-5. When you're done making changes, check that your changes pass the tests::
+6. When you're done making changes, check that your changes pass the tests.
+
+NOTE : you need to install **pytest** before running the tests::
 
     $ make test
 
-NOTE : you need to install **pytest** before running the tests.
 
-6. Commit your changes and push your branch to GitHub::
+
+7. Commit your changes and push your branch to GitHub::
 
     $ git add .
     $ git commit -m "Your detailed description of your changes."
     $ git push origin name-of-your-bugfix-or-feature
 
-7. Submit a pull request through the GitHub website.
+8. Submit a pull request through the GitHub website.
 
 Pull Request Guidelines
 -----------------------

@@ -1,5 +1,7 @@
 language: python
 
+# Declare all os and version of python to be tested
+# The section before install is os specific
 matrix:
     include:
         # Use the built in venv for linux builds
@@ -67,13 +69,14 @@ matrix:
             - choco install python --version 3.6.7
             - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
 
+# Common steps to all os
 install:
-  - python --version
   - pip install coverage
   - pip install codecov
   - pip install -U pytest
   - pip install --upgrade setuptools wheel
 
+# Install mlbox and run the tests
 script:
   - python setup.py install
   - cd tests
