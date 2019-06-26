@@ -67,6 +67,7 @@ matrix:
             - choco install python --version 3.6.7
             - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
 
+# Common steps to all os
 install:
   - python --version
   - pip install coverage
