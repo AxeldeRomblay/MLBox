@@ -11,6 +11,7 @@ import warnings
 import time
 import operator
 import matplotlib
+# The following line allow to use matplolib <= 3.0 versions on mac os
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
