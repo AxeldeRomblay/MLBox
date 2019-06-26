@@ -1,5 +1,7 @@
 language: python
 
+# Declare all os and version of python to be tested
+# The section before install is os specific
 matrix:
     include:
         # Use the built in venv for linux builds
