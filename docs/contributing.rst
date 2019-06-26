@@ -68,6 +68,8 @@ Ready to contribute? Here's how to set up `mlbox` for local development.
     $ cd mlbox/
     $ python setup.py develop
 
+If you have any troubles with the setup, please refer to https://mlbox.readthedocs.io/en/latest/installation.html
+
 4. Create a branch for local development::
 
     $ git checkout -b name-of-your-bugfix-or-feature
@@ -77,6 +79,8 @@ Ready to contribute? Here's how to set up `mlbox` for local development.
 5. When you're done making changes, check that your changes pass the tests::
 
     $ make test
+
+NOTE : you need to install **pytest** before running the tests.
 
 6. Commit your changes and push your branch to GitHub::
 
