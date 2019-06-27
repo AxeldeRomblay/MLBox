@@ -39,6 +39,7 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
+.pytest_cache/
 .coverage.*
 .cache
 nosetests.xml
@@ -70,6 +71,10 @@ target/
 # Jupyter Notebook
 .ipynb_checkpoints
 
+# pycharm
+.idea
+.DS_Store
+
 # pyenv
 .python-version
 
@@ -99,3 +104,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# save folders
+*save/

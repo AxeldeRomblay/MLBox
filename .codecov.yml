@@ -1,0 +1,22 @@
+codecov:
+  notify:
+    require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "50...100"
+
+  status:
+    project:
+      default:
+        # Commits pushed to master should not make the overall
+        # project coverage decrease by more than 1%
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        # Be tolerant on slight code coverage diff on PRs to limit
+        # noisy red coverage status on github PRs.
+        target: auto
+        threshold: 1%
