@@ -84,6 +84,7 @@ script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" != "3.6" ] ; then pytest; fi
   - if [ "$TRAVIS_OS_NAME" = "osx" ] ; then pytest; fi
   - if [ "$TRAVIS_OS_NAME" = "windows" ] ; then pytest; fi
+  - cd ..
 
 after_success:
   - codecov
