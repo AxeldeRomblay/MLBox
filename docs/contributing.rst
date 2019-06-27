@@ -73,7 +73,7 @@ Ready to contribute? Here's how to set up `mlbox` for local development.
     $ cd mlboxenv/
     $ python setup.py develop
 
-If you have any troubles with the setup, please refer to https://mlbox.readthedocs.io/en/latest/installation.html
+If you have any troubles with the setup, please refer to the `installation guide <https://mlbox.readthedocs.io/en/latest/installation.html>`__
 
 5. Create a branch for local development::
 
