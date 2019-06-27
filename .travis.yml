@@ -80,5 +80,6 @@ deploy:
   skip_existing: true
   skip_cleanup: true
   on:
+    condition: $TRAVIS_OS_NAME != "windows"
     repo: AxeldeRomblay/MLBox
     branch: master
