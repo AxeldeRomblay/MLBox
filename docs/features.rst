@@ -28,8 +28,8 @@ Categorical features
 .. autoclass:: mlbox.encoding.Categorical_encoder
     :members:
 
-Models
-======
+Model
+=====
 
 Classification
 --------------
@@ -37,19 +37,19 @@ Classification
 Feature selection
 ~~~~~~~~~~~~~~~~~
 
-.. autoclass:: mlbox.model.supervised.classification.Clf_feature_selector
+.. autoclass:: mlbox.model.classification.Clf_feature_selector
     :members:
 
 Classification
 ~~~~~~~~~~~~~~
 
-.. autoclass:: mlbox.model.supervised.classification.Classifier
+.. autoclass:: mlbox.model.classification.Classifier
    :members:
 
 Stacking
 ~~~~~~~~
 
-.. autoclass:: mlbox.model.supervised.classification.StackingClassifier
+.. autoclass:: mlbox.model.classification.StackingClassifier
    :members:
 
 Regression
@@ -58,19 +58,19 @@ Regression
 Feature selection
 ~~~~~~~~~~~~~~~~~
 
-.. autoclass:: mlbox.model.supervised.regression.Reg_feature_selector
+.. autoclass:: mlbox.model.regression.Reg_feature_selector
     :members:
 
 Regression
 ~~~~~~~~~~
 
-.. autoclass:: mlbox.model.supervised.regression.Regressor
+.. autoclass:: mlbox.model.regression.Regressor
    :members:
 
 Stacking
 ~~~~~~~~
 
-.. autoclass:: mlbox.model.supervised.regression.StackingRegressor
+.. autoclass:: mlbox.model.regression.StackingRegressor
    :members:
    
 

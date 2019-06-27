@@ -76,3 +76,12 @@ History
 0.6.0 (2019-04-26)
 ------------------
 * remove xgboost installation
+
+0.7.0 (2019-06-26)
+------------------
+* add support for Mac OS & Windows
+* update support for python versions
+* improve setup
+* add tests
+* improve documentation & examples
+* minor changes in the package architecture

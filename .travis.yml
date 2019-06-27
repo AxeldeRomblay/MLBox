@@ -1,15 +1,95 @@
 language: python
-python:
-- '2.7'
-- '3.6'
+
+# Declare all os and version of python to be tested
+# The section before install is os specific
+matrix:
+    include:
+        # Use the built in venv for linux builds
+        - os: linux
+          python: "2.7"
+        
+        - os: linux
+          python: "3.5"
+        
+        - os: linux
+          python: "3.6"
+
+        # Use generic language for osx
+        - os: osx
+          language: generic
+          python: "2.7"
+          before_install:
+            - brew update
+            - brew install libomp
+            - brew upgrade pyenv
+            - brew install pyenv-virtualenv
+            - pyenv install 2.7.15
+            - eval "$(pyenv init -)"
+            - pyenv virtualenv 2.7.15 venv
+            - pyenv activate venv
+
+        - os: osx
+          language: generic
+          python: "3.5"
+          before_install:
+            - brew update
+            - brew install libomp
+            - brew upgrade pyenv
+            - brew install pyenv-virtualenv
+            - pyenv install 3.5.6
+            - eval "$(pyenv init -)"
+            - pyenv virtualenv 3.5.6 venv
+            - pyenv activate venv
+        
+        - os: osx
+          language: generic
+          python: "3.6"
+          before_install:
+            - brew update
+            - brew install libomp
+            - brew upgrade pyenv
+            - brew install pyenv-virtualenv
+            - pyenv install 3.6.7
+            - eval "$(pyenv init -)"
+            - pyenv virtualenv 3.6.7 venv
+            - pyenv activate venv
+
+        # Use sh language for windows
+        - os: windows
+          language: sh
+          python: "3.5"
+          before_install:
+            - choco install python --version 3.5.4
+            - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
+        
+        - os: windows
+          language: sh
+          python: "3.6"
+          before_install:
+            - choco install python --version 3.6.7
+            - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
+
+# Common steps to all os
 install:
-- pip install codecov
-- pip install --upgrade setuptools wheel
-- pip install --only-binary all -r python-package/requirements.txt
+  - pip install coverage
+  - pip install codecov
+  - pip install -U pytest
+  - pip install --upgrade setuptools wheel
+
+# Install mlbox and run the tests
 script:
-- cd python-package
-- python setup.py install
-- cd ../tests
-- coverage run test_mlbox.py
+  - python setup.py install
+  - cd tests
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.6" ] ; then coverage run -m --source=../mlbox/ pytest; fi
+  - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" != "3.6" ] ; then pytest; fi
+  - if [ "$TRAVIS_OS_NAME" = "osx" ] ; then pytest; fi
+  - if [ "$TRAVIS_OS_NAME" = "windows" ] ; then pytest; fi
+
 after_success:
-- codecov
+  - codecov
+
+deploy:
+  provider: pypi
+  user: AxeldeRomblay
+  password:
+    secure: YiApWm2gnE2SiBQQZ4gbWEJrFl+Jo381e07viF9Lgo30+mjnCEpMilAZpCl9MuzslOkXyFCv/U9JNnj9+yGtMcxJQE+82E3eoqupgoMQeGZuWIMN9cRNemxZWgOAwrzslfqEYWvMVdNzIayFYAw6HUgmNI5sHiefX2JjFA7Y0MYlL0SZBjeqUESqpjTHIS0nRTCKpv77XKo/SASJsqkpYg8OgnYgKWKvxpols/bZDwmAwy2j0izuyNAY9ASJx5awg9x/bJnn7IzvO8w+j/iQTQjs5CIa1NBW77Naqplxk1rlivIO3+3rT4QJG+xRacJHa1vLInATCcUVpbhzk/NbOPUxLXpxX6XUPDhUysR1sQbaYBbBOdLOnTAmKBv5WozLzXDUxO/3xwUNUB5+JhMikjOWiwA6Q9pJ7q/nsDMRoTcXrjN/jqMDMQ+CU7h7QBIZFoekDO2hEmWRkcgndbgzPcaTmX8AnjoZCvayYvdge47199feXkTUv+Gx68kInYuj+p3m6He36tJegCnsiAdc2eOzbPswt7/KVBbvbIfRaRj+5LtH69ozn1xpEJJOisiJnF9y0ysB00U4B4bE1kGGmxQeMI6f8Gp33wzvYYUrmB+5AESBzr7Mk4Yfc0Y36vA6NilIj7bK4WmTsWkCmmzazGOwgKi1zWC51W/SjNXyWkc=

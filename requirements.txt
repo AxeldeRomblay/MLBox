@@ -1,0 +1,13 @@
+numpy>=1.16.3
+scipy==1.2.1
+matplotlib==2.2.4
+hyperopt==0.1
+Keras==2.1.2
+pandas==0.21.0
+joblib==0.11
+scikit-learn==0.19.0
+tensorflow==1.13.1
+lightgbm==2.2.3
+networkx==1.11
+tables==3.5.2
+xlrd==1.2.0
