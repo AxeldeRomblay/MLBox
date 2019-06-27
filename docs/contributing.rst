@@ -79,15 +79,13 @@ If you have any troubles with the setup, please refer to the `installation guide
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
-   Now you can make your changes locally.
+Now you can make your changes locally.
 
 6. When you're done making changes, check that your changes pass the tests.
 
 NOTE : you need to install **pytest** before running the tests::
 
     $ make test
-
-
 
 7. Commit your changes and push your branch to GitHub::
 
