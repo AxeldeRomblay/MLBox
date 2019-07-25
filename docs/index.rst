@@ -28,10 +28,11 @@ Links
    * `Kaggle kernel on "Titanic" dataset <https://www.kaggle.com/axelderomblay/running-mlbox-auto-ml-package-on-titanic>`__ (classification)
    * `Kaggle kernel on "House Prices" dataset <https://www.kaggle.com/axelderomblay/running-mlbox-auto-ml-package-on-house-prices>`__ (regression)
 
-* **Articles from users:**
+* **Articles & tutorials from users:**
    * `Tutorial on Automated Machine Learning using MLBox <https://www.analyticsvidhya.com/blog/2017/07/mlbox-library-automated-machine-learning/>`__
    * `MLBox: a short regression tutorial <http://darques.eu/blog/index.php/2017/07/27/mlbox-a-short-regression_tutorial/>`__
    * `KDnuggets: Implementing Auto-ML Systems with Open Source Tools <https://www.kdnuggets.com/2018/10/implementing-automated-machine-learning-open-source-path.html>`__
+   * `Automatic Machine Learning tutorial <https://www.youtube.com/watch?v=jn-22XyKsgo>`__
 
 * **Webinars & conferences:**
    * `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
@@ -43,6 +44,7 @@ Links
    * `Skymind AI Wiki <https://skymind.ai/wiki/automl-automated-machine-learning-ai>`__
    * `TPOT <https://epistasislab.github.io/tpot/related/>`__
    * `Towards Data Science <https://towardsdatascience.com/gui-fying-the-machine-learning-workflow-towards-rapid-discovery-of-viable-pipelines-cab2552c909f>`__
+
 
 .. toctree::
    :maxdepth: 1
