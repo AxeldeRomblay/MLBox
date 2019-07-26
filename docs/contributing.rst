@@ -69,7 +69,7 @@ Ready to contribute? Here's how to set up `mlbox` for local development.
     
 4. Install your local copy into a virtualenv following this commands to set up your fork for local development::
 
-    $ virtualenv mlboxenv --python=python3.6
+    $ virtualenv mlboxenv --python=python3.7
     $ cd mlboxenv/
     $ python setup.py develop
 
