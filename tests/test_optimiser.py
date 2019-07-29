@@ -148,9 +148,7 @@ def test_evaluate_and_optimise_classification():
 
     space = {'ne__numerical_strategy': {"search": "choice", "space": [0]},
              'ce__strategy': {"search": "choice",
-                              "space": ["label_encoding",
-                                        "random_projection",
-                                        "entity_embedding"]},
+                              "space": ["label_encoding"]},
              'fs__threshold': {"search": "uniform",
                                "space": [0.01, 0.3]},
              'est__max_depth': {"search": "choice",
