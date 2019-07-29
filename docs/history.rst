@@ -86,7 +86,11 @@ History
 * improve documentation & examples
 * minor changes in the package architecture
 
-0.8.0 (2019-08-01)
+0.8.0 (2019-07-29)
 ------------------
-* remove python 2.7 & add python 3.7 versions
+* remove support for python 2.7 version
+
+0.9.0 (2019-08-01)
+------------------
+* add python 3.7 version
 * update package dependencies

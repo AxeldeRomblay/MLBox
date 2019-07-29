@@ -40,13 +40,13 @@ class Optimiser():
         A string or a scorer callable object.
 
         If None, "neg_log_loss" is used for classification and
-        "mean_squared_error" for regression
+        "neg_mean_squared_error" for regression
 
         Available scorings for classification : {"accuracy","roc_auc", "f1",
         "neg_log_loss", "precision", "recall"}
 
-        Available scorings for regression : {"mean_absolute_error",
-        "mean_squared_error","median_absolute_error","r2"}
+        Available scorings for regression : {"neg_mean_absolute_error",
+        "neg_mean_squared_error","neg_median_absolute_error","r2"}
 
     n_folds : int, default = 2
         The number of folds for cross validation (stratified for classification)
@@ -275,18 +275,18 @@ class Optimiser():
             auc = False
 
             if (self.scoring is None):
-                self.scoring = "mean_squared_error"
+                self.scoring = "neg_mean_squared_error"
             else:
                 if (type(self.scoring) == str):
-                    if (self.scoring in ["mean_absolute_error",
-                                         "mean_squared_error",
-                                         "median_absolute_error",
+                    if (self.scoring in ["neg_mean_absolute_error",
+                                         "neg_mean_squared_error",
+                                         "neg_median_absolute_error",
                                          "r2"]):
                         pass
                     else:
                         warnings.warn("Invalid scoring metric. "
-                                      "mean_squarred_error is used instead.")
-                        self.scoring = 'mean_squared_error'
+                                      "neg_mean_squarred_error is used instead.")
+                        self.scoring = 'neg_mean_squared_error'
                 else:
                     pass
 
