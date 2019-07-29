@@ -11,7 +11,6 @@ matrix:
     language: generic
     python: '3.5'
     before_install:
-    - brew update
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
@@ -23,7 +22,6 @@ matrix:
     language: generic
     python: '3.6'
     before_install:
-    - brew update
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
