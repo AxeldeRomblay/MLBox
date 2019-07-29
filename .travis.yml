@@ -1,24 +1,12 @@
 language: python
 matrix:
   include:
-  - os: linux
-    python: '2.7'
+
   - os: linux
     python: '3.5'
   - os: linux
     python: '3.6'
-  - os: osx
-    language: generic
-    python: '2.7'
-    before_install:
-    - brew update
-    - brew install libomp
-    - brew upgrade pyenv
-    - brew install pyenv-virtualenv
-    - pyenv install 2.7.15
-    - eval "$(pyenv init -)"
-    - pyenv virtualenv 2.7.15 venv
-    - pyenv activate venv
+
   - os: osx
     language: generic
     python: '3.5'
@@ -43,6 +31,7 @@ matrix:
     - eval "$(pyenv init -)"
     - pyenv virtualenv 3.6.7 venv
     - pyenv activate venv
+
   - os: windows
     language: sh
     python: '3.5'
