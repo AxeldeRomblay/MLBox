@@ -8,7 +8,7 @@ Compatibilities
 ---------------
 
 * *Operating systems:* **Linux**, **MacOS** & **Windows**.
-* *Python versions:* **2.7** (except on Windows), **3.5** - **3.6**. & **64-bit version** only (32-bit python is not supported)
+* *Python versions:* **3.5** - **3.6**. & **64-bit version** only (32-bit python is not supported)
 
 
 Basic requirements

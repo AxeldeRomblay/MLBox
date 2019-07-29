@@ -85,3 +85,7 @@ History
 * add tests
 * improve documentation & examples
 * minor changes in the package architecture
+
+0.8.0 (2019-07-29)
+------------------
+* remove support for python 2.7 version
