@@ -39,11 +39,11 @@ class Optimiser():
     scoring : str, callable or None. default: None
         A string or a scorer callable object.
 
-        If None, "log_loss" is used for classification and
+        If None, "neg_log_loss" is used for classification and
         "mean_squared_error" for regression
 
         Available scorings for classification : {"accuracy","roc_auc", "f1",
-        "log_loss", "precision", "recall"}
+        "neg_log_loss", "precision", "recall"}
 
         Available scorings for regression : {"mean_absolute_error",
         "mean_squared_error","median_absolute_error","r2"}
@@ -211,7 +211,7 @@ class Optimiser():
             auc = False
 
             if (self.scoring is None):
-                self.scoring = 'log_loss'
+                self.scoring = 'neg_log_loss'
 
             elif (self.scoring == 'roc_auc'):
                 auc = True
@@ -222,12 +222,12 @@ class Optimiser():
             else:
                 if (type(self.scoring) == str):
                     if (self.scoring in ["accuracy", "roc_auc", "f1",
-                                         "log_loss", "precision", "recall"]):
+                                         "neg_log_loss", "precision", "recall"]):
                         pass
                     else:
                         warnings.warn("Invalid scoring metric. "
-                                      "log_loss is used instead.")
-                        self.scoring = 'log_loss'
+                                      "neg_log_loss is used instead.")
+                        self.scoring = 'neg_log_loss'
 
                 else:
                     pass

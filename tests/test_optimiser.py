@@ -84,7 +84,7 @@ def test_evaluate_classification_optimiser():
     assert len(record) == 1
     with pytest.warns(UserWarning) as record:
         score = opt.evaluate(None, dict)
-    assert opt.scoring == "log_loss"
+    assert opt.scoring == "neg_log_loss"
 
 
 def test_evaluate_regression_optimiser():

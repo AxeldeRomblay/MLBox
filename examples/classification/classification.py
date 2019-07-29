@@ -24,7 +24,7 @@ dict = dft.fit_transform(dict)
 
 # Tuning
 # Declare an optimiser. Scoring possibilities for classification lie in :
-# {"accuracy", "roc_auc", "f1", "log_loss", "precision", "recall"}
+# {"accuracy", "roc_auc", "f1", "neg_log_loss", "precision", "recall"}
 opt = Optimiser(scoring='accuracy', n_folds=3)
 opt.evaluate(None, dict)
 
