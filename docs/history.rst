@@ -90,7 +90,7 @@ History
 ------------------
 * remove support for python 2.7 version
 
-0.9.0 (2019-08-01)
+0.9.0 (2019-08-29)
 ------------------
 * add python 3.7 version
 * update package dependencies

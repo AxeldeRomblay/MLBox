@@ -83,7 +83,7 @@ def test_transform_encoder():
     encoder.set_params(strategy="dummification")
     encoder.fit(df, df["Survived"])
     df_encoded = encoder.transform(df)
-    assert type(df_encoded) == pd.SparseDataFrame
+    assert (type(df_encoded) == pd.SparseDataFrame) | (type(df_encoded) == pd.DataFrame)
     encoder.set_params(strategy="random_projection")
     encoder.fit(df, df["Survived"])
     df_encoded = encoder.transform(df)
