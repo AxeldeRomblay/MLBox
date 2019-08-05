@@ -80,3 +80,16 @@ def test_transform_encoder():
     encoder.fit(df, df["Survived"])
     df_encoded = encoder.transform(df)
     assert (df.columns == df_encoded.columns).all()
+    encoder.set_params(strategy="dummification")
+    encoder.fit(df, df["Survived"])
+    df_encoded = encoder.transform(df)
+    assert type(df_encoded) == pd.SparseDataFrame
+    encoder.set_params(strategy="random_projection")
+    encoder.fit(df, df["Survived"])
+    df_encoded = encoder.transform(df)
+    assert type(df_encoded) == pd.DataFrame
+    encoder.set_params(strategy="entity_embedding")
+    encoder.fit(df, df["Survived"])
+    df_encoded = encoder.transform(df)
+    assert type(df_encoded) == pd.DataFrame
+
