@@ -82,7 +82,7 @@ If you have any troubles with the setup, please refer to the `installation guide
 
 **Now you're set, you can make your changes locally.**
 
-NOTE : each time you work on your branch, you will need to activate the virtualenv: ``source env/bin/activate``. To deactivate it, simply run: ``deactivate``.
+NOTE : each time you work on your branch, you will need to activate the virtualenv: ``$ source env/bin/activate``. To deactivate it, simply run: ``$ deactivate``.
 
 6. When you're done making changes, check that your changes pass the tests.
 
