@@ -451,7 +451,6 @@ class Optimiser():
 
         return score
 
-
     def optimise(self, space, df, max_evals=40):
 
         """Optimises the Pipeline.
