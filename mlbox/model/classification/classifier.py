@@ -7,11 +7,11 @@ from copy import copy
 
 import numpy as np
 import pandas as pd
+from lightgbm import LGBMClassifier
 from sklearn.ensemble import (AdaBoostClassifier, BaggingClassifier,
                               ExtraTreesClassifier, RandomForestClassifier)
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
-from lightgbm import LGBMClassifier
 
 
 class Classifier():
