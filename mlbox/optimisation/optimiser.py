@@ -229,7 +229,7 @@ class Optimiser():
 
                         # multiclass classification
                         else:
-
+                            pass
                             # TODO !!!
 
                     else:
