@@ -34,7 +34,7 @@ mape = make_scorer(lambda y_true,
                    needs_proba=False)
 # Declare an optimiser. You can declare your own score
 # as presented here or use one in
-# {"neg_mean_absolute_error", "neg_mean_squared_error","neg_median_absolute_error","r2"}
+# {"neg_mean_absolute_error", "neg_mean_squared_error", "neg_mean_squared_log_error", "neg_median_absolute_error","r2"}
 opt = Optimiser(scoring=mape, n_folds=3)
 opt.evaluate(None, dict)
 

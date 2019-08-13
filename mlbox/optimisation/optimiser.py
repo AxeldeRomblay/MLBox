@@ -46,7 +46,7 @@ class Optimiser():
         "neg_log_loss", "precision", "recall"}
 
         Available scorings for regression : {"neg_mean_absolute_error",
-        "neg_mean_squared_error","neg_median_absolute_error","r2"}
+        "neg_mean_squared_error", "neg_mean_squared_log_error", "neg_median_absolute_error","r2"}
 
     n_folds : int, default = 2
         The number of folds for cross validation (stratified for classification)
@@ -176,6 +176,10 @@ class Optimiser():
             classes_to_drop = counts[counts < self.n_folds].index
             mask_to_drop = df['target'].apply(lambda x: x in classes_to_drop)
             indexes_to_drop = df['target'][mask_to_drop].index
+            n_classes = len(counts) - len(classes_to_drop)
+
+            if n_classes == 1:
+                raise ValueError("Your target has not enough classes. You can't run the optimiser")
 
             cv = StratifiedKFold(n_splits=self.n_folds,
                                  shuffle=True,
@@ -208,29 +212,36 @@ class Optimiser():
 
             # Default scoring for classification
 
-            auc = False
-
             if (self.scoring is None):
-                self.scoring = 'neg_log_loss'
-
-            elif (self.scoring == 'roc_auc'):
-                auc = True
-                self.scoring = make_scorer(lambda y_true, y_pred: roc_auc_score(pd.get_dummies(y_true), y_pred),  # noqa
-                                           greater_is_better=True,
-                                           needs_proba=True)
+                scoring = 'neg_log_loss'  # works also for multiclass pb
+                scoring_func = 'neg_log_loss'
 
             else:
                 if (type(self.scoring) == str):
                     if (self.scoring in ["accuracy", "roc_auc", "f1",
                                          "neg_log_loss", "precision", "recall"]):
-                        pass
+
+                        scoring = self.scoring
+
+                        # binary classification
+                        if n_classes <= 2:
+                            scoring_func = self.scoring
+
+                        # multiclass classification
+                        else:
+
+                            # TODO !!!
+
                     else:
                         warnings.warn("Invalid scoring metric. "
                                       "neg_log_loss is used instead.")
-                        self.scoring = 'neg_log_loss'
+
+                        scoring = 'neg_log_loss'
+                        scoring_func = 'neg_log_loss'
 
                 else:
-                    pass
+                    scoring = "custom_scoring"
+                    scoring_func = self.scoring
 
         ##########################################
         #               Regression
@@ -272,23 +283,30 @@ class Optimiser():
 
             # Default scoring for regression
 
-            auc = False
-
             if (self.scoring is None):
-                self.scoring = "neg_mean_squared_error"
+                scoring = "neg_mean_squared_error"
+                scoring_func = "neg_mean_squared_error"
+
             else:
                 if (type(self.scoring) == str):
                     if (self.scoring in ["neg_mean_absolute_error",
                                          "neg_mean_squared_error",
+                                         "neg_mean_squared_log_error",
                                          "neg_median_absolute_error",
                                          "r2"]):
-                        pass
+
+                        scoring = self.scoring
+                        scoring_func = self.scoring
+
                     else:
                         warnings.warn("Invalid scoring metric. "
                                       "neg_mean_squarred_error is used instead.")
-                        self.scoring = 'neg_mean_squared_error'
+
+                        scoring = 'neg_mean_squared_error'
+                        scoring_func = 'neg_mean_squared_error'
                 else:
-                    pass
+                    scoring = "custom_scoring"
+                    scoring_func = self.scoring
 
         else:
             raise ValueError("Impossible to determine the task. "
@@ -411,7 +429,7 @@ class Optimiser():
                 scores = cross_val_score(estimator=pp,
                                          X=df['train'].drop(indexes_to_drop),
                                          y=df['target'].drop(indexes_to_drop),
-                                         scoring=self.scoring,
+                                         scoring=scoring_func,
                                          cv=cv)
                 score = np.mean(scores)
 
@@ -438,12 +456,9 @@ class Optimiser():
         for i, s in enumerate(scores[:-1]):
             out = out + "fold " + str(i + 1) + " = " + str(s) + ", "
 
-        if (auc):
-            self.scoring = "roc_auc"
-
         if (self.verbose):
             print("")
-            print("MEAN SCORE : " + str(self.scoring) + " = " + str(score))
+            print("MEAN SCORE : " + str(scoring) + " = " + str(score))
             print("VARIANCE : " + str(np.std(scores))
                   + out + "fold " + str(i + 2) + " = " + str(scores[-1]) + ")")
             print("CPU time: %s seconds" % (time.time() - start_time))
