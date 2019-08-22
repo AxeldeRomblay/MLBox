@@ -10,7 +10,7 @@ import time
 from hyperopt import fmin, hp, tpe
 from sklearn.model_selection import cross_val_score, KFold, StratifiedKFold
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import roc_auc_score, make_scorer
+from sklearn.metrics import SCORERS, make_scorer, roc_auc_score
 
 from ..encoding.na_encoder import NA_encoder
 from ..encoding.categorical_encoder import Categorical_encoder
@@ -42,11 +42,8 @@ class Optimiser():
         If None, "neg_log_loss" is used for classification and
         "neg_mean_squared_error" for regression
 
-        Available scorings for classification : {"accuracy","roc_auc", "f1",
-        "neg_log_loss", "precision", "recall"}
-
-        Available scorings for regression : {"neg_mean_absolute_error",
-        "neg_mean_squared_error", "neg_mean_squared_log_error", "neg_median_absolute_error","r2"}
+        Available scorings can be found in the module sklearn.metrics:
+        https://scikit-learn.org/stable/modules/model_evaluation.html#the-scoring-parameter-defining-model-evaluation-rules
 
     n_folds : int, default = 2
         The number of folds for cross validation (stratified for classification)
@@ -213,35 +210,41 @@ class Optimiser():
             # Default scoring for classification
 
             if (self.scoring is None):
-                scoring = 'neg_log_loss'  # works also for multiclass pb
-                scoring_func = 'neg_log_loss'
+                self.scoring = 'neg_log_loss'  # works also for multiclass pb
 
             else:
                 if (type(self.scoring) == str):
-                    if (self.scoring in ["accuracy", "roc_auc", "f1",
-                                         "neg_log_loss", "precision", "recall"]):
+                    if (self.scoring not in list(SCORERS.keys())):
 
-                        scoring = self.scoring
+                        warnings.warn("Unknown or invalid scoring metric. "
+                                      "neg_log_loss is used instead.")
+
+                        self.scoring = 'neg_log_loss'
+
+                    else:
 
                         # binary classification
                         if n_classes <= 2:
-                            scoring_func = self.scoring
+                            pass
 
                         # multiclass classification
                         else:
-                            pass
-                            # TODO !!!
+                            warnings.warn("This is a multiclass problem. Please make sure that your scoring metric is "
+                                          "appropriate.")
 
-                    else:
-                        warnings.warn("Invalid scoring metric. "
-                                      "neg_log_loss is used instead.")
+                            if self.scoring+"_weighted" in list(SCORERS.keys()):
 
-                        scoring = 'neg_log_loss'
-                        scoring_func = 'neg_log_loss'
+                                warnings.warn("Weighted strategy for the scoring metric is used.")
+                                self.scoring = self.scoring + "_weighted"
 
+                            # specific scenarios
+                            else:
+                                if self.scoring == "roc_auc":
+                                    self.scoring = make_scorer(lambda y_true, y_pred: roc_auc_score(pd.get_dummies(y_true), y_pred),  # noqa
+                                                               greater_is_better=True,
+                                                               needs_proba=True)
                 else:
-                    scoring = "custom_scoring"
-                    scoring_func = self.scoring
+                    pass
 
         ##########################################
         #               Regression
@@ -284,29 +287,21 @@ class Optimiser():
             # Default scoring for regression
 
             if (self.scoring is None):
-                scoring = "neg_mean_squared_error"
-                scoring_func = "neg_mean_squared_error"
+                self.scoring = "neg_mean_squared_error"
 
             else:
                 if (type(self.scoring) == str):
-                    if (self.scoring in ["neg_mean_absolute_error",
-                                         "neg_mean_squared_error",
-                                         "neg_mean_squared_log_error",
-                                         "neg_median_absolute_error",
-                                         "r2"]):
+                    if (self.scoring not in list(SCORERS.keys())):
 
-                        scoring = self.scoring
-                        scoring_func = self.scoring
+                        warnings.warn("Unknown or invalid scoring metric. "
+                                      "neg_mean_squared_error is used instead.")
+
+                        self.scoring = 'neg_mean_squared_error'
 
                     else:
-                        warnings.warn("Invalid scoring metric. "
-                                      "neg_mean_squarred_error is used instead.")
-
-                        scoring = 'neg_mean_squared_error'
-                        scoring_func = 'neg_mean_squared_error'
+                        pass
                 else:
-                    scoring = "custom_scoring"
-                    scoring_func = self.scoring
+                    pass
 
         else:
             raise ValueError("Impossible to determine the task. "
@@ -429,7 +424,7 @@ class Optimiser():
                 scores = cross_val_score(estimator=pp,
                                          X=df['train'].drop(indexes_to_drop),
                                          y=df['target'].drop(indexes_to_drop),
-                                         scoring=scoring_func,
+                                         scoring=self.scoring,
                                          cv=cv)
                 score = np.mean(scores)
 
@@ -444,8 +439,8 @@ class Optimiser():
 
         if (score == -np.inf):
             warnings.warn("An error occurred while computing the cross "
-                          "validation mean score. Check the parameter values "
-                          "and your scoring function.")
+                          "validation mean score. Please check that the parameter values are correct "
+                          "and that your scoring function is valid and appropriate to the task.")
 
         ##########################################
         #             Reporting scores
@@ -458,7 +453,7 @@ class Optimiser():
 
         if (self.verbose):
             print("")
-            print("MEAN SCORE : " + str(scoring) + " = " + str(score))
+            print("MEAN SCORE : " + str(self.scoring) + " = " + str(score))
             print("VARIANCE : " + str(np.std(scores))
                   + out + "fold " + str(i + 2) + " = " + str(scores[-1]) + ")")
             print("CPU time: %s seconds" % (time.time() - start_time))
