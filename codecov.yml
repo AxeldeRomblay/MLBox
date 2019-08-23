@@ -1,0 +1,34 @@
+codecov:
+  token: 989a47e4-aa64-4cbd-8516-52d00e1eb129
+  notify:
+    require_ci_to_pass: yes
+coverage:
+  precision: 2
+  round: up
+  range: "50...100"
+  status:
+    project:
+      default:
+        # Commits pushed to master should not make the overall
+        # project coverage decrease by more than 1%
+        target: auto
+        threshold: 1%
+    patch:
+      default:
+        # Be tolerant on slight code coverage diff on PRs to limit
+        # noisy red coverage status on github PRs.
+        target: auto
+        threshold: 1%
+    changes: no
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "header, diff"
+  behavior: default
+  require_changes: no
