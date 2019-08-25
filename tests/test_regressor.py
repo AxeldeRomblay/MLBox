@@ -79,6 +79,10 @@ def test_feature_importances_regressor():
         regressor.feature_importances()
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    regressor.set_params(strategy="LightGBM")
+    regressor.fit(df_train, y_train)
+    importance = regressor.feature_importances()
+    assert importance != {}
     regressor.set_params(strategy="Linear")
     regressor.fit(df_train, y_train)
     importance = regressor.feature_importances()

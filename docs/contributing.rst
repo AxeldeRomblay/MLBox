@@ -59,18 +59,19 @@ Ready to contribute? Here's how to set up `mlbox` for local development.
 
 1. Fork the `mlbox` repo on GitHub.
 
-2. Clone your fork locally::
+2. Clone your fork::
 
     $ git clone git@github.com:your_name_here/mlbox.git
 
-3. If you have virtualenvwrapper install, skip this step. Either, run the following::
+3. If you have virtualenv installed, skip this step. Either, run the following::
 
     $ pip install virtualenv
     
 4. Install your local copy into a virtualenv following this commands to set up your fork for local development::
 
-    $ virtualenv mlboxenv --python=python3.6
-    $ cd mlboxenv/
+    $ cd MLBox
+    $ virtualenv env
+    $ source env/bin/activate
     $ python setup.py develop
 
 If you have any troubles with the setup, please refer to the `installation guide <https://mlbox.readthedocs.io/en/latest/installation.html>`__
@@ -79,7 +80,9 @@ If you have any troubles with the setup, please refer to the `installation guide
 
     $ git checkout -b name-of-your-bugfix-or-feature
 
-Now you can make your changes locally.
+**Now you're set, you can make your changes locally.**
+
+NOTE : each time you work on your branch, you will need to activate the virtualenv: ``$ source env/bin/activate``. To deactivate it, simply run: ``$ deactivate``.
 
 6. When you're done making changes, check that your changes pass the tests.
 

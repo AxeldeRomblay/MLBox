@@ -1,5 +1,5 @@
 codecov:
-  token: b03fd907-a5af-4638-b0a8-23075ad380a4
+  token: 989a47e4-aa64-4cbd-8516-52d00e1eb129
   notify:
     require_ci_to_pass: yes
 coverage:

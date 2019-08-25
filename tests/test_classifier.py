@@ -76,6 +76,10 @@ def test_feature_importances_classifier():
         classifier.feature_importances()
     df_train = pd.read_csv("data_for_tests/clean_train.csv")
     y_train = pd.read_csv("data_for_tests/clean_target.csv", squeeze=True)
+    classifier.set_params(strategy="LightGBM")
+    classifier.fit(df_train, y_train)
+    importance = classifier.feature_importances()
+    assert importance != {}
     classifier.set_params(strategy="Linear")
     classifier.fit(df_train, y_train)
     importance = classifier.feature_importances()
