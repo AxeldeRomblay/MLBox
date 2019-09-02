@@ -17,16 +17,16 @@ rd = Reader(sep=',')
 # dict["train"] contains training samples withtout target columns
 # dict["test"] contains testing elements withtout target columns
 # dict["target"] contains target columns for training samples.
-dict = rd.train_test_split(paths, target_name)
+data = rd.train_test_split(paths, target_name)
 
 dft = Drift_thresholder()
-dict = dft.fit_transform(dict)
+data = dft.fit_transform(data)
 
 # Tuning
 # Declare an optimiser. Scoring possibilities for classification lie in :
 # {"accuracy", "roc_auc", "f1", "neg_log_loss", "precision", "recall"}
 opt = Optimiser(scoring='accuracy', n_folds=3)
-opt.evaluate(None, dict)
+opt.evaluate(None, data)
 
 # Space of hyperparameters
 # The keys must respect the following syntax : "enc__param".
@@ -62,8 +62,8 @@ space = {'ne__numerical_strategy': {"search": "choice", "space": [0]},
 #
 # IMPORTANT : Try to avoid dependent parameters and to set one feature
 # selection strategy and one estimator strategy at a time.
-best = opt.optimise(space, dict, 15)
+best = opt.optimise(space, data, 15)
 
 # Make prediction and save the results in save folder.
 prd = Predictor()
-prd.fit_predict(best, dict)
+prd.fit_predict(best, data)
