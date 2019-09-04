@@ -72,7 +72,7 @@ Ready to contribute? Here's how to set up `mlbox` for local development.
     $ cd MLBox
     $ virtualenv env
     $ source env/bin/activate
-    $ make develop
+    $ python3 setup.py develop
 
 If you have any troubles with the setup, please refer to the `installation guide <https://mlbox.readthedocs.io/en/latest/installation.html>`__
 
@@ -88,7 +88,8 @@ NOTE : each time you work on your branch, you will need to activate the virtuale
 
 NOTE : you need to install **pytest** before running the tests::
 
-    $ make test
+    $ cd tests
+    $ pytest
 
 7. Commit your changes and push your branch to GitHub::
 

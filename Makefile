@@ -38,16 +38,16 @@ docs: ## generate Sphinx HTML documentation, including API docs
 	$(BROWSER) docs/_build/html/index.html
 
 release: ## package and upload a release
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+	python3 setup.py sdist upload
+	python3 setup.py bdist_wheel upload
 
 dist: ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	python3 setup.py sdist
+	python3 setup.py bdist_wheel
 	ls -l dist
 
 install: ## install the package to the active Python's site-packages
-	python setup.py install
+	python3 setup.py install
 
 develop: ## install the package to the active Python's site-packages in developer mode
-	python setup.py develop
+	python3 setup.py develop
