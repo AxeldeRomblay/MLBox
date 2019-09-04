@@ -12,7 +12,10 @@ import time
 import operator
 import matplotlib
 # The following line allow to use matplolib <= 3.0 versions on mac os
-matplotlib.use('TkAgg')
+try:
+    matplotlib.use('TkAgg')
+except:
+    pass
 import matplotlib.pyplot as plt
 
 from sklearn.pipeline import Pipeline
