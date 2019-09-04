@@ -67,7 +67,7 @@ If you want to get the latest features, you can also install MLBox from the Gith
     .. code-block:: console
 
         $ cd MLBox
-        $ python3 setup.py install
+        $ python setup.py install
 
 
 Issues

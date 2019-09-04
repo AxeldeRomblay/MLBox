@@ -72,7 +72,7 @@ Ready to contribute? Here's how to set up `mlbox` for local development.
     $ cd MLBox
     $ virtualenv env
     $ source env/bin/activate
-    $ python3 setup.py develop
+    $ python setup.py develop
 
 If you have any troubles with the setup, please refer to the `installation guide <https://mlbox.readthedocs.io/en/latest/installation.html>`__
 
