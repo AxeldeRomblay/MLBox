@@ -66,7 +66,7 @@ If you want to get the latest features, you can also install MLBox from the Gith
 
     .. code-block:: console
 
-        $ cd mlbox
+        $ cd MLBox
         $ make install
 
 
