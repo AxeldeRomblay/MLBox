@@ -64,7 +64,7 @@ install:
 - pip install -U pytest
 - pip install --upgrade setuptools wheel
 script:
-- python3 setup.py install
+- make install
 - cd tests
 - if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.7" ] ; then
   coverage run -m --source=../mlbox/ pytest; fi
