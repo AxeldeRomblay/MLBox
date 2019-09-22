@@ -89,3 +89,8 @@ History
 0.8.0 (2019-07-29)
 ------------------
 * remove support for python 2.7 version
+
+0.8.1 (2019-08-29)
+------------------
+* add python 3.7 version
+* update package dependencies

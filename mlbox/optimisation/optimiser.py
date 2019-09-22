@@ -10,7 +10,7 @@ import time
 from hyperopt import fmin, hp, tpe
 from sklearn.model_selection import cross_val_score, KFold, StratifiedKFold
 from sklearn.pipeline import Pipeline
-from sklearn.metrics import roc_auc_score, make_scorer
+from sklearn.metrics import SCORERS, make_scorer, roc_auc_score
 
 from ..encoding.na_encoder import NA_encoder
 from ..encoding.categorical_encoder import Categorical_encoder
@@ -39,14 +39,11 @@ class Optimiser():
     scoring : str, callable or None. default: None
         A string or a scorer callable object.
 
-        If None, "log_loss" is used for classification and
-        "mean_squared_error" for regression
+        If None, "neg_log_loss" is used for classification and
+        "neg_mean_squared_error" for regression
 
-        Available scorings for classification : {"accuracy","roc_auc", "f1",
-        "log_loss", "precision", "recall"}
-
-        Available scorings for regression : {"mean_absolute_error",
-        "mean_squared_error","median_absolute_error","r2"}
+        Available scorings can be found in the module sklearn.metrics:
+        https://scikit-learn.org/stable/modules/model_evaluation.html#the-scoring-parameter-defining-model-evaluation-rules
 
     n_folds : int, default = 2
         The number of folds for cross validation (stratified for classification)
@@ -176,6 +173,10 @@ class Optimiser():
             classes_to_drop = counts[counts < self.n_folds].index
             mask_to_drop = df['target'].apply(lambda x: x in classes_to_drop)
             indexes_to_drop = df['target'][mask_to_drop].index
+            n_classes = len(counts) - len(classes_to_drop)
+
+            if n_classes == 1:
+                raise ValueError("Your target has not enough classes. You can't run the optimiser")
 
             cv = StratifiedKFold(n_splits=self.n_folds,
                                  shuffle=True,
@@ -208,27 +209,40 @@ class Optimiser():
 
             # Default scoring for classification
 
-            auc = False
-
             if (self.scoring is None):
-                self.scoring = 'log_loss'
-
-            elif (self.scoring == 'roc_auc'):
-                auc = True
-                self.scoring = make_scorer(lambda y_true, y_pred: roc_auc_score(pd.get_dummies(y_true), y_pred),  # noqa
-                                           greater_is_better=True,
-                                           needs_proba=True)
+                self.scoring = 'neg_log_loss'  # works also for multiclass pb
 
             else:
                 if (type(self.scoring) == str):
-                    if (self.scoring in ["accuracy", "roc_auc", "f1",
-                                         "log_loss", "precision", "recall"]):
-                        pass
-                    else:
-                        warnings.warn("Invalid scoring metric. "
-                                      "log_loss is used instead.")
-                        self.scoring = 'log_loss'
+                    if (self.scoring not in list(SCORERS.keys())):
 
+                        warnings.warn("Unknown or invalid scoring metric. "
+                                      "neg_log_loss is used instead.")
+
+                        self.scoring = 'neg_log_loss'
+
+                    else:
+
+                        # binary classification
+                        if n_classes <= 2:
+                            pass
+
+                        # multiclass classification
+                        else:
+                            warnings.warn("This is a multiclass problem. Please make sure that your scoring metric is "
+                                          "appropriate.")
+
+                            if self.scoring+"_weighted" in list(SCORERS.keys()):
+
+                                warnings.warn("Weighted strategy for the scoring metric is used.")
+                                self.scoring = self.scoring + "_weighted"
+
+                            # specific scenarios
+                            else:
+                                if self.scoring == "roc_auc":
+                                    self.scoring = make_scorer(lambda y_true, y_pred: roc_auc_score(pd.get_dummies(y_true), y_pred),  # noqa
+                                                               greater_is_better=True,
+                                                               needs_proba=True)
                 else:
                     pass
 
@@ -272,21 +286,20 @@ class Optimiser():
 
             # Default scoring for regression
 
-            auc = False
-
             if (self.scoring is None):
-                self.scoring = "mean_squared_error"
+                self.scoring = "neg_mean_squared_error"
+
             else:
                 if (type(self.scoring) == str):
-                    if (self.scoring in ["mean_absolute_error",
-                                         "mean_squared_error",
-                                         "median_absolute_error",
-                                         "r2"]):
-                        pass
+                    if (self.scoring not in list(SCORERS.keys())):
+
+                        warnings.warn("Unknown or invalid scoring metric. "
+                                      "neg_mean_squared_error is used instead.")
+
+                        self.scoring = 'neg_mean_squared_error'
+
                     else:
-                        warnings.warn("Invalid scoring metric. "
-                                      "mean_squarred_error is used instead.")
-                        self.scoring = 'mean_squared_error'
+                        pass
                 else:
                     pass
 
@@ -426,8 +439,8 @@ class Optimiser():
 
         if (score == -np.inf):
             warnings.warn("An error occurred while computing the cross "
-                          "validation mean score. Check the parameter values "
-                          "and your scoring function.")
+                          "validation mean score. Please check that the parameter values are correct "
+                          "and that your scoring function is valid and appropriate to the task.")
 
         ##########################################
         #             Reporting scores
@@ -438,9 +451,6 @@ class Optimiser():
         for i, s in enumerate(scores[:-1]):
             out = out + "fold " + str(i + 1) + " = " + str(s) + ", "
 
-        if (auc):
-            self.scoring = "roc_auc"
-
         if (self.verbose):
             print("")
             print("MEAN SCORE : " + str(self.scoring) + " = " + str(score))
@@ -450,7 +460,6 @@ class Optimiser():
             print("")
 
         return score
-
 
     def optimise(self, space, df, max_evals=40):
 

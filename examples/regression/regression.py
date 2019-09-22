@@ -20,10 +20,10 @@ rd = Reader(sep=',')
 # dict["train"] contains training samples withtout target columns
 # dict["test"] contains testing elements withtout target columns
 # dict["target"] contains target columns for training samples.
-dict = rd.train_test_split(paths, target_name)
+data = rd.train_test_split(paths, target_name)
 
 dft = Drift_thresholder()
-dict = dft.fit_transform(dict)
+data = dft.fit_transform(data)
 
 # Tuning
 mape = make_scorer(lambda y_true,
@@ -34,9 +34,9 @@ mape = make_scorer(lambda y_true,
                    needs_proba=False)
 # Declare an optimiser. You can declare your own score
 # as presented here or use one in
-# {"mean_absolute_error", "mean_squared_error","median_absolute_error","r2"}
+# {"neg_mean_absolute_error", "neg_mean_squared_error", "neg_mean_squared_log_error", "neg_median_absolute_error","r2"}
 opt = Optimiser(scoring=mape, n_folds=3)
-opt.evaluate(None, dict)
+opt.evaluate(None, data)
 
 # Space of hyperparameters
 # The keys must respect the following syntax : "enc__param".
@@ -74,8 +74,8 @@ space = {
 #
 # IMPORTANT : Try to avoid dependent parameters and to set one feature
 # selection strategy and one estimator strategy at a time.
-best = opt.optimise(space, dict, 15)
+best = opt.optimise(space, data, 15)
 
 # Make prediction and save the results in save folder.
 prd = Predictor()
-prd.fit_predict(best, dict)
+prd.fit_predict(best, data)

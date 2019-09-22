@@ -5,6 +5,7 @@ import sys
 import pickle
 import os
 import time
+import warnings
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
@@ -506,8 +507,9 @@ class Reader():
             ##############################################################
 
             task = "regression"
+            count = y_train.nunique()
 
-            if (y_train.nunique() <= 2):
+            if (count <= 2):
                 task = "classification"
 
             else:
@@ -531,6 +533,10 @@ class Reader():
                                     index=y_train.index,
                                     name=target_name,
                                     dtype='int')
+
+                if count == 1:
+                    warnings.warn("Your target set has only one class ! Please check it is correct, "
+                                  "otherwise there is no need to use MLBox...")
 
             else:
                 if (self.verbose):

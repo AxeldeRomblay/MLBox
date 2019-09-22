@@ -8,7 +8,7 @@ Compatibilities
 ---------------
 
 * *Operating systems:* **Linux**, **MacOS** & **Windows**.
-* *Python versions:* **3.5** - **3.6**. & **64-bit version** only (32-bit python is not supported)
+* *Python versions:* **3.5** - **3.7**. & **64-bit version** only (32-bit python is not supported)
 
 
 Basic requirements
@@ -66,8 +66,8 @@ If you want to get the latest features, you can also install MLBox from the Gith
 
     .. code-block:: console
 
-        $ cd mlbox
-        $ make install
+        $ cd MLBox
+        $ python setup.py install
 
 
 Issues
