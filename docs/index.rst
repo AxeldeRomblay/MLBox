@@ -35,6 +35,7 @@ Links
    * `Hands-On Automated Machine Learning <https://www.oreilly.com/library/view/hands-on-automated-machine/9781788629898/>`__ (O'Reilly book)
    * `Automatic Machine Learning <https://www.youtube.com/watch?v=jn-22XyKsgo>`__ (Youtube tutorial)
    * `Automated Machine Learning with MLBox <https://ryansdataspot.com/2019/05/15/automated-machine-learning-with-mlbox/>`__ (user blog)
+   * `Introduction to AutoML with MLBox <https://ahmedbesbes.com/introduction-to-automl-with-mlbox.html>`__ (user blog)
 
 * **Webinars & conferences:**
    * `Paris ML Hors Série #13: Automated Machine Learning <https://www.youtube.com/watch?v=zWZBK4-Fxp0>`__
