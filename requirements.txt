@@ -6,7 +6,7 @@ Keras==2.2.4
 pandas==0.25.0
 joblib==0.13.2
 scikit-learn==0.21.3
-tensorflow==1.14.0
+tensorflow==1.15.0
 lightgbm==2.2.3
 tables==3.5.2
 xlrd==1.2.0
