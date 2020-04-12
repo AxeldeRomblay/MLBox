@@ -97,10 +97,9 @@ History
 
 0.8.2 (2019-09-18)
 ------------------
-* fix minor bug
+* fix minor bugs
 
 0.8.3 (2020-04-12)
 ------------------
 * add python 3.8 version
 * update package dependencies
-d
