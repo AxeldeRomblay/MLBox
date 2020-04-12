@@ -16,9 +16,9 @@ matrix:
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
-    - pyenv install 3.5.8
+    - pyenv install 3.5.6
     - eval "$(pyenv init -)"
-    - pyenv virtualenv 3.5.8 venv
+    - pyenv virtualenv 3.5.6 venv
     - pyenv activate venv
   - os: osx
     language: generic
@@ -27,9 +27,9 @@ matrix:
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
-    - pyenv install 3.6.10
+    - pyenv install 3.6.7
     - eval "$(pyenv init -)"
-    - pyenv virtualenv 3.6.10 venv
+    - pyenv virtualenv 3.6.7 venv
     - pyenv activate venv
   - os: osx
     language: generic
@@ -38,9 +38,9 @@ matrix:
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
-    - pyenv install 3.7.7
+    - pyenv install 3.7.2
     - eval "$(pyenv init -)"
-    - pyenv virtualenv 3.7.7 venv
+    - pyenv virtualenv 3.7.2 venv
     - pyenv activate venv
   - os: osx
     language: generic
@@ -49,33 +49,33 @@ matrix:
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
-    - pyenv install 3.8.2
+    - pyenv install 3.8.0
     - eval "$(pyenv init -)"
-    - pyenv virtualenv 3.8.2 venv
+    - pyenv virtualenv 3.8.0 venv
     - pyenv activate venv
   - os: windows
     language: sh
     python: '3.5'
     before_install:
-    - choco install python --version 3.5.8
+    - choco install python --version 3.5.6
     - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
   - os: windows
     language: sh
     python: '3.6'
     before_install:
-    - choco install python --version 3.6.10
+    - choco install python --version 3.6.7
     - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
   - os: windows
     language: sh
     python: '3.7'
     before_install:
-    - choco install python --version 3.7.7
+    - choco install python --version 3.7.2
     - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
   - os: windows
     language: sh
     python: '3.8'
     before_install:
-    - choco install python --version 3.8.2
+    - choco install python --version 3.8.0
     - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
 install:
 - pip install coverage
