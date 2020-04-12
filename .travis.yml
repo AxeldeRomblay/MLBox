@@ -7,6 +7,8 @@ matrix:
     python: '3.6'
   - os: linux
     python: '3.7'
+  - os: linux
+    python: '3.8'
   - os: osx
     language: generic
     python: '3.5'
@@ -14,9 +16,9 @@ matrix:
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
-    - pyenv install 3.5.6
+    - pyenv install 3.5.8
     - eval "$(pyenv init -)"
-    - pyenv virtualenv 3.5.6 venv
+    - pyenv virtualenv 3.5.8 venv
     - pyenv activate venv
   - os: osx
     language: generic
@@ -25,9 +27,9 @@ matrix:
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
-    - pyenv install 3.6.7
+    - pyenv install 3.6.10
     - eval "$(pyenv init -)"
-    - pyenv virtualenv 3.6.7 venv
+    - pyenv virtualenv 3.6.10 venv
     - pyenv activate venv
   - os: osx
     language: generic
@@ -36,28 +38,45 @@ matrix:
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
-    - pyenv install 3.7.2
+    - pyenv install 3.7.7
     - eval "$(pyenv init -)"
-    - pyenv virtualenv 3.7.2 venv
+    - pyenv virtualenv 3.7.7 venv
+    - pyenv activate venv
+  - os: osx
+    language: generic
+    python: '3.8'
+    before_install:
+    - brew install libomp
+    - brew upgrade pyenv
+    - brew install pyenv-virtualenv
+    - pyenv install 3.8.2
+    - eval "$(pyenv init -)"
+    - pyenv virtualenv 3.8.2 venv
     - pyenv activate venv
   - os: windows
     language: sh
     python: '3.5'
     before_install:
-    - choco install python --version 3.5.4
+    - choco install python --version 3.5.8
     - export PATH="/c/Python35:/c/Python35/Scripts:$PATH"
   - os: windows
     language: sh
     python: '3.6'
     before_install:
-    - choco install python --version 3.6.7
+    - choco install python --version 3.6.10
     - export PATH="/c/Python36:/c/Python36/Scripts:$PATH"
   - os: windows
     language: sh
     python: '3.7'
     before_install:
-    - choco install python --version 3.7.2
+    - choco install python --version 3.7.7
     - export PATH="/c/Python37:/c/Python37/Scripts:$PATH"
+  - os: windows
+    language: sh
+    python: '3.8'
+    before_install:
+    - choco install python --version 3.8.2
+    - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
 install:
 - pip install coverage
 - pip install codecov
@@ -66,9 +85,9 @@ install:
 script:
 - python setup.py install
 - cd tests
-- if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.7" ] ; then
+- if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" = "3.8" ] ; then
   coverage run -m --source=../mlbox/ pytest; fi
-- if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" != "3.7" ] ; then
+- if [ "$TRAVIS_OS_NAME" = "linux" ] && [ "$TRAVIS_PYTHON_VERSION" != "3.8" ] ; then
   pytest; fi
 - if [ "$TRAVIS_OS_NAME" = "osx" ] ; then pytest; fi
 - if [ "$TRAVIS_OS_NAME" = "windows" ] ; then pytest; fi
