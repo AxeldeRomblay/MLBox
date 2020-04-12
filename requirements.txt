@@ -5,7 +5,7 @@ hyperopt==0.2.3
 Keras==2.3.1
 pandas==0.25.0
 joblib==0.14.1
-scikit-learn==0.21.3
+scikit-learn==0.22.2
 tensorflow==2.1.0
 lightgbm==2.3.1
 tables==3.6.1
