@@ -5,7 +5,7 @@
 import pandas as pd
 import warnings
 
-from sklearn.preprocessing import Imputer
+from sklearn.impute import SimpleImputer
 
 
 class NA_encoder():
@@ -104,7 +104,7 @@ class NA_encoder():
 
         if (self.numerical_strategy in ['mean', 'median', "most_frequent"]):
 
-            self.__imp = Imputer(strategy=self.numerical_strategy)
+            self.__imp = SimpleImputer(strategy=self.numerical_strategy)
 
             if (len(self.__Lnum) != 0):
                 self.__imp.fit(df_train[self.__Lnum])

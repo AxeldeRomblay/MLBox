@@ -90,8 +90,8 @@ class Clf_feature_selector():
             self.__fitOK = True
 
         elif(self.strategy == 'l1'):
-            model = LogisticRegression(C=0.01, penalty='l1', n_jobs=-1,
-                                       random_state=0)  # to be tuned
+            model = LogisticRegression(C=0.01, penalty='l1', solver="saga",
+                                       n_jobs=-1, random_state=0)  # to be tuned
             model.fit(df_train, y_train)
             coef = np.mean(np.abs(model.coef_), axis=0)
             abstract_threshold = np.percentile(coef, 100. * self.threshold)
