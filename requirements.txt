@@ -8,5 +8,5 @@ joblib==0.14.1
 scikit-learn==0.22.2
 tensorflow==1.15.2
 lightgbm==2.3.1
-tables==3.6.1
+tables==3.5.2
 xlrd==1.2.0
