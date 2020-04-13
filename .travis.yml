@@ -49,9 +49,9 @@ matrix:
     - brew install libomp
     - brew upgrade pyenv
     - brew install pyenv-virtualenv
-    - pyenv install 3.8.1
+    - pyenv install 3.8.0
     - eval "$(pyenv init -)"
-    - pyenv virtualenv 3.8.1 venv
+    - pyenv virtualenv 3.8.0 venv
     - pyenv activate venv
   - os: windows
     language: sh
@@ -75,7 +75,7 @@ matrix:
     language: sh
     python: '3.8'
     before_install:
-    - choco install python --version 3.8.1
+    - choco install python --version 3.8.0
     - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
 install:
 - pip install coverage
