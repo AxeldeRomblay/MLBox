@@ -8,9 +8,7 @@ import warnings
 
 import os
 
-from tensorflow.keras.layers.core import Dense, Reshape, Dropout
-from tensorflow.keras.layers.embeddings import Embedding
-from tensorflow.keras.layers import concatenate, Input
+from tensorflow.keras.layers import Dense, Reshape, Dropout, Embedding, concatenate, Input
 from tensorflow.keras.models import Model
 
 
