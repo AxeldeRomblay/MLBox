@@ -8,14 +8,10 @@ import warnings
 
 import os
 
-from keras.layers.core import Dense, Reshape, Dropout
-from keras.layers.embeddings import Embedding
-from keras.layers import concatenate, Input
-from keras.models import Model
-
-# Set the keras backend if not set, default is tensorflow
-if "KERAS_BACKEND" not in os.environ:
-    os.environ["KERAS_BACKEND"] = "tensorflow"
+from tensorflow.keras.layers.core import Dense, Reshape, Dropout
+from tensorflow.keras.layers.embeddings import Embedding
+from tensorflow.keras.layers import concatenate, Input
+from tensorflow.keras.models import Model
 
 
 class Categorical_encoder():
