@@ -66,7 +66,7 @@ class Reg_feature_selector():
 
         Returns
         -------
-        sobject
+        object
             self
         """
 

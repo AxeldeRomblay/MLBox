@@ -8,11 +8,19 @@ import warnings
 
 import os
 
-from tensorflow.keras.layers import Dense, Reshape, Dropout, Embedding, concatenate, Input
-from tensorflow.keras.models import Model
+# Set the keras backend if not set, default is theano
+if "KERAS_BACKEND" not in os.environ:
+    os.environ["KERAS_BACKEND"] = "theano"
 
+from keras.layers.core import Dense, Reshape, Dropout
+from keras.layers.embeddings import Embedding
+from keras.layers import concatenate, Input
+from keras.models import Model
 
-class Categorical_encoder():
+from target_encoder import TargetEncoder
+
+class CategoricalEncoder():
+
     """Encodes categorical features.
 
     Several strategies are possible (supervised or not). Works for both
@@ -24,13 +32,16 @@ class Categorical_encoder():
         The strategy to encode categorical features.
         Available strategies = {"label_encoding", "dummification",
         "random_projection", entity_embedding"}
+
+    task : str, default = "auto"
+        The task ("classification" or "regression").
+
     verbose : bool, default = False
         Verbose mode. Useful for entity embedding strategy.
-
     """
 
     def __init__(self, strategy='label_encoding', verbose=False):
-        """Init method for class Categorical_encoder()."""
+
         self.strategy = strategy
         self.verbose = verbose
         self.__Lcat = []
@@ -40,45 +51,15 @@ class Categorical_encoder():
         self.__weights = None
         self.__fitOK = False
 
+
     def get_params(self, deep=True):
-        """Get param that can be defined by the user.
 
-        Get strategy parameters and verbose parameters
-
-        Parameters
-        ----------
-        strategy : str, default = "label_encoding"
-            The strategy to encode categorical features.
-            Available strategies = {"label_encoding", "dummification",
-            "random_projection", entity_embedding"}
-        verbose : bool, default = False
-            Verbose mode. Useful for entity embedding strategy.
-
-        Returns
-        -------
-        dict : dictionary
-            Dictionary that contains strategy and verbose parameters.
-
-        """
-        dict = {'strategy': self.strategy,
+        return {'strategy': self.strategy,
                 'verbose': self.verbose}
-        return dict
+
 
     def set_params(self, **params):
-        """Set param method for Categorical encoder.
 
-        Set strategy parameters and verbose parameters
-
-        Parameters
-        ----------
-        strategy : str, default = "label_encoding"
-            The strategy to encode categorical features.
-            Available strategies = {"label_encoding", "dummification",
-            "random_projection", entity_embedding"}
-        verbose : bool, default = False
-            Verbose mode. Useful for entity embedding strategy.
-
-        """
         self.__fitOK = False
 
         for k, v in params.items():
@@ -90,17 +71,17 @@ class Categorical_encoder():
             else:
                 setattr(self, k, v)
 
-    def fit(self, df_train, y_train):
-        """Fit Categorical Encoder.
 
-        Encode categorical variable of a dataframe
-        following strategy parameters.
+    def fit(self, df_train, y_train):
+
+        """Fits Categorical Encoder.
 
         Parameters
         ----------
         df_train : pandas.Dataframe of shape = (n_train, n_features).
             The training dataset with numerical and categorical features.
             NA values are allowed.
+
         y_train : pandas.Series of shape = (n_train, ).
             The target for classification or regression tasks.
 
@@ -108,8 +89,8 @@ class Categorical_encoder():
         -------
         object
             self
-
         """
+
         self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index
         self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index
 
@@ -232,9 +213,12 @@ class Categorical_encoder():
 
                 # Learning the weights
 
-                if ((y_train.dtype == object) | (y_train.dtype == 'int')):
+                te = Target_encoder()
+                te.detect_task(y_train)
+                task = te.get_task()
 
-                    # Classification
+                if (task == "classification"):
+
                     if (y_train.nunique() == 2):
 
                         outputs = Dense(1,
@@ -332,52 +316,52 @@ class Categorical_encoder():
                 self.__fitOK = True
 
             else:
-                raise ValueError("Categorical encoding strategy is not valid")
+
+                raise ValueError("Strategy for categorical encoding is not valid")
 
         return self
 
-    def fit_transform(self, df_train, y_train):
-        """Fits Categorical Encoder and transforms the dataset.
 
-        Fit categorical encoder following strategy parameter and transform the
-        dataset df_train.
+    def fit_transform(self, df_train, y_train):
+
+        """Fits Categorical Encoder and transforms the dataset
 
         Parameters
         ----------
         df_train : pandas.Dataframe of shape = (n_train, n_features)
             The training dataset with numerical and categorical features.
             NA values are allowed.
+
         y_train : pandas.Series of shape = (n_train, ).
             The target for classification or regression tasks.
 
         Returns
         -------
         pandas.Dataframe of shape = (n_train, n_features)
-            Training dataset with numerical and encoded categorical features.
-
+            The training dataset with numerical and encoded categorical features
         """
+
         self.fit(df_train, y_train)
 
         return self.transform(df_train)
 
-    def transform(self, df):
-        """Transform categorical variable of df dataset.
 
-        Transform df DataFrame encoding categorical features with the strategy
-        parameter if self.__fitOK is set to True.
+    def transform(self, df):
+
+        """Transforms the dataset
 
         Parameters
         ----------
-        df : pandas.Dataframe of shape = (n_train, n_features)
-            The training dataset with numerical and categorical features.
+        df : pandas.Dataframe
+            A dataset with numerical, categorical, text or list features.
             NA values are allowed.
 
         Returns
         -------
-        pandas.Dataframe of shape = (n_train, n_features)
-            The dataset with numerical and encoded categorical features.
-
+        pandas.Dataframe
+            The encoded dataset.
         """
+
         if self.__fitOK:
 
             if len(self.__Lcat) == 0:
@@ -394,8 +378,8 @@ class Categorical_encoder():
                     for col in self.__Lcat:
 
                         # Handling unknown levels
-                        unknown_levels = list(set(df[col].values)
-                                              - set(self.__Enc[col].keys()))
+                        unknown_levels = list(set(df[col].values) -
+                                              set(self.__Enc[col].keys()))
 
                         if (len(unknown_levels) != 0):
 
@@ -417,8 +401,8 @@ class Categorical_encoder():
                             axis=1)[df.columns]
                     else:
                         return pd.concat(
-                            [df[self.__Lnum]]
-                            + [pd.DataFrame(
+                            [df[self.__Lnum]] +
+                            [pd.DataFrame(
                                 df[col].apply(lambda x: self.__Enc[col][x]).values,
                                 columns=[col],
                                 index=df.index
@@ -452,12 +436,12 @@ class Categorical_encoder():
                         return pd.SparseDataFrame(
                             pd.concat(
                                 [pd.get_dummies(df,
-                                                sparse=True)[list(self.__Lnum)
-                                                             + sub_var]]
-                                + [pd.DataFrame(np.zeros((df.shape[0],
-                                                          len(missing_var))),
-                                                columns=missing_var,
-                                                index=df.index)],
+                                                sparse=True)[list(self.__Lnum) +
+                                                             sub_var]] +
+                                [pd.DataFrame(np.zeros((df.shape[0],
+                                                        len(missing_var))),
+                                              columns=missing_var,
+                                              index=df.index)],
                                 axis=1
                             )[list(self.__Lnum)+sorted(missing_var+sub_var)])
 
@@ -480,8 +464,8 @@ class Categorical_encoder():
                     for col in self.__Lcat:
 
                         # Handling unknown levels
-                        unknown_levels = list(set(df[col].values)
-                                              - set(self.__Enc[col].keys())
+                        unknown_levels = list(set(df[col].values) -
+                                              set(self.__Enc[col].keys())
                                               )
 
                         if (len(unknown_levels) != 0):
@@ -505,8 +489,8 @@ class Categorical_encoder():
                              for i, col in enumerate(self.__Lcat)], axis=1)
                     else:
                         return pd.concat(
-                            [df[self.__Lnum]]
-                            + [pd.DataFrame(
+                            [df[self.__Lnum]] +
+                            [pd.DataFrame(
                                 df[col].apply(lambda x: get_embeddings(x, col, i)).tolist(),
                                 columns=[col + "_emb" + str(k + 1)
                                          for k in range(self.__K[col])],
@@ -522,8 +506,8 @@ class Categorical_encoder():
 
                     for col in self.__Lcat:
 
-                        unknown_levels = list(set(df[col].values)
-                                              - set(self.__Enc[col].keys())
+                        unknown_levels = list(set(df[col].values) -
+                                              set(self.__Enc[col].keys())
                                               )
 
                         if (len(unknown_levels) != 0):
@@ -547,8 +531,8 @@ class Categorical_encoder():
                             ) for col in self.__Lcat], axis=1)
                     else:
                         return pd.concat(
-                            [df[self.__Lnum]]
-                            + [pd.DataFrame(
+                            [df[self.__Lnum]] +
+                            [pd.DataFrame(
                                 df[col].apply(lambda x: self.__Enc[col][x]).tolist(),
                                 columns=[col + "_proj" + str(k + 1)
                                          for k in range(self.__K[col])],

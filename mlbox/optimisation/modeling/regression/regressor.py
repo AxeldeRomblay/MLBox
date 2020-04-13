@@ -1,5 +1,4 @@
 # coding: utf-8
-# coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
 
@@ -10,33 +9,48 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import (AdaBoostRegressor, BaggingRegressor,
                               ExtraTreesRegressor, RandomForestRegressor)
+from lightgbm import LGBMRegressor
 from sklearn.linear_model import Ridge
 from sklearn.tree import DecisionTreeRegressor
-from lightgbm import LGBMRegressor
+
+global xgb_installed
+
+try:
+    from xgboost import XGBRegressor
+    xgb_installed = True
+except Exception:
+    warnings.warn(
+        "Package xgboost is not installed. Model XGBoost will be replaced by"
+        "LightGBM")
+    xgb_installed = False
 
 
 class Regressor():
-    """Wrap scikitlearn regressors.
+
+    """Wraps scikitlearn regressors.
+
 
     Parameters
     ----------
     strategy : str, default = "LightGBM"
         The choice for the regressor.
-        Available strategies = {"LightGBM", "RandomForest", "ExtraTrees",
-        "Tree", "Bagging", "AdaBoost" or "Linear"}
+        Available strategies = "LightGBM", "XGBoost" (if installed),
+        "RandomForest", "ExtraTrees", "Tree", "Bagging", "AdaBoost" or "Linear"
 
     **params : default = None
         Parameters of the corresponding regressor.
         Examples : n_estimators, max_depth...
-
     """
 
     def __init__(self, **params):
-        """Init Regressor object where user can pass a strategy."""
+
         if ("strategy" in params):
             self.__strategy = params["strategy"]
         else:
-            self.__strategy = "LightGBM"
+            if (xgb_installed):
+                self.__strategy = "XGBoost"
+            else:
+                self.__strategy = "LightGBM"
 
         self.__regress_params = {}
 
@@ -47,16 +61,18 @@ class Regressor():
         self.set_params(**params)
         self.__fitOK = False
 
+
     def get_params(self, deep=True):
-        """Get parameters of Regressor object."""
+
         params = {}
         params["strategy"] = self.__strategy
         params.update(self.__regress_params)
 
         return params
 
+
     def set_params(self, **params):
-        """Set parameters of Regressor object."""
+
         self.__fitOK = False
 
         if 'strategy' in params.keys():
@@ -64,9 +80,9 @@ class Regressor():
 
             for k, v in self.__regress_params.items():
                 if k not in self.get_params().keys():
-                    warnings.warn("Invalid parameter for regressor "
-                                  + str(self.__strategy)
-                                  + ". Parameter IGNORED. Check the list of "
+                    warnings.warn("Invalid parameter for regressor " +
+                                  str(self.__strategy) +
+                                  ". Parameter IGNORED. Check the list of "
                                   "available parameters with "
                                   "`regressor.get_params().keys()`")
                 else:
@@ -77,17 +93,18 @@ class Regressor():
                 pass
             else:
                 if k not in self.__regressor.get_params().keys():
-                    warnings.warn("Invalid parameter for regressor "
-                                  + str(self.__strategy)
-                                  + ". Parameter IGNORED. Check the list of "
+                    warnings.warn("Invalid parameter for regressor " +
+                                  str(self.__strategy) +
+                                  ". Parameter IGNORED. Check the list of "
                                   "available parameters with "
                                   "`regressor.get_params().keys()`")
                 else:
                     setattr(self.__regressor, k, v)
                     self.__regress_params[k] = v
 
+
     def __set_regressor(self, strategy):
-        """Set strategy of a regressor object."""
+
         self.__strategy = strategy
 
         if(strategy == 'RandomForest'):
@@ -95,7 +112,22 @@ class Regressor():
                 n_estimators=400, max_depth=10, max_features='sqrt',
                 bootstrap=True, n_jobs=-1, random_state=0)
 
-        elif(strategy == "LightGBM"):
+        elif (strategy == 'XGBoost'):
+            if (xgb_installed):
+                self.__regressor = XGBRegressor(
+                    n_estimators=500, max_depth=6, learning_rate=0.05,
+                    colsample_bytree=0.8, colsample_bylevel=1., subsample=0.9,
+                    nthread=-1, seed=0)
+            else:
+                warnings.warn(
+                    "Package xgboost is not installed. Model XGBoost will be"
+                    "replaced by LightGBM")
+                self.__strategy = "LightGBM"
+                self.__regressor = LGBMRegressor(
+                    n_estimators=500, learning_rate=0.05,
+                    colsample_bytree=0.8, subsample=0.9, nthread=-1, seed=0)
+
+        elif (strategy == "LightGBM"):
             self.__regressor = LGBMRegressor(
                 n_estimators=500, learning_rate=0.05,
                 colsample_bytree=0.8, subsample=0.9, nthread=-1, seed=0)
@@ -130,11 +162,13 @@ class Regressor():
 
         else:
             raise ValueError(
-                "Strategy invalid. Please choose between 'LightGBM'"
-                ", 'RandomForest', 'ExtraTrees', "
+                "Strategy invalid. Please choose between 'LightGBM' "
+                "(if installed), 'XGBoost', 'RandomForest', 'ExtraTrees', "
                 "'Tree', 'Bagging', 'AdaBoost' or 'Linear'")
 
+
     def fit(self, df_train, y_train):
+
         """Fits Regressor.
 
         Parameters
@@ -149,8 +183,8 @@ class Regressor():
         -------
         object
             self
-
         """
+
         # sanity checks
         if((type(df_train) != pd.SparseDataFrame) and
            (type(df_train) != pd.DataFrame)):
@@ -165,7 +199,9 @@ class Regressor():
 
         return self
 
+
     def feature_importances(self):
+
         """Computes feature importances.
 
         Regressor must be fitted before.
@@ -175,19 +211,20 @@ class Regressor():
         dict
             Dictionnary containing a measure of feature importance (value)
             for each feature (key).
-
         """
+
         if self.__fitOK:
 
             if (self.get_params()["strategy"] in ["Linear"]):
 
                 importance = {}
                 f = np.abs(self.get_estimator().coef_)
-
+                
                 for i, col in enumerate(self.__col):
                     importance[col] = f[i]
 
-            elif (self.get_params()["strategy"] in ["LightGBM", "RandomForest",
+            elif (self.get_params()["strategy"] in ["LightGBM", "XGBoost",
+                                                    "RandomForest",
                                                     "ExtraTrees", "Tree"]):
 
                 importance = {}
@@ -196,13 +233,14 @@ class Regressor():
                 for i, col in enumerate(self.__col):
                     importance[col] = f[i]
 
+
             elif (self.get_params()["strategy"] in ["AdaBoost"]):
 
                 importance = {}
                 norm = self.get_estimator().estimator_weights_.sum()
 
                 try:
-                    # LGB, RF, ET, Tree and AdaBoost
+                    # XGB, RF, ET, Tree and AdaBoost
                     # TODO: Refactor this part
                     f = sum(weight * est.feature_importances_ for weight, est in zip(self.get_estimator().estimator_weights_, self.get_estimator().estimators_)) / norm  # noqa
 
@@ -222,7 +260,7 @@ class Regressor():
                     d = {}
 
                     try:
-                        # LGB, RF, ET, Tree and AdaBoost
+                        # XGB, RF, ET, Tree and AdaBoost
                         f = b.feature_importances_
                     except Exception:
                         f = np.abs(b.coef_)  # Linear
@@ -235,10 +273,9 @@ class Regressor():
                     importance_bag.append(d.copy())
 
                 for i, col in enumerate(self.__col):
-                    list_filtered = filter(lambda x: x != 0,
-                                           [k[col] if col in k else 0
-                                            for k in importance_bag])
-                    importance[col] = np.mean(list(list_filtered))
+                    importance[col] = np.mean(
+                        filter(lambda x: x != 0, [k[col] if col in k else 0
+                                                  for k in importance_bag]))
 
             else:
 
@@ -250,7 +287,9 @@ class Regressor():
 
             raise ValueError("You must call the fit function before !")
 
+
     def predict(self, df):
+
         """Predicts the target.
 
         Parameters
@@ -262,8 +301,8 @@ class Regressor():
         -------
         array of shape = (n, )
             The target to be predicted.
-
         """
+
         try:
             if not callable(getattr(self.__regressor, "predict")):
                 raise ValueError("predict attribute is not callable")
@@ -281,8 +320,10 @@ class Regressor():
         else:
             raise ValueError("You must call the fit function before !")
 
+
     def transform(self, df):
-        """Transform dataframe df.
+
+        """Transforms df.
 
         Parameters
         ----------
@@ -293,8 +334,8 @@ class Regressor():
         -------
         pandas dataframe of shape = (n, n_selected_features)
             The transformed dataset with its most important features.
-
         """
+
         try:
             if not callable(getattr(self.__regressor, "transform")):
                 raise ValueError("transform attribute is not callable")
@@ -311,8 +352,10 @@ class Regressor():
         else:
             raise ValueError("You must call the fit function before !")
 
+
     def score(self, df, y, sample_weight=None):
-        """Return R^2 coefficient of determination of the prediction.
+
+        """Returns the coefficient of determination R^2 of the prediction.
 
         Parameters
         ----------
@@ -326,8 +369,8 @@ class Regressor():
         -------
         float
             R^2 of self.predict(df) wrt. y.
-
         """
+
         try:
             if not callable(getattr(self.__regressor, "score")):
                 raise ValueError("score attribute is not callable")
@@ -349,5 +392,4 @@ class Regressor():
             raise ValueError("You must call the fit function before !")
 
     def get_estimator(self):
-        """Return classfier."""
         return copy(self.__regressor)

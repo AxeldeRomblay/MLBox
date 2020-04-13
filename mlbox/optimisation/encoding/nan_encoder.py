@@ -1,3 +1,4 @@
+
 # coding: utf-8
 # Author: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 # License: BSD 3 clause
@@ -5,10 +6,11 @@
 import pandas as pd
 import warnings
 
-from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import Imputer
 
 
-class NA_encoder():
+class NanEncoder():
+
     """Encodes missing values for both numerical and categorical features.
 
     Several strategies are possible in each case.
@@ -23,25 +25,12 @@ class NA_encoder():
     categorical_strategy : str, default = '<NULL>'
         The strategy to encode NA for categorical features.
         Available strategies = a string or "most_frequent"
-
     """
 
     def __init__(self,
                  numerical_strategy='mean',
                  categorical_strategy='<NULL>'):
-        """Init a NA_encoder.
 
-        User can choose numerical strategy and categorical strategy.
-
-        Parameters
-        ----------
-        numerical_strategy : str or float or int. default = "mean"
-            The strategy to encode NA for numerical features.
-
-        categorical_strategy : str, default = '<NULL>'
-            The strategy to encode NA for categorical features.
-
-        """
         self.numerical_strategy = numerical_strategy
         self.categorical_strategy = categorical_strategy
         self.__Lcat = []
@@ -50,25 +39,15 @@ class NA_encoder():
         self.__mode = dict()
         self.__fitOK = False
 
+
     def get_params(self, deep=True):
-        """Get parameters of a NA_encoder object."""
+
         return {'numerical_strategy': self.numerical_strategy,
                 'categorical_strategy': self.categorical_strategy}
 
+
     def set_params(self, **params):
-        """Set parameters for a NA_encoder object.
 
-        Set numerical strategy and categorical strategy.
-
-        Parameters
-        ----------
-        numerical_strategy : str or float or int. default = "mean"
-            The strategy to encode NA for numerical features.
-
-        categorical_strategy : str, default = '<NULL>'
-            The strategy to encode NA for categorical features.
-
-        """
         self.__fitOK = False
 
         for k, v in params.items():
@@ -80,7 +59,9 @@ class NA_encoder():
             else:
                 setattr(self, k, v)
 
+
     def fit(self, df_train, y_train=None):
+
         """Fits NA Encoder.
 
         Parameters
@@ -95,8 +76,8 @@ class NA_encoder():
         -------
         object
             self
+       """
 
-        """
         self.__Lcat = df_train.dtypes[df_train.dtypes == 'object'].index
         self.__Lnum = df_train.dtypes[df_train.dtypes != 'object'].index
 
@@ -104,7 +85,7 @@ class NA_encoder():
 
         if (self.numerical_strategy in ['mean', 'median', "most_frequent"]):
 
-            self.__imp = SimpleImputer(strategy=self.numerical_strategy)
+            self.__imp = Imputer(strategy=self.numerical_strategy)
 
             if (len(self.__Lnum) != 0):
                 self.__imp.fit(df_train[self.__Lnum])
@@ -128,11 +109,7 @@ class NA_encoder():
                 na_count = df_train[self.__Lcat].isnull().sum()
 
                 for col in na_count[na_count>0].index:
-
-                    try:
-                        self.__mode[col] = df_train[col].mode()[0]
-                    except:
-                        self.__mode[col] = "<NULL>"
+                    self.__mode[col] = df_train[col].mode()[0]
 
             else:
                 pass
@@ -144,7 +121,9 @@ class NA_encoder():
 
         return self
 
+
     def fit_transform(self, df_train, y_train=None):
+
         """Fits NA Encoder and transforms the dataset.
 
         Parameters
@@ -159,14 +138,16 @@ class NA_encoder():
         -------
         pandas.Dataframe of shape = (n_train, n_features)
             The train dataset with no missing values.
-
         """
+
         self.fit(df_train, y_train)
 
         return self.transform(df_train)
 
+
     def transform(self, df):
-        """Transform the dataset.
+
+        """Transforms the dataset
 
         Parameters
         ----------
@@ -177,8 +158,8 @@ class NA_encoder():
         -------
         pandas.Dataframe of shape = (n, n_features)
             The dataset with no missing values.
-
         """
+
         if(self.__fitOK):
 
             if(len(self.__Lnum) == 0):

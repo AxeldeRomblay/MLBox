@@ -13,6 +13,7 @@ import warnings
 
 
 class StackingRegressor():
+
     """A Stacking regressor.
 
      A stacking regressor is a regressor that uses the predictions of
@@ -22,9 +23,7 @@ class StackingRegressor():
 
     Parameters
     ----------
-    base_estimators : list, default = [Regressor(strategy="LightGBM"),
-                                       Regressor(strategy="RandomForest"),
-                                       Regressor(strategy="ExtraTrees")]
+    base_estimators : list, default = [Regressor(strategy="XGBoost"), Regressor(strategy="RandomForest"), Regressor(strategy="ExtraTrees")]
         List of estimators to fit in the first level using a cross validation.
 
     level_estimator : object, default = LinearRegression()
@@ -42,15 +41,14 @@ class StackingRegressor():
 
     verbose : bool, default = True
         Verbose mode.
-
     """
 
-    def __init__(self, base_estimators=[Regressor(strategy="LightGBM"),
+    def __init__(self, base_estimators=[Regressor(strategy="XGBoost"),
                                         Regressor(strategy="RandomForest"),
                                         Regressor(strategy="ExtraTrees")],
                  level_estimator=LinearRegression(), n_folds=5,
                  copy=False, random_state=1, verbose=True):
-        """Init method for StackingRegressor."""
+
         self.base_estimators = base_estimators
         if(type(base_estimators) != list):
             raise ValueError("base_estimators must be a list")
@@ -69,8 +67,8 @@ class StackingRegressor():
             raise ValueError("copy must be a boolean")
 
         self.random_state = random_state
-        if((type(self.random_state) != int)
-           and (self.random_state is not None)):
+        if((type(self.random_state) != int) and
+           (self.random_state is not None)):
             raise ValueError("random_state must be either None or an integer")
 
         self.verbose = verbose
@@ -80,8 +78,9 @@ class StackingRegressor():
         self.__fitOK = False
         self.__fittransformOK = False
 
+
     def get_params(self, deep=True):
-        """Get parameters of a StackingRegressor object."""
+
         return {'level_estimator': self.level_estimator,
                 'base_estimators': self.base_estimators,
                 'n_folds': self.n_folds,
@@ -89,8 +88,9 @@ class StackingRegressor():
                 'random_state': self.random_state,
                 'verbose': self.verbose}
 
+
     def set_params(self, **params):
-        """Set parameters of a StackingRegressor object."""
+
         self.__fitOK = False
         self.__fittransformOK = False
 
@@ -103,8 +103,10 @@ class StackingRegressor():
             else:
                 setattr(self, k, v)
 
+
     def fit_transform(self, df_train, y_train):
-        """Create meta-features for the training dataset.
+
+        """Creates meta-features for the training dataset.
 
         Parameters
         ----------
@@ -116,11 +118,10 @@ class StackingRegressor():
 
         Returns
         -------
-        pandas DataFrame of shape = (n_samples,
-                                     n_features*int(copy)+n_metafeatures)
+        pandas DataFrame of shape = (n_samples, n_features*int(copy)+n_metafeatures)
             The transformed training dataset.
-
         """
+
         # sanity checks
         if((type(df_train) != pd.SparseDataFrame) & (type(df_train) != pd.DataFrame)):
             raise ValueError("df_train must be a DataFrame")
@@ -170,8 +171,10 @@ class StackingRegressor():
         else:
             return preds  # we keep only the meta features
 
+
     def transform(self, df_test):
-        """Create meta-features for the test dataset.
+
+        """Creates meta-features for the test dataset.
 
         Parameters
         ----------
@@ -180,11 +183,10 @@ class StackingRegressor():
 
         Returns
         -------
-        pandas DataFrame of shape = (n_samples_test,
-                                     n_features*int(copy)+n_metafeatures)
+        pandas DataFrame of shape = (n_samples_test, n_features*int(copy)+n_metafeatures)
             The transformed test dataset.
-
         """
+
         # sanity checks
         if((type(df_test) != pd.SparseDataFrame) and
            (type(df_test) != pd.DataFrame)):
@@ -221,8 +223,10 @@ class StackingRegressor():
         else:
             raise ValueError("Call fit_transform before !")
 
+
     def fit(self, df_train, y_train):
-        """Fit the first level estimators and the second level estimator on X.
+
+        """Fits the first level estimators and the second level estimator on X.
 
         Parameters
         ----------
@@ -236,10 +240,9 @@ class StackingRegressor():
         -------
         object
             self
-
         """
-        # Fit the base estimators
-        df_train = self.fit_transform(df_train, y_train)
+
+        df_train = self.fit_transform(df_train, y_train)  # we fit the base estimators
 
         if(self.verbose):
             print("")
@@ -260,7 +263,8 @@ class StackingRegressor():
 
 
     def predict(self, df_test):
-        """Predict regression target for X_test using the meta-features.
+
+        """Predicts regression target for X_test using the meta-features.
 
         Parameters
         ----------
@@ -271,8 +275,8 @@ class StackingRegressor():
         -------
         array of shape = (n_samples_test, )
             The predicted values.
-
         """
+
         if(self.__fitOK):
             # we predict the meta features on test set
             df_test = self.transform(df_test)

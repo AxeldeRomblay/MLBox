@@ -2,16 +2,17 @@
 # Authors: Axel ARONIO DE ROMBLAY <axelderomblay@gmail.com>
 #          Alexis BONDU <alexis.bondu@gmail.com>
 # License: BSD 3 clause
-import sys
 
-from joblib import Parallel, delayed
+from sklearn.externals.joblib import Parallel, delayed
+import numpy as np
 from sklearn.tree import DecisionTreeClassifier
 
 from .drift_estimator import DriftEstimator
 
 
-def sync_fit(df_train, df_test, estimator, n_folds=2, stratify=True, random_state=1):
-    """Compute the univariate drifts between df_train and df_test datasets.
+def sync_fit(df_train, df_test, estimator, n_folds, stratify, random_state):
+
+    """Computes the univariate drifts between df_train and df_test datasets.
 
     Multi-threaded version.
 
@@ -23,11 +24,7 @@ def sync_fit(df_train, df_test, estimator, n_folds=2, stratify=True, random_stat
     df_test : pandas dataframe of shape = (n_test, p)
         The test set
 
-    estimator : classifier, defaut = RandomForestClassifier(n_estimators = 50,
-                                                            n_jobs=-1,
-                                                            max_features=1.,
-                                                            min_samples_leaf = 5,
-                                                            max_depth = 5)
+    estimator : classifier, defaut = RandomForestClassifier(n_estimators = 50, n_jobs=-1, max_features=1., min_samples_leaf = 5, max_depth = 5)
         The estimator that estimates the drift between two datasets
 
     n_folds : int, default = 2
@@ -44,8 +41,8 @@ def sync_fit(df_train, df_test, estimator, n_folds=2, stratify=True, random_stat
     -------
     float
         drift measure
-
     """
+
     # We will compute the indices of the CV in each thread
     de = DriftEstimator(estimator, n_folds, stratify, random_state)
     de.fit(df_train, df_test)
@@ -54,10 +51,8 @@ def sync_fit(df_train, df_test, estimator, n_folds=2, stratify=True, random_stat
 
 
 class DriftThreshold():
-    """Estimate the univariate drift between two datasets.
 
-    Estimate the univariate drift between two datasets
-    and select features with low drifts
+    """Estimates the univariate drift between two datasets and select features with low drifts
 
     Parameters
     ----------
@@ -84,7 +79,6 @@ class DriftThreshold():
 
     n_jobs : int, defaut = -1
         Number of cores used for processing (-1 for all cores)
-
     """
 
     def __init__(self,
@@ -95,7 +89,7 @@ class DriftThreshold():
                  stratify=True,
                  random_state=1,
                  n_jobs=-1):
-        """Init a DriftThreshold object."""
+
         self.threshold = threshold
         self.subsample = subsample
         self.estimator = estimator
@@ -107,7 +101,7 @@ class DriftThreshold():
         self.__fitOK = False
 
     def get_params(self):
-        """Get parameters of a DriftThreshold object."""
+
         return {'threshold': self.threshold,
                 'subsample': self.subsample,
                 'estimator': self.estimator,
@@ -117,7 +111,7 @@ class DriftThreshold():
                 'n_jobs': self.n_jobs}
 
     def set_params(self, **params):
-        """Set parameters of a DriftThreshold object."""
+
         if('threshold' in params.keys()):
             self.threshold = params['threshold']
         if('subsample' in params.keys()):
@@ -134,7 +128,9 @@ class DriftThreshold():
             self.n_jobs = params['n_jobs']
 
     def fit(self, df_train, df_test):
-        """Compute the univariate drifts between df_train and df_test datasets.
+
+        """Computes the univariate drifts between df_train and df_test datasets.
+
 
         Parameters
         ----------
@@ -149,24 +145,28 @@ class DriftThreshold():
         None
 
         """
+
         self.__Ddrifts = dict()
 
-        if sys.platform == 'win32':
-            Ldrifts = [sync_fit(df_train.sample(frac=self.subsample)[[col]],
-                               df_test.sample(frac=self.subsample)[[col]],
-                               self.estimator,
-                               self.n_folds,
-                               self.stratify,
-                               self.random_state)
-                               for col in df_train.columns]
+        if ((self.subsample != 1.) | (self.random_state != 1)):
+
+            np.random.seed(self.random_state)
+
+            train_range = np.arange(self.subsample * len(df_train))
+            test_range = np.arange(self.subsample * len(df_test))
+
+            df_train = df_train.iloc[np.random.permutation(train_range)]
+            df_test = df_test.iloc[np.random.permutation(test_range)]
+
         else:
-            Ldrifts = Parallel(n_jobs=self.n_jobs)(delayed(sync_fit)
-                                               (df_train.sample(frac=self.subsample)[[col]],
-                                                df_test.sample(frac=self.subsample)[[col]],
-                                                self.estimator,
-                                                self.n_folds,
-                                                self.stratify,
-                                                self.random_state)
+            pass
+
+        Ldrifts = Parallel(n_jobs=self.n_jobs)(delayed(sync_fit)(df_train[[col]],
+                                                                 df_test[[col]],
+                                                                 self.estimator,
+                                                                 self.n_folds,
+                                                                 self.stratify,
+                                                                 self.random_state)
                                                for col in df_train.columns)
 
         for i, col in enumerate(df_train.columns):
@@ -178,19 +178,20 @@ class DriftThreshold():
         self.__fitOK = True
 
     def transform(self, df):
-        """Select the features with low drift.
 
+        """Select the features with low drift
+        
         Parameters
         ----------
-        df : pandas dataframe
+        df : pandas dataframe 
             A dataset with the same features
 
         Returns
         -------
         pandas DataFrame
             The transformed dataframe
-
         """
+
         if self.__fitOK:
 
             selected_col = []
@@ -205,8 +206,9 @@ class DriftThreshold():
         else:
             raise ValueError('Call the fit function before !')
 
-    def get_support(self, complement=False):
-        """Return the variables kept or dropped.
+    def get_support(self, complement = False):
+              
+        """Returns the variables kept or dropped.
 
         Parameters
         ----------
@@ -218,8 +220,8 @@ class DriftThreshold():
         -------
         list
             The list of features to keep or to drop.
-
         """
+
         if self.__fitOK:
 
             keepList = []
@@ -240,14 +242,15 @@ class DriftThreshold():
             raise ValueError('Call the fit function before !')
 
     def drifts(self):
-        """Return the univariate drifts for all variables.
+
+        """Returns the univariate drifts for all variables.
 
         Returns
         -------
         dict
             The dictionnary of drift measures for each features
-
         """
+
         if self.__fitOK:
 
             return self.__Ddrifts

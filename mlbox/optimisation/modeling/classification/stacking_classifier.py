@@ -22,7 +22,7 @@ class StackingClassifier():
 
     Parameters
     ----------
-    base_estimators : list, default = [Classifier(strategy="LightGBM"), Classifier(strategy="RandomForest"),Classifier(strategy="ExtraTrees")]
+    base_estimators : list, default = [Classifier(strategy="XGBoost"), Classifier(strategy="RandomForest"),Classifier(strategy="ExtraTrees")]
         List of estimators to fit in the first level using a cross validation.
 
     level_estimator : object, default = LogisticRegression()
@@ -46,7 +46,7 @@ class StackingClassifier():
     """
 
     def __init__(self,
-                 base_estimators=[Classifier(strategy="LightGBM"),
+                 base_estimators=[Classifier(strategy="XGBoost"),
                                   Classifier(strategy="RandomForest"),
                                   Classifier(strategy="ExtraTrees")],
                  level_estimator=LogisticRegression(n_jobs=-1),
