@@ -94,3 +94,7 @@ History
 ------------------
 * add python 3.7 version
 * update package dependencies
+
+0.8.4 (2020-04-13)
+------------------
+* update package dependencies
