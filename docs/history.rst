@@ -98,3 +98,7 @@ History
 0.8.4 (2020-04-13)
 ------------------
 * update package dependencies
+
+0.8.5 (2020-08-25)
+------------------
+* minor fix (package dependencies)
