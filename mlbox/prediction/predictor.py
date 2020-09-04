@@ -363,7 +363,7 @@ class Predictor():
                         print("fitting the pipeline ...")
 
                     pp.fit(df['train'], df['target'])
-
+                    self.pp = pp
                     if(self.verbose):
                         print("CPU time: %s seconds"%(time.time() - start_time))
 
@@ -493,5 +493,99 @@ class Predictor():
                             + df['target'].name
                             + "_predictions.csv",
                             index=True)
-
+        self.df = df
         return self
+
+    def predict(self, new_df, dump=False):
+        """
+        Generates predictions
+        """
+        ##########################################
+        #               Predicting
+        ##########################################
+
+        if (new_df.shape[0] == 0):
+            warnings.warn("You have no test dataset. Cannot predict !")
+        else:
+
+            start_time = time.time()
+
+            ##########################################
+            #             Classification
+            ##########################################
+
+            if self.df['target'].dtype == 'int':
+                print("Predicting CLASSIFICATION target")
+                enc_name = "target_encoder.obj"
+
+                try:
+
+                    fhand = open(self.to_path + "/" + enc_name, 'rb')
+                    enc = pickle.load(fhand)
+                    fhand.close()
+
+                except Exception as e:
+                    print(e)
+                    raise ValueError("Unable to load '" + enc_name +
+                                     "' from directory : " + self.to_path)
+
+                try:
+                    if(self.verbose):
+                        print("")
+                        print("predicting ...")
+
+                    pred = pd.DataFrame(self.pp.predict_proba(new_df),
+                                        columns=enc.inverse_transform(range(len(enc.classes_))),
+                                        index=new_df)
+                    pred[self.df['target'].name + "_predicted"] = pred.idxmax(axis=1)  # noqa
+
+                    try:
+                        pred[self.df['target'].name + "_predicted"] = pred[self.df['target'].name + "_predicted"].apply(int)  # noqa
+                    except Exception as e:
+                        warnings.warn(e)
+
+                except Exception as e:
+                    print(e)
+                    raise ValueError("Can not predict")
+
+            ##########################################
+            #               Regression
+            ##########################################
+
+            elif self.df['target'].dtype == 'float':
+                print("Predicting REGRESSION target")
+
+                pred = pd.DataFrame([],
+                                    columns=[self.df['target'].name + "_predicted"],
+                                    index=new_df.index)
+
+                try:
+                    if(self.verbose):
+                        print("")
+                        print("predicting...")
+
+                    pred[self.df['target'].name + "_predicted"] = self.pp.predict(new_df)  # noqa
+
+                except Exception as e:
+                    print(e)
+                    raise ValueError("Can not predict")
+            else:
+                pass
+
+            if(self.verbose):
+                print("CPU time: %s seconds" % (time.time() - start_time))
+
+            ##########################################
+            #           Dumping predictions
+            ##########################################
+
+            if dump:
+                if(self.verbose):
+                    print("")
+                    print("dumping predictions into directory : " + self.to_path + " ...")
+                pred.to_csv(self.to_path
+                        + "/"
+                        + self.df['target'].name
+                        + "_predictions.csv",
+                        index=True)
+        return pred[self.df['target'].name + "_predicted"]
