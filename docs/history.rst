@@ -102,3 +102,7 @@ History
 0.8.5 (2020-08-25)
 ------------------
 * minor fix (package dependencies)
+
+0.8.6 (2020-11-24)
+------------------
+* mlbox version info
