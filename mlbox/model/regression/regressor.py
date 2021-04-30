@@ -349,5 +349,5 @@ class Regressor():
             raise ValueError("You must call the fit function before !")
 
     def get_estimator(self):
-        """Return classfier."""
+        """Return classifier."""
         return copy(self.__regressor)
