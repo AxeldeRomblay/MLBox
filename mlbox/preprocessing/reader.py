@@ -350,241 +350,241 @@ class Reader():
             raise ValueError("You must specify a path to save your data "
                              "and make sure your files are not already saved")
 
+
+
+        ##############################################################
+        #                    Reading the files
+        ##############################################################
+
+        for path in Lpath:
+
+            # Reading each file
+
+            df = self.clean(path, drop_duplicate=False)
+
+            # Checking if the target exists to split into test and train
+
+            if (target_name in df.columns):
+
+                is_null = df[target_name].isnull()
+
+                df_train[path] = df[~is_null].drop(target_name, axis=1)
+                df_test[path] = df[is_null].drop(target_name, axis=1)
+                y_train[path] = df[target_name][~is_null]
+
+            else:
+
+                df_test[path] = df
+
+        del df
+
+        # Exceptions
+
+        if (sum([df_train[path].shape[0]
+                    for path in df_train.keys()]) == 0):
+            raise ValueError("You have no train dataset. "
+                                "Please check that the "
+                                "target name is correct.")
+
+        if ((sum([df_test[path].shape[0]
+                    for path in df_test.keys()]) == 0) & (self.verbose)):
+            print("")
+            print("You have no test dataset !")
+
+        # Finding the common subset of features
+
+        for i, df in enumerate(df_train.values()):
+
+            if (i == 0):
+                col_train = df.columns
+            else:
+                col_train = list(set(col_train) & set(df.columns))
+
+        for i, df in enumerate(df_test.values()):
+
+            if (i == 0):
+                col_test = df.columns
+            else:
+                col_test = list(set(col_test) & set(df.columns))
+
+        # Subset of common features
+
+        col = sorted(list(set(col_train) & set(col_test)))
+
+        if (self.verbose):
+            print("")
+            print("> Number of common features : " + str(len(col)))
+
+            ##############################################################
+            #          Creating train, test and target dataframes
+            ##############################################################
+
+            print("")
+            print("gathering and crunching for train and test datasets ...")
+
+        # TODO: Optimize
+        df_train = pd.concat([df[col] for df in df_train.values()])
+        df_test = pd.concat([df[col] for df in df_test.values()])
+        y_train = pd.concat([y for y in y_train.values()])  # optimiser !!
+
+        # Checking shape of the target
+
+        if (type(y_train) == pd.core.frame.DataFrame):
+            raise ValueError("Your target contains more than two columns !"
+                                " Please check that only one column "
+                                "is named " + target_name)
+
         else:
+            pass
 
-            ##############################################################
-            #                    Reading the files
-            ##############################################################
+        # Handling indices
 
-            for path in Lpath:
+        if (self.verbose):
+            print("reindexing for train and test datasets ...")
 
-                # Reading each file
+        if (df_train.index.nunique() < df_train.shape[0]):
+            df_train.index = range(df_train.shape[0])
 
-                df = self.clean(path, drop_duplicate=False)
+        if (df_test.index.nunique() < df_test.shape[0]):
+            df_test.index = range(df_test.shape[0])
 
-                # Checking if the target exists to split into test and train
+        if (y_train.index.nunique() < y_train.shape[0]):
+            y_train.index = range(y_train.shape[0])
 
-                if (target_name in df.columns):
+        # Dropping duplicates
 
-                    is_null = df[target_name].isnull()
+        if (self.verbose):
+            print("dropping training duplicates ...")
 
-                    df_train[path] = df[~is_null].drop(target_name, axis=1)
-                    df_test[path] = df[is_null].drop(target_name, axis=1)
-                    y_train[path] = df[target_name][~is_null]
+        # Temp adding target to check (x,y) duplicates...
+        df_train[target_name] = y_train.values
+        df_train = df_train.drop_duplicates()
+        del df_train[target_name]
+        y_train = y_train.loc[df_train.index]  # TODO: Need to reindex ?
 
-                else:
+        # Deleting constant variables
 
-                    df_test[path] = df
+        if (self.verbose):
+            print("dropping constant variables on training set ...")
+        for var in col:
+            if (df_train[var].nunique(dropna=False) == 1):
+                del df_train[var]
+                del df_test[var]
 
-            del df
+        # Missing values
 
-            # Exceptions
+        sparse_features = (df_train.isnull().sum() *
+                            100. / df_train.shape[0]
+                            ).sort_values(ascending=False)
+        sparse = True
+        if(sparse_features.max() == 0.0):
+            sparse = False
 
-            if (sum([df_train[path].shape[0]
-                     for path in df_train.keys()]) == 0):
-                raise ValueError("You have no train dataset. "
-                                 "Please check that the "
-                                 "target name is correct.")
+        # Print information
 
-            if ((sum([df_test[path].shape[0]
-                      for path in df_test.keys()]) == 0) & (self.verbose)):
+        if (self.verbose):
+            print("")
+            print("> Number of categorical features:"
+                    " " + str(len(df_train.dtypes[df_train.dtypes == 'object'].index)))  # noqa
+            print("> Number of numerical features:"
+                    " " + str(len(df_train.dtypes[df_train.dtypes != 'object'].index)))  # noqa
+            print("> Number of training samples : " + str(df_train.shape[0]))
+            print("> Number of test samples : " + str(df_test.shape[0]))
+
+            if(sparse):
                 print("")
-                print("You have no test dataset !")
-
-            # Finding the common subset of features
-
-            for i, df in enumerate(df_train.values()):
-
-                if (i == 0):
-                    col_train = df.columns
-                else:
-                    col_train = list(set(col_train) & set(df.columns))
-
-            for i, df in enumerate(df_test.values()):
-
-                if (i == 0):
-                    col_test = df.columns
-                else:
-                    col_test = list(set(col_test) & set(df.columns))
-
-            # Subset of common features
-
-            col = sorted(list(set(col_train) & set(col_test)))
-
-            if (self.verbose):
-                print("")
-                print("> Number of common features : " + str(len(col)))
-
-                ##############################################################
-                #          Creating train, test and target dataframes
-                ##############################################################
-
-                print("")
-                print("gathering and crunching for train and test datasets ...")
-
-            # TODO: Optimize
-            df_train = pd.concat([df[col] for df in df_train.values()])
-            df_test = pd.concat([df[col] for df in df_test.values()])
-            y_train = pd.concat([y for y in y_train.values()])  # optimiser !!
-
-            # Checking shape of the target
-
-            if (type(y_train) == pd.core.frame.DataFrame):
-                raise ValueError("Your target contains more than two columns !"
-                                 " Please check that only one column "
-                                 "is named " + target_name)
+                print("> Top sparse features "
+                        "(% missing values on train set):")
+                print(np.round(sparse_features[sparse_features > 0.0][:5],
+                                1))
 
             else:
-                pass
-
-            # Handling indices
-
-            if (self.verbose):
-                print("reindexing for train and test datasets ...")
-
-            if (df_train.index.nunique() < df_train.shape[0]):
-                df_train.index = range(df_train.shape[0])
-
-            if (df_test.index.nunique() < df_test.shape[0]):
-                df_test.index = range(df_test.shape[0])
-
-            if (y_train.index.nunique() < y_train.shape[0]):
-                y_train.index = range(y_train.shape[0])
-
-            # Dropping duplicates
-
-            if (self.verbose):
-                print("dropping training duplicates ...")
-
-            # Temp adding target to check (x,y) duplicates...
-            df_train[target_name] = y_train.values
-            df_train = df_train.drop_duplicates()
-            del df_train[target_name]
-            y_train = y_train.loc[df_train.index]  # TODO: Need to reindex ?
-
-            # Deleting constant variables
-
-            if (self.verbose):
-                print("dropping constant variables on training set ...")
-            for var in col:
-                if (df_train[var].nunique(dropna=False) == 1):
-                    del df_train[var]
-                    del df_test[var]
-
-            # Missing values
-
-            sparse_features = (df_train.isnull().sum() *
-                               100. / df_train.shape[0]
-                               ).sort_values(ascending=False)
-            sparse = True
-            if(sparse_features.max() == 0.0):
-                sparse = False
-
-            # Print information
-
-            if (self.verbose):
                 print("")
-                print("> Number of categorical features:"
-                      " " + str(len(df_train.dtypes[df_train.dtypes == 'object'].index)))  # noqa
-                print("> Number of numerical features:"
-                      " " + str(len(df_train.dtypes[df_train.dtypes != 'object'].index)))  # noqa
-                print("> Number of training samples : " + str(df_train.shape[0]))
-                print("> Number of test samples : " + str(df_test.shape[0]))
+                print("> You have no missing values on train set...")
 
-                if(sparse):
-                    print("")
-                    print("> Top sparse features "
-                          "(% missing values on train set):")
-                    print(np.round(sparse_features[sparse_features > 0.0][:5],
-                                   1))
+        ##############################################################
+        #                    Encoding target
+        ##############################################################
 
-                else:
-                    print("")
-                    print("> You have no missing values on train set...")
+        task = "regression"
+        count = y_train.nunique()
 
-            ##############################################################
-            #                    Encoding target
-            ##############################################################
+        if (count <= 2):
+            task = "classification"
 
-            task = "regression"
-            count = y_train.nunique()
-
-            if (count <= 2):
+        else:
+            if (y_train.dtype == object):
                 task = "classification"
-
             else:
-                if (y_train.dtype == object):
-                    task = "classification"
-                else:
-                    # no needs to convert into float
-                    pass
+                # no needs to convert into float
+                pass
+
+        if (self.verbose):
+            print("")
+            print("> Task : " + task)
+
+        if (task == "classification"):
+            if (self.verbose):
+                print(y_train.value_counts())
+                print("")
+                print("encoding target ...")
+            enc = LabelEncoder()
+            y_train = pd.Series(enc.fit_transform(y_train.values),
+                                index=y_train.index,
+                                name=target_name,
+                                dtype='int')
+
+            if count == 1:
+                warnings.warn("Your target set has only one class ! Please check it is correct, "
+                                "otherwise there is no need to use MLBox...")
+
+        else:
+            if (self.verbose):
+                print(y_train.describe())
+
+        ##############################################################
+        #                         Dumping
+        ##############################################################
+
+        # Creating a folder to save the files and target encoder
+
+        try:
+            os.mkdir(self.to_path)
+        except OSError:
+            pass
+
+        if (self.to_hdf5):
+
+            start_time = time.time()
 
             if (self.verbose):
                 print("")
-                print("> Task : " + task)
+                print("dumping files into directory : " + self.to_path)
 
-            if (task == "classification"):
-                if (self.verbose):
-                    print(y_train.value_counts())
-                    print("")
-                    print("encoding target ...")
-                enc = LabelEncoder()
-                y_train = pd.Series(enc.fit_transform(y_train.values),
-                                    index=y_train.index,
-                                    name=target_name,
-                                    dtype='int')
+            # Temp adding target to dump train file...
+            df_train[target_name] = y_train.values
+            df_train.to_hdf(self.to_path + '/df_train.h5', 'train')
+            del df_train[target_name]
 
-                if count == 1:
-                    warnings.warn("Your target set has only one class ! Please check it is correct, "
-                                  "otherwise there is no need to use MLBox...")
+            if (self.verbose):
+                print("train dumped")
 
-            else:
-                if (self.verbose):
-                    print(y_train.describe())
+            df_test.to_hdf(self.to_path + '/df_test.h5', 'test')
 
-            ##############################################################
-            #                         Dumping
-            ##############################################################
+            if (self.verbose):
+                print("test dumped")
+                print("CPU time: %s seconds" % (time.time() - start_time))
 
-            # Creating a folder to save the files and target encoder
+        else:
+            pass
 
-            try:
-                os.mkdir(self.to_path)
-            except OSError:
-                pass
+        if (task == "classification"):
+            fhand = open(self.to_path + '/target_encoder.obj', 'wb')
+            pickle.dump(enc, fhand)
+            fhand.close()
+        else:
+            pass
 
-            if (self.to_hdf5):
-
-                start_time = time.time()
-
-                if (self.verbose):
-                    print("")
-                    print("dumping files into directory : " + self.to_path)
-
-                # Temp adding target to dump train file...
-                df_train[target_name] = y_train.values
-                df_train.to_hdf(self.to_path + '/df_train.h5', 'train')
-                del df_train[target_name]
-
-                if (self.verbose):
-                    print("train dumped")
-
-                df_test.to_hdf(self.to_path + '/df_test.h5', 'test')
-
-                if (self.verbose):
-                    print("test dumped")
-                    print("CPU time: %s seconds" % (time.time() - start_time))
-
-            else:
-                pass
-
-            if (task == "classification"):
-                fhand = open(self.to_path + '/target_encoder.obj', 'wb')
-                pickle.dump(enc, fhand)
-                fhand.close()
-            else:
-                pass
-
-            return {"train": df_train,
-                    "test": df_test,
-                    'target': y_train}
+        return {"train": df_train,
+                "test": df_test,
+                'target': y_train}
